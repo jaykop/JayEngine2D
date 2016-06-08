@@ -1,9 +1,15 @@
 #ifndef _BASESTAGE_H_
 #define _BASESTAGE_H_
 
-class GameStateManager;
+#include "../../Base/Math/MathUtils.h"
+#include "../../Base/ObjectManager/ObjectManager.h"
+
+class Scene;
+class Sprite;
+struct GameData;
 class InputManager;
-//Stage class definition
+class GameStateManager;
+
 class Stage
 {
 public:
@@ -16,8 +22,8 @@ public:
 	};
 
 	virtual ~Stage() {};
-	virtual void Init() = 0;
-	virtual void Update() = 0;
+	virtual void Init(GameData& gd) = 0;
+	virtual void Update(GameData& gd) = 0;
 	virtual void Shutdown() = 0;
 
 	GameStateManager* m_GSM;

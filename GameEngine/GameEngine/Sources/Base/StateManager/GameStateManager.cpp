@@ -10,10 +10,11 @@ GameStateManager implementation for the C++ game engine skeleton.
 */
 /******************************************************************************/
 
-#include "../States/BaseStage/BaseStage.h"
-#include "../States/BaseStage/LoadStages.h"
-#include "Apps/GLApplication.h"
-#include "InputManager\InputManager.h"
+#include "../../States/BaseStage/BaseStage.h"
+#include "../../States/BaseStage/LoadStages.h"
+#include "../../States/BaseStage/GameData.h"
+#include "../InputManager/InputManager.h"
+#include "../Apps/GLApplication.h"
 #include "GameStateManager.h"
 #include <iostream>
 
@@ -50,7 +51,7 @@ void GameStateManager::Update(void)
 		ChangeGameState();
 
 	//Init current stage
-	m_pStage->Init();
+	m_pStage->Init(m_gameData);
 
 	//Vsync
 	wglSwapIntervalEXT(1);
@@ -66,7 +67,7 @@ void GameStateManager::Update(void)
 		glClearColor(0.f, 0.f, 0.f, 0.f);
 
 		//Game data update
-		m_pStage->Update();
+		m_pStage->Update(m_gameData);
 
 		//Swap Buffer
 		SwapBuffers(GLApplication::GetInstance().GetHDC());

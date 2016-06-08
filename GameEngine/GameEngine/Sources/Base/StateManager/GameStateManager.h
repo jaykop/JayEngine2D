@@ -15,7 +15,7 @@ This is the header for the GameEngine class
 #define GAME_MANAGER_H
 
 #include <windows.h>
-#include "Utilities\/Time.h"
+#include "../../States/BaseStage/GameData.h"
 
 /*! Enum of all stage types in the game */
 enum  StageType { ST_MENU, ST_LV1, ST_LV2, ST_LV3, ST_GAMEOVER };
@@ -56,9 +56,9 @@ private:
 	Stage*		  m_pStage;          //!< A pointer to the current stage
 	bool      	  m_isQuitting;      //!< To control if the game is quitting.
 	bool      	  m_isRestarting;    //!< To control if the stage should restart.
-	Timer		  m_dt;
 	float		  m_deltaTime;
 	InputManager* m_IM;
+	GameData	  m_gameData;
 };
 
 void ProccessMessages(void);

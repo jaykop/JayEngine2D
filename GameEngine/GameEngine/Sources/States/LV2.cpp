@@ -12,14 +12,17 @@ LV2Stage::~LV2Stage()
 
 }
 
-void LV2Stage::Init()
+void LV2Stage::Init(GameData& gd)
 {
-	DEBUG_PRINT("Lv2Stage::Init\n");
+	UNREFERENCED_PARAMETER(gd);
+	std::cout << "Lv2Stage::Init\n";
 }
 
-void LV2Stage::Update()
+void LV2Stage::Update(GameData& gd)
 {
-	DEBUG_PRINT("Lv2Stage::Update\n");
+	UNREFERENCED_PARAMETER(gd);
+	std::cout << "Lv2Stage::Update\n";
+
 	if (InputManager::GetInstance().KeyPressed(KEY_ESC))
 		m_GSM->SetQuit(true);
 
@@ -38,5 +41,5 @@ void LV2Stage::Update()
 
 void LV2Stage::Shutdown()
 {
-	DEBUG_PRINT("Lv2Stage::Shutdown\n");
+	std::cout << "Lv2Stage::Shutdown\n";
 }

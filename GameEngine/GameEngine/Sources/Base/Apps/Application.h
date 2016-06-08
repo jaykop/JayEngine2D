@@ -2,7 +2,7 @@
 #define APPLICATOPN_H
 
 #define WIN32_LEAN_AND_MEAN
-#include "../GameStateManager.h"
+#include "../StateManager/GameStateManager.h"
 #include "../InputManager/InputManager.h"
 
 namespace GhostEngine

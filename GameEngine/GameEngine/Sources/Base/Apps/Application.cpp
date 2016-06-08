@@ -1,6 +1,6 @@
 #include "../Apps/GLApplication.h"
+#include "../Debug/Debug.h"
 #include "Application.h"
-#include "../Debug.h"
 
 namespace 
 {

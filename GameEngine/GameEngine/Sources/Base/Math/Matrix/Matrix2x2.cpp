@@ -1,5 +1,5 @@
 #include "Matrix2x2.h"
-#include "Vector2.h"
+#include "../Vector/Vector2.h"
 
 //Matrix2x2::Matrix2x2(void)
 //{}

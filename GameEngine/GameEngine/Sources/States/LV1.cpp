@@ -12,25 +12,17 @@ LV1Stage::~LV1Stage()
 
 }
 
-void LV1Stage::Init()
+void LV1Stage::Init(GameData& gd)
 {
-	DEBUG_PRINT("Lv1Stage::Init\n");
-
-	//Obsever Pattern Test
-	/*CS = new ConcreteSubject();
-	o1 = new ConcreteObserverA(CS);
-	o2 = new ConcreteObserverB(CS);
-
-	CS->SetStatus(10, 20, 30);
-	CS->notify();
-
-*/
-
+	UNREFERENCED_PARAMETER(gd);
+	std::cout << "Lv1Stage::Init\n";
 }
 
-void LV1Stage::Update()
+void LV1Stage::Update(GameData& gd)
 {
-	//DEBUG_PRINT("Lv1Stage::Update\n");
+	UNREFERENCED_PARAMETER(gd);
+	std::cout << "Lv1Stage::Update\n";
+
 	if (InputManager::GetInstance().KeyPressed(KEY_ESC))
 		m_GSM->SetQuit(true);
 
@@ -45,9 +37,10 @@ void LV1Stage::Update()
 
 	else if (InputManager::GetInstance().KeyPressed(KEY_0))
 		m_GSM->SetNextStage(ST_MENU);
+
 }
 
 void LV1Stage::Shutdown()
 {
-	DEBUG_PRINT("Lv1Stage::Shutdown\n");
+	std::cout << "Lv1Stage::Shutdown\n";
 }

@@ -1,11 +1,11 @@
 #ifndef _MATHUTILS_H_
 #define _MATHUTILS_H_
 
-#include "Matrix2x2.h"
-#include "Matrix4x4.h"
-#include "Vector2.h"
-#include "Vector3.h"
-#include "Vector4.h"
+#include "Matrix/Matrix2x2.h"
+#include "Matrix/Matrix4x4.h"
+#include "Vector/Vector2.h"
+#include "Vector/Vector3.h"
+#include "Vector/Vector4.h"
 
 #define PI 3.1415926535897932
 #define RADIAN 0.01745329251994329576923690768489

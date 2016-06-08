@@ -4,7 +4,7 @@
 #include <crtdbg.h>
 #endif
 
-#include "Debug.h"
+#include "Debug/Debug.h"
 #include "Apps/Application.h"
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h> //WinMain

@@ -12,16 +12,16 @@ GameOverStage::~GameOverStage()
 
 }
 
-void GameOverStage::Init()
+void GameOverStage::Init(GameData& gd)
 {
-	DEBUG_PRINT("GameOverStage::Init\n");
-	DEBUG_PRINT("[Instruction]\nPress 0: Main Menu\n"
-		"Press 1: ST_LV1\nPress 2: ST_LV2\nPress 3: ST_LV3\nPress ESC: Quit App\n");
+	UNREFERENCED_PARAMETER(gd);
+	std::cout << "GameOverStage::Init\n";
 }
 
-void GameOverStage::Update()
+void GameOverStage::Update(GameData& gd)
 {
-	DEBUG_PRINT("GameOverStage::Update\n");
+	UNREFERENCED_PARAMETER(gd);
+	std::cout << "GameOverStage::Update\n";
 
 	if (InputManager::GetInstance().KeyPressed(KEY_ESC))
 		m_GSM->SetQuit(true);

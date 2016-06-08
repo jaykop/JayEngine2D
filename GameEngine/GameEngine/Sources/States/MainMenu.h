@@ -1,11 +1,5 @@
-#include "../Base/Math/MathUtils.h"
-#include "../Base/ObjectManager/ObjectManager.h"
+#include "BaseStage/BaseStage.h"
 
-class Scene;
-class Sprite;
-class Stage;
-class GameStateManager;
-class InputManager;
 class MenuStage : public Stage
 {
 public:
@@ -13,8 +7,8 @@ public:
 	MenuStage(GameStateManager* gsm = 0, InputManager* im = 0);
 
 	virtual ~MenuStage();
-	virtual void Init();
-	virtual void Update();
+	virtual void Init(GameData& gd);
+	virtual void Update(GameData& gd);
 	virtual void Shutdown();
 
 	void SampleAnimation(void);

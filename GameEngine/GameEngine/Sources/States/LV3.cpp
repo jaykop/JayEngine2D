@@ -12,14 +12,17 @@ LV3Stage::~LV3Stage()
 
 }
 
-void LV3Stage::Init()
+void LV3Stage::Init(GameData& gd)
 {
-	DEBUG_PRINT("Lv3Stage::Init\n");
+	UNREFERENCED_PARAMETER(gd);
+	std::cout << "Lv3Stage::Init\n";
 }
 
-void LV3Stage::Update()
+void LV3Stage::Update(GameData& gd)
 {
-	DEBUG_PRINT("Lv3Stage::Update\n");
+	UNREFERENCED_PARAMETER(gd);
+	std::cout << "Lv3Stage::Update\n";
+
 	if (InputManager::GetInstance().KeyPressed(KEY_ESC))
 		m_GSM->SetQuit(true);
 
@@ -38,5 +41,5 @@ void LV3Stage::Update()
 
 void LV3Stage::Shutdown()
 {
-	DEBUG_PRINT("Lv3Stage::Shutdown\n");
+	std::cout << "Lv3Stage::Shutdown\n";
 }

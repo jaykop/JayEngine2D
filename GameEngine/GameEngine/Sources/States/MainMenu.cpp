@@ -12,12 +12,16 @@ MenuStage::~MenuStage()
 
 }
 
-void MenuStage::Init()
+void MenuStage::Init(GameData& gd)
 {
-	DEBUG_PRINT("MenuStage::Init\n");
-	DEBUG_PRINT("[Instruction]\nPress 0: Main Menu\n"
-		"Press 1: ST_LV1\nPress 2: ST_LV2\nPress 3: ST_LV3\nPress ESC: Quit the App\n");
+	UNREFERENCED_PARAMETER(gd);
+	std::cout << "MenuStage::Init\n";
+	std::cout << "[Instruction]\nPress 0: Main Menu\n"
+		"Press 1: ST_LV1\nPress 2: ST_LV2\nPress 3: ST_LV3\nPress ESC: Quit the App\n";
+	
 	std::cout << "You can control the red box with keyboard arrows!\n";
+	
+	//New scene
 	m_scene = new Scene;
 
 	//Set sprites
@@ -30,8 +34,11 @@ void MenuStage::Init()
 	m_scene->Init();
 }
 
-void MenuStage::Update()
+void MenuStage::Update(GameData& gd)
 {	
+	UNREFERENCED_PARAMETER(gd);
+	//std::cout << "MenuStage::Update\n";
+
 	BasicControl();
 	SampleAnimation();
 	m_ObjM.GetGameObject(0)->SetColor(vec4(1,0,0,.5f));
@@ -40,7 +47,8 @@ void MenuStage::Update()
 
 void MenuStage::Shutdown()
 {
-	DEBUG_PRINT("MenuStage::Shutdown\n");
+	std::cout << "MenuStage::Shutdown\n";
+
 	m_ObjM.ClearObjectList();
 
 	//This does nothing
@@ -67,28 +75,6 @@ void MenuStage::BasicControl(void)
 
 	else if (InputManager::GetInstance().KeyTriggered(KEY_0))
 		m_GSM->SetNextStage(ST_MENU);
-	
-//	if (!test)
-	if (InputManager::GetInstance().KeyTriggered(KEY_T))
-	{
-		std::cout << "test unlocked1" << "\n";
-	//	test = true;
-	}
-
-	//if (test)
-	if (InputManager::GetInstance().KeyTriggered(KEY_T))
-		std::cout << "check this out1" << "\n";
-
-	if (m_IM->KeyTriggered(KEY_R))
-	{
-		std::cout << "test unlocked2" << "\n";
-		//	test = true;
-	}
-
-	//if (test)
-	if (m_IM->KeyTriggered(KEY_R))
-		std::cout << "check this out2" << "\n";
-
 }
 
 void MenuStage::SampleAnimation(void)
@@ -106,37 +92,5 @@ void MenuStage::SampleAnimation(void)
 	if (InputManager::GetInstance().KeyPressed(KEY_DOWN))
 		m_posy -= speed;
 
-	//Rotate the box
-	degree++;
-
-	//Scale the box;
-	if (scale)
-	{
-		offset = 0.01f;
-		if (m_scl >= 2)
-			scale = false;
-	}
-
-	else
-	{
-		offset = -0.01f;
-		if (m_scl <= 1)
-			scale = true;
-	}
-
-	//Scale the box
-	m_scl += offset;
-
 	m_scene->SetCamera(vec3(m_posx, m_posy, -80));
-
-	//sample
-	//m_ObjM.GetGameObject("Sample1")->SetColor(glm::vec4(1.f, 0.f, 0.f, 0.5f));
-	//m_ObjM.GetGameObject(0)->SetScale(vec3(m_scl, m_scl, 0.f));
-	//m_ObjM.GetGameObject(0)->SetPosition(vec3(20.f, 20.f, 0.f));
-	//m_ObjM.GetGameObject("Sample2")->SetColor(glm::vec4(0.f, 1.f, 0.f, 0.5f));
-	//m_ObjM.GetGameObject(1)->SetRotation(degree);
-	//m_ObjM.GetGameObject(1)->SetPosition(vec3(-20.f, -20.f, 0.f));
-	//m_ObjM.GetGameObject(2)->SetPosition(vec3(m_posx, m_posy, 0.f));
-	//m_ObjM.GetGameObject("Sample3")->SetColor(glm::vec4(0.f, 0.f, 1.f, 0.5f));
-
 }

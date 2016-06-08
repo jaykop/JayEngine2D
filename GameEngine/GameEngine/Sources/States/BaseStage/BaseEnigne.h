@@ -6,9 +6,8 @@
 #include "../../Base/ObjectManager/ObjectManager.h"
 #include "../../Base/InputManager/InputManager.h"
 #include "../../Base/InputManager/InputList.h"
-#include "../../Base/GameStateManager.h"
-#include "../../Base/Debug.h"
-#include "BaseStage.h"
+#include "../../Base/StateManager/GameStateManager.h"
+#include "../../Base/Debug/Debug.h"
 #include <iostream>
 
 #endif //_STATE_BASE_HEADER_
