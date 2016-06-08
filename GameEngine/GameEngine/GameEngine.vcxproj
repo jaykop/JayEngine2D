@@ -78,29 +78,29 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Sources\Base\Apps\Application.cpp" />
-    <ClCompile Include="Sources\Base\Debug.cpp" />
-    <ClCompile Include="Sources\Base\GameStateManager.cpp" />
+    <ClCompile Include="Sources\Base\Debug\Debug.cpp" />
+    <ClCompile Include="Sources\Base\StateManager\GameStateManager.cpp" />
     <ClCompile Include="Sources\Base\Apps\GLApplication.cpp" />
     <ClCompile Include="Sources\Base\Graphic\Scene.cpp" />
     <ClCompile Include="Sources\Base\InputManager\InputManager.cpp" />
     <ClCompile Include="Sources\Base\Math\MathUtils.cpp" />
-    <ClCompile Include="Sources\Base\Math\Matrix2x2.cpp">
+    <ClCompile Include="Sources\Base\Math\Matrix\Matrix2x2.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="Sources\Base\Math\Vector2.cpp">
+    <ClCompile Include="Sources\Base\Math\Vector\Vector2.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="Sources\Base\Math\Vector4.cpp">
+    <ClCompile Include="Sources\Base\Math\Vector\Vector4.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="Sources\Base\Math\Matrix4x4.cpp">
+    <ClCompile Include="Sources\Base\Math\Matrix\Matrix4x4.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="Sources\Base\Graphic\Shader.cpp" />
     <ClCompile Include="Sources\Base\Graphic\Sprite.cpp" />
-    <ClCompile Include="Sources\Base\Math\Vector3.cpp">
+    <ClCompile Include="Sources\Base\Math\Vector\Vector3.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="Sources\Base\ObjectManager\ObjectManager.cpp" />
@@ -120,17 +120,17 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Sources\Base\Apps\Application.h" />
-    <ClInclude Include="Sources\Base\Debug.h" />
-    <ClInclude Include="Sources\Base\GameStateManager.h" />
+    <ClInclude Include="Sources\Base\Debug\Debug.h" />
+    <ClInclude Include="Sources\Base\StateManager\GameStateManager.h" />
     <ClInclude Include="Sources\Base\Apps\GLApplication.h" />
     <ClInclude Include="Sources\Base\Graphic\Scene.h" />
     <ClInclude Include="Sources\Base\InputManager\InputList.h" />
     <ClInclude Include="Sources\Base\InputManager\InputManager.h" />
     <ClInclude Include="Sources\Base\Math\MathUtils.h" />
-    <ClInclude Include="Sources\Base\Math\Matrix2x2.h">
+    <ClInclude Include="Sources\Base\Math\Matrix\Matrix2x2.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClInclude>
-    <ClInclude Include="Sources\Base\Math\Vector2.h">
+    <ClInclude Include="Sources\Base\Math\Vector\Vector2.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="Sources\Base\Physics\Joint.h">
@@ -139,15 +139,16 @@
     <ClInclude Include="Sources\Base\Physics\RigidBody.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="Sources\States\BaseStage\GameData.h" />
     <ClInclude Include="Sources\States\BaseStage\LoadStages.h" />
-    <ClInclude Include="Sources\Base\Math\Matrix4x4.h" />
+    <ClInclude Include="Sources\Base\Math\Matrix\Matrix4x4.h" />
     <ClInclude Include="Sources\Base\Graphic\Shader.hpp" />
     <ClInclude Include="Sources\Base\Graphic\Sprite.h" />
-    <ClInclude Include="Sources\Base\Math\Vector3.h" />
+    <ClInclude Include="Sources\Base\Math\Vector\Vector3.h" />
     <ClInclude Include="Sources\Base\ObjectManager\ObjectManager.h" />
     <ClInclude Include="Sources\Base\ObserverSample\Observer.h" />
     <ClInclude Include="Sources\States\BaseStage\BaseStage.h" />
-    <ClInclude Include="Sources\Base\Math\Vector4.h" />
+    <ClInclude Include="Sources\Base\Math\Vector\Vector4.h" />
     <ClInclude Include="Sources\Base\Utilities\Time.h" />
     <ClInclude Include="Sources\States\GameOver.h" />
     <ClInclude Include="Sources\States\LV1.h" />

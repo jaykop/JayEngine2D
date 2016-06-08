@@ -11,12 +11,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Sources\Base\Debug.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Sources\Base\GameStateManager.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="Sources\Base\WinMain.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -35,9 +29,6 @@
     <ClCompile Include="Sources\States\MainMenu.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Sources\Base\Math\Matrix4x4.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="Sources\Base\Utilities\Time.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -51,9 +42,6 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Sources\Base\Apps\GLApplication.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Sources\Base\Math\Vector3.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Sources\Base\ObjectManager\ObjectManager.cpp">
@@ -74,23 +62,29 @@
     <ClCompile Include="Sources\Base\Math\MathUtils.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Sources\Base\Math\Vector4.cpp">
+    <ClCompile Include="Sources\Base\Math\Vector\Vector2.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Sources\Base\Math\Matrix2x2.cpp">
+    <ClCompile Include="Sources\Base\Math\Vector\Vector3.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Sources\Base\Math\Vector2.cpp">
+    <ClCompile Include="Sources\Base\Math\Vector\Vector4.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Base\Math\Matrix\Matrix2x2.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Base\Math\Matrix\Matrix4x4.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Base\StateManager\GameStateManager.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Base\Debug\Debug.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Sources\Base\Debug.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Sources\Base\GameStateManager.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="Sources\States\GameOver.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
@@ -106,9 +100,6 @@
     <ClInclude Include="Sources\States\MainMenu.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Sources\Base\Math\Matrix4x4.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="Sources\Base\Utilities\Time.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
@@ -122,9 +113,6 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Sources\Base\Apps\GLApplication.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Sources\Base\Math\Vector3.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Sources\Base\ObjectManager\ObjectManager.h">
@@ -160,13 +148,28 @@
     <ClInclude Include="Sources\Base\Graphic\Scene.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Sources\Base\Math\Vector4.h">
+    <ClInclude Include="Sources\Base\Math\Vector\Vector4.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Sources\Base\Math\Vector2.h">
+    <ClInclude Include="Sources\Base\Math\Vector\Vector2.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Sources\Base\Math\Matrix2x2.h">
+    <ClInclude Include="Sources\Base\Math\Vector\Vector3.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Base\Math\Matrix\Matrix2x2.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Base\Math\Matrix\Matrix4x4.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Base\StateManager\GameStateManager.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Base\Debug\Debug.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\States\BaseStage\GameData.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
