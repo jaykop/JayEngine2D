@@ -7,10 +7,10 @@
 #include "Application.h"
 
 static const GLfloat m_vertex_buffer_data[] =
-{ -5.f, -5.f, 0.f,
--5.f, 5.f, 0.f,
-5.f, 5.f, 0.f,
-5.f, -5.f, 0.f
+{ -.5f, -.5f, 0.f,
+-.5f, .5f, 0.f,
+.5f, .5f, 0.f,
+.5f, -.5f, 0.f
 };
 
 GLApplication::GLApplication(void)

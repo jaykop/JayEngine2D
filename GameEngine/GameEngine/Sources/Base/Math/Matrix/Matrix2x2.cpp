@@ -43,18 +43,27 @@ Matrix2x2& Matrix2x2::operator=(const Matrix2x2& rhs)
 	return *this;
 }
 
-Matrix2x2 Matrix2x2::operator+(const Matrix2x2& rhs) 
+Matrix2x2& Matrix2x2::operator - (void)
+{
+	for (int i = 0; i < 2; ++i)
+	for (int j = 0; j < 2; ++j)
+		m_member[i][j] = -m_member[i][j];
+
+	return *this;
+}
+
+Matrix2x2 Matrix2x2::operator+(const Matrix2x2& rhs) const
 {
 	Matrix2x2 result;
 
 	for (int i = 0; i < 2; ++i)
 	for (int j = 0; j < 2; ++j)
-		m_member[i][j] = m_member[i][j] + rhs.m_member[i][j];
+		result.m_member[i][j] = m_member[i][j] + rhs.m_member[i][j];
 
 	return result;
 }
 
-Matrix2x2 Matrix2x2::operator*(const Matrix2x2& rhs) 
+Matrix2x2 Matrix2x2::operator*(const Matrix2x2& rhs) const
 {
 	Matrix2x2 result;
 
@@ -66,7 +75,7 @@ Matrix2x2 Matrix2x2::operator*(const Matrix2x2& rhs)
 	return result;
 }
 
-Vector2 Matrix2x2::operator*(const Vector2& rhs) 
+Vector2 Matrix2x2::operator*(const Vector2& rhs) const
 {
 	Vector2 result;
 
@@ -76,18 +85,18 @@ Vector2 Matrix2x2::operator*(const Vector2& rhs)
 	return result;
 }
 
-Matrix2x2 Matrix2x2::operator-(const Matrix2x2& rhs) 
+Matrix2x2 Matrix2x2::operator-(const Matrix2x2& rhs) const
 {
 	Matrix2x2 result;
 
 	for (int i = 0; i < 2; ++i)
 	for (int j = 0; j < 2; ++j)
-		m_member[i][j] = m_member[i][j] - rhs.m_member[i][j];
+		result.m_member[i][j] = m_member[i][j] - rhs.m_member[i][j];
 
 	return result;
 }
 
-Matrix2x2 Matrix2x2::operator+(const float constant) 
+Matrix2x2 Matrix2x2::operator+(const float constant) const
 {
 	Matrix2x2 result;
 
@@ -98,7 +107,7 @@ Matrix2x2 Matrix2x2::operator+(const float constant)
 	return result;
 }
 
-Matrix2x2 Matrix2x2::operator-(const float constant) 
+Matrix2x2 Matrix2x2::operator-(const float constant) const
 {
 	Matrix2x2 result;
 
@@ -109,7 +118,7 @@ Matrix2x2 Matrix2x2::operator-(const float constant)
 	return result;
 }
 
-Matrix2x2 Matrix2x2::operator*(const float constant) 
+Matrix2x2 Matrix2x2::operator*(const float constant) const
 {
 	Matrix2x2 result;
 
@@ -120,7 +129,7 @@ Matrix2x2 Matrix2x2::operator*(const float constant)
 	return result;
 }
 
-Matrix2x2 Matrix2x2::operator/(const float constant) 
+Matrix2x2 Matrix2x2::operator/(const float constant) const
 {
 	Matrix2x2 result;
 
@@ -152,14 +161,14 @@ void Matrix2x2::SetIdentity(void)
 }
 
 //Friend function
-Matrix2x2 operator+(float constant, Matrix2x2& rhs) 
+Matrix2x2 operator+(float constant, const Matrix2x2& rhs)
 {
 	Matrix2x2 result;
 	result = rhs + constant;
 	return result;
 }
 
-Matrix2x2 operator*(float constant, Matrix2x2& rhs) 
+Matrix2x2 operator*(float constant, const Matrix2x2& rhs)
 {
 	Matrix2x2 result;
 	result = rhs * constant;

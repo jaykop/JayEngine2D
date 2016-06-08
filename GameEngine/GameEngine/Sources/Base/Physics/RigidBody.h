@@ -3,6 +3,8 @@
 
 #include "../Math/MathUtils.h"
 
+//enum CollisionType {RECT, CIRCLE};
+
 class RigidBody{
 
 public:
@@ -11,8 +13,11 @@ public:
 
 	void Set(const vec3& width, float mass);
 	void AddForce(const vec3& force);
+	bool DetectCollide(RigidBody* other);
+	void WorkCollide();
 
 	vec3 m_position;
+	vec3 m_scale;
 	vec3 m_velocity;
 	vec3 m_force;
 	vec3 m_width;
@@ -22,7 +27,10 @@ public:
 	float m_torque;
 	float m_friction;
 	float m_mass, m_invMass;
-	float m_l, m_invl;
+	float m_inertia, m_invlnertia;
+
+	bool collide_Work;
+	bool m_collide;
 
 private:
 

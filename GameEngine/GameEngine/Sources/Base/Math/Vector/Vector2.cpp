@@ -27,6 +27,14 @@ Vector2& Vector2::operator=(const Vector2& rhs)
 	return *this;
 }
 
+Vector2& Vector2::operator-(void)
+{
+	x = -x;
+	y = -y;
+
+	return *this;
+}
+
 Vector2& Vector2::operator+=(const Vector2& rhs)
 {
 	x += rhs.x;
@@ -66,7 +74,7 @@ Vector2& Vector2::operator*=(const float constant)
 	return *this;
 }
 
-Vector2 Vector2::operator+(const float constant)
+Vector2 Vector2::operator+(const float constant) const
 {
 	Vector2 new_one;
 
@@ -76,7 +84,7 @@ Vector2 Vector2::operator+(const float constant)
 	return new_one;
 }
 
-Vector2 Vector2::operator+(const Vector2& rhs)
+Vector2 Vector2::operator+(const Vector2& rhs) const
 {
 	Vector2 new_one;
 
@@ -86,7 +94,7 @@ Vector2 Vector2::operator+(const Vector2& rhs)
 	return new_one;
 }
 
-Vector2 Vector2::operator-(const float constant)
+Vector2 Vector2::operator-(const float constant) const
 {
 	Vector2 new_one;
 
@@ -96,7 +104,7 @@ Vector2 Vector2::operator-(const float constant)
 	return new_one;
 }
 
-Vector2 Vector2::operator-(const Vector2& rhs)
+Vector2 Vector2::operator-(const Vector2& rhs) const
 {
 	Vector2 new_one;
 
@@ -106,7 +114,7 @@ Vector2 Vector2::operator-(const Vector2& rhs)
 	return new_one;
 }
 
-Vector2 Vector2::operator*(const float constant)
+Vector2 Vector2::operator*(const float constant) const
 {
 	Vector2 new_one;
 
@@ -116,7 +124,7 @@ Vector2 Vector2::operator*(const float constant)
 	return new_one;
 }
 
-Vector2 Vector2::operator/(const float constant)
+Vector2 Vector2::operator/(const float constant) const
 {
 	Vector2 new_one;
 
@@ -150,7 +158,7 @@ Vector2 Vector2::Normalize(void)
 
 
 //Friend function
-Vector2 operator+(float constant, Vector2& rhs)
+Vector2 operator+(float constant, const Vector2& rhs)
 {
 	Vector2 new_one;
 
@@ -159,7 +167,7 @@ Vector2 operator+(float constant, Vector2& rhs)
 	return new_one;
 }
 
-Vector2 operator*(float constant, Vector2& rhs)
+Vector2 operator*(float constant, const Vector2& rhs)
 {
 	Vector2 new_one;
 

@@ -1,4 +1,5 @@
 #include "ObjectManager.h"
+#include "../Physics/RigidBody.h"
 #include "../Graphic/Sprite.h"
 
 ObjectManager::ObjectManager(void)
@@ -11,10 +12,12 @@ ObjectManager::~ObjectManager(void)
 void ObjectManager::AddObject(const std::string& textureDir)
 {
 	UNREFERENCED_PARAMETER(textureDir);
-	Sprite* new_sprite = new Sprite;
+	Sprite* new_sprite = new Sprite(id_settor);
 
 	m_ObjectList.insert(std::hash_map<int, Sprite*>::value_type(
 		id_settor, new_sprite));
+	
+	//new_sprite->m_id = id_settor;
 	
 	++id_settor;
 	++number_of_Spt;
@@ -22,7 +25,11 @@ void ObjectManager::AddObject(const std::string& textureDir)
 
 void ObjectManager::RemoveObject(const int id)
 {
-	for (auto it = m_ObjectList.begin(); it != m_ObjectList.end(); ++it)
+	if ((m_ObjectList.find(id)->second->GetRigidBody()))
+		delete (m_ObjectList.find(id)->second->GetRigidBody());
+
+	delete (m_ObjectList.find(id)->second);
+
 	m_ObjectList.erase(id);
 	--number_of_Spt;
 }
@@ -44,7 +51,12 @@ bool ObjectManager::HasObject(const int id)
 void ObjectManager::ClearObjectList(void)
 {
 	for (auto it = m_ObjectList.begin(); it != m_ObjectList.end(); ++it)
-	 delete	it->second;
+	{
+		if ((it->second->GetRigidBody()))
+			delete	it->second->GetRigidBody();
+
+		delete	it->second;
+	}
 
 	m_ObjectList.clear();
 	number_of_Spt = 0;

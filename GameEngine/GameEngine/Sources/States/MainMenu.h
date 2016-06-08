@@ -19,9 +19,8 @@ private:
 	//Obj Manager
 	ObjectManager m_ObjM;
 	Scene* m_scene;
-	//Variable for animation
-	bool  scale;
-	float offset;
-	float m_posx, m_posy, m_scl, degree, speed;
+	World* m_world;
+
+	float m_posx, m_posy, speed;
 	
 };

@@ -14,7 +14,6 @@ Scene::~Scene(void)
 void Scene::Init()
 {
 	//Get projection information
-
 	ProjectionInfo temp = GLApplication::GetInstance().GetProjectionInfo();
 
 	m_width = static_cast<int>(temp.m_width);
@@ -24,7 +23,7 @@ void Scene::Init()
 	m_fovy = static_cast<float>(temp.m_fovy);
 	aspectRatio = static_cast<float>(m_width) / static_cast<float>(m_height);
 
-	m_camera = vec4(0, 0, -80, 0);
+	m_camera = vec4(0, 0, 80, 0);
 	m_radian = static_cast<float>(RADIAN);
 }
 
@@ -39,11 +38,14 @@ void Scene::Draw(const ObjectManager& ObjM)
 		m_matrixID = glGetUniformLocation(GLApplication::GetInstance().GetShader().m_programID, "MVP");
 
 		//Implement Matrix
-		glUniformMatrix4fv(m_matrixID, 1, GL_FALSE, &m_mvp[0]);
+		glUniformMatrix4fv(m_matrixID, 1, GL_FALSE, &m_mvp.m_member[0][0]);
 
 		vec4 sptColor = (it->second->GetColor());
 		GLuint color = glGetUniformLocation(GLApplication::GetInstance().GetShader().m_programID, "myColor");
 		glUniform4f(color, sptColor.x, sptColor.y, sptColor.z, sptColor.w);
+		
+		//More high quality?
+		//glUniformMatrix4fv();
 
 		//first attribute buffer : vertices
 		glEnableVertexAttribArray(0);

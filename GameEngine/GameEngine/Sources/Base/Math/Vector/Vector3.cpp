@@ -1,10 +1,5 @@
-#include "Vector3.h"
+#include "Vector4.h"
 #include <cmath>
-
-//template<typename Type>
-//Vector3<Type>::Vector3(void)
-//: x(0), y(0), z(0)
-//{}
 
 template <typename Type>
 Vector3<Type>::~Vector3(void)
@@ -48,7 +43,17 @@ Vector3<Type>& Vector3<Type>::operator=(const Vector3& rhs)
 }
 
 template <typename Type>
-Vector3<Type> Vector3<Type>::operator+(const Type& constant)
+Vector3<Type>& Vector3<Type>::operator-(void)
+{
+	x = -x;
+	y = -y;
+	z = -z;
+
+	return *this;
+}
+
+template <typename Type>
+Vector3<Type> Vector3<Type>::operator+(const Type& constant) const
 {
 	Vector3 new_one;
 
@@ -60,7 +65,7 @@ Vector3<Type> Vector3<Type>::operator+(const Type& constant)
 }
 
 template <typename Type>
-Vector3<Type> Vector3<Type>::operator+(const Vector3& rhs)
+Vector3<Type> Vector3<Type>::operator+(const Vector3& rhs) const
 {
 	Vector3 new_one;
 
@@ -72,7 +77,7 @@ Vector3<Type> Vector3<Type>::operator+(const Vector3& rhs)
 }
 
 template <typename Type>
-Vector3<Type> Vector3<Type>::operator-(const Type& constant)
+Vector3<Type> Vector3<Type>::operator-(const Type& constant) const
 {
 	Vector3 new_one;
 
@@ -84,7 +89,7 @@ Vector3<Type> Vector3<Type>::operator-(const Type& constant)
 }
 
 template <typename Type>
-Vector3<Type> Vector3<Type>::operator-(const Vector3& rhs)
+Vector3<Type> Vector3<Type>::operator-(const Vector3& rhs) const
 {
 	Vector3 new_one;
 
@@ -96,7 +101,7 @@ Vector3<Type> Vector3<Type>::operator-(const Vector3& rhs)
 }
 
 template <typename Type>
-Vector3<Type> Vector3<Type>::operator*(const Type& constant)
+Vector3<Type> Vector3<Type>::operator*(const Type& constant) const
 {
 	Vector3 new_one;
 
@@ -108,7 +113,7 @@ Vector3<Type> Vector3<Type>::operator*(const Type& constant)
 }
 
 template <typename Type>
-Vector3<Type> Vector3<Type>::operator/(const Type& constant)
+Vector3<Type> Vector3<Type>::operator/(const Type& constant) const
 {
 	Vector3 new_one;
 
@@ -120,7 +125,7 @@ Vector3<Type> Vector3<Type>::operator/(const Type& constant)
 }
 
 template <typename Type>
-Vector3<Type> operator+(Type constant, Vector3<Type>& rhs)
+Vector3<Type> operator+(Type constant, const Vector3<Type>& rhs)
 {
 	Vector3<Type> new_one;
 
@@ -130,7 +135,7 @@ Vector3<Type> operator+(Type constant, Vector3<Type>& rhs)
 }
 
 template <typename Type>
-Vector3<Type> operator*(Type constant, Vector3<Type>& rhs)
+Vector3<Type> operator*(Type constant, const Vector3<Type>& rhs)
 {
 	Vector3<Type> new_one;
 

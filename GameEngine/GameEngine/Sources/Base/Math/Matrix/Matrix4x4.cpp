@@ -6,8 +6,8 @@ template <typename Type>
 Matrix4x4<Type>::Matrix4x4(void)
 {
 	for (int i = 0; i < 4; ++i)
-		for (int j = 0; j < 4; ++j)
-			m_member[i][j] = 0;
+	for (int j = 0; j < 4; ++j)
+		m_member[i][j] = 0;
 }
 
 template <typename Type>
@@ -19,7 +19,7 @@ Matrix4x4<Type>::~Matrix4x4(void)
 template <typename Type>
 Matrix4x4<Type>::Matrix4x4(const Vector4<Type> member)
 {
-	
+
 }
 
 template <typename Type>
@@ -33,8 +33,8 @@ template <typename Type>
 Matrix4x4<Type>::Matrix4x4(const Type& element)
 {
 	for (int i = 0; i < 4; ++i)
-		for (int j = 0; j < 4; ++j)
-			m_member[i][j] = element;
+	for (int j = 0; j < 4; ++j)
+		m_member[i][j] = element;
 }
 
 template <typename Type>
@@ -43,8 +43,8 @@ Matrix4x4<Type>::Matrix4x4(const Matrix4x4<Type>& rhs)
 	if (this != &rhs)
 	{
 		for (int i = 0; i < 4; ++i)
-			for (int j = 0; j < 4; ++j)
-				m_member[i][j] = rhs.m_member[i][j];
+		for (int j = 0; j < 4; ++j)
+			m_member[i][j] = rhs.m_member[i][j];
 	}
 }
 
@@ -54,75 +54,85 @@ Matrix4x4<Type>& Matrix4x4<Type>::operator = (const Matrix4x4<Type>& rhs)
 	if (this != &rhs)
 	{
 		for (int i = 0; i < 4; ++i)
-			for (int j = 0; j < 4; ++j)
-				m_member[i][j] = rhs.m_member[i][j];
+		for (int j = 0; j < 4; ++j)
+			m_member[i][j] = rhs.m_member[i][j];
 	}
 
 	return *this;
 }
 
 template <typename Type>
-Matrix4x4<Type> Matrix4x4<Type>::operator + (const Matrix4x4<Type>& rhs) 
+Matrix4x4<Type>& Matrix4x4<Type>::operator-(void)
+{
+	for (int i = 0; i < 4; ++i)
+	for (int j = 0; j < 4; ++j)
+		m_member[i][j] = -m_member[i][j];
+
+	return *this;
+}
+
+template <typename Type>
+Matrix4x4<Type> Matrix4x4<Type>::operator + (const Matrix4x4<Type>& rhs) const
 {
 	Matrix4x4 result;
 
 	for (int i = 0; i < 4; ++i)
-		for (int j = 0; j < 4; ++j)
-			m_member[i][j] = m_member[i][j] + rhs.m_member[i][j];
+	for (int j = 0; j < 4; ++j)
+		m_member[i][j] = m_member[i][j] + rhs.m_member[i][j];
 
 	return result;
 }
 
 template <typename Type>
-Matrix4x4<Type> Matrix4x4<Type>::operator + (const Type& constant) 
+Matrix4x4<Type> Matrix4x4<Type>::operator + (const Type& constant) const
 {
 	Matrix4x4 result;
 
 	for (int i = 0; i < 4; ++i)
-		for (int j = 0; j < 4; ++j)
-			result.m_member[i][j] = m_member[i][j] + constant;
+	for (int j = 0; j < 4; ++j)
+		result.m_member[i][j] = m_member[i][j] + constant;
 
 	return result;
 }
 
 template <typename Type>
-Matrix4x4<Type> Matrix4x4<Type>::operator - (const Matrix4x4<Type>& rhs) 
+Matrix4x4<Type> Matrix4x4<Type>::operator - (const Matrix4x4<Type>& rhs) const
 {
 	Matrix4x4 result;
 
 	for (int i = 0; i < 4; ++i)
-		for (int j = 0; j < 4; ++j)
-			result.m_member[i][j] = m_member[i][j] - rhs.m_member[i][j];
+	for (int j = 0; j < 4; ++j)
+		result.m_member[i][j] = m_member[i][j] - rhs.m_member[i][j];
 
 	return result;
 }
 
 template <typename Type>
-Matrix4x4<Type> Matrix4x4<Type>::operator - (const Type& constant) 
+Matrix4x4<Type> Matrix4x4<Type>::operator - (const Type& constant) const
 {
 	Matrix4x4 result;
 
 	for (int i = 0; i < 4; ++i)
-		for (int j = 0; j < 4; ++j)
-			result.m_member[i][j] = m_member[i][j] - constant;
+	for (int j = 0; j < 4; ++j)
+		result.m_member[i][j] = m_member[i][j] - constant;
 
 	return result;
 }
 
 template <typename Type>
-Matrix4x4<Type> Matrix4x4<Type>::operator * (const Type& constant) 
+Matrix4x4<Type> Matrix4x4<Type>::operator * (const Type& constant) const
 {
 	Matrix4x4 result;
 
 	for (int i = 0; i < 4; ++i)
-		for (int j = 0; j < 4; ++j)
-			result.m_member[i][j] = m_member[i][j] * constant;
+	for (int j = 0; j < 4; ++j)
+		result.m_member[i][j] = m_member[i][j] * constant;
 
 	return result;
 }
 
 template <typename Type>
-Matrix4x4<Type> Matrix4x4<Type>::operator*(const Matrix4x4<Type>& rhs) 
+Matrix4x4<Type> Matrix4x4<Type>::operator*(const Matrix4x4<Type>& rhs) const
 {
 	Matrix4x4 result;
 
@@ -150,7 +160,7 @@ Matrix4x4<Type> Matrix4x4<Type>::operator*(const Matrix4x4<Type>& rhs)
 }
 
 template <typename Type>
-Vector4<Type> Matrix4x4<Type>::operator*(const Vector4<Type>& rhs) 
+Vector4<Type> Matrix4x4<Type>::operator*(const Vector4<Type>& rhs) const
 {
 	Vector4<Type> result;
 
@@ -163,13 +173,13 @@ Vector4<Type> Matrix4x4<Type>::operator*(const Vector4<Type>& rhs)
 }
 
 template <typename Type>
-Matrix4x4<Type> Matrix4x4<Type>::operator / (const Type& constant) 
+Matrix4x4<Type> Matrix4x4<Type>::operator / (const Type& constant) const
 {
 	Matrix4x4 result;
 
 	for (int i = 0; i < 4; ++i)
-		for (int j = 0; j < 4; ++j)
-			result.m_member[i][j] = m_member[i][j] / constant;
+	for (int j = 0; j < 4; ++j)
+		result.m_member[i][j] = m_member[i][j] / constant;
 
 	return result;
 }
@@ -190,7 +200,7 @@ void Matrix4x4<Type>::SetIdentity(void)
 }
 
 template <typename Type>
-Matrix4x4<Type> operator+(Type constant, Matrix4x4<Type>& rhs)
+Matrix4x4<Type> operator+(Type constant, const Matrix4x4<Type>& rhs)
 {
 	Matrix4x4<Type> result;
 
@@ -200,20 +210,11 @@ Matrix4x4<Type> operator+(Type constant, Matrix4x4<Type>& rhs)
 }
 
 template <typename Type>
-Matrix4x4<Type> operator*(Type constant, Matrix4x4<Type>& rhs)
+Matrix4x4<Type> operator*(Type constant, const Matrix4x4<Type>& rhs)
 {
 	Matrix4x4<Type> result;
 	result = rhs * constant;
 	return result;
-}
-
-template <typename Type>
-Type& Matrix4x4<Type>::operator[](const int index)
-{
-	unsigned first = index / 4;
-	unsigned second = index % 4;
-
-	return m_member[first][second];
 }
 
 template <typename Type>
@@ -234,14 +235,14 @@ std::ostream& operator<<(std::ostream& os, const Matrix4x4<Type>& contents)
 }
 
 template <typename Type>
-Matrix4x4<Type> Matrix4x4<Type>::Transpose(void) 
+Matrix4x4<Type> Matrix4x4<Type>::Transpose(void)
 {
 	Matrix4x4 result;
 
 	result = *this;
 	for (int i = 0; i < 4; ++i)
-		for (int j = 0; j < 4; ++j)
-			result.m_member[j][i] = m_member[i][j];
+	for (int j = 0; j < 4; ++j)
+		result.m_member[j][i] = m_member[i][j];
 
 	return result;
 }

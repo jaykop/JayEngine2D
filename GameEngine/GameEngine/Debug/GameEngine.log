@@ -1,0 +1,50 @@
+﻿빌드 시작: 2016-06-09 오전 12:47:23
+     1>2 노드의 "C:\Users\Jacob\Desktop\Programming\JayKop\GameEngine\GameEngine\GameEngine.vcxproj" 프로젝트(Build 대상)입니다.
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /IC:\Users\Jacob\Desktop\Programming\JayKop\GameEngine\\GameEngine\Includes\ /ZI /nologo /W4 /WX- /sdl /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Sources\Base\Graphic\Scene.cpp Sources\Base\Graphic\Sprite.cpp Sources\Base\Math\MathUtils.cpp Sources\Base\ObjectManager\ObjectManager.cpp Sources\Base\Physics\World.cpp Sources\Base\StateManager\GameStateManager.cpp Sources\States\GameOver.cpp Sources\States\LV1.cpp Sources\States\LV2.cpp Sources\States\LV3.cpp Sources\States\MainMenu.cpp
+         Scene.cpp
+         코드를 생성하고 있습니다...
+         건너뛰고 있습니다... (관련된 변경 내용 없음)
+         MainMenu.cpp
+         LV3.cpp
+         LV2.cpp
+         LV1.cpp
+         GameOver.cpp
+         GameStateManager.cpp
+         World.cpp
+         ObjectManager.cpp
+         MathUtils.cpp
+         Sprite.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /IC:\Users\Jacob\Desktop\Programming\JayKop\GameEngine\\GameEngine\Includes\ /ZI /nologo /W4 /WX- /sdl /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Sources\Base\Physics\Joint.cpp Sources\Base\Physics\RigidBody.cpp
+         건너뛰고 있습니다... (관련된 변경 내용 없음)
+         RigidBody.cpp
+         Joint.cpp
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Jacob\Desktop\Programming\JayKop\GameEngine\Debug\GameEngine.exe" /INCREMENTAL /NOLOGO /LIBPATH:C:\Users\Jacob\Desktop\Programming\JayKop\GameEngine\\GameEngine\Libs opengl32.lib glu32.lib glew32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\Jacob\Desktop\Programming\JayKop\GameEngine\Debug\GameEngine.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Jacob\Desktop\Programming\JayKop\GameEngine\Debug\GameEngine.lib" /MACHINE:X86 Debug\Application.obj
+         Debug\Debug.obj
+         Debug\World.obj
+         Debug\GameStateManager.obj
+         Debug\GLApplication.obj
+         Debug\Scene.obj
+         Debug\InputManager.obj
+         Debug\MathUtils.obj
+         Debug\Shader.obj
+         Debug\Sprite.obj
+         Debug\ObjectManager.obj
+         Debug\Time.obj
+         Debug\WinMain.obj
+         Debug\GameOver.obj
+         Debug\LV1.obj
+         Debug\LV2.obj
+         Debug\LV3.obj
+         Debug\MainMenu.obj
+         Debug\Matrix2x2.obj
+         Debug\Vector2.obj
+         Debug\Joint.obj
+         Debug\RigidBody.obj
+         GameEngine.vcxproj -> C:\Users\Jacob\Desktop\Programming\JayKop\GameEngine\Debug\GameEngine.exe
+     1>"C:\Users\Jacob\Desktop\Programming\JayKop\GameEngine\GameEngine\GameEngine.vcxproj" 프로젝트를 빌드했습니다(Build 대상).
+
+빌드했습니다.
+
+경과 시간: 00:00:01.36

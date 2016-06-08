@@ -1,6 +1,8 @@
 #ifndef _VECTOR3_H_
 #define _VECTOR3_H_
 
+#include <iostream>
+
 template <typename Type>
 class Matrix4x4;
 
@@ -19,20 +21,21 @@ public:
 	~Vector3(void);
 
 	Vector3& operator=(const Vector3& rhs);
+	Vector3& operator-(void);
 	Vector3& operator+=(const Vector3& rhs);
 	Vector3& operator+=(const Type& constant);
 	Vector3& operator-=(const Vector3& rhs);
 	Vector3& operator-=(const Type& constant);
 	Vector3& operator*=(const Type& constant);
 
-	Vector3 operator+(const Type& constant);
-	Vector3 operator+(const Vector3& rhs);
+	Vector3 operator+(const Type& constant) const;
+	Vector3 operator+(const Vector3& rhs) const;
 	
-	Vector3 operator-(const Type& constant);
-	Vector3 operator-(const Vector3& rhs);
+	Vector3 operator-(const Type& constant) const;
+	Vector3 operator-(const Vector3& rhs) const;
 
-	Vector3 operator*(const Type& constant);
-	Vector3 operator/(const Type& constant);
+	Vector3 operator*(const Type& constant) const;
+	Vector3 operator/(const Type& constant) const;
 
 	Type Length(void) const;
 	Type DotProduct(const Vector3& rhs);
@@ -40,10 +43,10 @@ public:
 	Vector3<Type> Normalize(void);
 
 	template <typename Type>
-	friend Vector3<Type> operator+(Type constant, Vector3<Type>& rhs);
+	friend Vector3<Type> operator+(Type constant, const Vector3<Type>& rhs);
 
 	template <typename Type>
-	friend Vector3<Type> operator*(Type constant, Vector3<Type>& rhs);
+	friend Vector3<Type> operator*(Type constant, const Vector3<Type>& rhs);
 
 	template <typename Type>
 	friend std::ostream& operator<<(std::ostream& os, const Vector3<Type>& constents);

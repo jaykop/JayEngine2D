@@ -12,7 +12,9 @@
 
 typedef Vector4<float> vec4;
 typedef Vector3<float> vec3;
+typedef Vector2 vec2;
 typedef Matrix4x4<float> mat44;
+typedef Matrix2x2 mat22;
 
 namespace Math
 {

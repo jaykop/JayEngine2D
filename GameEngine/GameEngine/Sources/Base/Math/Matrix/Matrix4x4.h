@@ -20,18 +20,18 @@ public:
 		Vector4<Type> member3, Vector4<Type> member4);
 	Matrix4x4(const Matrix4x4& rhs);
 
-	Matrix4x4& operator = (const Matrix4x4& rhs);
+	Matrix4x4& operator=(const Matrix4x4& rhs);
+	Matrix4x4& operator-(void);
 
-	Matrix4x4 operator+(const Matrix4x4& rhs) ;
-	Matrix4x4 operator*(const Matrix4x4& rhs) ;
-	Vector4<Type> operator*(const Vector4<Type>& rhs) ;
-	Matrix4x4 operator-(const Matrix4x4& rhs) ;
+	Matrix4x4 operator+(const Matrix4x4& rhs) const;
+	Matrix4x4 operator*(const Matrix4x4& rhs) const;
+	Vector4<Type> operator*(const Vector4<Type>& rhs) const;
+	Matrix4x4 operator-(const Matrix4x4& rhs) const;
 
-	Matrix4x4 operator+(const Type& constant) ;
-	Matrix4x4 operator-(const Type& constant) ;
-	Matrix4x4 operator*(const Type& constant) ;
-	Matrix4x4 operator/(const Type& constant) ;
-	Type& operator[](const int index);
+	Matrix4x4 operator+(const Type& constant) const;
+	Matrix4x4 operator-(const Type& constant) const;
+	Matrix4x4 operator*(const Type& constant) const;
+	Matrix4x4 operator/(const Type& constant) const;
 
 	Matrix4x4 Transpose(void);
 	void SetIdentity(void);
@@ -43,10 +43,10 @@ public:
 	static Matrix4x4<Type> Rotate(float degree, Vector3<Type> vec);
 
 	template <typename Type>
-	friend Matrix4x4<Type> operator+(Type constant, Matrix4x4<Type>& rhs);
+	friend Matrix4x4<Type> operator+(Type constant, const Matrix4x4<Type>& rhs);
 
 	template <typename Type>
-	friend Matrix4x4<Type> operator*(Type constant, Matrix4x4<Type>& rhs);
+	friend Matrix4x4<Type> operator*(Type constant, const Matrix4x4<Type>& rhs);
 
 	template <typename Type>
 	friend std::ostream& operator<<(std::ostream& os, const Matrix4x4<Type>& contents);

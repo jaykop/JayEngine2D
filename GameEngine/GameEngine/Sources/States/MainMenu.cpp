@@ -21,15 +21,40 @@ void MenuStage::Init(GameData& gd)
 	
 	std::cout << "You can control the red box with keyboard arrows!\n";
 	
-	//New scene
+	//New scene(for graphic)
 	m_scene = new Scene;
 
+	//New world(for physics)
+	m_world = new World;
+
 	//Set sprites
-	m_ObjM.AddObject("sample");
+	m_ObjM.AddObject("sample1");
+	m_ObjM.AddObject("sample2");
+	m_ObjM.AddObject("sample3");
+	m_ObjM.AddObject("sample4");
+	m_ObjM.AddObject("sample5");
+
+	m_ObjM.GetGameObject(0)->SetPosition(vec3(0, 0));
+	m_ObjM.GetGameObject(1)->SetPosition(vec3(-10, 0));
+	m_ObjM.GetGameObject(2)->SetPosition(vec3(0, 10));
+	m_ObjM.GetGameObject(3)->SetPosition(vec3(0, -10));
+	m_ObjM.GetGameObject(4)->SetPosition(vec3(10, 0));
+
+	m_ObjM.GetGameObject(0)->SetColor(vec4(1, 1, 1, 1));
+	m_ObjM.GetGameObject(1)->SetColor(vec4(0, 0, 1, 1));
+	m_ObjM.GetGameObject(2)->SetColor(vec4(1, 0, 0, 1));
+	m_ObjM.GetGameObject(3)->SetColor(vec4(0, 1, 0, 1));
+	m_ObjM.GetGameObject(4)->SetColor(vec4(1, 1, 0, 1));
+
+	m_ObjM.GetGameObject(0)->BindRigidBody();
+	m_ObjM.GetGameObject(1)->BindRigidBody();
+	m_ObjM.GetGameObject(2)->BindRigidBody();
+	m_ObjM.GetGameObject(3)->BindRigidBody();
+	m_ObjM.GetGameObject(4)->BindRigidBody();
 
 	//Init Animation variables
-	scale = true;
-	m_posx = m_posy = offset = degree = 0, m_scl = speed = 1.f;
+	m_posx = m_posy = 0.f;
+	speed = 1.f;
 
 	m_scene->Init();
 }
@@ -41,8 +66,9 @@ void MenuStage::Update(GameData& gd)
 
 	BasicControl();
 	SampleAnimation();
-	m_ObjM.GetGameObject(0)->SetColor(vec4(1,0,0,.5f));
+	
 	m_scene->Draw(m_ObjM);
+	m_world->Update(m_ObjM);
 }
 
 void MenuStage::Shutdown()
@@ -55,6 +81,7 @@ void MenuStage::Shutdown()
 	m_scene->Shutdown();
 
 	delete m_scene;
+	delete m_world;
 }
 
 void MenuStage::BasicControl(void)
@@ -92,5 +119,5 @@ void MenuStage::SampleAnimation(void)
 	if (InputManager::GetInstance().KeyPressed(KEY_DOWN))
 		m_posy -= speed;
 
-	m_scene->SetCamera(vec3(m_posx, m_posy, -80));
+	m_ObjM.GetGameObject(0)->SetPosition(vec3(m_posx, m_posy, 0));
 }

@@ -1,4 +1,3 @@
-#include "Vector4.h"
 #include "Vector3.h"
 
 //template <typename Type>
@@ -47,7 +46,18 @@ Vector4<Type>& Vector4<Type>::operator=(const Vector4<Type>& rhs)
 }
 
 template <typename Type>
-Vector4<Type> Vector4<Type>::operator+(const Vector4<Type>& rhs)
+Vector4<Type>& Vector4<Type>::operator-(void)
+{
+	x = -x;
+	y = -y;
+	z = -z;
+	w = -w;
+
+	return *this;
+}
+
+template <typename Type>
+Vector4<Type> Vector4<Type>::operator+(const Vector4<Type>& rhs) const
 {
 	Vector4 result;
 
@@ -60,7 +70,7 @@ Vector4<Type> Vector4<Type>::operator+(const Vector4<Type>& rhs)
 }
 
 template <typename Type>
-Vector4<Type> Vector4<Type>::operator+(const Type& constant) 
+Vector4<Type> Vector4<Type>::operator+(const Type& constant) const
 {
 	Vector4 result;
 
@@ -73,7 +83,7 @@ Vector4<Type> Vector4<Type>::operator+(const Type& constant)
 }
 
 template <typename Type>
-Vector4<Type> Vector4<Type>::operator-(const Vector4<Type>& rhs)
+Vector4<Type> Vector4<Type>::operator-(const Vector4<Type>& rhs) const
 {
 	Vector4 result;
 
@@ -86,7 +96,7 @@ Vector4<Type> Vector4<Type>::operator-(const Vector4<Type>& rhs)
 }
 
 template <typename Type>
-Vector4<Type> Vector4<Type>::operator-(const Type& constant)
+Vector4<Type> Vector4<Type>::operator-(const Type& constant) const
 {
 	Vector4 result;
 
@@ -99,7 +109,7 @@ Vector4<Type> Vector4<Type>::operator-(const Type& constant)
 }
 
 template <typename Type>
-Vector4<Type> Vector4<Type>::operator*(const Type& constant)
+Vector4<Type> Vector4<Type>::operator*(const Type& constant) const
 {
 	Vector4 result;
 
@@ -112,7 +122,7 @@ Vector4<Type> Vector4<Type>::operator*(const Type& constant)
 }
 
 template <typename Type>
-Vector4<Type> Vector4<Type>::operator / (const Type& constant)
+Vector4<Type> Vector4<Type>::operator / (const Type& constant) const
 {
 	Vector4 result;
 
@@ -125,7 +135,7 @@ Vector4<Type> Vector4<Type>::operator / (const Type& constant)
 }
 
 template <typename Type>
-Vector4<Type> operator+(Type constant, Vector4<Type>& rhs)
+Vector4<Type> operator+(Type constant, const Vector4<Type>& rhs)
 {
 	Vector4<Type> result;
 	
@@ -135,7 +145,7 @@ Vector4<Type> operator+(Type constant, Vector4<Type>& rhs)
 }
 
 template <typename Type>
-Vector4<Type> operator*(Type constant, Vector4<Type>& rhs)
+Vector4<Type> operator*(Type constant, const Vector4<Type>& rhs)
 {
 	Vector4<Type> result;
 	

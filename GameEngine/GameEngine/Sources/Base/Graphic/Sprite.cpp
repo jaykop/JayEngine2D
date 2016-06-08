@@ -1,11 +1,14 @@
 #include "Sprite.h"
+#include "../Physics/RigidBody.h"
 
-Sprite::Sprite(void)
+Sprite::Sprite(const int id)
 {
 	m_position = vec3(0.f, 0.f, 0.f);
-	m_scale = vec3(1.f, 1.f, 0.f);
+	m_scale = vec3(5.f, 5.f, 0.f);
 	m_degree = 0;
 	m_color = vec4(1.f);
+
+	m_id = id;
 }
 
 Sprite::~Sprite(void)
@@ -59,4 +62,24 @@ void Sprite::SetColor(const vec4& color)
 vec4 Sprite::GetColor(void) const
 {
 	return m_color;
+}
+
+void Sprite::BindRigidBody(void)
+{
+	m_body = new RigidBody;
+	m_body->m_position = m_position;
+	m_body->m_scale = m_scale;
+}
+
+RigidBody* Sprite::GetRigidBody(void) const
+{
+	m_body->m_position = m_position;
+	m_body->m_scale = m_scale;
+	return m_body;
+}
+
+void Sprite::RemoveRigidBody(void)
+{
+	delete m_body;
+	m_body = 0;
 }

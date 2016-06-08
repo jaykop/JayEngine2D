@@ -1,22 +1,23 @@
 #ifndef _SPRITE_H_
 #define _SPRITE_H_
 
-#include <map>
 #include <string>
 #include "../Apps/GLApplication.h"
 #include "../Math/MathUtils.h"
 
-class Shader;
+class RigidBody;
 class Sprite
 {
+	//friend ObjectManager;
+
 public:
 	
 	//Constructor and destructor
-	Sprite();
+	Sprite(const int id);
 	~Sprite();
 
 	//Cretae and delete function
-	static Sprite* Create(const std::string& textureDir);
+	static Sprite* Create(const std::string& textureDir = 0);
 	void Init();
 
 	const int GetID(void) const;
@@ -34,6 +35,11 @@ public:
 	void SetColor(const vec4& color);
 	vec4 GetColor(void) const;
 	
+	//Physics setting
+	void BindRigidBody(void);
+	RigidBody* GetRigidBody(void) const;
+	void RemoveRigidBody(void);
+
 	/********** To do *********/
 	//void SetTexture();
 	//GetTexture(void) const;
@@ -47,7 +53,9 @@ private:
 
 	int m_id;
 
+	RigidBody* m_body;
 	//Texture m_texure;
+
 };
 
 #endif // _SPRITE_H_

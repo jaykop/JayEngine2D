@@ -83,6 +83,9 @@
     <ClCompile Include="Sources\Base\Debug\Debug.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Sources\Base\Physics\World.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Sources\States\GameOver.h">
@@ -170,6 +173,9 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Sources\States\BaseStage\GameData.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Base\Physics\World.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

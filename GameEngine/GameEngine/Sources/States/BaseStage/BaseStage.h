@@ -4,9 +4,11 @@
 #include "../../Base/Math/MathUtils.h"
 #include "../../Base/ObjectManager/ObjectManager.h"
 
-class Scene;
-class Sprite;
 struct GameData;
+
+class Scene;
+class World;
+class Sprite;
 class InputManager;
 class GameStateManager;
 

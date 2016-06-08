@@ -10,29 +10,30 @@ struct Vector2
 	~Vector2(void);
 
 	Vector2& operator=(const Vector2& rhs);
+	Vector2& operator-(void);
 	Vector2& operator+=(const Vector2& rhs);
 	Vector2& operator+=(const float constant);
 	Vector2& operator-=(const Vector2& rhs);
 	Vector2& operator-=(const float constant);
 	Vector2& operator*=(const float constant);
 
-	Vector2 operator+(const float constant);
-	Vector2 operator+(const Vector2& rhs);
+	Vector2 operator+(const float constant) const;
+	Vector2 operator+(const Vector2& rhs) const;
 
-	Vector2 operator-(const float constant);
-	Vector2 operator-(const Vector2& rhs);
+	Vector2 operator-(const float constant) const;
+	Vector2 operator-(const Vector2& rhs) const;
 
-	Vector2 operator*(const float constant);
-	Vector2 operator/(const float constant);
+	Vector2 operator*(const float constant) const;
+	Vector2 operator/(const float constant) const;
 
 	float Length(void) const;
 	float DotProduct(const Vector2& rhs);
 	Vector2 CrossProduct(const Vector2& rhs);
 	Vector2 Normalize(void);
 
-	friend Vector2 operator+(float constant, Vector2& rhs);
+	friend Vector2 operator+(float constant, const Vector2& rhs);
 
-	friend Vector2 operator*(float constant, Vector2& rhs);
+	friend Vector2 operator*(float constant, const Vector2& rhs);
 
 	friend std::ostream& operator<<(std::ostream& os, const Vector2& constents);
 

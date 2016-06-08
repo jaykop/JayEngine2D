@@ -1,5 +1,3 @@
-//TO DO: Change Vector4 to Vector4
-
 #ifndef _MATRIX_H_
 #define _MATRIX_H_
 
@@ -21,20 +19,21 @@ public:
 	Vector4(Vector3<Type> vec, Type _w = 0);
 
 	Vector4& operator=(const Vector4& rhs);
+	Vector4& operator-(void);
 	Vector4& operator+=(const Vector4& rhs);
 	Vector4& operator+=(const Type& constant);
 	Vector4& operator-=(const Vector4& rhs);
 	Vector4& operator-=(const Type& constant);
 	Vector4& operator*=(const Type& constant);
 
-	Vector4 operator+(const Vector4& rhs) ;
-	Vector4 operator+(const Type& constant) ;
+	Vector4 operator+(const Vector4& rhs) const;
+	Vector4 operator+(const Type& constant) const;
 
-	Vector4 operator-(const Vector4& rhs) ;
-	Vector4 operator-(const Type& constant) ;
+	Vector4 operator-(const Vector4& rhs) const;
+	Vector4 operator-(const Type& constant) const;
 
-	Vector4 operator*(const Type& constant) ;
-	Vector4 operator/(const Type& constant);
+	Vector4 operator*(const Type& constant) const;
+	Vector4 operator/(const Type& constant) const;
 
 	Type Length(void) const;
 	Type DotProduct(const Vector4& rhs);
