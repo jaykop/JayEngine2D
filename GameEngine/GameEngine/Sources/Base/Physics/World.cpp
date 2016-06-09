@@ -20,7 +20,7 @@ void World::Init()
 
 }
 
-void World::Update(ObjectManager objM)
+void World::Update(ObjectManager& objM)
 {
 	auto list = objM.GetList();
 
@@ -40,7 +40,18 @@ void World::Update(ObjectManager objM)
 				if (DetectCollide(it1->second->GetRigidBody(),
 					it2->second->GetRigidBody()))
 				{
-					it1->second->Get
+					if (it1->second->GetRigidBody()->GetStatus())
+					{
+						objM.GetGameObject(it1->second->GetID())->SetPosition(vec3(
+							(it2->second->GetPosition().x - it2->second->GetScale().x - it1->second->GetScale().x),
+							it1->second->GetPosition().y, it1->second->GetPosition().z));
+						std::cout << objM.GetGameObject(it1->second->GetID())->GetPosition() << "\n";
+					}
+
+					if (it2->second->GetRigidBody()->GetStatus())
+					{
+
+					}
 				}
 				//else, check collision
 				/*std::cout << "Object ID:" << it1->second->GetID() << " & " << it2->second->GetID();

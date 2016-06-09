@@ -36,9 +36,9 @@ bool RigidBody::GetStatus(void) const
 	return m_fixed;
 }
 
-void RigidBody::SetCollider(bool get_collision)
+void RigidBody::ActivateCollider(bool active)
 {
-	collide_Work = get_collision;
+	m_active = active;
 }
 
 //void RigidBody::Set(const vec3& width, float mass)

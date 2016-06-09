@@ -86,6 +86,9 @@
     <ClCompile Include="Sources\Base\Physics\World.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Sources\Base\Physics\TempSource.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Sources\States\GameOver.h">

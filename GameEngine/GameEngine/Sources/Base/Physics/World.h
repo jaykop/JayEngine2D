@@ -13,7 +13,7 @@ public:
 	~World();
 	
 	void Init();
-	void Update(ObjectManager objM);
+	void Update(ObjectManager& objM);
 	void Shutdown();
 
 	bool DetectCollide(RigidBody* Obj1, RigidBody* Obj2);

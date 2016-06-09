@@ -14,7 +14,7 @@ public:
 	//void Set(const vec3& width, float mass);
 	//void AddForce(const vec3& force);
 	void WorkCollide();
-	void SetCollider(bool get_collision);
+	void ActivateCollider(bool active);
 
 	void SetStatus(bool status);
 	bool GetStatus(void) const;
