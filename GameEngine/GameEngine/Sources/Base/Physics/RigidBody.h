@@ -16,6 +16,9 @@ public:
 	void WorkCollide();
 	void SetCollider(bool get_collision);
 
+	void SetStatus(bool status);
+	bool GetStatus(void) const;
+
 	vec3 m_position;
 	vec3 m_scale;
 	vec3 m_velocity;
@@ -29,7 +32,7 @@ public:
 	//float m_mass, m_invMass;
 	//float m_inertia, m_invlnertia;
 
-	bool collide_Work;
+	bool m_active;
 	bool m_collide;
 	bool m_fixed;
 

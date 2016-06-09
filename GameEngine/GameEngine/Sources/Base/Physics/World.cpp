@@ -37,10 +37,14 @@ void World::Update(ObjectManager objM)
 
 			else
 			{
+				if (DetectCollide(it1->second->GetRigidBody(),
+					it2->second->GetRigidBody()))
+				{
+					it1->second->Get
+				}
 				//else, check collision
-				std::cout << "Object ID:" << it1->second->GetID() << " & " << it2->second->GetID();
-				std::cout << " | Collision Info: " << DetectCollide(it1->second->GetRigidBody(),
-					it2->second->GetRigidBody()) << "\n";
+				/*std::cout << "Object ID:" << it1->second->GetID() << " & " << it2->second->GetID();
+				std::cout << " | Collision Info: " <<  << "\n";*/
 			}
 		}
 	}

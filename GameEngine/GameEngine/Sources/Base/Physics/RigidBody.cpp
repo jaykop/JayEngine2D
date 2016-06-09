@@ -3,7 +3,7 @@
 
 RigidBody::RigidBody()
 	: m_fixed(true), m_collide(true),
-	collide_Work(false)
+	m_active(true)
 {
 	m_position = vec3();
 	m_velocity = vec3();
@@ -24,6 +24,16 @@ RigidBody::RigidBody()
 RigidBody::~RigidBody()
 {
 
+}
+
+void RigidBody::SetStatus(bool status)
+{
+	m_fixed = status;
+}
+
+bool RigidBody::GetStatus(void) const
+{
+	return m_fixed;
 }
 
 void RigidBody::SetCollider(bool get_collision)
@@ -69,4 +79,3 @@ void RigidBody::WorkCollide()
 {
 
 }
-
