@@ -47,9 +47,9 @@ void MenuStage::Init(GameData& gd)
 	m_ObjM.GetGameObject(4)->SetColor(vec4(1, 1, 0, 1));
 
 	m_ObjM.GetGameObject(0)->BindRigidBody();
-	m_ObjM.GetGameObject(1)->BindRigidBody();
+	//m_ObjM.GetGameObject(1)->BindRigidBody();
 	m_ObjM.GetGameObject(2)->BindRigidBody();
-	m_ObjM.GetGameObject(3)->BindRigidBody();
+	//m_ObjM.GetGameObject(3)->BindRigidBody();
 	m_ObjM.GetGameObject(4)->BindRigidBody();
 
 	//Init Animation variables

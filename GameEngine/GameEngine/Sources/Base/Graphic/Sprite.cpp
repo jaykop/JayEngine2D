@@ -7,7 +7,8 @@ Sprite::Sprite(const int id)
 	m_scale = vec3(5.f, 5.f, 0.f);
 	m_degree = 0;
 	m_color = vec4(1.f);
-
+	m_HasBody = false;
+	m_body = 0;
 	m_id = id;
 }
 
@@ -69,6 +70,7 @@ void Sprite::BindRigidBody(void)
 	m_body = new RigidBody;
 	m_body->m_position = m_position;
 	m_body->m_scale = m_scale;
+	m_HasBody = true;
 }
 
 RigidBody* Sprite::GetRigidBody(void) const
@@ -82,4 +84,9 @@ void Sprite::RemoveRigidBody(void)
 {
 	delete m_body;
 	m_body = 0;
+}
+
+bool Sprite::HasRigidBody(void) const
+{
+	return m_HasBody;
 }

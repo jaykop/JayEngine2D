@@ -39,6 +39,7 @@ public:
 	void BindRigidBody(void);
 	RigidBody* GetRigidBody(void) const;
 	void RemoveRigidBody(void);
+	bool HasRigidBody(void) const;
 
 	/********** To do *********/
 	//void SetTexture();
@@ -46,14 +47,16 @@ public:
 
 private:
 	
+	int m_id;
+
 	vec3 m_position;
 	vec3 m_scale;
 	vec4 m_color;
 	float m_degree;
 
-	int m_id;
-
+	bool m_HasBody;
 	RigidBody* m_body;
+
 	//Texture m_texure;
 
 };

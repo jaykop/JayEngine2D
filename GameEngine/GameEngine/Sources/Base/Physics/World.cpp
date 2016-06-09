@@ -29,9 +29,11 @@ void World::Update(ObjectManager objM)
 		auto next = it1;
 		for (auto it2 = ++next; it2 != list.end(); ++it2)
 		{
-			//If both objs are same, do not check
-			if (it1 == it2)
-				break;
+			//If both objs are same, or one of body has no body, 
+			//then skip to check.
+			if (it1 == it2 || !it1->second->HasRigidBody() ||
+				!it2->second->HasRigidBody())
+				continue;
 
 			else
 			{

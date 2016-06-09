@@ -52,7 +52,7 @@ void ObjectManager::ClearObjectList(void)
 {
 	for (auto it = m_ObjectList.begin(); it != m_ObjectList.end(); ++it)
 	{
-		if ((it->second->GetRigidBody()))
+		if ((it->second->HasRigidBody()))
 			delete	it->second->GetRigidBody();
 
 		delete	it->second;

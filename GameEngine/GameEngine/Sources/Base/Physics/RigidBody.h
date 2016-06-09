@@ -11,10 +11,10 @@ public:
 	RigidBody();
 	~RigidBody();
 
-	void Set(const vec3& width, float mass);
-	void AddForce(const vec3& force);
-	bool DetectCollide(RigidBody* other);
+	//void Set(const vec3& width, float mass);
+	//void AddForce(const vec3& force);
 	void WorkCollide();
+	void SetCollider(bool get_collision);
 
 	vec3 m_position;
 	vec3 m_scale;
@@ -22,15 +22,16 @@ public:
 	vec3 m_force;
 	vec3 m_width;
 
-	float m_rotation;
-	float m_angularVelocity;
-	float m_torque;
-	float m_friction;
-	float m_mass, m_invMass;
-	float m_inertia, m_invlnertia;
+	//float m_rotation;
+	//float m_angularVelocity;
+	//float m_torque;
+	//float m_friction;
+	//float m_mass, m_invMass;
+	//float m_inertia, m_invlnertia;
 
 	bool collide_Work;
 	bool m_collide;
+	bool m_fixed;
 
 private:
 
