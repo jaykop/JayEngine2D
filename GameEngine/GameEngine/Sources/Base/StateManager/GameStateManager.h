@@ -47,6 +47,12 @@ public:
 	/*For use in Stages*/
 	void SetNextStage(StageType stageType);
 	void SetQuit(bool isQuitting);
+	void SetPause(bool isPaused);
+	void SetRestart(bool isRestarted);
+	void SetResume(void);
+
+	//Triggered Input Controller
+	void TriggerInputController(void);
 
 private:
 	void ChangeGameState(void);

@@ -13,6 +13,7 @@ InputManager::InputManager(void)
 	m_triggeredInput = 0;
 	m_anykey = false;
 	m_trigger = true;
+	m_status = UP;
 }
 
 //InputManager::InputManager(InputList* inputlist)
@@ -46,10 +47,7 @@ INPUT_KEY InputManager::KeyTranslator(WPARAM user_input)
 bool InputManager::KeyTriggered(WPARAM input_tobe)
 {
 	if (m_key[input_tobe] && m_trigger)
-	{
-		m_trigger = false;
 		return true;
-	}
 
 	return false;
 }
@@ -94,4 +92,14 @@ bool InputManager::AnyKeyTriggered(void)
 	}
 
 	return false;
+}
+
+PRESSED_STATUS InputManager::GetPressedStatus(void) const 
+{
+	return m_status;
+}
+
+void InputManager::SetPressedStatus(PRESSED_STATUS status)
+{
+	m_status = status;
 }

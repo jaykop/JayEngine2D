@@ -24,6 +24,9 @@ enum INPUT_KEY {
 	KEY_SLASH, 
 	KEY_BACKSLASH = 220, KEY_RIGHTBRACE, KEY_LEFTBRACE, KEY_APOSTROPHE, KEY_LAST
 };
+
+enum PRESSED_STATUS {DOWN, UP};
+
 class InputList;
 class InputManager
 {
@@ -44,6 +47,9 @@ public:
 	void PressInactivate(INPUT_KEY user_input);
 	void SetTriggerToggle(bool trigger);
 
+	PRESSED_STATUS GetPressedStatus(void) const;
+	void SetPressedStatus(PRESSED_STATUS status);
+
 	//Singleton pattern
 	static InputManager& GetInstance(void)
 	{
@@ -57,7 +63,9 @@ private:
 	std::map<unsigned, bool> m_triggerKey;
 	WPARAM m_pressedInput;
 	WPARAM m_triggeredInput;
+	PRESSED_STATUS m_status;
 	bool   m_trigger, m_anykey;
+	
 	
 };
 

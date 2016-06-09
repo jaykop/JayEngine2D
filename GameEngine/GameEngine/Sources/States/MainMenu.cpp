@@ -67,8 +67,8 @@ void MenuStage::Update(GameData& gd)
 	BasicControl();
 	SampleAnimation();
 	
-	m_scene->Draw(m_ObjM);
 	m_world->Update(m_ObjM);
+	m_scene->Draw(m_ObjM);
 }
 
 void MenuStage::Shutdown()
@@ -106,6 +106,9 @@ void MenuStage::BasicControl(void)
 
 void MenuStage::SampleAnimation(void)
 {
+	m_posx = m_ObjM.GetGameObject(0)->GetPosition().x;
+	m_posy = m_ObjM.GetGameObject(0)->GetPosition().y;
+
 	//Control Redbox with keyboard
 	if (InputManager::GetInstance().KeyPressed(KEY_RIGHT))
 		m_posx += speed;
@@ -120,4 +123,10 @@ void MenuStage::SampleAnimation(void)
 		m_posy -= speed;
 
 	m_ObjM.GetGameObject(0)->SetPosition(vec3(m_posx, m_posy, 0));
+
+	if (InputManager::GetInstance().KeyTriggered(KEY_K))
+		std::cout << "???" << "\n";
+
+	if (InputManager::GetInstance().KeyTriggered(KEY_K))
+		std::cout << "!!!" << "\n";
 }

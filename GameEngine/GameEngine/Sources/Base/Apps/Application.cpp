@@ -159,32 +159,35 @@ namespace GhostEngine
 		
 		switch (msg)
 		{
-				//Button Down
+			//Button Down
 			case WM_KEYDOWN:
 				InputManager::GetInstance().PressActivate(InputManager::GetInstance().KeyTranslator(wp));
+				InputManager::GetInstance().SetPressedStatus(DOWN);
 				break;
 			
 			case WM_LBUTTONDOWN:
 				InputManager::GetInstance().PressActivate(MOUSE_LBUTTON);
+				InputManager::GetInstance().SetPressedStatus(DOWN);
 				break;
 
 			case WM_RBUTTONDOWN:
 				InputManager::GetInstance().PressActivate(MOUSE_RBUTTON);
+				InputManager::GetInstance().SetPressedStatus(DOWN);
 				break;
 
 			case WM_KEYUP:
 				InputManager::GetInstance().PressInactivate(InputManager::GetInstance().KeyTranslator(wp));
-				InputManager::GetInstance().SetTriggerToggle(true);
+				InputManager::GetInstance().SetPressedStatus(UP);
 				break;
 
 			case WM_LBUTTONUP:
 				InputManager::GetInstance().PressInactivate(MOUSE_LBUTTON);
-				InputManager::GetInstance().SetTriggerToggle(true);
+				InputManager::GetInstance().SetPressedStatus(UP);
 				break;
 
 			case WM_RBUTTONUP:
 				InputManager::GetInstance().PressInactivate(MOUSE_RBUTTON);
-				InputManager::GetInstance().SetTriggerToggle(true);
+				InputManager::GetInstance().SetPressedStatus(UP);
 				break;
 
 			case WM_CREATE:

@@ -40,22 +40,62 @@ void World::Update(ObjectManager& objM)
 				if (DetectCollide(it1->second->GetRigidBody(),
 					it2->second->GetRigidBody()))
 				{
-					if (it1->second->GetRigidBody()->GetStatus())
+					if (it1->second->GetScale().x + it2->second->GetScale().x > 
+						it1->second->GetScale().y + it2->second->GetScale().y)
 					{
-						objM.GetGameObject(it1->second->GetID())->SetPosition(vec3(
-							(it2->second->GetPosition().x - it2->second->GetScale().x - it1->second->GetScale().x),
-							it1->second->GetPosition().y, it1->second->GetPosition().z));
-						std::cout << objM.GetGameObject(it1->second->GetID())->GetPosition() << "\n";
+						if (it1->second->GetPosition().x < it2->second->GetPosition().x)
+						{
+							it1->second->SetPosition(vec3(
+								(it2->second->GetPosition().x - it2->second->GetScale().x / 2 - it1->second->GetScale().x / 2),
+								it1->second->GetPosition().y, it1->second->GetPosition().z));
+
+							//it2->second->SetPosition(vec3(
+							//	(it1->second->GetPosition().x + it2->second->GetScale().x / 2 + it1->second->GetScale().x / 2),
+							//	it2->second->GetPosition().y, it2->second->GetPosition().z));
+						}
+
+						else if (it1->second->GetPosition().x > it2->second->GetPosition().x)
+						{
+							it1->second->SetPosition(vec3(
+								(it2->second->GetPosition().x + it2->second->GetScale().x / 2 + it1->second->GetScale().x / 2),
+								it1->second->GetPosition().y, it1->second->GetPosition().z));
+
+							//it2->second->SetPosition(vec3(
+							//	(it1->second->GetPosition().x - it2->second->GetScale().x / 2 - it1->second->GetScale().x / 2),
+							//	it2->second->GetPosition().y, it2->second->GetPosition().z));
+						}
 					}
 
-					if (it2->second->GetRigidBody()->GetStatus())
+					else if (it1->second->GetScale().x + it2->second->GetScale().x <
+						it1->second->GetScale().y + it2->second->GetScale().y)
 					{
+						if (it1->second->GetPosition().y < it2->second->GetPosition().y)
+						{
+							it1->second->SetPosition(vec3(
+								(it1->second->GetPosition().x),
+								it2->second->GetPosition().y - it2->second->GetScale().y / 2 - it1->second->GetScale().y / 2,
+								it1->second->GetPosition().z));
 
+							//it2->second->SetPosition(vec3(
+							//	(it2->second->GetPosition().x),
+							//	it1->second->GetPosition().y + it1->second->GetScale().y / 2 + it2->second->GetScale().y / 2,
+							//	it2->second->GetPosition().z));
+						}
+
+						else if (it1->second->GetPosition().y > it2->second->GetPosition().y)
+						{
+							it1->second->SetPosition(vec3(
+								(it1->second->GetPosition().x),
+								it2->second->GetPosition().y + it2->second->GetScale().y / 2 + it1->second->GetScale().y / 2,
+								it1->second->GetPosition().z));
+
+							//it2->second->SetPosition(vec3(
+							//	(it2->second->GetPosition().x),
+							//	it1->second->GetPosition().y - it1->second->GetScale().y / 2 - it2->second->GetScale().y / 2,
+							//	it2->second->GetPosition().z));
+						}
 					}
 				}
-				//else, check collision
-				/*std::cout << "Object ID:" << it1->second->GetID() << " & " << it2->second->GetID();
-				std::cout << " | Collision Info: " <<  << "\n";*/
 			}
 		}
 	}

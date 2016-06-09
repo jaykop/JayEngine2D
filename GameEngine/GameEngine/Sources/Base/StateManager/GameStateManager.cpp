@@ -69,6 +69,9 @@ void GameStateManager::Update(void)
 		//Game data update
 		m_pStage->Update(m_gameData);
 
+		//Triggered Input Controller
+		TriggerInputController();
+
 		//Swap Buffer
 		SwapBuffers(GLApplication::GetInstance().GetHDC());
 	}
@@ -184,4 +187,30 @@ void ProccessMessages(void)
 		TranslateMessage(&message);
 		DispatchMessage(&message);
 	}
+}
+
+void GameStateManager::TriggerInputController(void)
+{
+	//Get button's status and set trigger's condition
+	if (InputManager::GetInstance().GetPressedStatus() == DOWN)
+		InputManager::GetInstance().SetTriggerToggle(false);
+
+	else
+		InputManager::GetInstance().SetTriggerToggle(true);
+}
+
+void GameStateManager::SetRestart(bool isRestarted)
+{
+	m_isRestarting = isRestarted;
+}
+
+void GameStateManager::SetPause(bool isPaused)
+{
+	//Goto pause state(?)
+	isPaused;
+}
+
+void GameStateManager::SetResume(void)
+{
+	//Bo back to the last state
 }
