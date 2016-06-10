@@ -1,10 +1,9 @@
 #include "BaseStage/BaseEnigne.h"
 #include "MainMenu.h"
 
-MenuStage::MenuStage(GameStateManager* gsm, InputManager* im)
+MenuStage::MenuStage(GameStateManager* gsm)
 {
 	m_GSM = gsm;
-	m_IM = im;
 }
 
 MenuStage::~MenuStage()
@@ -34,12 +33,15 @@ void MenuStage::Init(GameData& gd)
 	m_ObjM.AddObject("sample4");
 	m_ObjM.AddObject("sample5");
 
+	//Set positions
 	m_ObjM.GetGameObject(0)->SetPosition(vec3(0, 0));
-	m_ObjM.GetGameObject(1)->SetPosition(vec3(-10, 0));
-	m_ObjM.GetGameObject(2)->SetPosition(vec3(0, 10));
-	m_ObjM.GetGameObject(3)->SetPosition(vec3(0, -10));
-	m_ObjM.GetGameObject(4)->SetPosition(vec3(10, 0));
+	//m_ObjM.GetGameObject(0)->SetRotation(45);
+	m_ObjM.GetGameObject(1)->SetPosition(vec3(-20, 0));
+	m_ObjM.GetGameObject(2)->SetPosition(vec3(0, 20));
+	m_ObjM.GetGameObject(3)->SetPosition(vec3(0, -20));
+	m_ObjM.GetGameObject(4)->SetPosition(vec3(20, 0));
 
+	//Set colors
 	m_ObjM.GetGameObject(0)->SetColor(vec4(1, 1, 1, 1));
 	m_ObjM.GetGameObject(1)->SetColor(vec4(0, 0, 1, 1));
 	m_ObjM.GetGameObject(2)->SetColor(vec4(1, 0, 0, 1));
@@ -56,7 +58,9 @@ void MenuStage::Init(GameData& gd)
 	m_posx = m_posy = 0.f;
 	speed = 1.f;
 
+	//Init basic trunks
 	m_scene->Init();
+	m_world->Init();
 }
 
 void MenuStage::Update(GameData& gd)
@@ -67,6 +71,7 @@ void MenuStage::Update(GameData& gd)
 	BasicControl();
 	SampleAnimation();
 	
+	//Update basic trunks
 	m_world->Update(m_ObjM);
 	m_scene->Draw(m_ObjM);
 }
@@ -75,19 +80,20 @@ void MenuStage::Shutdown()
 {
 	std::cout << "MenuStage::Shutdown\n";
 
+	//Cleare all Objects of the list
 	m_ObjM.ClearObjectList();
 
-	//This does nothing
+	//Shutdown basic trunks
 	m_scene->Shutdown();
+	m_world->Shutdown();
 
+	//Delete dynamic scene and world
 	delete m_scene;
 	delete m_world;
 }
 
 void MenuStage::BasicControl(void)
 {
-	static bool test = false;
-
 	if (InputManager::GetInstance().KeyTriggered(KEY_ESC))
 		m_GSM->SetQuit(true);
 
@@ -102,6 +108,12 @@ void MenuStage::BasicControl(void)
 
 	else if (InputManager::GetInstance().KeyTriggered(KEY_0))
 		m_GSM->SetNextStage(ST_MENU);
+
+	else if (InputManager::GetInstance().KeyTriggered(KEY_R))
+		m_GSM->Restart(true);
+
+	else if (InputManager::GetInstance().KeyTriggered(KEY_P))
+		m_GSM->Pause();
 }
 
 void MenuStage::SampleAnimation(void)
@@ -123,10 +135,4 @@ void MenuStage::SampleAnimation(void)
 		m_posy -= speed;
 
 	m_ObjM.GetGameObject(0)->SetPosition(vec3(m_posx, m_posy, 0));
-
-	if (InputManager::GetInstance().KeyTriggered(KEY_K))
-		std::cout << "???" << "\n";
-
-	if (InputManager::GetInstance().KeyTriggered(KEY_K))
-		std::cout << "!!!" << "\n";
 }

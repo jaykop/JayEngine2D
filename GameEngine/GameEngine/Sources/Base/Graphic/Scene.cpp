@@ -5,7 +5,7 @@
 Scene::Scene(void)
 : m_width(0), m_height(0), m_zNear(0),
 m_zFar(0), m_fovy(0), aspectRatio(0),
-m_camera(vec4())
+m_camera(vec4()), m_bgColor(vec4(0,0,0,0))
 {}
 
 Scene::~Scene(void)
@@ -29,6 +29,10 @@ void Scene::Init()
 
 void Scene::Draw(const ObjectManager& ObjM)
 {
+	//Refresh the screen
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glClearColor(m_bgColor.x, m_bgColor.y, m_bgColor.z, m_bgColor.w);
+
 	for (auto it = ObjM.GetList().begin(); it != ObjM.GetList().end(); ++it)
 	{
 		//Update pipeline
@@ -110,4 +114,14 @@ void Scene::SetCamera(const vec4& camera)
 vec4 Scene::GetCamera(void) const
 {
 	return m_camera;
+}
+
+void Scene::SetBackgroundColor(const vec4& background)
+{
+	m_bgColor = background;
+}
+
+vec4 Scene::GetBackgroundColor(void) const
+{
+	return m_bgColor;
 }

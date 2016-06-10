@@ -17,8 +17,6 @@ void ObjectManager::AddObject(const std::string& textureDir)
 	m_ObjectList.insert(std::hash_map<int, Sprite*>::value_type(
 		id_settor, new_sprite));
 	
-	//new_sprite->m_id = id_settor;
-	
 	++id_settor;
 	++number_of_Spt;
 }
@@ -59,6 +57,7 @@ void ObjectManager::ClearObjectList(void)
 	}
 
 	m_ObjectList.clear();
+	id_settor = 0;
 	number_of_Spt = 0;
 }
 

@@ -6,5 +6,6 @@
 #include "../LV3.h"
 #include "../MainMenu.h"
 #include "../GameOver.h"
+#include "../Pause.h"
 
 #endif //_LOAD_STAGES_H_

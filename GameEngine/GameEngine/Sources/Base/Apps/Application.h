@@ -3,7 +3,6 @@
 
 #define WIN32_LEAN_AND_MEAN
 #include "../StateManager/GameStateManager.h"
-#include "../InputManager/InputManager.h"
 
 namespace GhostEngine
 {
@@ -41,8 +40,6 @@ namespace GhostEngine
 		void SysShutdown(void);
 		void SetGLFormat(void);
 
-		static InputManager* GetInputManager(void);
-
 	private:
 		static LRESULT CALLBACK WinProc(HWND win, UINT msg, WPARAM wp, LPARAM pl);
 
@@ -56,7 +53,6 @@ namespace GhostEngine
 		int		  m_height;			//!< Rhe window height
 
 		GameStateManager m_GSM;
-		InputManager*	 m_IM;
 
 	}; //end GameEngine
 }

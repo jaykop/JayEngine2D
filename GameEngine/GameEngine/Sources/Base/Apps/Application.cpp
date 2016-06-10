@@ -1,3 +1,4 @@
+#include "../InputManager/InputManager.h"
 #include "../Apps/GLApplication.h"
 #include "../Debug/Debug.h"
 #include "Application.h"
@@ -90,7 +91,6 @@ namespace GhostEngine
 
 		//Set opengl
 		GLApplication::GetInstance().OpenGLInit(m_window, m_width, m_height);
-		m_IM = new InputManager;
 
 		//Make sure window is showing and messages have been sent
 		//SetFullScreen(m_isFullScreen); Sace this for later
@@ -105,8 +105,6 @@ namespace GhostEngine
 
 		UnregisterClass(CLASS_NAME, m_instance);
 
-		delete m_IM;
-		m_IM = 0;
 		m_instance = 0;
 	}
 
@@ -114,7 +112,7 @@ namespace GhostEngine
 	{
 		//Only Call Once
 		DEBUG_CALL_CHECK();
-		m_GSM.Init(m_IM);
+		m_GSM.Init();
 		while (!m_isQuitting)
 		{
 			//Update GameManager

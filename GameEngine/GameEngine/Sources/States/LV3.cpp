@@ -1,10 +1,9 @@
 #include "BaseStage\BaseEnigne.h"
 #include "LV3.h"
 
-LV3Stage::LV3Stage(GameStateManager* gsm, InputManager* im)
+LV3Stage::LV3Stage(GameStateManager* gsm)
 {
 	m_GSM = gsm;
-	m_IM = im;
 }
 
 LV3Stage::~LV3Stage()
@@ -37,6 +36,9 @@ void LV3Stage::Update(GameData& gd)
 
 	else if (InputManager::GetInstance().KeyPressed(KEY_0))
 		m_GSM->SetNextStage(ST_MENU);
+
+	else if (InputManager::GetInstance().KeyTriggered(KEY_R))
+		m_GSM->Restart(true);
 }
 
 void LV3Stage::Shutdown()

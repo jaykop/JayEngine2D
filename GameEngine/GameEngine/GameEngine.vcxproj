@@ -122,6 +122,7 @@
     <ClCompile Include="Sources\States\LV2.cpp" />
     <ClCompile Include="Sources\States\LV3.cpp" />
     <ClCompile Include="Sources\States\MainMenu.cpp" />
+    <ClCompile Include="Sources\States\Pause.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Sources\Base\Apps\Application.h" />
@@ -162,6 +163,7 @@
     <ClInclude Include="Sources\States\LV3.h" />
     <ClInclude Include="Sources\States\MainMenu.h" />
     <ClInclude Include="Sources\States\BaseStage\BaseEnigne.h" />
+    <ClInclude Include="Sources\States\Pause.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

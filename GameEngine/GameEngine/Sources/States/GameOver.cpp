@@ -1,10 +1,9 @@
 #include "BaseStage/BaseEnigne.h"
 #include "GameOver.h"
 
-GameOverStage::GameOverStage(GameStateManager* gsm, InputManager* im)
+GameOverStage::GameOverStage(GameStateManager* gsm)
 {
 	m_GSM = gsm;
-	m_IM = im;
 }
 
 GameOverStage::~GameOverStage()
@@ -37,6 +36,9 @@ void GameOverStage::Update(GameData& gd)
 
 	else if (InputManager::GetInstance().KeyPressed(KEY_0))
 		m_GSM->SetNextStage(ST_MENU);
+
+	else if (InputManager::GetInstance().KeyTriggered(KEY_R))
+		m_GSM->Restart(true);
 }
 
 void GameOverStage::Shutdown()

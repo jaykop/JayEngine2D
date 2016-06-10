@@ -4,7 +4,7 @@ class GameOverStage : public Stage
 {
 public:
 
-	GameOverStage(GameStateManager* gsm = 0, InputManager* im = 0);
+	GameOverStage(GameStateManager* gsm = 0);
 
 	virtual ~GameOverStage();
 	virtual void Init(GameData& gd);

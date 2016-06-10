@@ -25,16 +25,16 @@ Function that will initialize the GameStateManager data.
 \return - NONE
 */
 /******************************************************************************/
-void GameStateManager::Init(InputManager* im)
+void GameStateManager::Init(void)
 {
 	//Init gsm info
 	m_current = ST_MENU;
 	m_next = ST_MENU;
 	m_pStage = 0;
-	m_deltaTime = 0;
 	m_isQuitting = false;
 	m_isRestarting = false;
-	m_IM = im;
+	m_isPaused = false;
+	m_pPause = new PauseStage(this);
 
 }
 /******************************************************************************/
@@ -47,11 +47,11 @@ Main game loop that controls Stage switching.
 void GameStateManager::Update(void)
 {
 	//if we are not restarting, we need to change stages
-	if (!m_isRestarting)
-		ChangeGameState();
+	ChangeGameState();
 
 	//Init current stage
 	m_pStage->Init(m_gameData);
+	m_pPause->Init(m_gameData);
 
 	//Vsync
 	wglSwapIntervalEXT(1);
@@ -62,13 +62,12 @@ void GameStateManager::Update(void)
 	{
 		ProccessMessages();
 
-		//Refresh the screen
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		glClearColor(0.f, 0.f, 0.f, 0.f);
-
 		//Game data update
-		m_pStage->Update(m_gameData);
-
+		if (!m_isPaused)
+			m_pStage->Update(m_gameData);
+		else
+			m_pPause->Update(m_gameData);
+		
 		//Triggered Input Controller
 		TriggerInputController();
 
@@ -78,6 +77,7 @@ void GameStateManager::Update(void)
 
 	//shutdown current stage
 	m_pStage->Shutdown();
+	m_pPause->Shutdown();
 
 }
 /******************************************************************************/
@@ -91,7 +91,9 @@ void GameStateManager::Shutdown(void)
 {
 	//The last stage doesn't get deleted in the loop, so it is deleted here.
 	delete m_pStage;
+	delete m_pPause;
 	m_pStage = 0;
+	m_pPause = 0;
 }
 /******************************************************************************/
 /*!
@@ -161,19 +163,22 @@ void GameStateManager::ChangeGameState(void)
 	switch (m_current)
 	{
 	case ST_MENU:
-		m_pStage = new MenuStage(this, m_IM);
+		m_pStage = new MenuStage(this);
 		break;
 	case ST_LV1:
-		m_pStage = new LV1Stage(this, m_IM);
+		m_pStage = new LV1Stage(this);
 		break;
 	case ST_LV2:
-		m_pStage = new LV2Stage(this, m_IM);
+		m_pStage = new LV2Stage(this);
 		break;
 	case ST_LV3:
-		m_pStage = new LV3Stage(this, m_IM);
+		m_pStage = new LV3Stage(this);
 		break;
 	case ST_GAMEOVER:
-		m_pStage = new GameOverStage(this, m_IM);
+		m_pStage = new GameOverStage(this);
+		break;
+	//case ST_PAUSE:
+		//m_pPause = new PauseStage(this);
 		break;
 	}
 }
@@ -199,18 +204,19 @@ void GameStateManager::TriggerInputController(void)
 		InputManager::GetInstance().SetTriggerToggle(true);
 }
 
-void GameStateManager::SetRestart(bool isRestarted)
+void GameStateManager::Restart(bool isRestarted)
 {
 	m_isRestarting = isRestarted;
 }
 
-void GameStateManager::SetPause(bool isPaused)
+void GameStateManager::Pause(void)
 {
 	//Goto pause state(?)
-	isPaused;
+	m_isPaused = true;
 }
 
-void GameStateManager::SetResume(void)
+void GameStateManager::Resume(void)
 {
 	//Bo back to the last state
+	m_isPaused = false;
 }
