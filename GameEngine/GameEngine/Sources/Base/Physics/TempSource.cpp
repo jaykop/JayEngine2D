@@ -296,3 +296,20 @@
 //		}
 //	//}
 //}
+
+//bool World::DetectCollide(RigidBody* Obj1, RigidBody* Obj2)
+//{
+//	We dont use this now.
+//	vec3 Obj1_pos = Obj1->m_position;
+//	vec3 Obj2_pos = Obj2->m_position;
+//	vec3 Obj1_scl = Obj1->m_scale / 2;
+//	vec3 Obj2_scl = Obj2->m_scale / 2;
+//
+//	if (Obj1_pos.x + Obj1_scl.x < Obj2_pos.x - Obj2_scl.x ||
+//		Obj1_pos.x - Obj1_scl.x > Obj2_pos.x + Obj2_scl.x ||
+//		Obj1_pos.y + Obj1_scl.y < Obj2_pos.y - Obj2_scl.y ||
+//		Obj1_pos.y - Obj1_scl.y > Obj2_pos.y + Obj2_scl.y)
+//		return false;
+//
+//	return true;
+//}

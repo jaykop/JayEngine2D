@@ -39,6 +39,7 @@ public:
 
 	Type Length(void) const;
 	Type DotProduct(const Vector3& rhs);
+	Vector3<Type> Absolute(void);
 	Vector3<Type> CrossProduct(const Vector3& rhs);
 	Vector3<Type> Normalize(void);
 

@@ -49,9 +49,9 @@ void MenuStage::Init(GameData& gd)
 	m_ObjM.GetGameObject(4)->SetColor(vec4(1, 1, 0, 1));
 
 	m_ObjM.GetGameObject(0)->BindRigidBody();
-	//m_ObjM.GetGameObject(1)->BindRigidBody();
+	m_ObjM.GetGameObject(1)->BindRigidBody();
 	m_ObjM.GetGameObject(2)->BindRigidBody();
-	//m_ObjM.GetGameObject(3)->BindRigidBody();
+	m_ObjM.GetGameObject(3)->BindRigidBody();
 	m_ObjM.GetGameObject(4)->BindRigidBody();
 
 	//Init Animation variables
@@ -118,21 +118,25 @@ void MenuStage::BasicControl(void)
 
 void MenuStage::SampleAnimation(void)
 {
-	m_posx = m_ObjM.GetGameObject(0)->GetPosition().x;
-	m_posy = m_ObjM.GetGameObject(0)->GetPosition().y;
-
 	//Control Redbox with keyboard
 	if (InputManager::GetInstance().KeyPressed(KEY_RIGHT))
-		m_posx += speed;
-
+	{
+		m_ObjM.GetGameObject(0)->GetRigidBody()->SetVelocity(vec3(1, 0, 0));
+		m_ObjM.GetGameObject(0)->GetRigidBody()->SetSpeed(vec3(.2f, 0, 0));
+	}
 	if (InputManager::GetInstance().KeyPressed(KEY_LEFT))
-		m_posx -= speed;
-
+	{
+		m_ObjM.GetGameObject(0)->GetRigidBody()->SetVelocity(vec3(-1, 0, 0));
+		m_ObjM.GetGameObject(0)->GetRigidBody()->SetSpeed(vec3(.2f, 0, 0));
+	}
 	if (InputManager::GetInstance().KeyPressed(KEY_UP))
-		m_posy += speed;
-
+	{
+		m_ObjM.GetGameObject(0)->GetRigidBody()->SetVelocity(vec3(0, 1, 0));
+		m_ObjM.GetGameObject(0)->GetRigidBody()->SetSpeed(vec3(0, .2f, 0));
+	}
 	if (InputManager::GetInstance().KeyPressed(KEY_DOWN))
-		m_posy -= speed;
-
-	m_ObjM.GetGameObject(0)->SetPosition(vec3(m_posx, m_posy, 0));
+	{
+		m_ObjM.GetGameObject(0)->GetRigidBody()->SetVelocity(vec3(0, -1, 0));
+		m_ObjM.GetGameObject(0)->GetRigidBody()->SetSpeed(vec3(0, .2f, 0));
+	}
 }

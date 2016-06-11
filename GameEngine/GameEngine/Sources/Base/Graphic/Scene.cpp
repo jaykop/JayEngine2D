@@ -98,7 +98,7 @@ void Scene::Pipeline(const Sprite& sprite)
 
 	//Transform model mat
 	model = model * mat44::Scale(sprite.GetScale());
-	model = model * mat44::Rotate(Math::radian(sprite.GetRotation()), vec3(.0f, .0f, 1.f));
+	model = model * mat44::Rotate(Math::DegToRad(sprite.GetRotation()), vec3(.0f, .0f, 1.f));
 	model = model * mat44::Translate(sprite.GetPosition());
 
 	//calculate fined final matrix

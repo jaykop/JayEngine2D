@@ -23,8 +23,8 @@ void ObjectManager::AddObject(const std::string& textureDir)
 
 void ObjectManager::RemoveObject(const int id)
 {
-	if ((m_ObjectList.find(id)->second->GetRigidBody()))
-		delete (m_ObjectList.find(id)->second->GetRigidBody());
+	if (m_ObjectList.find(id)->second->HasRigidBody())
+		m_ObjectList.find(id)->second->RemoveRigidBody();
 
 	delete (m_ObjectList.find(id)->second);
 
@@ -48,12 +48,10 @@ bool ObjectManager::HasObject(const int id)
 
 void ObjectManager::ClearObjectList(void)
 {
-	for (auto it = m_ObjectList.begin(); it != m_ObjectList.end(); ++it)
+	for (int index = 0; index < id_settor; ++index)
 	{
-		if ((it->second->HasRigidBody()))
-			delete	it->second->GetRigidBody();
-
-		delete	it->second;
+		if (HasObject(index))
+			RemoveObject(index);
 	}
 
 	m_ObjectList.clear();

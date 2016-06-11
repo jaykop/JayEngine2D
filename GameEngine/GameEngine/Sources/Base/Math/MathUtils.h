@@ -9,6 +9,7 @@
 
 #define PI 3.1415926535897932
 #define RADIAN 0.01745329251994329576923690768489
+#define RADIAN_DEGREE 57.2958
 
 typedef Vector4<float> vec4;
 typedef Vector3<float> vec3;
@@ -18,8 +19,9 @@ typedef Matrix2x2 mat22;
 
 namespace Math
 {
-	float radian(float degree);
-	float degree(float radian);
+	float DegToRad(float degree);
+	float RadToDeg(float radian);
+
 }
 
 #endif //_MATHUTILS_H_

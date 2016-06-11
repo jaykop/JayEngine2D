@@ -223,6 +223,9 @@ template <typename Type>
 Vector3<Type> Vector3<Type>::Normalize(void)
 {
 	Vector3 result(x,y,z);
+	if (!Length())
+		return vec3();
+
 	result = result / Length();
 	return result;
 }
@@ -231,4 +234,19 @@ template <typename Type>
 Type Vector3<Type>::Length(void) const
 {
 	return sqrt(x*x + y*y + z*z);
+}
+
+template <typename Type>
+Vector3<Type> Vector3<Type>::Absolute(void)
+{
+	Vector3 result = Vector3<Type>(x,y,z);
+
+	if (x < 0)
+		result.x = -result.x;
+	if (y < 0)
+		result.y = -result.y;
+	if (z < 0)
+		result.z = -result.z;
+
+	return result;
 }

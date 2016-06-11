@@ -67,23 +67,26 @@ vec4 Sprite::GetColor(void) const
 
 void Sprite::BindRigidBody(void)
 {
-	m_body = new RigidBody;
-	m_body->m_position = m_position;
-	m_body->m_scale = m_scale;
+	m_body = new RigidBody();
 	m_HasBody = true;
 }
 
 RigidBody* Sprite::GetRigidBody(void) const
 {
-	m_body->m_position = m_position;
-	m_body->m_scale = m_scale;
-	return m_body;
+	if (m_HasBody)
+		return m_body;
+
+	return nullptr;
 }
 
 void Sprite::RemoveRigidBody(void)
 {
-	delete m_body;
-	m_body = 0;
+	if (m_body)
+	{
+		delete m_body;
+		m_body = 0;
+		m_HasBody = false;
+	}
 }
 
 bool Sprite::HasRigidBody(void) const
