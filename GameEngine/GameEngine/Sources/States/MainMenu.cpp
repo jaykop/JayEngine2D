@@ -37,9 +37,13 @@ void MenuStage::Init(GameData& gd)
 	m_ObjM.GetGameObject(0)->SetPosition(vec3(0, 0));
 	//m_ObjM.GetGameObject(0)->SetRotation(45);
 	m_ObjM.GetGameObject(1)->SetPosition(vec3(-20, 0));
+	//m_ObjM.GetGameObject(1)->SetRotation(45);
 	m_ObjM.GetGameObject(2)->SetPosition(vec3(0, 20));
+	//m_ObjM.GetGameObject(2)->SetRotation(45);
 	m_ObjM.GetGameObject(3)->SetPosition(vec3(0, -20));
+	//m_ObjM.GetGameObject(3)->SetRotation(45);
 	m_ObjM.GetGameObject(4)->SetPosition(vec3(20, 0));
+	//m_ObjM.GetGameObject(4)->SetRotation(45);
 
 	//Set colors
 	m_ObjM.GetGameObject(0)->SetColor(vec4(1, 1, 1, 1));
@@ -48,15 +52,18 @@ void MenuStage::Init(GameData& gd)
 	m_ObjM.GetGameObject(3)->SetColor(vec4(0, 1, 0, 1));
 	m_ObjM.GetGameObject(4)->SetColor(vec4(1, 1, 0, 1));
 
+	//Bind rigid body
 	m_ObjM.GetGameObject(0)->BindRigidBody();
 	m_ObjM.GetGameObject(1)->BindRigidBody();
 	m_ObjM.GetGameObject(2)->BindRigidBody();
 	m_ObjM.GetGameObject(3)->BindRigidBody();
 	m_ObjM.GetGameObject(4)->BindRigidBody();
 
-	//Init Animation variables
-	m_posx = m_posy = 0.f;
-	speed = 1.f;
+	//m_ObjM.GetGameObject(0)->GetRigidBody()->ActivateCollider(false);
+	m_ObjM.GetGameObject(1)->GetRigidBody()->ActivateCollider(false);
+	m_ObjM.GetGameObject(2)->GetRigidBody()->ActivateCollider(false);
+	m_ObjM.GetGameObject(3)->GetRigidBody()->ActivateCollider(false);
+	m_ObjM.GetGameObject(4)->GetRigidBody()->ActivateCollider(false);
 
 	//Init basic trunks
 	m_scene->Init();
@@ -122,21 +129,21 @@ void MenuStage::SampleAnimation(void)
 	if (InputManager::GetInstance().KeyPressed(KEY_RIGHT))
 	{
 		m_ObjM.GetGameObject(0)->GetRigidBody()->SetVelocity(vec3(1, 0, 0));
-		m_ObjM.GetGameObject(0)->GetRigidBody()->SetSpeed(vec3(.2f, 0, 0));
+		m_ObjM.GetGameObject(0)->GetRigidBody()->SetSpeed(vec3(.5f, 0, 0));
 	}
 	if (InputManager::GetInstance().KeyPressed(KEY_LEFT))
 	{
 		m_ObjM.GetGameObject(0)->GetRigidBody()->SetVelocity(vec3(-1, 0, 0));
-		m_ObjM.GetGameObject(0)->GetRigidBody()->SetSpeed(vec3(.2f, 0, 0));
+		m_ObjM.GetGameObject(0)->GetRigidBody()->SetSpeed(vec3(.5f, 0, 0));
 	}
 	if (InputManager::GetInstance().KeyPressed(KEY_UP))
 	{
 		m_ObjM.GetGameObject(0)->GetRigidBody()->SetVelocity(vec3(0, 1, 0));
-		m_ObjM.GetGameObject(0)->GetRigidBody()->SetSpeed(vec3(0, .2f, 0));
+		m_ObjM.GetGameObject(0)->GetRigidBody()->SetSpeed(vec3(0, .5f, 0));
 	}
 	if (InputManager::GetInstance().KeyPressed(KEY_DOWN))
 	{
 		m_ObjM.GetGameObject(0)->GetRigidBody()->SetVelocity(vec3(0, -1, 0));
-		m_ObjM.GetGameObject(0)->GetRigidBody()->SetSpeed(vec3(0, .2f, 0));
+		m_ObjM.GetGameObject(0)->GetRigidBody()->SetSpeed(vec3(0, .5f, 0));
 	}
 }

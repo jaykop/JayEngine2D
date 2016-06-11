@@ -20,7 +20,5 @@ private:
 	ObjectManager m_ObjM;
 	Scene* m_scene;
 	World* m_world;
-
-	float m_posx, m_posy, speed;
 	
 };

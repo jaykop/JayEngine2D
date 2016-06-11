@@ -32,18 +32,22 @@ public:
 	float GetAcceleration(void) const;
 
 	void ActivateCollider(bool active);
+	bool GetColliderToggle(void) const;
+
+ 	void ActivateBody(bool body);
+	bool GetBodyToggle(void) const;
 
 private:
 
-	float m_degree;
+	float m_direction;
 	float m_acceleration;
 
 	vec3 m_scale;
 	vec3 m_speed;
 	vec3 m_velocity;
 
-	bool m_active;
-	bool m_collide;
+	bool m_body;
+	bool m_collider;
 	bool m_fixed;
 };
 

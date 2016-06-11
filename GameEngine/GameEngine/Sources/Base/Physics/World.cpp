@@ -25,23 +25,42 @@ void World::Update(ObjectManager& objM)
 	//Works each bodies' physics
 	for (auto it1 = objM.GetList().begin(); it1 != objM.GetList().end(); ++it1)
 	{
-		if (it1->second->HasRigidBody())
+		// 1. If sprite has body and activated body to work.
+		if (it1->second->HasRigidBody() && 
+			it1->second->GetRigidBody()->GetBodyToggle())
 		{
 			BodyPipeline(it1->second);
 
-			//Colision Checker
-			auto next = it1;
-			for (auto it2 = ++next; it2 != objM.GetList().end(); ++it2)
+			// 2. if sprite's colliders to be worked
+			if (it1->second->GetRigidBody()->GetColliderToggle())
 			{
-				//If both objs are same, or one of body has no body, 
-				//then skip to check.
-				if (it1 != it2 && it2->second->HasRigidBody())
+				//Colision Checker
+				auto next = it1;
+				for (auto it2 = ++next; it2 != objM.GetList().end(); ++it2)
 				{
-					if (CollisionIntersect(it1->second, it2->second))
-						CollisionResponse(it1->second, it2->second);
+					// 3. If both objs are differenct, both bodies has own body, 
+					//activated body toggle and collider body,
+					//then check the colliders.
+					if (it1 != it2 && it2->second->HasRigidBody() &&
+						it1->second->GetRigidBody()->GetBodyToggle() &&
+						it2->second->GetRigidBody()->GetColliderToggle())
+					{
+						if (CollisionIntersect(it1->second, it2->second))
+						{
+							CollisionResponse(it1->second, it2->second);
+							
+							//Temp checker {
+							if (it1->second->GetID() == 0)
+								it1->second->SetColor(it2->second->GetColor());
+
+							else if (it2->second->GetID() == 0)
+								it2->second->SetColor(it1->second->GetColor());
+							// }
+						}
+					}// 3. Has Rigid Body, 2 toggles to work
 				}
-			}
-		}
+			}// 2. Collider Toggle
+		}// 1. Body Toggle
 	}
 }
 
@@ -115,10 +134,10 @@ Vertices World::GetVertices(Sprite* spt)
 	//  vert[1]     vert[2]
 	//    |----------|
 	//    |		     |
-	//    |		     |
+	//    |	  spt    |
 	//    |		     |
 	//    |----------|
-	//	vert[0]     vert[4]
+	//	vert[0]     vert[3]
 
 	//Get rectangle;s vertices
 	Vertices result;
@@ -127,6 +146,14 @@ Vertices World::GetVertices(Sprite* spt)
 	result[1] = vec3(spt->GetPosition().x - spt->GetScale().x / 2, spt->GetPosition().y + spt->GetScale().y / 2, spt->GetPosition().z);
 	result[2] = vec3(spt->GetPosition().x + spt->GetScale().x / 2, spt->GetPosition().y + spt->GetScale().y / 2, spt->GetPosition().z);
 	result[3] = vec3(spt->GetPosition().x + spt->GetScale().x / 2, spt->GetPosition().y - spt->GetScale().y / 2, spt->GetPosition().z);
+
+	if (spt->GetRotation())
+	{
+		result[0] = result[0].Rotation(spt->GetRotation(), spt->GetPosition());
+		result[1] = result[1].Rotation(spt->GetRotation(), spt->GetPosition());
+		result[2] = result[2].Rotation(spt->GetRotation(), spt->GetPosition());
+		result[3] = result[3].Rotation(spt->GetRotation(), spt->GetPosition());
+	}
 
 	return result;
 }

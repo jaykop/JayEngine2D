@@ -1,9 +1,9 @@
 #include "../Graphic/Sprite.h"
 #include "RigidBody.h"
 
-RigidBody::RigidBody(void)
-:m_fixed(true), m_collide(true), m_active(true),
-m_speed(vec3()), m_velocity(vec3()), m_degree(0), 
+RigidBody::RigidBody()
+:m_fixed(true), m_collider(true), m_body(true),
+m_speed(vec3()), m_velocity(vec3()), m_direction(0),
 m_scale(0), m_acceleration(0)
 {}
 
@@ -22,7 +22,22 @@ bool RigidBody::GetStatus(void) const
 
 void RigidBody::ActivateCollider(bool active)
 {
-	m_active = active;
+	m_collider = active;
+}
+
+bool RigidBody::GetColliderToggle(void) const
+{
+	return m_collider;
+}
+
+void RigidBody::ActivateBody(bool active)
+{
+	m_body = active;
+}
+
+bool RigidBody::GetBodyToggle(void) const
+{
+	return m_body;
 }
 
 void RigidBody::SetAcceleration(float acceleration)
@@ -58,7 +73,8 @@ vec3 RigidBody::GetVelocity(void) const
 void RigidBody::ClearVelocity(void)
 {
 	m_speed = vec3();
-	m_degree = 0;
+	m_velocity = vec3();
+	m_direction = 0;
 }
 
 void RigidBody::SetScale(const vec3& scale)
@@ -71,12 +87,12 @@ vec3 RigidBody::GetScale(void) const
 	return m_scale;
 }
 
-void RigidBody::SetRotation(float degree)
+void RigidBody::SetRotation(float direction)
 {
-	m_degree = degree;
+	m_direction = direction;
 }
 
 float RigidBody::GetRotation(void) const
 {
-	return m_degree;
+	return m_direction;
 }

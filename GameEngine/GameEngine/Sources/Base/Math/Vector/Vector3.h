@@ -39,9 +39,11 @@ public:
 
 	Type Length(void) const;
 	Type DotProduct(const Vector3& rhs);
-	Vector3<Type> Absolute(void);
 	Vector3<Type> CrossProduct(const Vector3& rhs);
 	Vector3<Type> Normalize(void);
+
+	Vector3<Type> Absolute(void);
+	Vector3<Type> Rotation(float angle, const Vector3<Type>& pivot);
 
 	template <typename Type>
 	friend Vector3<Type> operator+(Type constant, const Vector3<Type>& rhs);

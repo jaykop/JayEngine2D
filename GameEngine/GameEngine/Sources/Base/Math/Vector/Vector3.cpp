@@ -236,17 +236,39 @@ Type Vector3<Type>::Length(void) const
 	return sqrt(x*x + y*y + z*z);
 }
 
+//Calculate vector's absolute value
 template <typename Type>
 Vector3<Type> Vector3<Type>::Absolute(void)
 {
-	Vector3 result = Vector3<Type>(x,y,z);
+	Vector3 result(x, y, z);
 
-	if (x < 0)
+	if (result.x < 0)
 		result.x = -result.x;
-	if (y < 0)
+	if (result.y < 0)
 		result.y = -result.y;
-	if (z < 0)
+	if (result.z < 0)
 		result.z = -result.z;
 
 	return result;
+}
+
+//Regard vector as point
+template <typename Type>
+Vector3<Type> Vector3<Type>::Rotation(float angle, const Vector3<Type>& pivot)
+{
+	Vector3 point(*this);
+
+	float s = sinf(Math::DegToRad(angle));
+	float c = cosf(Math::DegToRad(angle));
+
+	point.x -= pivot.x;
+	point.y -= pivot.y;
+
+	float new_x = point.x * c - point.y * s;
+	float new_y = point.x * s + point.y * c;
+
+	point.x = new_x + pivot.x;
+	point.y = new_y + pivot.y;
+
+	return point;
 }

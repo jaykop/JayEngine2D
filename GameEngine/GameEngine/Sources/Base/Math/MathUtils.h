@@ -21,7 +21,6 @@ namespace Math
 {
 	float DegToRad(float degree);
 	float RadToDeg(float radian);
-
 }
 
 #endif //_MATHUTILS_H_
