@@ -45,6 +45,12 @@ void MenuStage::Init(GameData& gd)
 	m_ObjM.GetGameObject(4)->SetPosition(vec3(20, 0));
 	//m_ObjM.GetGameObject(4)->SetRotation(45);
 
+	m_ObjM.GetGameObject(0)->SetScale(vec3(15, 15));
+	m_ObjM.GetGameObject(1)->SetScale(vec3(1, 600));
+	m_ObjM.GetGameObject(2)->SetScale(vec3(800, 1));
+	m_ObjM.GetGameObject(3)->SetScale(vec3(800, 1));
+	m_ObjM.GetGameObject(4)->SetScale(vec3(1, 600));
+
 	//Set colors
 	m_ObjM.GetGameObject(0)->SetColor(vec4(1, 1, 1, 1));
 	m_ObjM.GetGameObject(1)->SetColor(vec4(0, 0, 1, 1));
@@ -59,11 +65,11 @@ void MenuStage::Init(GameData& gd)
 	m_ObjM.GetGameObject(3)->BindRigidBody();
 	m_ObjM.GetGameObject(4)->BindRigidBody();
 
-	//m_ObjM.GetGameObject(0)->GetRigidBody()->ActivateCollider(false);
-	m_ObjM.GetGameObject(1)->GetRigidBody()->ActivateCollider(false);
-	m_ObjM.GetGameObject(2)->GetRigidBody()->ActivateCollider(false);
-	m_ObjM.GetGameObject(3)->GetRigidBody()->ActivateCollider(false);
-	m_ObjM.GetGameObject(4)->GetRigidBody()->ActivateCollider(false);
+	m_ObjM.GetGameObject(0)->GetRigidBody()->SetFriction(.0005f);
+	m_ObjM.GetGameObject(1)->GetRigidBody()->ActivateMove(false);
+	m_ObjM.GetGameObject(2)->GetRigidBody()->ActivateMove(false);
+	m_ObjM.GetGameObject(3)->GetRigidBody()->ActivateMove(false);
+	m_ObjM.GetGameObject(4)->GetRigidBody()->ActivateMove(false);
 
 	//Init basic trunks
 	m_scene->Init();
@@ -78,9 +84,14 @@ void MenuStage::Update(GameData& gd)
 	BasicControl();
 	SampleAnimation();
 	
+	//std::cout << m_ObjM.GetGameObject(0)->GetRigidBody()->GetSpeed() <<"\n";
+
 	//Update basic trunks
 	m_world->Update(m_ObjM);
 	m_scene->Draw(m_ObjM);
+
+	//Show the raw position of mouse
+	std::cout << InputManager::GetInstance().GetMousePosition() << "\n";
 }
 
 void MenuStage::Shutdown()
@@ -97,6 +108,8 @@ void MenuStage::Shutdown()
 	//Delete dynamic scene and world
 	delete m_scene;
 	delete m_world;
+	m_scene = 0;
+	m_world = 0;
 }
 
 void MenuStage::BasicControl(void)
@@ -125,25 +138,35 @@ void MenuStage::BasicControl(void)
 
 void MenuStage::SampleAnimation(void)
 {
-	//Control Redbox with keyboard
+	//Control White box with keyboard
 	if (InputManager::GetInstance().KeyPressed(KEY_RIGHT))
 	{
-		m_ObjM.GetGameObject(0)->GetRigidBody()->SetVelocity(vec3(1, 0, 0));
-		m_ObjM.GetGameObject(0)->GetRigidBody()->SetSpeed(vec3(.5f, 0, 0));
+		m_ObjM.GetGameObject(0)->GetRigidBody()->SetForce(vec3(.5f, 0, 0));
+		//m_ObjM.GetGameObject(0)->GetRigidBody()->SetVelocity(vec3(1, 0, 0));
+		//m_ObjM.GetGameObject(0)->GetRigidBody()->SetSpeed(vec3(.5f, 0, 0));
 	}
+
 	if (InputManager::GetInstance().KeyPressed(KEY_LEFT))
 	{
-		m_ObjM.GetGameObject(0)->GetRigidBody()->SetVelocity(vec3(-1, 0, 0));
-		m_ObjM.GetGameObject(0)->GetRigidBody()->SetSpeed(vec3(.5f, 0, 0));
+		m_ObjM.GetGameObject(0)->GetRigidBody()->SetForce(vec3(-.5f, 0, 0));
+		//m_ObjM.GetGameObject(0)->GetRigidBody()->SetVelocity(vec3(-1, 0, 0));
+		//m_ObjM.GetGameObject(0)->GetRigidBody()->SetSpeed(vec3(.5f, 0, 0));
 	}
+
 	if (InputManager::GetInstance().KeyPressed(KEY_UP))
 	{
-		m_ObjM.GetGameObject(0)->GetRigidBody()->SetVelocity(vec3(0, 1, 0));
-		m_ObjM.GetGameObject(0)->GetRigidBody()->SetSpeed(vec3(0, .5f, 0));
+		m_ObjM.GetGameObject(0)->GetRigidBody()->SetForce(vec3(0, .5f, 0));
+		//m_ObjM.GetGameObject(0)->GetRigidBody()->SetVelocity(vec3(0, 1, 0));
+		//m_ObjM.GetGameObject(0)->GetRigidBody()->SetSpeed(vec3(0, .5f, 0));
 	}
+
 	if (InputManager::GetInstance().KeyPressed(KEY_DOWN))
 	{
-		m_ObjM.GetGameObject(0)->GetRigidBody()->SetVelocity(vec3(0, -1, 0));
-		m_ObjM.GetGameObject(0)->GetRigidBody()->SetSpeed(vec3(0, .5f, 0));
+		m_ObjM.GetGameObject(0)->GetRigidBody()->SetForce(vec3(0, -.5f, 0));
+		//m_ObjM.GetGameObject(0)->GetRigidBody()->SetVelocity(vec3(0, -1, 0));
+		//m_ObjM.GetGameObject(0)->GetRigidBody()->SetSpeed(vec3(0, .5f, 0));
 	}
+
+	if (InputManager::GetInstance().KeyPressed(KEY_SPACE))
+		m_ObjM.GetGameObject(0)->GetRigidBody()->ClearVelocity();
 }

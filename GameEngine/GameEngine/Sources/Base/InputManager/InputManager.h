@@ -3,6 +3,7 @@
 
 #include <Windows.h>
 #include <map>
+#include "../Math/MathUtils.h"
 
 //Key member
 enum INPUT_KEY {
@@ -27,13 +28,11 @@ enum INPUT_KEY {
 
 enum PRESSED_STATUS {DOWN, UP};
 
-class InputList;
 class InputManager
 {
 public:
 	
 	InputManager(void);
-	//InputManager(InputList* inputlist);
 	~InputManager(void);
 
 	bool KeyTriggered(WPARAM input_tobe);
@@ -50,6 +49,9 @@ public:
 	PRESSED_STATUS GetPressedStatus(void) const;
 	void SetPressedStatus(PRESSED_STATUS status);
 
+	vec3 GetMousePosition(void) const;
+	void GetRawMousePosition(WORD xPos, WORD yPos);
+
 	//Singleton pattern
 	static InputManager& GetInstance(void)
 	{
@@ -59,14 +61,12 @@ public:
 
 private:
 
-	std::map<unsigned, bool> m_key;
-	std::map<unsigned, bool> m_triggerKey;
+	vec3 m_position;
 	WPARAM m_pressedInput;
 	WPARAM m_triggeredInput;
 	PRESSED_STATUS m_status;
-	bool   m_trigger, m_anykey;
-	
-	
+	bool m_trigger, m_anykey;
+	std::map<unsigned, bool> m_key;
 };
 
 #endif // _INPUT_MANAGER_H_

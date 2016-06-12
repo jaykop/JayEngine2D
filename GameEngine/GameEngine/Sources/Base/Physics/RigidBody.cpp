@@ -2,22 +2,22 @@
 #include "RigidBody.h"
 
 RigidBody::RigidBody()
-:m_fixed(true), m_collider(true), m_body(true),
-m_speed(vec3()), m_velocity(vec3()), m_direction(0),
-m_scale(0), m_acceleration(0)
+:m_move(true), m_collider(true), m_isCollided(false),
+m_speed(vec3()), m_velocity(vec3()), m_lastPos(vec3()),
+m_direction(0), m_scale(0), m_acceleration(0), m_friction(0)
 {}
 
 RigidBody::~RigidBody()
 {}
 
-void RigidBody::SetStatus(bool status)
+void RigidBody::ActivateMove(bool move)
 {
-	m_fixed = status;
+	m_move = move;
 }
 
-bool RigidBody::GetStatus(void) const
+bool RigidBody::GetMoveToggle(void) const
 {
-	return m_fixed;
+	return m_move;
 }
 
 void RigidBody::ActivateCollider(bool active)
@@ -28,16 +28,6 @@ void RigidBody::ActivateCollider(bool active)
 bool RigidBody::GetColliderToggle(void) const
 {
 	return m_collider;
-}
-
-void RigidBody::ActivateBody(bool active)
-{
-	m_body = active;
-}
-
-bool RigidBody::GetBodyToggle(void) const
-{
-	return m_body;
 }
 
 void RigidBody::SetAcceleration(float acceleration)
@@ -87,12 +77,49 @@ vec3 RigidBody::GetScale(void) const
 	return m_scale;
 }
 
-void RigidBody::SetRotation(float direction)
+void RigidBody::SetDirectionAngle(float direction)
 {
 	m_direction = direction;
 }
 
-float RigidBody::GetRotation(void) const
+float RigidBody::GetDirectionAngle(void) const
 {
 	return m_direction;
+}
+
+void RigidBody::SetLastPosition(const vec3& position)
+{
+	m_lastPos = position;
+}
+
+vec3 RigidBody::GetLastPosition(void) const
+{
+	return m_lastPos;
+}
+
+void RigidBody::SetForce(const vec3& force)
+{
+	vec3 get_force = force;
+	m_velocity = get_force;
+	m_speed = get_force.Absolute();
+}
+
+bool RigidBody::IsCollided(void) const
+{
+	return m_isCollided;
+}
+
+void RigidBody::CheckCollided(bool collided)
+{
+	m_isCollided = collided;
+}
+
+void RigidBody::SetFriction(float friction)
+{
+	m_friction = friction;
+}
+
+float RigidBody::GetFriction(void) const
+{
+	return m_friction;
 }

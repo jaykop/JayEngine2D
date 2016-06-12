@@ -14,6 +14,8 @@
 
 class ObjectManager;
 class Sprite;
+
+//Graphic scene
 class Scene
 {
 public:

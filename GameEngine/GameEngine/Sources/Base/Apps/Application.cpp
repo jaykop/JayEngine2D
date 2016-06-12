@@ -2,6 +2,7 @@
 #include "../Apps/GLApplication.h"
 #include "../Debug/Debug.h"
 #include "Application.h"
+#include <iostream>
 
 namespace 
 {
@@ -38,6 +39,7 @@ namespace
 
 namespace GhostEngine
 {
+
 	Application::Application(const InitData& initData)
 	{
 		//ONLY CALSS ONCE;
@@ -154,9 +156,13 @@ namespace GhostEngine
 	LRESULT CALLBACK Application::WinProc(HWND win, UINT msg, WPARAM wp, LPARAM lp)
 	{
 		static Application* s_pApp = 0;
-		
+
 		switch (msg)
 		{
+			case WM_MOUSEMOVE:
+				InputManager::GetInstance().GetRawMousePosition(LOWORD(lp), HIWORD(lp));
+				break;
+
 			//Button Down
 			case WM_KEYDOWN:
 				InputManager::GetInstance().PressActivate(InputManager::GetInstance().KeyTranslator(wp));

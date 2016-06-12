@@ -19,6 +19,7 @@ namespace GhostEngine
 	class Application
 	{
 	public:
+
 		Application(const InitData& initData);
 		~Application(void);
 

@@ -131,7 +131,6 @@
     <ClInclude Include="Sources\Base\StateManager\GameStateManager.h" />
     <ClInclude Include="Sources\Base\Apps\GLApplication.h" />
     <ClInclude Include="Sources\Base\Graphic\Scene.h" />
-    <ClInclude Include="Sources\Base\InputManager\InputList.h" />
     <ClInclude Include="Sources\Base\InputManager\InputManager.h" />
     <ClInclude Include="Sources\Base\Math\MathUtils.h" />
     <ClInclude Include="Sources\Base\Math\Matrix\Matrix2x2.h">

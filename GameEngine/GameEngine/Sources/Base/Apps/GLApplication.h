@@ -28,21 +28,25 @@ public:
 	GLApplication(void);
 	~GLApplication(void);
 
+	//Settor functions
 	void SysShutdown(void);
 	void SetGLFormat(void);
 	
+	//Init GL info
 	bool InitGL(void);
 	void Resize(int width, int height);
 	
 	void CheckGL(HWND& window);
 	void OpenGLInit(HWND& window, int width, int height);
 	
+	//Gettor for GL info
 	HDC  GetHDC(void) const;
 	Shader GetShader(void) const;
 	GLuint GetMatrixID(void) const;
 	GLuint GetVertexBuffer(void) const;
 	ProjectionInfo GetProjectionInfo(void) const;
 
+	//Single tone pattern
 	static GLApplication& GetInstance(void)
 	{
 		static GLApplication gl_app;

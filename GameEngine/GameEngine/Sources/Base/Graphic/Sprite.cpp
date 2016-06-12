@@ -4,7 +4,7 @@
 Sprite::Sprite(const int id)
 {
 	m_position = vec3(0.f, 0.f, 0.f);
-	m_scale = vec3(10.f, 10.f, 0.f);
+	m_scale = vec3(5.f, 5.f, 0.f);
 	m_degree = 0;
 	m_color = vec4(1.f);
 	m_HasBody = false;

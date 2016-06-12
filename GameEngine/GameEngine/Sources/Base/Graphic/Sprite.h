@@ -5,6 +5,9 @@
 #include "../Apps/GLApplication.h"
 #include "../Math/MathUtils.h"
 
+//Sprites' shape
+enum Shape { CIRCLE, RECTANGLE };
+
 class RigidBody;
 class Sprite
 {

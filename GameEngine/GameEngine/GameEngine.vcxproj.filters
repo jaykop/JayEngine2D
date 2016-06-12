@@ -142,9 +142,6 @@
     <ClInclude Include="Sources\Base\InputManager\InputManager.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Sources\Base\InputManager\InputList.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="Sources\Base\Physics\RigidBody.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>

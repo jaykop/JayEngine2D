@@ -1,315 +1,133 @@
-//#include "World.h"
-//#include <hash_map>
-//#include "../ObjectManager/ObjectManager.h"
-//#include "../Graphic/Sprite.h"
-//#include "../Physics/RigidBody.h"
-//#include "../Math/MathUtils.h"
-//
-//World::World()
+////		1st case
+////    |----------||----------|
+////    |		     ||		     |
+////    |   spt1	 ||   spt2   |
+////    |		     ||		     |
+////    |----------||----------|
+////
+//if (spt1->GetPosition().x < spt2->GetPosition().x)
 //{
-//
-//}
-//
-//World::~World()
-//{
-//
-//}
-//
-//void World::Init()
-//{
-//
-//}
-//
-//void World::Update(ObjectManager objM)
-//{
-//	auto list = objM.GetList();
-//
-//	for (auto it1 = list.begin(); it1 != list.end(); ++it1)
+//	vec3 diff = (spt2->GetPosition() - spt1->GetPosition()).Absolute();
+
+//	//		1-1st case
+//	//    |----------|
+//	//    |		     ||----------|
+//	//    |   spt1	 ||		     |
+//	//    |		     ||   spt2   |
+//	//    |----------||		     |
+//	//				  |----------|
+//	if (diff.x > diff.y)
 //	{
-//		auto next = it1;
-//		for (auto it2 = ++next; it2 != list.end(); ++it2)
+//		spt1->SetPosition(vec3(spt2->GetPosition().x - spt2->GetScale().x / 2 - spt1->GetScale().x / 2,
+//			spt1->GetPosition().y, spt1->GetPosition().z));
+
+//		spt2->SetPosition(vec3(spt1->GetPosition().x + spt1->GetScale().x / 2 + spt2->GetScale().x / 2,
+//			spt2->GetPosition().y, spt2->GetPosition().z));
+//	}
+
+//	//		1-1-1st case					1-1-2nd case
+//	//    |----------|					|----------|
+//	//    |		     |					|		   |
+//	//    |   spt1	 |					|   spt2   |
+//	//    |		     |					|		   |
+//	//    |----------|					|----------|
+//	//			|----------|	|----------|
+//	//			|		   |	|		   |
+//	//			|   spt2   |	|   spt1   |
+//	//			|		   |	|		   |
+//	//			|----------|	|----------|
+//	//
+//	else
+//	{
+//		// 1-1-1st case
+//		if (spt1->GetPosition().y > spt2->GetPosition().y)
 //		{
-//			//If both objs are same, or one of body has no body, 
-//			//then skip to check.
-//			if (it1 == it2 || !it1->second->HasRigidBody() ||
-//				!it2->second->HasRigidBody())
-//				continue;
-//
-//			else
-//			{
-//				m_checker = DetectCollide(it1->second->GetRigidBody(),
-//					it2->second->GetRigidBody());
-//
-//				switch (m_checker)
-//				{
-//
-//				case NO_COLLISION:
-//					break;
-//
-//				case RIGHT_HORIZON:
-//
-//					if (!it1->second->GetRigidBody()->GetStatus())
-//					{
-//						it1->second->SetPosition(vec3(
-//							(it2->second->GetPosition().x - it2->second->GetScale().x - it1->second->GetScale().x),
-//							it1->second->GetPosition().y, it1->second->GetPosition().z));
-//					}
-//
-//					if (!it2->second->GetRigidBody()->GetStatus())
-//					{
-//						it2->second->SetPosition(vec3(
-//							(it1->second->GetPosition().x + it1->second->GetScale().x + it2->second->GetScale().x),
-//							it2->second->GetPosition().y, it2->second->GetPosition().z));
-//					}
-//					break;
-//
-//				case LEFT_HORIZON:
-//
-//					if (!it1->second->GetRigidBody()->GetStatus())
-//					{
-//						it1->second->SetPosition(vec3(
-//							(it2->second->GetPosition().x + it2->second->GetScale().x + it1->second->GetScale().x),
-//							it1->second->GetPosition().y, it1->second->GetPosition().z));
-//					}
-//
-//					if (!it2->second->GetRigidBody()->GetStatus())
-//					{
-//						it2->second->SetPosition(vec3(
-//							(it1->second->GetPosition().x - it1->second->GetScale().x - it2->second->GetScale().x),
-//							it2->second->GetPosition().y, it2->second->GetPosition().z));
-//					}
-//					break;
-//
-//				case UP_VERTICAL:
-//
-//					if (!it1->second->GetRigidBody()->GetStatus())
-//					{
-//						//it1->second->SetPosition();
-//					}
-//
-//					if (!it2->second->GetRigidBody()->GetStatus())
-//					{
-//						//it2->second->SetPosition();
-//					}
-//					break;
-//
-//				case DOWN_VERTICAL:
-//
-//					if (!it1->second->GetRigidBody()->GetStatus())
-//					{
-//						//it1->second->SetPosition();
-//					}
-//
-//					if (!it2->second->GetRigidBody()->GetStatus())
-//					{
-//						//it2->second->SetPosition();
-//					}
-//					break;
-//				}
-//				//else, check collision
-//				/*std::cout << "Object ID:" << it1->second->GetID() << " & " << it2->second->GetID();
-//				std::cout << " | Collision Info: " <<  << "\n";*/
-//			}
+//			spt1->SetPosition(vec3(spt1->GetPosition().x,
+//				spt2->GetPosition().y + spt2->GetScale().y / 2 + spt1->GetScale().y / 2,
+//				spt1->GetPosition().z));
+
+//			spt2->SetPosition(vec3(spt2->GetPosition().x,
+//				spt1->GetPosition().y - spt1->GetScale().y / 2 - spt2->GetScale().y / 2,
+//				spt2->GetPosition().z));
+//		}
+
+//		// 1-1-2nd case
+//		else
+//		{
+//			spt1->SetPosition(vec3(spt1->GetPosition().x,
+//				spt2->GetPosition().y - spt2->GetScale().y / 2 - spt1->GetScale().y / 2,
+//				spt1->GetPosition().z));
+
+//			spt2->SetPosition(vec3(spt2->GetPosition().x,
+//				spt1->GetPosition().y + spt1->GetScale().y / 2 + spt2->GetScale().y / 2,
+//				spt2->GetPosition().z));
 //		}
 //	}
 //}
-//
-//void World::Shutdown()
+
+////		2nd case
+////    |----------||----------|
+////    |		     ||		     |
+////    |   spt2	 ||   spt1   |
+////    |		     ||		     |
+////    |----------||----------|
+////
+//else
 //{
-//
-//}
-//
-//CollisionChecker World::DetectCollide(RigidBody* Obj1, RigidBody* Obj2)
-//{
-//	vec3 Obj1_pos = Obj1->m_position;
-//	vec3 Obj2_pos = Obj2->m_position;
-//	vec3 Obj1_scl = Obj1->m_scale / 2;
-//	vec3 Obj2_scl = Obj2->m_scale / 2;
-//
-//	Obj1->SetStatus(false);
-//	Obj2->SetStatus(false);
-//
-//	//CollisionPriority priority = ;
-//
-//	CollisionChecker vert_checker = VerticalCollider(Obj1_pos, Obj2_pos, Obj1_scl, Obj2_scl);
-//	CollisionChecker horz_checker = HorizonalCollider(Obj1_pos, Obj2_pos, Obj1_scl, Obj2_scl);
-//
-//	if (vert_checker && horz_checker)
+//	vec3 diff = (spt1->GetPosition() - spt2->GetPosition()).Absolute();
+
+//	//		2-1st case
+//	//    |----------|
+//	//    |		     ||----------|
+//	//    |   spt2	 ||		     |
+//	//    |		     ||   spt1   |
+//	//    |----------||		     |
+//	//				  |----------|
+//	if (diff.x > diff.y)
 //	{
-//		Obj1->SetStatus(true);
-//		Obj2->SetStatus(true);
-//
-//		return horz_checker;
-//
+//		spt1->SetPosition(vec3(spt2->GetPosition().x + spt2->GetScale().x / 2 + spt1->GetScale().x / 2,
+//			spt1->GetPosition().y, spt1->GetPosition().z));
+
+//		spt2->SetPosition(vec3(spt1->GetPosition().x - spt1->GetScale().x / 2 - spt2->GetScale().x / 2,
+//			spt2->GetPosition().y, spt2->GetPosition().z));
 //	}
-//
-//	//if (Obj1_pos.x + Obj1_scl.x >= Obj2_pos.x - Obj2_scl.x)
-//	//{
-//	//	Obj1->SetStatus(true);
-//	//	Obj2->SetStatus(true);
-//	//	return RIGHT_HORIZON;
-//	//}
+
+//	//		2-1-1st case					2-1-2nd case
+//	//    |----------|					|----------|
+//	//    |		     |					|		   |
+//	//    |   spt2	 |					|   spt1   |
+//	//    |		     |					|		   |
+//	//    |----------|					|----------|
+//	//			|----------|	|----------|
+//	//			|		   |	|		   |
+//	//			|   spt1   |	|   spt2   |
+//	//			|		   |	|		   |
+//	//			|----------|	|----------|
 //	//
-//	//else if (Obj1_pos.x - Obj1_scl.x <= Obj2_pos.x + Obj2_scl.x)
-//	//{
-//	//	Obj1->SetStatus(true);
-//	//	Obj2->SetStatus(true);
-//	//	return LEFT_HORIZON;
-//	//}
-//	//
-//	//else if (Obj1_pos.y + Obj1_scl.y >= Obj2_pos.y - Obj2_scl.y)
-//	//{
-//	//	Obj1->SetStatus(true);
-//	//	Obj2->SetStatus(true);
-//	//	return UP_VERTICAL;
-//	//}
-//	//
-//	//else if (Obj1_pos.y - Obj1_scl.y <= Obj2_pos.y + Obj2_scl.y)
-//	//{
-//	//	Obj1->SetStatus(true);
-//	//	Obj2->SetStatus(true);
-//	//	return DOWN_VERTICAL;
-//	//}
-//
-//	return NO_COLLISION;
-//}
-//
-//CollisionChecker World::VerticalCollider(vec3& Obj1_pos, vec3& Obj2_pos, vec3& Obj1_scl, vec3& Obj2_scl)
-//{
-//	if (Obj1_pos.y + Obj1_scl.y >= Obj2_pos.y - Obj2_scl.y)
-//		return UP_VERTICAL;
-//
-//	else if (Obj1_pos.y - Obj1_scl.y <= Obj2_pos.y + Obj2_scl.y)
-//		return DOWN_VERTICAL;
-//
-//	return NO_COLLISION;
-//}
-//
-//CollisionChecker World::HorizonalCollider(vec3& Obj1_pos, vec3& Obj2_pos, vec3& Obj1_scl, vec3& Obj2_scl)
-//{
-//	if (Obj1_pos.x + Obj1_scl.x >= Obj2_pos.x - Obj2_scl.x)
-//		return RIGHT_HORIZON;
-//
-//	else if (Obj1_pos.x - Obj1_scl.x <= Obj2_pos.x + Obj2_scl.x)
-//		return LEFT_HORIZON;
-//
-//	return NO_COLLISION;
-//}
-//
-//#ifndef _WORLD_H_
-//#define _WORLD_G_
-//
-//#include "../Math/MathUtils.h"
-//
-//enum CollisionChecker{
-//	NO_COLLISION, RIGHT_HORIZON, LEFT_HORIZON,
-//	UP_VERTICAL, DOWN_VERTICAL
-//};
-//
-//enum CollisionPriority{ NONE, VERT, HORZ, DIAG };
-//
-//class ObjectManager;
-//class RigidBody;
-//
-//class World
-//{
-//
-//public:
-//	World();
-//	~World();
-//
-//	void Init();
-//	void Update(ObjectManager objM);
-//	void Shutdown();
-//
-//	CollisionChecker VerticalCollider(vec3& Obj1_pos, vec3& Obj2_pos,
-//		vec3& Obj1_scl, vec3& Obj2_scl);
-//	CollisionChecker HorizonalCollider(vec3& Obj1_pos, vec3& Obj2_pos,
-//		vec3& Obj1_scl, vec3& Obj2_scl);
-//	CollisionChecker DetectCollide(RigidBody* Obj1, RigidBody* Obj2);
-//
-//private:
-//
-//	CollisionChecker m_checker;
-//
-//};
-//
-//#endif // _WORLD_H_
-
-
-//if (DetectCollide(it1->second->GetRigidBody(),
-//	it2->second->GetRigidBody()))
-//{
-//	//if (it1->second->GetSc).x > 
-//	//	it1->second->GetScale().y + it2->second->GetScale()ale().x + it2->second->GetScale(.y)
-//	//{
-//		if (it1->second->GetPosition().x < it2->second->GetPosition().x)
+//	else
+//	{
+//		// 2-1-1st case
+//		if (spt1->GetPosition().y < spt2->GetPosition().y)
 //		{
-//			it1->second->SetPosition(vec3(
-//				(it2->second->GetPosition().x - it2->second->GetScale().x / 2 - it1->second->GetScale().x / 2),
-//				it1->second->GetPosition().y, it1->second->GetPosition().z));
+//			spt1->SetPosition(vec3(spt1->GetPosition().x,
+//				spt2->GetPosition().y - spt2->GetScale().y / 2 - spt1->GetScale().y / 2,
+//				spt1->GetPosition().z));
 
-//			//it2->second->SetPosition(vec3(
-//			//	(it1->second->GetPosition().x + it2->second->GetScale().x / 2 + it1->second->GetScale().x / 2),
-//			//	it2->second->GetPosition().y, it2->second->GetPosition().z));
+//			spt2->SetPosition(vec3(spt2->GetPosition().x,
+//				spt1->GetPosition().y + spt1->GetScale().y / 2 + spt2->GetScale().y / 2,
+//				spt2->GetPosition().z));
 //		}
 
-//		else if (it1->second->GetPosition().x > it2->second->GetPosition().x)
+//		// 2-1-2nd case
+//		else
 //		{
-//			it1->second->SetPosition(vec3(
-//				(it2->second->GetPosition().x + it2->second->GetScale().x / 2 + it1->second->GetScale().x / 2),
-//				it1->second->GetPosition().y, it1->second->GetPosition().z));
+//			spt1->SetPosition(vec3(spt1->GetPosition().x,
+//				spt2->GetPosition().y + spt2->GetScale().y / 2 + spt1->GetScale().y / 2,
+//				spt1->GetPosition().z));
 
-//			//it2->second->SetPosition(vec3(
-//			//	(it1->second->GetPosition().x - it2->second->GetScale().x / 2 - it1->second->GetScale().x / 2),
-//			//	it2->second->GetPosition().y, it2->second->GetPosition().z));
+//			spt2->SetPosition(vec3(spt2->GetPosition().x,
+//				spt1->GetPosition().y - spt1->GetScale().y / 2 - spt2->GetScale().y / 2,
+//				spt2->GetPosition().z));
 //		}
-//	//}
-
-//	//else if (it1->second->GetScale().x + it2->second->GetScale().x <
-//	//	it1->second->GetScale().y + it2->second->GetScale().y)
-//	//{
-//		if (it1->second->GetPosition().y < it2->second->GetPosition().y)
-//		{
-//			it1->second->SetPosition(vec3(
-//				(it1->second->GetPosition().x),
-//				it2->second->GetPosition().y - it2->second->GetScale().y / 2 - it1->second->GetScale().y / 2,
-//				it1->second->GetPosition().z));
-
-//			//it2->second->SetPosition(vec3(
-//			//	(it2->second->GetPosition().x),
-//			//	it1->second->GetPosition().y + it1->second->GetScale().y / 2 + it2->second->GetScale().y / 2,
-//			//	it2->second->GetPosition().z));
-//		}
-
-//		else if (it1->second->GetPosition().y > it2->second->GetPosition().y)
-//		{
-//			it1->second->SetPosition(vec3(
-//				(it1->second->GetPosition().x),
-//				it2->second->GetPosition().y + it2->second->GetScale().y / 2 + it1->second->GetScale().y / 2,
-//				it1->second->GetPosition().z));
-
-//			//it2->second->SetPosition(vec3(
-//			//	(it2->second->GetPosition().x),
-//			//	it1->second->GetPosition().y - it1->second->GetScale().y / 2 - it2->second->GetScale().y / 2,
-//			//	it2->second->GetPosition().z));
-//		}
-//	//}
-//}
-
-//bool World::DetectCollide(RigidBody* Obj1, RigidBody* Obj2)
-//{
-//	We dont use this now.
-//	vec3 Obj1_pos = Obj1->m_position;
-//	vec3 Obj2_pos = Obj2->m_position;
-//	vec3 Obj1_scl = Obj1->m_scale / 2;
-//	vec3 Obj2_scl = Obj2->m_scale / 2;
-//
-//	if (Obj1_pos.x + Obj1_scl.x < Obj2_pos.x - Obj2_scl.x ||
-//		Obj1_pos.x - Obj1_scl.x > Obj2_pos.x + Obj2_scl.x ||
-//		Obj1_pos.y + Obj1_scl.y < Obj2_pos.y - Obj2_scl.y ||
-//		Obj1_pos.y - Obj1_scl.y > Obj2_pos.y + Obj2_scl.y)
-//		return false;
-//
-//	return true;
+//	}
 //}

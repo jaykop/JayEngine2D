@@ -1,13 +1,10 @@
 #include "InputManager.h"
-#include "InputList.h"
 
 InputManager::InputManager(void)
 {
 	for (unsigned index = 0; index < KEY_LAST; ++index)
-	{
 		m_key.insert(std::make_pair(index, false));
-		m_triggerKey.insert(std::make_pair(index, false));
-	}
+	
 
 	m_pressedInput = 0;
 	m_triggeredInput = 0;
@@ -15,20 +12,6 @@ InputManager::InputManager(void)
 	m_trigger = true;
 	m_status = UP;
 }
-
-//InputManager::InputManager(InputList* inputlist)
-//{
-//	for (unsigned index = inputlist->KEY_INVALID; index < inputlist->KEY_LAST; ++index)
-//	{
-//		m_key.insert(std::make_pair(index, false));
-//		m_triggerKey.insert(std::make_pair(index, false));
-//	}
-//
-//	m_pressedInput = 0;
-//	m_triggeredInput = 0;
-//	m_anykey = false;
-//	m_trigger = true;
-//}
 
 InputManager::~InputManager(void)
 {
@@ -102,4 +85,15 @@ PRESSED_STATUS InputManager::GetPressedStatus(void) const
 void InputManager::SetPressedStatus(PRESSED_STATUS status)
 {
 	m_status = status;
+}
+
+void InputManager::GetRawMousePosition(WORD xPos, WORD yPos)
+{
+	m_position.x = static_cast<float>(xPos);
+	m_position.y = static_cast<float>(yPos);
+}
+
+vec3 InputManager::GetMousePosition(void) const
+{
+	return m_position;
 }
