@@ -11,177 +11,192 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Sources\Base\WinMain.cpp">
+    <ClCompile Include="Sources\Engine\Apps\Application.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Sources\States\GameOver.cpp">
+    <ClCompile Include="Sources\Engine\Apps\GLApplication.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Sources\States\LV1.cpp">
+    <ClCompile Include="Sources\Engine\Graphic\Scene.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Sources\States\LV2.cpp">
+    <ClCompile Include="Sources\Engine\Graphic\Shader.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Sources\States\LV3.cpp">
+    <ClCompile Include="Sources\Engine\Graphic\Sprite.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Sources\States\MainMenu.cpp">
+    <ClCompile Include="Sources\Engine\InputManager\InputManager.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Sources\Base\Utilities\Time.cpp">
+    <ClCompile Include="Sources\Engine\ObjectManager\ObjectManager.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Sources\Base\Graphic\Shader.cpp">
+    <ClCompile Include="Sources\Engine\Physics\RigidBody.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Sources\Base\Graphic\Sprite.cpp">
+    <ClCompile Include="Sources\Engine\Physics\TempSource.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Sources\Base\Apps\Application.cpp">
+    <ClCompile Include="Sources\Engine\Physics\World.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Sources\Base\Apps\GLApplication.cpp">
+    <ClCompile Include="Sources\Engine\WinMain.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Sources\Base\ObjectManager\ObjectManager.cpp">
+    <ClCompile Include="Sources\Engine\Utilities\Debug\Debug.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Sources\Base\InputManager\InputManager.cpp">
+    <ClCompile Include="Sources\Engine\Utilities\Math\Matrix\Matrix2x2.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Sources\Base\Physics\RigidBody.cpp">
+    <ClCompile Include="Sources\Engine\Utilities\Math\Matrix\Matrix4x4.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Sources\Base\Physics\Joint.cpp">
+    <ClCompile Include="Sources\Engine\Utilities\Math\Vector\Vector2.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Sources\Base\Graphic\Scene.cpp">
+    <ClCompile Include="Sources\Engine\Utilities\Math\Vector\Vector3.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Sources\Base\Math\MathUtils.cpp">
+    <ClCompile Include="Sources\Engine\Utilities\Math\Vector\Vector4.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Sources\Base\Math\Vector\Vector2.cpp">
+    <ClCompile Include="Sources\Engine\Utilities\Math\MathUtils.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Sources\Base\Math\Vector\Vector3.cpp">
+    <ClCompile Include="Sources\Game\GameStage\GameOver.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Sources\Base\Math\Vector\Vector4.cpp">
+    <ClCompile Include="Sources\Game\GameStage\LV1.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Sources\Base\Math\Matrix\Matrix2x2.cpp">
+    <ClCompile Include="Sources\Game\GameStage\LV2.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Sources\Base\Math\Matrix\Matrix4x4.cpp">
+    <ClCompile Include="Sources\Game\GameStage\LV3.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Sources\Base\StateManager\GameStateManager.cpp">
+    <ClCompile Include="Sources\Game\GameStage\MainMenu.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Sources\Base\Debug\Debug.cpp">
+    <ClCompile Include="Sources\Game\GameStage\Pause.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Sources\Base\Physics\World.cpp">
+    <ClCompile Include="Sources\Engine\StateManager\Factory\Factory.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Sources\Base\Physics\TempSource.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Sources\States\Pause.cpp">
+    <ClCompile Include="Sources\Engine\StateManager\GameStateManager\GameStateManager.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Sources\States\GameOver.h">
+    <ClInclude Include="Sources\Engine\Apps\Application.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Sources\States\LV1.h">
+    <ClInclude Include="Sources\Engine\Apps\GLApplication.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Sources\States\LV2.h">
+    <ClInclude Include="Sources\Engine\Graphic\Scene.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Sources\States\LV3.h">
+    <ClInclude Include="Sources\Engine\Graphic\Shader.hpp">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Sources\States\MainMenu.h">
+    <ClInclude Include="Sources\Engine\Graphic\Sprite.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Sources\Base\Utilities\Time.h">
+    <ClInclude Include="Sources\Engine\InputManager\InputManager.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Sources\Base\Graphic\Sprite.h">
+    <ClInclude Include="Sources\Engine\ObjectManager\ObjectManager.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Sources\Base\Graphic\Shader.hpp">
+    <ClInclude Include="Sources\Engine\Physics\RigidBody.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Sources\Base\Apps\Application.h">
+    <ClInclude Include="Sources\Engine\Physics\World.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Sources\Base\Apps\GLApplication.h">
+    <ClInclude Include="Sources\Engine\Utilities\Random.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Sources\Base\ObjectManager\ObjectManager.h">
+    <ClInclude Include="Sources\Engine\Utilities\Time.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Sources\Base\ObserverSample\Observer.h">
+    <ClInclude Include="Sources\Engine\Utilities\Debug\Debug.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Sources\States\BaseStage\BaseStage.h">
+    <ClInclude Include="Sources\Engine\Utilities\Math\Matrix\Matrix2x2.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Sources\States\BaseStage\LoadStages.h">
+    <ClInclude Include="Sources\Engine\Utilities\Math\Matrix\Matrix4x4.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Sources\States\BaseStage\BaseEnigne.h">
+    <ClInclude Include="Sources\Engine\Utilities\Math\Vector\Vector2.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Sources\Base\InputManager\InputManager.h">
+    <ClInclude Include="Sources\Engine\Utilities\Math\Vector\Vector3.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Sources\Base\Physics\RigidBody.h">
+    <ClInclude Include="Sources\Engine\Utilities\Math\Vector\Vector4.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Sources\Base\Math\MathUtils.h">
+    <ClInclude Include="Sources\Engine\Utilities\Math\MathUtils.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Sources\Base\Physics\Joint.h">
+    <ClInclude Include="Sources\Game\GameStage\GameOver.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Sources\Base\Graphic\Scene.h">
+    <ClInclude Include="Sources\Game\GameStage\LV1.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Sources\Base\Math\Vector\Vector4.h">
+    <ClInclude Include="Sources\Game\GameStage\LV2.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Sources\Base\Math\Vector\Vector2.h">
+    <ClInclude Include="Sources\Game\GameStage\LV3.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Sources\Base\Math\Vector\Vector3.h">
+    <ClInclude Include="Sources\Game\GameStage\MainMenu.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Sources\Base\Math\Matrix\Matrix2x2.h">
+    <ClInclude Include="Sources\Game\GameStage\Pause.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Sources\Base\Math\Matrix\Matrix4x4.h">
+    <ClInclude Include="Sources\Game\GameStage\MainMenuBuilder.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Sources\Base\StateManager\GameStateManager.h">
+    <ClInclude Include="Sources\Game\GameStage\LV1Builder.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Sources\Base\Debug\Debug.h">
+    <ClInclude Include="Sources\Game\GameStage\LV2Builder.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Sources\States\BaseStage\GameData.h">
+    <ClInclude Include="Sources\Game\GameStage\LV3Builder.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Sources\Base\Physics\World.h">
+    <ClInclude Include="Sources\Game\GameStage\GameOverBuilder.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Sources\States\Pause.h">
+    <ClInclude Include="Sources\Engine\StateManager\Builder.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Engine\StateManager\Factory\Factory.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Engine\StateManager\GameStateManager\GameStateManager.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Game\BaseData\BaseEnigne.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Game\BaseData\BaseStage.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Game\BaseData\GameData.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Game\BaseData\LoadStages.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

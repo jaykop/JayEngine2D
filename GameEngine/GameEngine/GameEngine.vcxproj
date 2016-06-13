@@ -77,92 +77,93 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Sources\Base\Apps\Application.cpp" />
-    <ClCompile Include="Sources\Base\Debug\Debug.cpp" />
-    <ClCompile Include="Sources\Base\Physics\TempSource.cpp">
+    <ClCompile Include="Sources\Engine\Apps\Application.cpp" />
+    <ClCompile Include="Sources\Engine\StateManager\Factory\Factory.cpp" />
+    <ClCompile Include="Sources\Engine\Utilities\Debug\Debug.cpp" />
+    <ClCompile Include="Sources\Engine\Physics\TempSource.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="Sources\Base\Physics\World.cpp" />
-    <ClCompile Include="Sources\Base\StateManager\GameStateManager.cpp" />
-    <ClCompile Include="Sources\Base\Apps\GLApplication.cpp" />
-    <ClCompile Include="Sources\Base\Graphic\Scene.cpp" />
-    <ClCompile Include="Sources\Base\InputManager\InputManager.cpp" />
-    <ClCompile Include="Sources\Base\Math\MathUtils.cpp" />
-    <ClCompile Include="Sources\Base\Math\Matrix\Matrix2x2.cpp">
+    <ClCompile Include="Sources\Engine\Physics\World.cpp" />
+    <ClCompile Include="Sources\Engine\StateManager\GameStateManager\GameStateManager.cpp" />
+    <ClCompile Include="Sources\Engine\Apps\GLApplication.cpp" />
+    <ClCompile Include="Sources\Engine\Graphic\Scene.cpp" />
+    <ClCompile Include="Sources\Engine\InputManager\InputManager.cpp" />
+    <ClCompile Include="Sources\Engine\Utilities\Math\MathUtils.cpp" />
+    <ClCompile Include="Sources\Engine\Utilities\Math\Matrix\Matrix2x2.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="Sources\Base\Math\Vector\Vector2.cpp">
+    <ClCompile Include="Sources\Engine\Utilities\Math\Vector\Vector2.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="Sources\Base\Math\Vector\Vector4.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="Sources\Base\Math\Matrix\Matrix4x4.cpp">
+    <ClCompile Include="Sources\Engine\Utilities\Math\Vector\Vector4.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="Sources\Base\Graphic\Shader.cpp" />
-    <ClCompile Include="Sources\Base\Graphic\Sprite.cpp" />
-    <ClCompile Include="Sources\Base\Math\Vector\Vector3.cpp">
+    <ClCompile Include="Sources\Engine\Utilities\Math\Matrix\Matrix4x4.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="Sources\Base\ObjectManager\ObjectManager.cpp" />
-    <ClCompile Include="Sources\Base\Physics\Joint.cpp">
+    <ClCompile Include="Sources\Engine\Graphic\Shader.cpp" />
+    <ClCompile Include="Sources\Engine\Graphic\Sprite.cpp" />
+    <ClCompile Include="Sources\Engine\Utilities\Math\Vector\Vector3.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="Sources\Engine\ObjectManager\ObjectManager.cpp" />
+    <ClCompile Include="Sources\Engine\Physics\RigidBody.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="Sources\Base\Physics\RigidBody.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="Sources\Base\Utilities\Time.cpp" />
-    <ClCompile Include="Sources\Base\WinMain.cpp" />
-    <ClCompile Include="Sources\States\GameOver.cpp" />
-    <ClCompile Include="Sources\States\LV1.cpp" />
-    <ClCompile Include="Sources\States\LV2.cpp" />
-    <ClCompile Include="Sources\States\LV3.cpp" />
-    <ClCompile Include="Sources\States\MainMenu.cpp" />
-    <ClCompile Include="Sources\States\Pause.cpp" />
+    <ClCompile Include="Sources\Engine\WinMain.cpp" />
+    <ClCompile Include="Sources\Game\GameStage\GameOver.cpp" />
+    <ClCompile Include="Sources\Game\GameStage\LV1.cpp" />
+    <ClCompile Include="Sources\Game\GameStage\LV2.cpp" />
+    <ClCompile Include="Sources\Game\GameStage\LV3.cpp" />
+    <ClCompile Include="Sources\Game\GameStage\MainMenu.cpp" />
+    <ClCompile Include="Sources\Game\GameStage\Pause.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Sources\Base\Apps\Application.h" />
-    <ClInclude Include="Sources\Base\Debug\Debug.h" />
-    <ClInclude Include="Sources\Base\Physics\World.h" />
-    <ClInclude Include="Sources\Base\StateManager\GameStateManager.h" />
-    <ClInclude Include="Sources\Base\Apps\GLApplication.h" />
-    <ClInclude Include="Sources\Base\Graphic\Scene.h" />
-    <ClInclude Include="Sources\Base\InputManager\InputManager.h" />
-    <ClInclude Include="Sources\Base\Math\MathUtils.h" />
-    <ClInclude Include="Sources\Base\Math\Matrix\Matrix2x2.h">
+    <ClInclude Include="Sources\Engine\Apps\Application.h" />
+    <ClInclude Include="Sources\Engine\StateManager\Builder.h" />
+    <ClInclude Include="Sources\Engine\Utilities\Debug\Debug.h" />
+    <ClInclude Include="Sources\Engine\Physics\World.h" />
+    <ClInclude Include="Sources\Engine\StateManager\GameStateManager\GameStateManager.h" />
+    <ClInclude Include="Sources\Engine\Apps\GLApplication.h" />
+    <ClInclude Include="Sources\Engine\Graphic\Scene.h" />
+    <ClInclude Include="Sources\Engine\InputManager\InputManager.h" />
+    <ClInclude Include="Sources\Engine\Utilities\Math\MathUtils.h" />
+    <ClInclude Include="Sources\Engine\Utilities\Math\Matrix\Matrix2x2.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClInclude>
-    <ClInclude Include="Sources\Base\Math\Vector\Vector2.h">
+    <ClInclude Include="Sources\Engine\Utilities\Math\Vector\Vector2.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClInclude>
-    <ClInclude Include="Sources\Base\Physics\Joint.h">
+    <ClInclude Include="Sources\Engine\Physics\RigidBody.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClInclude>
-    <ClInclude Include="Sources\Base\Physics\RigidBody.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
-    </ClInclude>
-    <ClInclude Include="Sources\States\BaseStage\GameData.h" />
-    <ClInclude Include="Sources\States\BaseStage\LoadStages.h" />
-    <ClInclude Include="Sources\Base\Math\Matrix\Matrix4x4.h" />
-    <ClInclude Include="Sources\Base\Graphic\Shader.hpp" />
-    <ClInclude Include="Sources\Base\Graphic\Sprite.h" />
-    <ClInclude Include="Sources\Base\Math\Vector\Vector3.h" />
-    <ClInclude Include="Sources\Base\ObjectManager\ObjectManager.h" />
-    <ClInclude Include="Sources\Base\ObserverSample\Observer.h" />
-    <ClInclude Include="Sources\States\BaseStage\BaseStage.h" />
-    <ClInclude Include="Sources\Base\Math\Vector\Vector4.h" />
-    <ClInclude Include="Sources\Base\Utilities\Time.h" />
-    <ClInclude Include="Sources\States\GameOver.h" />
-    <ClInclude Include="Sources\States\LV1.h" />
-    <ClInclude Include="Sources\States\LV2.h" />
-    <ClInclude Include="Sources\States\LV3.h" />
-    <ClInclude Include="Sources\States\MainMenu.h" />
-    <ClInclude Include="Sources\States\BaseStage\BaseEnigne.h" />
-    <ClInclude Include="Sources\States\Pause.h" />
+    <ClInclude Include="Sources\Engine\Utilities\Random.h" />
+    <ClInclude Include="Sources\Game\BaseData\GameData.h" />
+    <ClInclude Include="Sources\Game\BaseData\LoadStages.h" />
+    <ClInclude Include="Sources\Engine\Utilities\Math\Matrix\Matrix4x4.h" />
+    <ClInclude Include="Sources\Engine\Graphic\Shader.hpp" />
+    <ClInclude Include="Sources\Engine\Graphic\Sprite.h" />
+    <ClInclude Include="Sources\Engine\Utilities\Math\Vector\Vector3.h" />
+    <ClInclude Include="Sources\Engine\ObjectManager\ObjectManager.h" />
+    <ClInclude Include="Sources\Engine\StateManager\Factory\Factory.h" />
+    <ClInclude Include="Sources\Game\BaseData\BaseStage.h" />
+    <ClInclude Include="Sources\Engine\Utilities\Math\Vector\Vector4.h" />
+    <ClInclude Include="Sources\Engine\Utilities\Time.h" />
+    <ClInclude Include="Sources\Game\GameStage\GameOverBuilder.h" />
+    <ClInclude Include="Sources\Game\GameStage\GameOver.h" />
+    <ClInclude Include="Sources\Game\GameStage\LV1.h" />
+    <ClInclude Include="Sources\Game\GameStage\LV1Builder.h" />
+    <ClInclude Include="Sources\Game\GameStage\LV2.h" />
+    <ClInclude Include="Sources\Game\GameStage\LV2Builder.h" />
+    <ClInclude Include="Sources\Game\GameStage\LV3.h" />
+    <ClInclude Include="Sources\Game\GameStage\LV3Builder.h" />
+    <ClInclude Include="Sources\Game\GameStage\MainMenu.h" />
+    <ClInclude Include="Sources\Game\BaseData\BaseEnigne.h" />
+    <ClInclude Include="Sources\Game\GameStage\MainMenuBuilder.h" />
+    <ClInclude Include="Sources\Game\GameStage\Pause.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
