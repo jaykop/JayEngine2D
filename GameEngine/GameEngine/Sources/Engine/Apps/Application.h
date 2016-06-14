@@ -1,10 +1,11 @@
 #ifndef APPLICATION_H
-#define APPLICATOPN_H
+#define APPLICATION_H
 
 #define WIN32_LEAN_AND_MEAN
 #include "GLApplication.h"
 #include "../StateManager/GameStateManager/GameStateManager.h"
 
+using namespace Resolution;
 
 //Used as the staring point for the program
 struct InitData
@@ -12,8 +13,7 @@ struct InitData
 	const char* title;
 	HINSTANCE	instance;
 	bool		isFullScreen;
-	int			width;
-	int			height;
+	ScreenSize	scrSize;
 };
 
 class Application
@@ -29,31 +29,30 @@ public:
 	//Fuction called in the main game loop
 	void ProccessMessages(void);
 
-	//Function to co torl the window
+	//Function to contorl the window
 	void Quit(void);
-	void SetFullScreen(bool fullScreen);
-	void SetShowWindow(bool show);
-	void SetShowCursor(bool show);
-	void ChangeResolution(int width, int height);
-	int  GetWidth(void) const;
-	int  GetHeight(void) const;
-
 	bool DataLoaded(void);
-
 	void SysShutdown(void);
 	void SetGLFormat(void);
+	void SetShowWindow(bool show);
+	void SetShowCursor(bool show);
+
+	//Manager screen mode
+	bool GetFullScreen(void) const;
+	void SetFullScreen(bool fullScreen);
+	ScreenSize GetResolution(void) const;
+	void SetResolution(const ScreenSize& res);
 
 private:
 	static LRESULT CALLBACK WinProc(HWND win, UINT msg, WPARAM wp, LPARAM pl);
 
-	HINSTANCE m_instance;		//!< The instance from main
-	WNDCLASS  m_winClass;		//!< The windows class
-	DWORD	  m_style;			//!< The windows style
-	HWND	  m_window;			//!< The handle to the window
-	bool      m_isQuitting;		//!< flag for quitting
-	bool	  m_isFullScreen;	//!< flag for fullscreen
-	int	      m_width;			//!< The window width
-	int		  m_height;			//!< Rhe window height
+	HINSTANCE  m_instance;		//!< The instance from main
+	WNDCLASS   m_winClass;		//!< The windows class
+	DWORD	   m_style;			//!< The windows style
+	HWND	   m_window;		//!< The handle to the window
+	bool       m_isQuitting;	//!< flag for quitting
+	bool	   m_isFullScreen;	//!< flag for fullscreen
+	ScreenSize m_scrSize;		//!< The window width and height
 
 	GameStateManager m_GSM;
 

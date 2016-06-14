@@ -7,7 +7,7 @@
 namespace
 {
 	/*!Name of the window class*/
-	const char* CLASS_NAME = "Ghost Engine";
+	const char* CLASS_NAME = "How Engine";
 	/*!Window style if the user chooses full screen*/
 	const DWORD FULLSCREEN_STYLE = WS_POPUP | WS_VISIBLE;
 	/*!Window style if the user choose windowed mode*/
@@ -44,8 +44,8 @@ Application::Application(const InitData& initData)
 
 	//Code data form initData
 	m_instance = initData.instance;
-	m_width = initData.width;
-	m_height = initData.height;
+	m_scrSize.width = initData.scrSize.width;
+	m_scrSize.height = initData.scrSize.height;
 	m_isFullScreen = initData.isFullScreen;
 	m_style = (initData.isFullScreen) ? FULLSCREEN_STYLE : WINDOWED_STYLE;
 	m_isQuitting = false;
@@ -69,8 +69,23 @@ Application::Application(const InitData& initData)
 	int xStart;
 	int yStart;
 	RECT size = { 0 };
-	size.right = initData.width;
-	size.bottom = initData.height;
+	size.right = initData.scrSize.width;
+	size.bottom = initData.scrSize.height;
+
+	if (m_isFullScreen)
+	{
+		DEVMODE dmScreenSettings;								// Device Mode
+		memset(&dmScreenSettings, 0, sizeof(dmScreenSettings));	// Makes Sure Memory's Cleared
+		dmScreenSettings.dmSize = sizeof(dmScreenSettings);		// Size Of The Devmode Structure
+		dmScreenSettings.dmPelsWidth = m_scrSize.width;			// Selected Screen Width
+		dmScreenSettings.dmPelsHeight = m_scrSize.height;		// Selected Screen Height
+		dmScreenSettings.dmBitsPerPel = 32;						// Selected Bits Per Pixel
+		dmScreenSettings.dmFields = DM_BITSPERPEL | DM_PELSWIDTH | DM_PELSHEIGHT;
+
+		// Try To Set Selected Mode And Get Results.  NOTE: CDS_FULLSCREEN Gets Rid Of Start Bar.
+		ChangeDisplaySettings(&dmScreenSettings, CDS_FULLSCREEN);
+	}
+
 	AdjustAndCenterWindow(m_style, size, xStart, yStart);
 
 	//Now create our window
@@ -89,10 +104,9 @@ Application::Application(const InitData& initData)
 		);
 
 	//Set opengl
-	GLApplication::GetInstance().OpenGLInit(m_window, m_width, m_height);
+	GLApplication::GetInstance().OpenGLInit(m_window, m_scrSize.width, m_scrSize.height);
 
 	//Make sure window is showing and messages have been sent
-	//SetFullScreen(m_isFullScreen); Sace this for later
 	ShowWindow(m_window, true);
 	UpdateWindow(m_window);
 }
@@ -111,7 +125,7 @@ void Application::Update(void)
 {
 	//Only Call Once
 	DEBUG_CALL_CHECK();
-	m_GSM.Init();
+	m_GSM.Init(this);
 	while (!m_isQuitting)
 	{
 		//Update GameManager
@@ -154,14 +168,85 @@ bool Application::DataLoaded(void)
 }
 
 //Following two functions are provided to user to give control
-int Application::GetHeight(void) const
+ScreenSize Application::GetResolution(void) const
 {
-	return m_height;
+	return m_scrSize;
 }
 
-int Application::GetWidth(void) const
+void Application::SetResolution(const ScreenSize& res)
 {
-	return m_width;
+	m_scrSize.width = res.width;
+	m_scrSize.height = res.height;
+	SetWindowPos(m_window, 0, 0, 0, m_scrSize.width, m_scrSize.height, SWP_NOMOVE);
+	GLApplication::GetInstance().Resize(m_scrSize.width, m_scrSize.height);
+}
+
+void Application::SetFullScreen(bool fullscreen)
+{
+	m_isFullScreen = fullscreen;
+	
+	RECT size = { 0 };
+	size.right = m_scrSize.width;
+	size.bottom = m_scrSize.height;
+
+	DEVMODE dmScreenSettings;								// Device Mode
+	memset(&dmScreenSettings, 0, sizeof(dmScreenSettings));	// Makes Sure Memory's Cleared
+	dmScreenSettings.dmSize = sizeof(dmScreenSettings);		// Size Of The Devmode Structure
+	dmScreenSettings.dmPelsWidth = m_scrSize.width;			// Selected Screen Width
+	dmScreenSettings.dmPelsHeight = m_scrSize.height;		// Selected Screen Height
+	dmScreenSettings.dmBitsPerPel = 32;						// Selected Bits Per Pixel
+	dmScreenSettings.dmFields = DM_BITSPERPEL | DM_PELSWIDTH | DM_PELSHEIGHT;
+
+	if (m_isFullScreen)
+	{
+		int xStart, yStart;
+
+		// Set fullscreen mode
+		ChangeDisplaySettings(&dmScreenSettings, CDS_FULLSCREEN);
+
+		AdjustAndCenterWindow(m_style, size, xStart, yStart);
+
+		// Reset style
+		m_style = FULLSCREEN_STYLE;
+		
+		//Remove caption
+		DWORD dwStyle = GetWindowLong(m_window, GWL_STYLE);
+		DWORD dwRemove = WS_CAPTION | WS_MINIMIZEBOX | WS_MAXIMIZEBOX;
+		DWORD dwNewStyle = dwStyle & ~dwRemove;
+		SetWindowLong(m_window, GWL_STYLE, dwNewStyle);
+
+		HDC hDC = GetWindowDC(NULL);
+		SetWindowPos(m_window, NULL, 0, 0, GetDeviceCaps(hDC, HORZRES),
+			GetDeviceCaps(hDC, VERTRES), SWP_FRAMECHANGED);
+	}
+
+	else
+	{
+		int appPosX = (GetSystemMetrics(SM_CXSCREEN) / 2 );
+		int appPosY = (GetSystemMetrics(SM_CYSCREEN) / 2 );
+
+		// Set Windowed Mode
+		ChangeDisplaySettings(NULL, 0);
+
+		AdjustAndCenterWindow(m_style, size, appPosX, appPosY);
+
+		// Reset style
+		m_style = WINDOWED_STYLE;
+
+		// Add caption
+		DWORD dwStyle = GetWindowLong(m_window, GWL_STYLE);
+		DWORD dwAdd = WS_CAPTION | WS_MINIMIZEBOX | WS_MAXIMIZEBOX;
+		DWORD dwNewStyle = dwStyle | dwAdd;
+		SetWindowLong(m_window, GWL_STYLE, dwNewStyle);
+
+		SetWindowPos(m_window, NULL, appPosX, appPosY,
+			m_scrSize.width, m_scrSize.height, SWP_FRAMECHANGED);
+	}
+}
+
+bool Application::GetFullScreen(void) const
+{
+	return m_isFullScreen;
 }
 
 LRESULT CALLBACK Application::WinProc(HWND win, UINT msg, WPARAM wp, LPARAM lp)
@@ -201,11 +286,10 @@ LRESULT CALLBACK Application::WinProc(HWND win, UINT msg, WPARAM wp, LPARAM lp)
 		break;
 
 	case WM_RBUTTONUP:
-	{
-						 InputManager::GetInstance().PressInactivate(MOUSE_RBUTTON);
-						 InputManager::GetInstance().SetPressedStatus(UP);
-						 break;
-	}
+		InputManager::GetInstance().PressInactivate(MOUSE_RBUTTON);
+		InputManager::GetInstance().SetPressedStatus(UP);
+		break;
+	
 
 	case WM_CREATE:
 	{
@@ -217,6 +301,17 @@ LRESULT CALLBACK Application::WinProc(HWND win, UINT msg, WPARAM wp, LPARAM lp)
 					  break;
 	}
 	
+	//case WM_SIZE:
+	//{
+	//				RECT rt;
+	//				int width, height;
+	//				GetWindowRect(win, &rt);
+	//				width = rt.right - rt.left;
+	//				height = rt.bottom - rt.top;
+	//				SetWindowPos(win, NULL, 0, 0, width, height, SWP_NOMOVE);
+	//				break;
+	//}
+
 	//Where window is actually destroyed
 	case WM_DESTROY:
 	{

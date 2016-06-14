@@ -18,10 +18,12 @@ This is the header for the GameEngine class
 #include <windows.h>
 #include "../Factory/Factory.h"
 
+using namespace Resolution;
+
 //forward declaration
 class Stage;
 class Builder;
-
+class Application;
 struct PauseInfo
 {
 	StageType stage;
@@ -42,7 +44,7 @@ class GameStateManager
 public:
 
 	/*For use in Main*/
-	void Init(void);
+	void Init(Application* pApp);
 	void Update(void);
 	void Shutdown(void);
 
@@ -59,6 +61,13 @@ public:
 	StageType GetCurrentStage(void) const;
 	void SetFirstStage(StageType first);
 	void AddStage(StageType stage, Builder* pBuilder);
+
+	//Manage resolution
+	ScreenSize GetResolution(void) const;
+	void SetResolution(const ScreenSize& res);
+
+	void SetFullScreen(bool scr);
+	bool GetFullScreen(void) const;
 
 private:
 
@@ -77,6 +86,7 @@ private:
 
 	GameData	m_gameData;
 	Factory		m_factory;	
+	Application* m_pApp;
 
 	std::stack<PauseInfo> m_pauseStack;
 };

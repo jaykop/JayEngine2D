@@ -9,12 +9,6 @@
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h> //WinMain
 
-/*Because of this macro, this function can only be called once*/
-void Test(void)
-{
-	DEBUG_CALL_CHECK();
-}
-
 int WINAPI WinMain(HINSTANCE instance, HINSTANCE /*prev*/, 
 	LPSTR /*command line*/, int /*show*/)
 {
@@ -25,8 +19,8 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE /*prev*/,
 	InitData initData;
 	initData.instance = instance;
 	initData.isFullScreen = false;
-	initData.height = 720;
-	initData.width = 1280;
+	initData.scrSize.height = 768;
+	initData.scrSize.width = 1280;
 	initData.title = "Game Engine";
 
 	//Start and run my application

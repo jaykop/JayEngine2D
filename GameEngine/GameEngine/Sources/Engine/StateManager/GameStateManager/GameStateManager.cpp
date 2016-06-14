@@ -12,8 +12,7 @@ GameStateManager implementation for the C++ game engine skeleton.
 
 #include "../../../Game/BaseData/BaseStage.h"
 #include "../../InputManager/InputManager.h"
-#include "../../Apps/GLApplication.h"
-#include "GameStateManager.h"
+#include "../../Apps/Application.h"
 
 /******************************************************************************/
 /*!
@@ -22,9 +21,10 @@ Function that will initialize the GameStateManager data.
 \return - NONE
 */
 /******************************************************************************/
-void GameStateManager::Init(void)
+void GameStateManager::Init(Application* pApp)
 {
 	//Init gsm info
+	m_pApp = pApp;
 	m_current = m_1stStage;
 	m_next = ST_MENU;
 	m_pStage = 0;
@@ -194,7 +194,6 @@ void GameStateManager::Restart(bool isRestarted)
 
 void GameStateManager::Pause(void)
 {
-	//Goto pause state(?)
 	m_isPausing = true;
 }
 
@@ -207,4 +206,24 @@ void GameStateManager::Resume(void)
 void GameStateManager::SetFirstStage(StageType first)
 {
 	m_1stStage = first;
+}
+
+ScreenSize GameStateManager::GetResolution(void) const
+{
+	return m_pApp->GetResolution();
+}
+
+void GameStateManager::SetResolution(const ScreenSize& res)
+{
+	m_pApp->SetResolution(res);
+}
+
+void GameStateManager::SetFullScreen(bool scr)
+{
+	m_pApp->SetFullScreen(scr);
+}
+
+bool GameStateManager::GetFullScreen(void) const
+{
+	return m_pApp->GetFullScreen();
 }

@@ -35,15 +35,15 @@ void MenuStage::Init(GameData& gd)
 
 	//Set positions
 	m_ObjM.GetGameObject(0)->SetPosition(vec3(0, 0));
-	m_ObjM.GetGameObject(0)->SetRotation(45);
+	//m_ObjM.GetGameObject(0)->SetRotation(45);
 	m_ObjM.GetGameObject(1)->SetPosition(vec3(-20, 0));
-	m_ObjM.GetGameObject(1)->SetRotation(45);
+	//m_ObjM.GetGameObject(1)->SetRotation(45);
 	m_ObjM.GetGameObject(2)->SetPosition(vec3(0, 20));
-	m_ObjM.GetGameObject(2)->SetRotation(45);
+	//m_ObjM.GetGameObject(2)->SetRotation(45);
 	m_ObjM.GetGameObject(3)->SetPosition(vec3(0, -20));
-	m_ObjM.GetGameObject(3)->SetRotation(45);
+	//m_ObjM.GetGameObject(3)->SetRotation(45);
 	m_ObjM.GetGameObject(4)->SetPosition(vec3(20, 0));
-	m_ObjM.GetGameObject(4)->SetRotation(45);
+	//m_ObjM.GetGameObject(4)->SetRotation(45);
 
 	m_ObjM.GetGameObject(0)->SetScale(vec3(15, 15));
 	m_ObjM.GetGameObject(1)->SetScale(vec3(1, 600));
@@ -141,6 +141,14 @@ void MenuStage::BasicControl(void)
 		std::cout << Random::GetInstance().GetRandomFloat() << "\n";
 		std::cout << Random::GetInstance().GetRandomInt() << "\n";
 		std::cout << Random::GetInstance().GetRandomVector() << "\n";
+	}
+
+	else if (InputManager::GetInstance().KeyTriggered(KEY_TAB))
+	{
+		std::cout << m_GSM->GetResolution().width << "\n";
+		std::cout << m_GSM->GetResolution().height << "\n";
+
+		m_GSM->SetFullScreen(true);
 	}
 }
 
