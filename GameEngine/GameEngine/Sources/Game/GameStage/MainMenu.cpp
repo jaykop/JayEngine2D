@@ -27,49 +27,49 @@ void MenuStage::Init(GameData& gd)
 	m_world = new World;
 
 	//Set sprites
-	m_ObjM.AddObject("sample1");
-	m_ObjM.AddObject("sample2");
-	m_ObjM.AddObject("sample3");
-	m_ObjM.AddObject("sample4");
-	m_ObjM.AddObject("sample5");
+	m_ObjM.AddObject(0);
+	m_ObjM.AddObject(1);
+	//m_ObjM.AddObject(2);
+	//m_ObjM.AddObject(3);
+	//m_ObjM.AddObject(4);
 
 	//Set positions
-	m_ObjM.GetGameObject(0)->SetPosition(vec3(0, 0));
+	m_ObjM.GetGameObject(0)->SetPosition(vec3(0, 20));
 	//m_ObjM.GetGameObject(0)->SetRotation(45);
-	m_ObjM.GetGameObject(1)->SetPosition(vec3(-20, 0));
+	m_ObjM.GetGameObject(1)->SetPosition(vec3(0, 0));
 	//m_ObjM.GetGameObject(1)->SetRotation(45);
-	m_ObjM.GetGameObject(2)->SetPosition(vec3(0, 20));
+	//m_ObjM.GetGameObject(2)->SetPosition(vec3(0, 20));
 	//m_ObjM.GetGameObject(2)->SetRotation(45);
-	m_ObjM.GetGameObject(3)->SetPosition(vec3(0, -20));
+	//m_ObjM.GetGameObject(3)->SetPosition(vec3(0, -20));
 	//m_ObjM.GetGameObject(3)->SetRotation(45);
-	m_ObjM.GetGameObject(4)->SetPosition(vec3(20, 0));
+	//m_ObjM.GetGameObject(4)->SetPosition(vec3(20, 0));
 	//m_ObjM.GetGameObject(4)->SetRotation(45);
 
 	m_ObjM.GetGameObject(0)->SetScale(vec3(15, 15));
-	m_ObjM.GetGameObject(1)->SetScale(vec3(1, 600));
-	m_ObjM.GetGameObject(2)->SetScale(vec3(800, 1));
-	m_ObjM.GetGameObject(3)->SetScale(vec3(800, 1));
-	m_ObjM.GetGameObject(4)->SetScale(vec3(1, 600));
+	m_ObjM.GetGameObject(1)->SetScale(vec3(60, 15));
+	//m_ObjM.GetGameObject(2)->SetScale(vec3(800, 1));
+	//m_ObjM.GetGameObject(3)->SetScale(vec3(800, 1));
+	//m_ObjM.GetGameObject(4)->SetScale(vec3(1, 600));
 
 	//Set colors
 	m_ObjM.GetGameObject(0)->SetColor(vec4(1, 1, 1, 1));
 	m_ObjM.GetGameObject(1)->SetColor(vec4(0, 0, 1, 1));
-	m_ObjM.GetGameObject(2)->SetColor(vec4(1, 0, 0, 1));
-	m_ObjM.GetGameObject(3)->SetColor(vec4(0, 1, 0, 1));
-	m_ObjM.GetGameObject(4)->SetColor(vec4(1, 1, 0, 1));
+	//m_ObjM.GetGameObject(2)->SetColor(vec4(1, 0, 0, 1));
+	//m_ObjM.GetGameObject(3)->SetColor(vec4(0, 1, 0, 1));
+	//m_ObjM.GetGameObject(4)->SetColor(vec4(1, 1, 0, 1));
 
 	//Bind rigid body
 	m_ObjM.GetGameObject(0)->BindRigidBody();
 	m_ObjM.GetGameObject(1)->BindRigidBody();
-	m_ObjM.GetGameObject(2)->BindRigidBody();
-	m_ObjM.GetGameObject(3)->BindRigidBody();
-	m_ObjM.GetGameObject(4)->BindRigidBody();
+	//m_ObjM.GetGameObject(2)->BindRigidBody();
+	//m_ObjM.GetGameObject(3)->BindRigidBody();
+	//m_ObjM.GetGameObject(4)->BindRigidBody();
 
 	m_ObjM.GetGameObject(0)->GetRigidBody()->SetFriction(.0005f);
 	m_ObjM.GetGameObject(1)->GetRigidBody()->ActivateMove(false);
-	m_ObjM.GetGameObject(2)->GetRigidBody()->ActivateMove(false);
-	m_ObjM.GetGameObject(3)->GetRigidBody()->ActivateMove(false);
-	m_ObjM.GetGameObject(4)->GetRigidBody()->ActivateMove(false);
+	//m_ObjM.GetGameObject(2)->GetRigidBody()->ActivateMove(false);
+	//m_ObjM.GetGameObject(3)->GetRigidBody()->ActivateMove(false);
+	//m_ObjM.GetGameObject(4)->GetRigidBody()->ActivateMove(false);
 
 	//Init basic trunks
 	m_scene->Init();

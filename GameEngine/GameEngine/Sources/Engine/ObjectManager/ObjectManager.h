@@ -10,7 +10,7 @@ public:
 	ObjectManager();
 	~ObjectManager();
 
-	void AddObject(const std::string& textureDir);
+	void AddObject(const int SpriteID, const std::string& textureDir = "");
 	void RemoveObject(const int id);
 	Sprite* GetGameObject(const int id);
 	bool HasObject(const int id);
@@ -21,7 +21,6 @@ public:
 private:
 	//Todo: Make a sprite list somewhere for Obj Manager
 	std::hash_map<int, Sprite*> m_ObjectList;
-	int id_settor;
 	int number_of_Spt;
 
 };

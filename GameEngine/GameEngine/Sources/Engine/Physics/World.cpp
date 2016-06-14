@@ -5,19 +5,18 @@
 #include "../Utilities/Math/MathUtils.h"
 #include "../ObjectManager/ObjectManager.h"
 
-World::World()
-{
+World::World(void)
+:body1(Vertices()), body2(Vertices()),
+body1_min(0), body1_max(0), body2_min(0), body2_max(0)
+{}
 
-}
-
-World::~World()
-{
-
-}
+World::~World(void)
+{}
 
 void World::Init(void)
 {
-
+	body1 = body2 = Vertices();
+	body1_min = body1_max = body2_min = body2_max = 0;
 }
 
 void World::Update(ObjectManager& objM)
@@ -44,26 +43,21 @@ void World::Update(ObjectManager& objM)
 						it2->second->GetRigidBody()->GetColliderToggle())
 					{
 						// 4. then check the colliders.
-						if (CollisionIntersect(it1->second, it2->second))
-						{
+						bool collisionIntersect = CollisionIntersect(it1->second, it2->second);
+						if (collisionIntersect)
+						{	
 							CollisionResponse(it1->second, it2->second);
 							
-							//Temp checker {
-							if (it1->second->GetID() == 0)
-								it1->second->SetColor(it2->second->GetColor());
-
-							else if (it2->second->GetID() == 0)
-								it2->second->SetColor(it1->second->GetColor());
-							// }
-
 						} // 4. Check the colliders
 
 						//No collision, then set info diffrently
 						else
 						{
-							it1->second->GetRigidBody()->CheckCollided(false);
-							it2->second->GetRigidBody()->CheckCollided(false);
+							
 						}
+
+						//Check two sprites' collision status
+						CollisionRelation(it1->second, it2->second, collisionIntersect);
 
 					}// 3. Has Rigid Body, 2 toggles to work
 				}
@@ -79,10 +73,6 @@ void World::Shutdown()
 
 void World::BodyPipeline(Sprite* spt)
 {
-	//Save last position
-	if (!spt->GetRigidBody()->IsCollided())
-		spt->GetRigidBody()->SetLastPosition(spt->GetPosition());
-
 	//Set directed angle 
 	vec3 norm_velocity = spt->GetRigidBody()->GetVelocity().Normalize();
 	spt->GetRigidBody()->SetDirectionAngle(Math::RadToDeg(acosf(norm_velocity.DotProduct(vec3(1, 0, 0)))));
@@ -104,6 +94,10 @@ void World::BodyPipeline(Sprite* spt)
 	vec3 new_force = vec3(new_speed.x * cosf(Math::DegToRad(spt->GetRigidBody()->GetDirectionAngle())),
 		new_speed.y * sinf(Math::DegToRad(spt->GetRigidBody()->GetDirectionAngle())), 0);
 
+	//Save last position
+	if (!spt->GetRigidBody()->IsCollided())
+		spt->GetRigidBody()->SetLastPosition(spt->GetPosition());
+
 	//Update position by velocity and direction
 	spt->SetPosition(vec3(
 		spt->GetPosition().x + new_force.x,
@@ -114,11 +108,14 @@ void World::BodyPipeline(Sprite* spt)
 bool World::CollisionIntersect(Sprite* spt1, Sprite* spt2)
 {
 	//Get rectangle;s vertices
-	Vertices body1 = GetVertices(spt1);
-	Vertices body2 = GetVertices(spt2);
 
-	float body1_min = 0, body1_max = 0;
-	float body2_min = 0, body2_max = 0;
+	//Refresh the vetices
+	body1 = GetVertices(spt1);
+	body2 = GetVertices(spt2);
+
+	//Refresh the mins and maxs
+	body1_min = 0, body1_max = 0;
+	body2_min = 0, body2_max = 0;
 
 	//Calculate 1st body's edges
 	for (int index = 0; index < 4; ++index)
@@ -204,9 +201,10 @@ void World::LineProjection(Vertices& vert, vec3& point, float &min, float &max)
 
 void World::CollisionResponse(Sprite* spt1, Sprite* spt2)
 {	
+	//Todo: Temporary function!
+	//Need to be fixed!!!
 	//Set info that sprites are collided
-	spt1->GetRigidBody()->CheckCollided(true);
-	spt2->GetRigidBody()->CheckCollided(true);
+	CollisionRelation(spt1, spt2, true);
 
 	spt1->SetPosition(spt1->GetRigidBody()->GetLastPosition());
 
@@ -224,120 +222,60 @@ void World::CollisionResponse(Sprite* spt1, Sprite* spt2)
 	}
 
 	//Reflect 1st sprite
-	GetNormalVelocity(spt1, spt2);
-	GetNormalVelocity(spt2, spt1);
+	//GetNormalVelocity(spt1, spt2);
+	//GetNormalVelocity(spt2, spt1);
 	//spt1->GetRigidBody()->SetVelocity(-spt1->GetRigidBody()->GetVelocity());
-	spt1->GetRigidBody()->SetSpeed(spt1->GetRigidBody()->GetSpeed() / 2);
+	//spt1->GetRigidBody()->SetSpeed(spt1->GetRigidBody()->GetSpeed() / 2);
+
+	//BodyPipeline(spt1);
+}
+
+void World::CollisionRelation(Sprite* spt1, Sprite* spt2, bool coliided)
+{
+	//Set each sprite's status
+	spt1->GetRigidBody()->CheckCollided(coliided);
+	spt2->GetRigidBody()->CheckCollided(coliided);
+	
+	//Refresh info
+	of2Spts.Spt1_id = spt1->GetID();
+	of2Spts.Spt2_id = spt2->GetID();
+	of2Spts.collision = coliided;
+
+	//Temporary visual collision checker
+	//if (coliided)
+	//{
+	//	if (spt1->GetID() == 0)
+	//		spt1->SetColor(spt2->GetColor());
+
+	//	else if (spt2->GetID() == 0)
+	//		spt2->SetColor(spt1->GetColor());
+	//}
+
+	//else
+	//{
+	//	if (spt1->GetID() == 0)
+	//		spt1->SetColor(vec4(1, 1, 1, 1));
+
+	//	else if (spt2->GetID() == 0)
+	//		spt2->SetColor(vec4(1, 1, 1, 1));
+	//}
+}
+
+bool World::GetCollisionResponse(Sprite* spt1, Sprite* spt2)
+{
+	if (spt1->GetID() == of2Spts.Spt1_id &&
+		spt2->GetID() == of2Spts.Spt2_id)
+		return true;
+
+	return false;
 }
 
 void World::CollisionPipeline()
-{
-	
-}
-
+{}
 
 void World::GetNormalVelocity(Sprite* spt1, Sprite* spt2)
 {
-	Vertices secondSpt = GetVertices(spt2);
-	vec3 criteria;
-
-	//		1st case
-	//    |----------||----------|
-	//    |		     ||		     |
-	//    |   spt1	 ||   spt2   |
-	//    |		     ||		     |
-	//    |----------||----------|
-	//
-
-	if (spt1->GetPosition().x < spt2->GetPosition().x)
-	{
-		vec3 diff = (spt2->GetPosition() - spt1->GetPosition()).Absolute();
-
-		//		1-1st case
-		//    |----------|
-		//    |		     ||----------|
-		//    |   spt1	 ||		     |
-		//    |		     ||   spt2   |
-		//    |----------||		     |
-		//				  |----------|
-
-		if (diff.x > diff.y)
-			criteria = secondSpt[1] - secondSpt[0];
-
-		//		1-1-1st case					1-1-2nd case
-		//    |----------|					|----------|
-		//    |		     |					|		   |
-		//    |   spt1	 |					|   spt2   |
-		//    |		     |					|		   |
-		//    |----------|					|----------|
-		//			|----------|	|----------|
-		//			|		   |	|		   |
-		//			|   spt2   |	|   spt1   |
-		//			|		   |	|		   |
-		//			|----------|	|----------|
-		//
-
-		else
-		{
-			// 1-1-1st case
-			if (spt1->GetPosition().y > spt2->GetPosition().y)
-				criteria = secondSpt[2] - secondSpt[1];
-
-			// 1-1-2nd case
-			else
-				criteria = secondSpt[0] - secondSpt[3];
-		}
-	}
-
-	//		2nd case
-	//    |----------||----------|
-	//    |		     ||		     |
-	//    |   spt2	 ||   spt1   |
-	//    |		     ||		     |
-	//    |----------||----------|
-	//
-
-	else
-	{
-		vec3 diff = (spt1->GetPosition() - spt2->GetPosition()).Absolute();
-
-		//		2-1st case
-		//    |----------|
-		//    |		     ||----------|
-		//    |   spt2	 ||		     |
-		//    |		     ||   spt1   |
-		//    |----------||		     |
-		//				  |----------|
-
-		if (diff.x > diff.y)
-			criteria = secondSpt[3] - secondSpt[2];
-
-		//		2-1-1st case					2-1-2nd case
-		//    |----------|					|----------|
-		//    |		     |					|		   |
-		//    |   spt2	 |					|   spt1   |
-		//    |		     |					|		   |
-		//    |----------|					|----------|
-		//			|----------|	|----------|
-		//			|		   |	|		   |
-		//			|   spt1   |	|   spt2   |
-		//			|		   |	|		   |
-		//			|----------|	|----------|
-		//
-
-		else
-		{
-			// 2-1-1st case
-			if (spt1->GetPosition().y < spt2->GetPosition().y)
-				criteria = secondSpt[0] - secondSpt[3];
-
-			// 2-1-2nd case
-			else
-				criteria = secondSpt[2] - secondSpt[1];
-		}
-	}
-
-	spt1->GetRigidBody()->SetVelocity(
-		(spt1->GetRigidBody()->GetVelocity().Reflection(
-		criteria)));
+	UNREFERENCED_PARAMETER(spt1);
+	UNREFERENCED_PARAMETER(spt2);
 }
+

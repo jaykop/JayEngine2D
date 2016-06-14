@@ -1,11 +1,20 @@
 #ifndef _WORLD_H_
 #define _WORLD_G_
 
+#include <hash_map>
 #include "../Utilities/Math/MathUtils.h"
 
 class ObjectManager;
 class RigidBody;
 class Sprite;
+
+//To check between 2 Sprites
+struct CollisionInfo
+{
+	int Spt1_id;
+	int Spt2_id;
+	bool collision;
+};
 
 //For Rectangle sprites
 class Vertices{
@@ -35,7 +44,8 @@ public:
 	void Shutdown();
 
 	//Make line collider in the world form point1 to point2
-	void LineCollision(vec3& point1, vec3& point2);
+	void SetLineCollision(vec3& point1, vec3& point2);
+	bool GetCollisionResponse(Sprite* spt1, Sprite* spt2);
 
 private:
 
@@ -47,11 +57,17 @@ private:
 	//Collision functions
 	bool CollisionIntersect(Sprite* spt1, Sprite* spt2);
 	void CollisionResponse(Sprite* spt1, Sprite* spt2);
+	void CollisionRelation(Sprite* spt1, Sprite* spt2, bool coliided);
 	void CollisionPipeline();
 
 	//Calculate bodies' motion
 	void BodyPipeline(Sprite* spt);
 
+	CollisionInfo of2Spts;
+
+	Vertices body1, body2;
+	float body1_min, body1_max; 
+	float body2_min, body2_max;
 };
 
 #endif // _WORLD_H_

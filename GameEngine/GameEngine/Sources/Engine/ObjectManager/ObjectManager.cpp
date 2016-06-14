@@ -3,25 +3,24 @@
 #include "../Graphic/Sprite.h"
 
 ObjectManager::ObjectManager(void)
-	: id_settor(0), number_of_Spt(0)
+	:number_of_Spt(0)
 {}
 
 ObjectManager::~ObjectManager(void)
 {}
 
-void ObjectManager::AddObject(const std::string& textureDir)
+void ObjectManager::AddObject(const int SpriteID, const std::string& textureDir)
 {
 	UNREFERENCED_PARAMETER(textureDir);
 
 	//Make new sprite
-	Sprite* new_sprite = new Sprite(id_settor);
+	Sprite* new_sprite = new Sprite(SpriteID);
 
 	//Push it into the list
 	m_ObjectList.insert(std::hash_map<int, Sprite*>::value_type(
-		id_settor, new_sprite));
+		SpriteID, new_sprite));
 	
 	//Change id number and the number of sprites;
-	++id_settor;
 	++number_of_Spt;
 }
 
@@ -60,14 +59,18 @@ bool ObjectManager::HasObject(const int id)
 void ObjectManager::ClearObjectList(void)
 {
 	//Remove the all objects in the lsit
-	for (int index = 0; index < id_settor; ++index)
+	for (auto it = m_ObjectList.begin(); it != m_ObjectList.end(); ++it)
 	{
-		if (HasObject(index))
-			RemoveObject(index);
+		//Check if it has a rigidbody or not.
+		if (it->second->HasRigidBody())
+			it->second->RemoveRigidBody();
+
+		//If there is id that client to find,
+		//Delete it
+		delete (it->second);
 	}
 
 	m_ObjectList.clear();
-	id_settor = 0;
 	number_of_Spt = 0;
 }
 

@@ -78,6 +78,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Sources\Engine\Apps\Application.cpp" />
+    <ClCompile Include="Sources\Engine\Logic\Logic.cpp" />
     <ClCompile Include="Sources\Engine\StateManager\Factory\Factory.cpp" />
     <ClCompile Include="Sources\Engine\Utilities\Debug\Debug.cpp" />
     <ClCompile Include="Sources\Engine\Physics\TempSource.cpp">
@@ -123,6 +124,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Sources\Engine\Apps\Application.h" />
+    <ClInclude Include="Sources\Engine\Logic\Logic.h" />
     <ClInclude Include="Sources\Engine\StateManager\Builder.h" />
     <ClInclude Include="Sources\Engine\Utilities\Debug\Debug.h" />
     <ClInclude Include="Sources\Engine\Physics\World.h" />

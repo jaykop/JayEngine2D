@@ -89,6 +89,9 @@
     <ClCompile Include="Sources\Engine\StateManager\GameStateManager\GameStateManager.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Sources\Engine\Logic\Logic.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Sources\Engine\Apps\Application.h">
@@ -197,6 +200,9 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Sources\Game\BaseData\LoadStages.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Engine\Logic\Logic.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
