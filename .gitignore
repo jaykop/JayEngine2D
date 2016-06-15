@@ -62,3 +62,5 @@ GameEngine/GameEngine.sdf
 *.ilk
 *.suo
 GameEngine/GameEngine.v12.suo
+*.suo
+GameEngine/GameEngine.v12.suo

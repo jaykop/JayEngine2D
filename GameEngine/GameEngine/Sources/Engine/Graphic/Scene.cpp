@@ -24,11 +24,12 @@ void Scene::Init()
 	aspectRatio = static_cast<float>(m_width) / static_cast<float>(m_height);
 
 	m_camera = vec4(0, 0, 80, 0);
-	m_radian = static_cast<float>(RADIAN);
 }
 
 void Scene::Draw(const ObjectManager& ObjM)
 {
+	//
+
 	//Refresh the screen
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glClearColor(m_bgColor.x, m_bgColor.y, m_bgColor.z, m_bgColor.w);
@@ -80,17 +81,16 @@ void Scene::Pipeline(const Sprite& sprite)
 	//Setting Perspection
 	mat44 projection = mat44::Perspective(m_fovy, aspectRatio, m_zNear, m_zFar);
 
+	// Ortho Perspection
+	// mat44 projection = mat44::Ortho(-m_width / 2.f, m_width / 2.f, -m_height / 2.f, m_height / 2.f, m_zNear, m_zFar);
+
 	//Setting Camera
 	mat44 camera = mat44::LookAt(
 		vec3(m_camera),
 		vec3(m_camera.x, m_camera.y, 0),
-		vec3(cosf((m_camera.w + 90.f) * m_radian),
-			sinf((m_camera.w + 90.f) * m_radian),
+		vec3(cosf(Math::DegToRad((m_camera.w + 90.f))),
+			sinf(Math::DegToRad((m_camera.w + 90.f))),
 			0));
-
-	//Ortho
-	//m_camera = glm::mat4x4(1.f);
-	//m_projection = glm::ortho(-m_width / 2.f, m_width / 2.f, -m_height / 2.f, m_height / 2.f);
 
 	//Init model matrix
 	mat44 model;

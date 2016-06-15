@@ -10,6 +10,7 @@ Sprite::Sprite(const int id)
 	m_HasBody = false;
 	m_body = 0;
 	m_id = id;
+	m_type = RECTANGLE;
 }
 
 Sprite::~Sprite(void)
@@ -93,4 +94,14 @@ void Sprite::RemoveRigidBody(void)
 bool Sprite::HasRigidBody(void) const
 {
 	return m_HasBody;
+}
+
+void Sprite::SetSpriteShape(Shape type)
+{
+	m_type = type;
+}
+
+Shape Sprite::GetSpriteShape(void) const
+{
+	return m_type;
 }

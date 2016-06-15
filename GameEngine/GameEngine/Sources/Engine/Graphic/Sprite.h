@@ -7,7 +7,7 @@
 
 //Sprites' shape
 enum Shape { CIRCLE, RECTANGLE };
-
+enum Projt { PERSP, ORTHO };
 class RigidBody;
 class Sprite
 {
@@ -44,23 +44,35 @@ public:
 	void RemoveRigidBody(void);
 	bool HasRigidBody(void) const;
 
+	void SetSpriteShape(Shape type);
+	Shape GetSpriteShape(void) const;
+		
 	/********** To do *********/
 	//void SetTexture();
-	//GetTexture(void) const;
+	//Texture GetTexture(void) const;
 
 private:
 	
+	// Sprite id
 	int m_id;
 
+	// Drawing Info
+	// Math info
 	vec3 m_position;
 	vec3 m_scale;
 	vec4 m_color;
 	float m_degree;
 
+	// Type Info
+	Shape m_type;
+	Projt m_prjt;
+
+	// Texture Info
+	// Texture m_texure;
+
+	// Physics Info
 	bool m_HasBody;
 	RigidBody* m_body;
-
-	//Texture m_texure;
 
 };
 

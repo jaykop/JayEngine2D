@@ -2,6 +2,16 @@
 #include "../Vector/Vector4.h"
 #include "Matrix4x4.h"
 
+//
+//  Custom Matrix looks like this...
+//
+//		  0  1  2  3
+//	0	[ 00 10 20 30 ]
+//	1	[ 01 11 21 31 ]	
+//	2	[ 02 12 22 32 ]
+//	3	[ 03 13 23 33 ]
+//	
+
 template <typename Type>
 Matrix4x4<Type>::Matrix4x4(void)
 {
@@ -308,12 +318,28 @@ Matrix4x4<Type> Matrix4x4<Type>::Perspective(float fovy, float aspectRatio, floa
 	Matrix4x4 result;
 	Type tanHalfFovy = tanf(fovy / static_cast<Type>(2));
 
-
 	result.m_member[0][0] = static_cast<Type>(1) / (aspectRatio * tanHalfFovy);
 	result.m_member[1][1] = static_cast<Type>(1) / (tanHalfFovy);
 	result.m_member[2][2] = -(zFar + zNear) / (zFar - zNear);
 	result.m_member[2][3] = -static_cast<Type>(1);
 	result.m_member[3][2] = -(static_cast<Type>(2) * zFar * zNear) / (zFar - zNear);
+
+	return result;
+}
+
+template <typename Type>
+Matrix4x4<Type> Matrix4x4<Type>::Ortho(float left, float right, float bottom, float top, float zNear, float zFar)
+{
+	Matrix4x4 result;
+
+	result.m_member[0][0] = static_cast<Type>(2) / (right - left);
+	result.m_member[1][1] = static_cast<Type>(2) / (top - bottom);
+	result.m_member[2][2] = -static_cast<Type>(2) / (zFar - zNear);
+	
+	result.m_member[3][0] = -(right + left) / (right - left);
+	result.m_member[3][1] = -(top + bottom) / (top - bottom);
+	result.m_member[3][2] = -(zFar + zNear) / (zFar - zNear);
+	result.m_member[3][3] = static_cast<Type>(1);
 
 	return result;
 }

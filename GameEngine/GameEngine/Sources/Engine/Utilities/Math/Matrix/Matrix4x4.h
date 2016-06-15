@@ -36,6 +36,7 @@ public:
 	Matrix4x4 Transpose(void);
 	void SetIdentity(void);
 
+	static Matrix4x4<Type> Ortho(float left, float right, float top, float bottom, float zNear, float zFar);
 	static Matrix4x4<Type> Perspective(float fovy, float aspectRatio, float zNear, float zFar);
 	static Matrix4x4<Type> LookAt(Vector3<Type> eye, Vector3<Type> look, Vector3<Type> up);
 	static Matrix4x4<Type> Translate(const Vector3<Type>& vec);

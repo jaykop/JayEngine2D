@@ -33,20 +33,23 @@ public:
 
 private:
 
-	//Separate ortho and persp sprites into 2 lists.
-	// 2 hash_maps
-
+	// Private function
 	void Pipeline(const Sprite& sprite);
 
+	// Math info
 	mat44 m_mvp;
 	vec4  m_camera;
 	vec4  m_bgColor;
-
-	int	m_width, m_height;
-	float m_zNear, m_zFar, m_fovy;
-	float aspectRatio;
-	float m_radian;
 	GLuint m_matrixID;
+
+	// screen info
+	int	m_width, m_height;
+	float aspectRatio;
+	float m_zNear, m_zFar, m_fovy;
+
+	// Separate ortho and persp sprites into 2 lists.
+	// 2 vector
+	
 };
 
 #endif // _SCENE_H_

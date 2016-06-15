@@ -2,6 +2,9 @@
 #define _OBJECTMANAGER_H_
 
 #include <hash_map>
+#include <vector>
+
+typedef std::hash_map<int, bool> Relation;
 
 class Sprite;
 class ObjectManager
@@ -19,8 +22,18 @@ public:
 	void ClearObjectList(void);
 
 private:
-	//Todo: Make a sprite list somewhere for Obj Manager
-	std::hash_map<int, Sprite*> m_ObjectList;
+	
+	// Sprites info
+	std::hash_map<int, Sprite*> m_ObjectList;	// Sprite hashmap
+	
+	// for scsne
+	std::vector<float, Sprite*> m_orthoList;	// Ortho sprites hashmap
+	std::vector<float, Sprite*> m_perspList;	// Persp sprites hashmap
+
+	// for world
+	std::vector<int, Relation> m_collision;	// Collision relation hashmap
+
+	// The number of the sprites
 	int number_of_Spt;
 
 };

@@ -35,9 +35,6 @@
     <ClCompile Include="Sources\Engine\Physics\RigidBody.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Sources\Engine\Physics\TempSource.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="Sources\Engine\Physics\World.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -90,6 +87,9 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Sources\Engine\Logic\Logic.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Engine\Physics\PhyTemp.txt">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -205,5 +205,8 @@
     <ClInclude Include="Sources\Engine\Logic\Logic.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Sources\Engine\ObjectManager\copyMap2Vec.txt" />
   </ItemGroup>
 </Project>
