@@ -6,7 +6,9 @@
 #include "../ObjectManager/ObjectManager.h"
 
 World::World(void)
-:body1(Vertices()), body2(Vertices()),
+:tx_Toggle(true), ty_Toggle(true),
+body1(Vertices()), body2(Vertices()),
+tx_max(0), ty_max(0), tx_min(0), ty_min(0),
 body1_min(0), body1_max(0), body2_min(0), body2_max(0)
 {}
 
@@ -117,7 +119,7 @@ bool World::CollisionIntersect(Sprite* spt1, Sprite* spt2)
 	body1_min = 0, body1_max = 0;
 	body2_min = 0, body2_max = 0;
 
-	//Calculate 1st body's edges
+	//Calculate 1st body's edges projection
 	for (int index = 0; index < 4; ++index)
 	{
 		vec3 edge;
@@ -135,7 +137,7 @@ bool World::CollisionIntersect(Sprite* spt1, Sprite* spt2)
 			return false;
 	}
 
-	//Calculate 2nd body's edges
+	//Calculate 2nd body's edges projection
 	for (int index = 0; index < 4; ++index)
 	{
 		vec3 edge;
@@ -170,10 +172,10 @@ Vertices World::GetVertices(Sprite* spt)
 	Vertices result;
 
 	//Todo: Change GetScale function that is form body, not sprite.
-	result[0] = vec3(spt->GetPosition().x - spt->GetScale().x / 2, spt->GetPosition().y - spt->GetScale().y / 2, spt->GetPosition().z);
-	result[1] = vec3(spt->GetPosition().x - spt->GetScale().x / 2, spt->GetPosition().y + spt->GetScale().y / 2, spt->GetPosition().z);
-	result[2] = vec3(spt->GetPosition().x + spt->GetScale().x / 2, spt->GetPosition().y + spt->GetScale().y / 2, spt->GetPosition().z);
-	result[3] = vec3(spt->GetPosition().x + spt->GetScale().x / 2, spt->GetPosition().y - spt->GetScale().y / 2, spt->GetPosition().z);
+	result[0] = vec3(spt->GetPosition().x - spt->GetRigidBody()->GetScale().x / 2, spt->GetPosition().y - spt->GetRigidBody()->GetScale().y / 2, spt->GetPosition().z);
+	result[1] = vec3(spt->GetPosition().x - spt->GetRigidBody()->GetScale().x / 2, spt->GetPosition().y + spt->GetRigidBody()->GetScale().y / 2, spt->GetPosition().z);
+	result[2] = vec3(spt->GetPosition().x + spt->GetRigidBody()->GetScale().x / 2, spt->GetPosition().y + spt->GetRigidBody()->GetScale().y / 2, spt->GetPosition().z);
+	result[3] = vec3(spt->GetPosition().x + spt->GetRigidBody()->GetScale().x / 2, spt->GetPosition().y - spt->GetRigidBody()->GetScale().y / 2, spt->GetPosition().z);
 
 	//If sprite is rotated...
 	if (spt->GetRotation())
@@ -201,14 +203,14 @@ void World::LineProjection(Vertices& vert, vec3& point, float &min, float &max)
 
 void World::CollisionResponse(Sprite* spt1, Sprite* spt2)
 {	
-	//Todo: Temporary function!
-	//Need to be fixed!!!
-	//Set info that sprites are collided
+	// Todo: Temporary function!
+	// Need to be fixed!!!
+	// Set info that sprites are collided
 	CollisionRelation(spt1, spt2, true);
 
 	spt1->SetPosition(spt1->GetRigidBody()->GetLastPosition());
 
-	//If 2nd sprite is movable, add half force of 1st sprite
+	// If 2nd sprite is movable, add half force of 1st sprite
 	if (spt2->GetRigidBody()->GetMoveToggle())
 	{
 		spt2->GetRigidBody()->SetVelocity(spt1->GetRigidBody()->GetVelocity());
@@ -220,14 +222,18 @@ void World::CollisionResponse(Sprite* spt1, Sprite* spt2)
 	{
 		//...
 	}
+	
+	spt1->GetRigidBody()->SetVelocity(-spt1->GetRigidBody()->GetVelocity());
+	spt1->GetRigidBody()->SetSpeed(spt1->GetRigidBody()->GetSpeed() / 2);
+}
 
-	//Reflect 1st sprite
-	//GetNormalVelocity(spt1, spt2);
-	//GetNormalVelocity(spt2, spt1);
-	//spt1->GetRigidBody()->SetVelocity(-spt1->GetRigidBody()->GetVelocity());
-	//spt1->GetRigidBody()->SetSpeed(spt1->GetRigidBody()->GetSpeed() / 2);
-
-	//BodyPipeline(spt1);
+bool World::Get2ndBoxEdge(const vec3& body2edge_start, const vec3& body2edge_end, 
+	Sprite* sprite1)
+{
+	UNREFERENCED_PARAMETER(sprite1);
+	UNREFERENCED_PARAMETER(body2edge_start);
+	UNREFERENCED_PARAMETER(body2edge_end);
+	return false;
 }
 
 void World::CollisionRelation(Sprite* spt1, Sprite* spt2, bool coliided)
@@ -242,14 +248,14 @@ void World::CollisionRelation(Sprite* spt1, Sprite* spt2, bool coliided)
 	of2Spts.collision = coliided;
 
 	//Temporary visual collision checker
-	//if (coliided)
-	//{
-	//	if (spt1->GetID() == 0)
-	//		spt1->SetColor(spt2->GetColor());
+	if (coliided)
+	{
+		if (spt1->GetID() == 0)
+			spt1->SetColor(spt2->GetColor());
 
-	//	else if (spt2->GetID() == 0)
-	//		spt2->SetColor(spt1->GetColor());
-	//}
+		else if (spt2->GetID() == 0)
+			spt2->SetColor(spt1->GetColor());
+	}
 
 	//else
 	//{
@@ -272,10 +278,3 @@ bool World::GetCollisionResponse(Sprite* spt1, Sprite* spt2)
 
 void World::CollisionPipeline()
 {}
-
-void World::GetNormalVelocity(Sprite* spt1, Sprite* spt2)
-{
-	UNREFERENCED_PARAMETER(spt1);
-	UNREFERENCED_PARAMETER(spt2);
-}
-

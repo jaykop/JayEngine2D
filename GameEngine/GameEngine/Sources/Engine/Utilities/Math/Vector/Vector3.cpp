@@ -223,6 +223,7 @@ template <typename Type>
 Vector3<Type> Vector3<Type>::Normalize(void)
 {
 	Vector3 result(x,y,z);
+	//Todo: assert here
 	if (!Length())
 		return vec3();
 
@@ -254,7 +255,7 @@ Vector3<Type> Vector3<Type>::Absolute(void)
 
 //Regard vector as point
 template <typename Type>
-Vector3<Type> Vector3<Type>::Rotation(float angle, const Vector3<Type>& pivot)
+Vector3<Type> Vector3<Type>::Rotation(float angle, const Vector3& pivot)
 {
 	Vector3 point(*this);
 
@@ -274,12 +275,31 @@ Vector3<Type> Vector3<Type>::Rotation(float angle, const Vector3<Type>& pivot)
 }
 
 template <typename Type>
-Vector3<Type> Vector3<Type>::Reflection(Vector3& rhs)
+Vector3<Type> Vector3<Type>::Reflection(Vector3 rhs)
 {
-	Vector3 reflected(*this);
+	Vector3 reflected;
 	Vector3 norm = rhs.Normalize();
-
-	reflected = reflected - 2 * (reflected.DotProduct(norm))*norm;
+	
+	reflected = (*this) - 2 * ((*this).DotProduct(norm)) * norm;
 
 	return reflected;
+}
+
+template <typename Type>
+float Vector3<Type>::IncludedAngle(const Vector3& other)
+{
+	float radian = atan2(x * other.y - other.x * y, *this.DotProduct(b));
+
+	return Math::RadToDeg(radian);
+}
+
+template <typename Type>
+Vector3<Type> Vector3<Type>::Rotation(float angle)
+{
+	Vector3 result;
+
+	result.x = x * cosf(Math::DegToRad(angle)) - y * sinf(Math::DegToRad(angle));
+	result.y = x * sinf(Math::DegToRad(angle)) + y * cosf(Math::DegToRad(angle));
+
+	return result;
 }

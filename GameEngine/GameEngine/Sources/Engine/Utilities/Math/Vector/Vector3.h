@@ -41,10 +41,12 @@ public:
 	Type DotProduct(const Vector3& rhs);
 	Vector3<Type> CrossProduct(const Vector3& rhs);
 	Vector3<Type> Normalize(void);
-	Vector3<Type> Reflection(Vector3& rhs);
+	Vector3<Type> Reflection(Vector3 rhs);
 
 	Vector3<Type> Absolute(void);
-	Vector3<Type> Rotation(float angle, const Vector3<Type>& pivot);
+	Vector3<Type> Rotation(float angle, const Vector3& pivot);
+	Vector3<Type> Rotation(float angle);
+	float IncludedAngle(const Vector3& other);
 
 	template <typename Type>
 	friend Vector3<Type> operator+(Type constant, const Vector3<Type>& rhs);

@@ -52,7 +52,8 @@ private:
 	//Collision helper functions
 	Vertices GetVertices(Sprite* spt);
 	void LineProjection(Vertices& vert, vec3& point, float &min, float &max);
-	void GetNormalVelocity(Sprite* spt1, Sprite* spt2);
+	bool Get2ndBoxEdge(const vec3& body1edge_start, const vec3& body1edge_end,
+		Sprite* sprite1);
 
 	//Collision functions
 	bool CollisionIntersect(Sprite* spt1, Sprite* spt2);
@@ -63,11 +64,12 @@ private:
 	//Calculate bodies' motion
 	void BodyPipeline(Sprite* spt);
 
+	bool tx_Toggle, ty_Toggle;
 	CollisionInfo of2Spts;
-
 	Vertices body1, body2;
 	float body1_min, body1_max; 
 	float body2_min, body2_max;
+	float tx_max, ty_max, tx_min, ty_min;
 };
 
 #endif // _WORLD_H_

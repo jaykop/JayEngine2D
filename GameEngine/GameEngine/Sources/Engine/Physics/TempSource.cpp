@@ -131,3 +131,79 @@ else
 		}
 	}
 }
+
+// Reflect 1st sprite
+// Get 1st body's edges 
+Vertices body2 = GetVertices(spt2);
+vec3 body2edge_start, body2edge_end;
+for (int i = 0; i < 4; ++i)
+{
+	if (i == 3)
+	{
+		body2edge_start = body2[i];
+		body2edge_end = body2[0];
+	}
+
+	else
+	{
+		body2edge_start = body2[i];
+		body2edge_end = body2[i + 1];
+	}
+
+	// Get collided edge
+	//if (Get2ndBoxEdge(body2edge_start, body2edge_end, spt1))
+	//break;
+}
+
+vec3 edge_norm = (body2edge_end - body2edge_start).Rotation(90.f);
+vec3 new_Velocity = spt1->GetRigidBody()->GetVelocity().Reflection(edge_norm);
+
+//This is line - OBB collision method
+float greatest_tmin = 0, smallest_tmax = 100000.f;
+Vertices body1 = GetVertices(sprite1);
+//Get 2nd body's edges 
+for (int j = 0; j < 4; ++j)
+{
+	vec3 body1edge_start, body1edge_end;
+	if (j == 3)
+	{
+		body1edge_start = body1[j];
+		body1edge_end = body1[0];
+	}
+
+	else
+	{
+		body1edge_start = body1[j];
+		body1edge_end = body1[j + 1];
+	}
+
+	Math::boolVec output = Math::IntersectOf2Lines(body1edge_start, body1edge_end,
+		body2edge_start, body2edge_end);
+
+	//Assign proper valuse
+	if (output.boolean)
+	{
+		if (tx_Toggle)
+		{
+			tx_min = tx_max = output.vector.x;
+			ty_min = ty_max = output.vector.y;
+			tx_Toggle = false;
+		}
+
+		if (output.vector.x > tx_max) tx_max = output.vector.x;
+		if (output.vector.x < tx_min) tx_min = output.vector.x;
+		if (output.vector.y > ty_max) ty_max = output.vector.y;
+		if (output.vector.y < ty_min) ty_min = output.vector.y;
+	}
+}
+
+if (tx_max > ty_max) smallest_tmax = ty_max;
+else smallest_tmax = tx_max;
+
+if (tx_min < ty_min) greatest_tmin = ty_min;
+else greatest_tmin = tx_min;
+
+if (greatest_tmin > smallest_tmax)
+return false;
+
+return true;

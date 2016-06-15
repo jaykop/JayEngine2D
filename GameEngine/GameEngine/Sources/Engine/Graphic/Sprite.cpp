@@ -68,6 +68,7 @@ vec4 Sprite::GetColor(void) const
 void Sprite::BindRigidBody(void)
 {
 	m_body = new RigidBody();
+	m_body->SetScale(m_scale);
 	m_HasBody = true;
 }
 
