@@ -40,10 +40,15 @@ namespace Math
 	float DegToRad(float degree);
 	float RadToDeg(float radian);
 
-	Pointf IntersectOf2Lines(const Linef& line1, const Linef& line2);
 	Pointf Rotation(const Pointf& point, float angle, const Pointf& pivot);
+	Pointf IntersectPointOf2Lines(const Linef& line1, const Linef& line2);
+	bool LineIntersection(const Linef& line1, const Linef& line2);
 
-	boolVec  IntersectOf2Lines(
+	boolVec  IntersectPointOf2Lines(
+		const vec3& line1_start, const vec3& line1_end,
+		const vec3& line2_start, const vec3& line2_end);
+
+	bool LineIntersection(
 		const vec3& line1_start, const vec3& line1_end,
 		const vec3& line2_start, const vec3& line2_end);
 }

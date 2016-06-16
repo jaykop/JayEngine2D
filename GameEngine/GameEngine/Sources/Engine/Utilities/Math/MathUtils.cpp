@@ -39,7 +39,7 @@ namespace Math
 	}
 
 	//Get a intersection point by two lines
-	Pointf  IntersectOf2Lines(const Linef& line1, const Linef& line2)
+	Pointf  IntersectPointOf2Lines(const Linef& line1, const Linef& line2)
 	{
 		//Get Coefficients
 		float a2 = line2.p2.y - line2.p1.y;
@@ -62,8 +62,23 @@ namespace Math
 		return inter_point;
 	}
 
+	// Check if two line is intersected or not.
+	bool LineIntersection(const Linef& line1, const Linef& line2)
+	{
+		float denominator = ((line1.p2.x - line1.p1.x) * (line2.p2.y - line2.p1.y)) - ((line1.p2.y - line1.p1.y) * (line2.p2.x - line2.p1.x));
+		float numerator1 = ((line1.p1.y - line2.p1.y) * (line2.p2.x - line2.p1.x)) - ((line1.p1.x - line2.p1.x) * (line2.p2.y - line2.p1.y));
+		float numerator2 = ((line1.p1.y - line2.p1.y) * (line1.p2.x - line1.p1.x)) - ((line1.p1.x - line2.p1.x) * (line1.p2.y - line1.p1.y));
+
+		if (!denominator) return numerator1 == 0 && numerator2 == 0;
+		float r = numerator1 / denominator;
+		float s = numerator2 / denominator;
+
+		return (r >= 0 && r <= 1) && (s >= 0 && s <= 1);
+
+	}
+
 	//Get a intersection point by two lines
-	boolVec  IntersectOf2Lines(
+	boolVec  IntersectPointOf2Lines(
 		const vec3& line1_start, const vec3& line1_end,
 		const vec3& line2_start, const vec3& line2_end)
 	{
@@ -86,5 +101,20 @@ namespace Math
 
 		//Invalid return
 		return boolVec{ false, vec3() };
+	}
+
+	bool LineIntersection(
+		const vec3& line1_start, const vec3& line1_end,
+		const vec3& line2_start, const vec3& line2_end)
+	{
+		float denominator = ((line1_end.x - line1_start.x) * (line2_end.y - line2_start.y)) - ((line1_end.y - line1_start.y) * (line2_end.x - line2_start.x));
+		float numerator1 = ((line1_start.y - line2_start.y) * (line2_end.x - line2_start.x)) - ((line1_start.x - line2_start.x) * (line2_end.y - line2_start.y));
+		float numerator2 = ((line1_start.y - line2_start.y) * (line1_end.x - line1_start.x)) - ((line1_start.x - line2_start.x) * (line1_end.y - line1_start.y));
+
+		if (!denominator) return numerator1 == 0 && numerator2 == 0;
+		float r = numerator1 / denominator;
+		float s = numerator2 / denominator;
+
+		return (r >= 0 && r <= 1) && (s >= 0 && s <= 1);
 	}
 }

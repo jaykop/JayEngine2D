@@ -129,6 +129,7 @@ bool GLManager::InitGL(void)
 {
 	//InitGL
 	glShadeModel(GL_SMOOTH);
+	glShadeModel(GL_LINE_SMOOTH_HINT);
 	glClearColor(1.f, 1.f, 1.f, 1.f);
 	glClearDepth(1.0f);
 	glEnable(GL_DEPTH_TEST);

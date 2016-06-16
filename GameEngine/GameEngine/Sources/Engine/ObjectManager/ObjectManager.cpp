@@ -11,8 +11,6 @@ ObjectManager::~ObjectManager(void)
 
 void ObjectManager::AddObject(const int SpriteID, const std::string& textureDir)
 {
-	UNREFERENCED_PARAMETER(textureDir);
-
 	//Make new sprite
 	Sprite* new_sprite = new Sprite(SpriteID);
 

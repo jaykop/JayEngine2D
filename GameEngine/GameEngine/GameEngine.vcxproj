@@ -74,12 +74,10 @@
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>$(SolutionDir)\GameEngine\Libs</AdditionalLibraryDirectories>
       <AdditionalDependencies>glew32.lib;glu32.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Includes\LodePNG\example_opengl.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
     <ClCompile Include="Includes\LodePNG\lodepng.cpp" />
     <ClCompile Include="Sources\Engine\Apps\Application.cpp" />
     <ClCompile Include="Sources\Engine\Graphic\Texture.cpp" />
@@ -88,6 +86,7 @@
     <ClCompile Include="Sources\Engine\Utilities\Debug\Debug.cpp" />
     <ClCompile Include="Sources\Engine\Physics\PhyTemp.txt">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="Sources\Engine\Physics\World.cpp" />
     <ClCompile Include="Sources\Engine\StateManager\GameStateManager\GameStateManager.cpp" />

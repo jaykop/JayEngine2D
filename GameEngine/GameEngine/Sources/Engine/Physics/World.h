@@ -51,9 +51,8 @@ private:
 
 	//Collision helper functions
 	Vertices GetVertices(Sprite* spt);
+	vec3 GetCollidedLine(Vertices& body1, Vertices& body2);
 	void LineProjection(Vertices& vert, vec3& point, float &min, float &max);
-	bool Get2ndBoxEdge(const vec3& body1edge_start, const vec3& body1edge_end,
-		Sprite* sprite1);
 
 	//Collision functions
 	bool CollisionIntersect(Sprite* spt1, Sprite* spt2);

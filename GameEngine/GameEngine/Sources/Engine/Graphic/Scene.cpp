@@ -66,6 +66,7 @@ void Scene::Draw(const ObjectManager& ObjM)
 		// Set our "myTextureSampler" sampler to user Texture Unit 0
 		glUniform1i(m_texId, 0);
 
+		glEnable(GL_NICEST);
 		//first attribute buffer : vertices
 		glEnableVertexAttribArray(0);
 		glBindBuffer(GL_ARRAY_BUFFER, m_pApp->GetGLManager()->GetVertexBuffer());
@@ -94,6 +95,7 @@ void Scene::Draw(const ObjectManager& ObjM)
 		glDrawArrays(GL_QUADS, 0, 4);
 		glDisableVertexAttribArray(0);
 		glDisableVertexAttribArray(1);
+		glDisable(GL_NICEST);
 	}
 }
 
@@ -109,7 +111,7 @@ void Scene::Pipeline(const Sprite& sprite)
 	mat44 projection = mat44::Perspective(m_fovy, aspectRatio, m_zNear, m_zFar);
 
 	// Ortho Perspection
-	// mat44 projection = mat44::Ortho(-m_width / 2.f, m_width / 2.f, -m_height / 2.f, m_height / 2.f, m_zNear, m_zFar);
+	//mat44 projection = mat44::Ortho(-m_width / 2.f, m_width / 2.f, -m_height / 2.f, m_height / 2.f, m_zNear, m_zFar);
 
 	//Setting Camera
 	mat44 camera = mat44::LookAt(
