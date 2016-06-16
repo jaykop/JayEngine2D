@@ -70,13 +70,13 @@ void MenuStage::Init(GameData& gd)
 	m_ObjM.GetGameObject(5)->BindRigidBody();
 
 	m_ObjM.GetGameObject(0)->GetRigidBody()->SetFriction(.0005f);
-	m_ObjM.GetGameObject(0)->GetRigidBody()->SetScale(vec3(4.f, 4.f));
+	m_ObjM.GetGameObject(0)->GetRigidBody()->SetScale(vec3(5.f, 5.f));
 	m_ObjM.GetGameObject(1)->GetRigidBody()->ActivateMove(false);
 	m_ObjM.GetGameObject(2)->GetRigidBody()->ActivateMove(false);
 	m_ObjM.GetGameObject(3)->GetRigidBody()->ActivateMove(false);
 	m_ObjM.GetGameObject(4)->GetRigidBody()->ActivateMove(false);
 	m_ObjM.GetGameObject(5)->GetRigidBody()->SetFriction(.0005f);
-	m_ObjM.GetGameObject(5)->GetRigidBody()->SetScale(vec3(9.f, 9.f));
+	m_ObjM.GetGameObject(5)->GetRigidBody()->SetScale(vec3(10.f, 10.f));
 
 	//Init basic trunks
 	m_scene->Init(m_ObjM);
@@ -93,7 +93,7 @@ void MenuStage::Update(GameData& gd)
 	BasicControl();
 	SampleAnimation();
 
-	m_ObjM.GetGameObject(0)->SetRotation(++a);
+	//m_ObjM.GetGameObject(0)->SetRotation(++a);
 
 	//Update basic trunks
 	m_world->Update(m_ObjM);

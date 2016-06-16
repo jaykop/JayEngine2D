@@ -45,13 +45,12 @@ void World::Update(ObjectManager& objM)
 					//activated body toggle and collider body,
 					if (it1 != it2 && it2->second->HasRigidBody() &&
 						it2->second->GetRigidBody()->GetColliderToggle())
-					{
-						//BodyPipeline(it2->second);
+					{					
 						//Save last position
 						if (!it2->second->GetRigidBody()->IsCollided())
 							it2->second->GetRigidBody()->SetLastPosition(it2->second->GetPosition());
-
-						BodyPipeline(it2->second);
+						
+						//BodyPipeline(it2->second);
 
 						// 4. then check the colliders.
 						bool collisionIntersect = CollisionIntersect(it1->second, it2->second);
@@ -211,16 +210,18 @@ void World::CollisionResponse(Sprite* spt1, Sprite* spt2)
 		GetCollidedLine(body1, body2).Rotation(90).Normalize());
 	spt1->GetRigidBody()->SetVelocity(new_vel);
 	spt1->GetRigidBody()->SetSpeed(spt1->GetRigidBody()->GetSpeed() / 2);
-	BodyPipeline(spt1);
+	//BodyPipeline(spt1);
 
 	// If 2nd sprite is movable, add half force of 1st sprite
-	if (spt2->GetRigidBody()->GetMoveToggle())
-	{
-		spt2->SetPosition(spt2->GetRigidBody()->GetLastPosition());
-		spt2->GetRigidBody()->SetVelocity(-new_vel);
-		spt2->GetRigidBody()->SetSpeed(spt1->GetRigidBody()->GetSpeed());
-		BodyPipeline(spt2);
-	}
+	//if (spt2->GetRigidBody()->GetMoveToggle())
+	//{
+	//	spt2->SetPosition(spt2->GetRigidBody()->GetLastPosition());
+	//	vec3 new_vel = spt2->GetRigidBody()->GetVelocity().Reflection(
+	//		GetCollidedLine(body1, body2).Rotation(90).Normalize());
+	//	spt2->GetRigidBody()->SetVelocity(new_vel);
+	//	spt2->GetRigidBody()->SetSpeed(spt1->GetRigidBody()->GetSpeed());
+	//	//BodyPipeline(spt2);
+	//}
 
 }
 
