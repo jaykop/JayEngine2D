@@ -2624,13 +2624,13 @@ static int lodepng_color_mode_equal(const LodePNGColorMode* a, const LodePNGColo
   /*if one of the palette sizes is 0, then we consider it to be the same as the
   other: it means that e.g. the palette was not given by the user and should be
   considered the same as the palette inside the PNG.*/
-  if(1/*a->palettesize != 0 && b->palettesize != 0*/) {
+  //if(true/*a->palettesize != 0 && b->palettesize != 0*/) {
     if(a->palettesize != b->palettesize) return 0;
     for(i = 0; i != a->palettesize * 4; ++i)
     {
       if(a->palette[i] != b->palette[i]) return 0;
     }
-  }
+  //}
   return 1;
 }
 

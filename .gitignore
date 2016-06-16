@@ -66,3 +66,5 @@ GameEngine/GameEngine.v12.suo
 GameEngine/GameEngine.v12.suo
 *.suo
 GameEngine/GameEngine.v12.suo
+*.log
+GameEngine/GameEngine/Debug/GameEngine.Build.CppClean.log

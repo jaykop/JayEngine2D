@@ -2,7 +2,7 @@
 #define APPLICATION_H
 
 #define WIN32_LEAN_AND_MEAN
-#include "GLApplication.h"
+#include "GLManager.h"
 #include "../StateManager/GameStateManager/GameStateManager.h"
 
 using namespace Resolution;
@@ -44,7 +44,7 @@ public:
 	void SetResolution(const ScreenSize& res);
 
 	//GL manager
-	GLApplication* GetGLManager(void) const;
+	GLManager* GetGLManager(void) const;
 
 private:
 	static LRESULT CALLBACK WinProc(HWND win, UINT msg, WPARAM wp, LPARAM pl);
@@ -58,7 +58,7 @@ private:
 	ScreenSize m_scrSize;		//!< The window width and height
 
 	GameStateManager m_GSM;
-	GLApplication* m_glApp;
+	GLManager* m_GLM;
 
 }; //end GameEngine
 

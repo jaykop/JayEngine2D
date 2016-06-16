@@ -91,7 +91,7 @@
     </ClCompile>
     <ClCompile Include="Sources\Engine\Physics\World.cpp" />
     <ClCompile Include="Sources\Engine\StateManager\GameStateManager\GameStateManager.cpp" />
-    <ClCompile Include="Sources\Engine\Apps\GLApplication.cpp" />
+    <ClCompile Include="Sources\Engine\Apps\GLManager.cpp" />
     <ClCompile Include="Sources\Engine\Graphic\Scene.cpp" />
     <ClCompile Include="Sources\Engine\InputManager\InputManager.cpp" />
     <ClCompile Include="Sources\Engine\Utilities\Math\MathUtils.cpp" />
@@ -136,7 +136,7 @@
     <ClInclude Include="Sources\Engine\Utilities\Debug\Debug.h" />
     <ClInclude Include="Sources\Engine\Physics\World.h" />
     <ClInclude Include="Sources\Engine\StateManager\GameStateManager\GameStateManager.h" />
-    <ClInclude Include="Sources\Engine\Apps\GLApplication.h" />
+    <ClInclude Include="Sources\Engine\Apps\GLManager.h" />
     <ClInclude Include="Sources\Engine\Graphic\Scene.h" />
     <ClInclude Include="Sources\Engine\InputManager\InputManager.h" />
     <ClInclude Include="Sources\Engine\Utilities\Math\MathUtils.h" />

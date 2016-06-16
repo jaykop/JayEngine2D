@@ -14,9 +14,6 @@
     <ClCompile Include="Sources\Engine\Apps\Application.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Sources\Engine\Apps\GLApplication.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="Sources\Engine\Graphic\Scene.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -101,12 +98,12 @@
     <ClCompile Include="Sources\Engine\StateManager\Factory\Factory.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Sources\Engine\Apps\GLManager.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Sources\Engine\Apps\Application.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Sources\Engine\Apps\GLApplication.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Sources\Engine\Graphic\Scene.h">
@@ -218,6 +215,9 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Sources\Engine\StateManager\Factory\Factory.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Engine\Apps\GLManager.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

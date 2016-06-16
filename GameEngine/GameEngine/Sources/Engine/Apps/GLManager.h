@@ -1,5 +1,5 @@
-#ifndef _GLAPPLICATION_H_
-#define _GLAPPLICATION_H_
+#ifndef _GLManager_H_
+#define _GLManager_H_
 
 #pragma comment(lib,"opengl32.lib")
 
@@ -20,13 +20,13 @@ struct ProjectionInfo
 	float  m_width, m_height;
 };
 
-class GLApplication
+class GLManager
 {
 
 public:
 	
-	GLApplication(void);
-	~GLApplication(void);
+	GLManager(void);
+	~GLManager(void);
 
 	//Settor functions
 	void SysShutdown(void);
@@ -47,9 +47,9 @@ public:
 	ProjectionInfo GetProjectionInfo(void) const;
 
 	//Single tone pattern
-	static GLApplication& GetInstance(void)
+	static GLManager& GetInstance(void)
 	{
-		static GLApplication gl_app;
+		static GLManager gl_app;
 		return gl_app;
 	}
 
@@ -68,4 +68,4 @@ private:
 	
 };
 
-#endif // _GLAPPLICATION_H_
+#endif // _GLManager_H_

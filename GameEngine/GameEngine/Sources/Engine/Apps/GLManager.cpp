@@ -3,7 +3,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
-#include "GLApplication.h"
+#include "GLManager.h"
 #include "Application.h"
 
 static const GLfloat m_vertex_buffer_data[] =
@@ -15,7 +15,7 @@ static const GLfloat m_vertex_buffer_data[] =
 	 .5f,	-.5f,	 0.f,	 .5f,	 -.5f
 };
 
-GLApplication::GLApplication(void)
+GLManager::GLManager(void)
 {
 	//Set projection matrix
 	m_hdc = 0;
@@ -27,12 +27,12 @@ GLApplication::GLApplication(void)
 	m_info.m_fovy = 45.f;
 }
 
-GLApplication::~GLApplication(void)
+GLManager::~GLManager(void)
 {
 
 }
 
-void GLApplication::Resize(int width, int height)
+void GLManager::Resize(int width, int height)
 {
 	//Resize screen size
 
@@ -56,7 +56,7 @@ void GLApplication::Resize(int width, int height)
 	glLoadIdentity();
 }
 
-void GLApplication::SysShutdown(void)
+void GLManager::SysShutdown(void)
 {
 	//release current device context
 	wglMakeCurrent(m_hdc, NULL);
@@ -68,7 +68,7 @@ void GLApplication::SysShutdown(void)
 	PostQuitMessage(0);
 }
 
-void GLApplication::SetGLFormat(void)
+void GLManager::SetGLFormat(void)
 {
 	//number of available format
 	m_indexPixelFormat = 0;
@@ -90,7 +90,7 @@ void GLApplication::SetGLFormat(void)
 	SetPixelFormat(m_hdc, m_indexPixelFormat, &pfd);
 }
 
-void GLApplication::CheckGL(HWND& window)
+void GLManager::CheckGL(HWND& window)
 {
 	//Get wnd DC
 	m_hdc = GetDC(window);
@@ -125,7 +125,7 @@ void GLApplication::CheckGL(HWND& window)
 	}
 }
 
-bool GLApplication::InitGL(void)
+bool GLManager::InitGL(void)
 {
 	//InitGL
 	glShadeModel(GL_SMOOTH);
@@ -139,7 +139,7 @@ bool GLApplication::InitGL(void)
 	return true;
 }
 
-void GLApplication::OpenGLInit(HWND& window, int width, int height)
+void GLManager::OpenGLInit(HWND& window, int width, int height)
 {
 	CheckGL(window);
 
@@ -175,27 +175,27 @@ void GLApplication::OpenGLInit(HWND& window, int width, int height)
 
 }
 
-HDC GLApplication::GetHDC(void) const
+HDC GLManager::GetHDC(void) const
 {
 	return m_hdc;
 }
 
-ProjectionInfo GLApplication::GetProjectionInfo(void) const
+ProjectionInfo GLManager::GetProjectionInfo(void) const
 {
 	return m_info;
 }
 
-Shader GLApplication::GetShader(void) const
+Shader GLManager::GetShader(void) const
 {
 	return m_shader;
 }
 
-GLuint GLApplication::GetMatrixID(void) const
+GLuint GLManager::GetMatrixID(void) const
 {
 	return m_matrixId;
 }
 
-GLuint GLApplication::GetVertexBuffer(void) const
+GLuint GLManager::GetVertexBuffer(void) const
 {
 	return m_vertexBuffer;
 }

@@ -2,7 +2,7 @@
 #define _TEXTURE_H_
 
 //#include <vector>
-#include "../Apps/GLApplication.h"
+#include "../Apps/GLManager.h"
 
 class Texture{
 

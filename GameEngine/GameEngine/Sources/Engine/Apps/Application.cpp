@@ -1,5 +1,5 @@
 #include "Application.h"
-#include "GLApplication.h"
+#include "GLManager.h"
 #include "../Utilities/Debug/Debug.h"
 #include "../InputManager/InputManager.h"
 #include "../../Game/BaseData/LoadStages.h"
@@ -104,9 +104,9 @@ Application::Application(const InitData& initData)
 		);
 
 	//Set opengl
-	//GLApplication::GetInstance().OpenGLInit(m_window, m_scrSize.width, m_scrSize.height);
-	m_glApp = new GLApplication;
-	m_glApp->OpenGLInit(m_window, m_scrSize.width, m_scrSize.height);
+	//GLManager::GetInstance().OpenGLInit(m_window, m_scrSize.width, m_scrSize.height);
+	m_GLM = new GLManager;
+	m_GLM->OpenGLInit(m_window, m_scrSize.width, m_scrSize.height);
 
 	//Make sure window is showing and messages have been sent
 	ShowWindow(m_window, true);
@@ -155,9 +155,9 @@ void Application::Quit(void)
 	SendMessage(m_window, WM_CLOSE, 0, 0);
 }
 
-GLApplication* Application::GetGLManager(void) const
+GLManager* Application::GetGLManager(void) const
 {
-	return m_glApp;
+	return m_GLM;
 }
 
 //Build stages for game app
@@ -186,8 +186,8 @@ void Application::SetResolution(const ScreenSize& res)
 	m_scrSize.height = res.height;
 	SetWindowPos(m_window, 0, 0, 0, m_scrSize.width, m_scrSize.height, SWP_NOMOVE);
 	
-	//GLApplication::GetInstance().Resize(m_scrSize.width, m_scrSize.height);
-	m_glApp->Resize(m_scrSize.width, m_scrSize.height);
+	//GLManager::GetInstance().Resize(m_scrSize.width, m_scrSize.height);
+	m_GLM->Resize(m_scrSize.width, m_scrSize.height);
 }
 
 void Application::SetFullScreen(bool fullscreen)
