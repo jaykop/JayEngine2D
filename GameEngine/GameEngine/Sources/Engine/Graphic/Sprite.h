@@ -2,7 +2,7 @@
 #define _SPRITE_H_
 
 #include <string>
-#include "../Apps/GLApplication.h"
+#include "Texture.h"
 #include "../Utilities/Math/MathUtils.h"
 
 //Sprites' shape
@@ -19,8 +19,6 @@ public:
 	Sprite(const int id);
 	~Sprite();
 
-	//Cretae and delete function
-	static Sprite* Create(const std::string& textureDir = 0);
 	void Init();
 
 	const int GetID(void) const;
@@ -46,10 +44,9 @@ public:
 
 	void SetSpriteShape(Shape type);
 	Shape GetSpriteShape(void) const;
-		
-	/********** To do *********/
-	//void SetTexture();
-	//Texture GetTexture(void) const;
+
+	void SetTexture(Texture* texture);
+	Texture* GetTexture(void) const;
 
 private:
 	
@@ -68,7 +65,7 @@ private:
 	Projt m_prjt;
 
 	// Texture Info
-	// Texture m_texure;
+	Texture* m_texture;
 
 	// Physics Info
 	bool m_HasBody;

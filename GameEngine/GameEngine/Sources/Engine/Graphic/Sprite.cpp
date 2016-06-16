@@ -11,6 +11,7 @@ Sprite::Sprite(const int id)
 	m_body = 0;
 	m_id = id;
 	m_type = RECTANGLE;
+	m_texture = 0;
 }
 
 Sprite::~Sprite(void)
@@ -104,4 +105,14 @@ void Sprite::SetSpriteShape(Shape type)
 Shape Sprite::GetSpriteShape(void) const
 {
 	return m_type;
+}
+
+void Sprite::SetTexture(Texture* texture)
+{
+	m_texture = texture;
+}
+
+Texture* Sprite::GetTexture(void) const
+{
+	return m_texture;
 }

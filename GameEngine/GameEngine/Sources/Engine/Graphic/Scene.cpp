@@ -1,20 +1,23 @@
 #include "Scene.h"
 #include "../Graphic//Sprite.h"
 #include "../ObjectManager/ObjectManager.h"
+#include "../Apps/Application.h"
 
-Scene::Scene(void)
+Scene::Scene(Application* pApp)
 : m_width(0), m_height(0), m_zNear(0),
 m_zFar(0), m_fovy(0), aspectRatio(0),
 m_camera(vec4()), m_bgColor(vec4(0,0,0,0))
-{}
+{
+	m_pApp = pApp;
+}
 
 Scene::~Scene(void)
 {}
 
-void Scene::Init()
+void Scene::Init(const ObjectManager& ObjM)
 {
 	//Get projection information
-	ProjectionInfo temp = GLApplication::GetInstance().GetProjectionInfo();
+	ProjectionInfo temp = m_pApp->GetGLManager()->GetProjectionInfo();
 
 	m_width = static_cast<int>(temp.m_width);
 	m_height = static_cast<int>(temp.m_height);
@@ -24,12 +27,15 @@ void Scene::Init()
 	aspectRatio = static_cast<float>(m_width) / static_cast<float>(m_height);
 
 	m_camera = vec4(0, 0, 80, 0);
+
+	for (auto it = ObjM.GetList().begin(); it != ObjM.GetList().end(); ++it)
+		it->second->Init();
+
+	m_texId = glGetUniformLocation(m_pApp->GetGLManager()->GetShader().m_programID, "Texture");
 }
 
 void Scene::Draw(const ObjectManager& ObjM)
 {
-	//
-
 	//Refresh the screen
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glClearColor(m_bgColor.x, m_bgColor.y, m_bgColor.z, m_bgColor.w);
@@ -40,33 +46,54 @@ void Scene::Draw(const ObjectManager& ObjM)
 		Pipeline(*it->second);
 
 		//Initialize matrix
-		m_matrixID = glGetUniformLocation(GLApplication::GetInstance().GetShader().m_programID, "MVP");
+		m_matrixID = glGetUniformLocation(m_pApp->GetGLManager()->GetShader().m_programID, "MVP");
 
 		//Implement Matrix
 		glUniformMatrix4fv(m_matrixID, 1, GL_FALSE, &m_mvp.m_member[0][0]);
 
+		//Coloring
 		vec4 sptColor = (it->second->GetColor());
-		GLuint color = glGetUniformLocation(GLApplication::GetInstance().GetShader().m_programID, "myColor");
+		GLuint color = glGetUniformLocation(m_pApp->GetGLManager()->GetShader().m_programID, "Color");
 		glUniform4f(color, sptColor.x, sptColor.y, sptColor.z, sptColor.w);
 		
 		//More high quality?
 		//glUniformMatrix4fv();
 
+		// Bind our texture in Texture Unit 0
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, it->second->GetTexture()->GetTexId());
+		
+		// Set our "myTextureSampler" sampler to user Texture Unit 0
+		glUniform1i(m_texId, 0);
+
 		//first attribute buffer : vertices
 		glEnableVertexAttribArray(0);
-		glBindBuffer(GL_ARRAY_BUFFER, GLApplication::GetInstance().GetVertexBuffer());
+		glBindBuffer(GL_ARRAY_BUFFER, m_pApp->GetGLManager()->GetVertexBuffer());
 		glVertexAttribPointer(
-			0,				// must be match the layout in the shader
-			3,				// size
-			GL_FLOAT,		// type
-			GL_FALSE,		// normalized
-			0,				// stride
-			(void*)0		// array buffer offset
-			);
+			0,						// must be match the layout in the shader
+			3,						// size
+			GL_FLOAT,				// type
+			GL_FALSE,				// normalized
+			5 * sizeof(GLfloat),	// stride
+			(GLvoid*)0				// array buffer offset
+		);
+
+		//// 2nd attribute buffer : UVs
+		glEnableVertexAttribArray(1);
+		glBindBuffer(GL_ARRAY_BUFFER, m_pApp->GetGLManager()->GetVertexBuffer());
+		glVertexAttribPointer(
+			1,									// attribute. No particular reason for 1, but must match the layout in the shader.
+			2,									// size : U+V => 2
+			GL_FLOAT,							// type
+			GL_TRUE,							// normalized?
+			5 * sizeof(GLfloat),				// stride
+			(const GLvoid*)(3 * sizeof(GLfloat))// array buffer offset
+		);
 
 		// Draw the triangle
 		glDrawArrays(GL_QUADS, 0, 4);
 		glDisableVertexAttribArray(0);
+		glDisableVertexAttribArray(1);
 	}
 }
 

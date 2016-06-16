@@ -68,6 +68,7 @@ public:
 
 	void SetFullScreen(bool scr);
 	bool GetFullScreen(void) const;
+	Application* GetAppPtr(void);
 
 private:
 

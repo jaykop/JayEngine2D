@@ -16,6 +16,9 @@ void ObjectManager::AddObject(const int SpriteID, const std::string& textureDir)
 	//Make new sprite
 	Sprite* new_sprite = new Sprite(SpriteID);
 
+	new_sprite->SetTexture(new Texture);
+	new_sprite->GetTexture()->LoadTexture(textureDir.c_str());
+
 	//Push it into the list
 	m_ObjectList.insert(std::hash_map<int, Sprite*>::value_type(
 		SpriteID, new_sprite));
@@ -66,8 +69,8 @@ void ObjectManager::ClearObjectList(void)
 			it->second->RemoveRigidBody();
 
 		//If there is id that client to find,
-		//Delete it
-		delete (it->second);
+		delete (it->second->GetTexture());	//Delete texture
+		delete (it->second);				//Delete it
 	}
 
 	m_ObjectList.clear();

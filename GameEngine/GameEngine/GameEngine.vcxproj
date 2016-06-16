@@ -77,7 +77,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Includes\LodePNG\example_opengl.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="Includes\LodePNG\lodepng.cpp" />
     <ClCompile Include="Sources\Engine\Apps\Application.cpp" />
+    <ClCompile Include="Sources\Engine\Graphic\Texture.cpp" />
     <ClCompile Include="Sources\Engine\Logic\Logic.cpp" />
     <ClCompile Include="Sources\Engine\StateManager\Factory\Factory.cpp" />
     <ClCompile Include="Sources\Engine\Utilities\Debug\Debug.cpp" />
@@ -123,7 +128,9 @@
     <ClCompile Include="Sources\Game\GameStage\Pause.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Includes\LodePNG\lodepng.h" />
     <ClInclude Include="Sources\Engine\Apps\Application.h" />
+    <ClInclude Include="Sources\Engine\Graphic\Texture.h" />
     <ClInclude Include="Sources\Engine\Logic\Logic.h" />
     <ClInclude Include="Sources\Engine\StateManager\Builder.h" />
     <ClInclude Include="Sources\Engine\Utilities\Debug\Debug.h" />

@@ -104,7 +104,9 @@ Application::Application(const InitData& initData)
 		);
 
 	//Set opengl
-	GLApplication::GetInstance().OpenGLInit(m_window, m_scrSize.width, m_scrSize.height);
+	//GLApplication::GetInstance().OpenGLInit(m_window, m_scrSize.width, m_scrSize.height);
+	m_glApp = new GLApplication;
+	m_glApp->OpenGLInit(m_window, m_scrSize.width, m_scrSize.height);
 
 	//Make sure window is showing and messages have been sent
 	ShowWindow(m_window, true);
@@ -153,6 +155,11 @@ void Application::Quit(void)
 	SendMessage(m_window, WM_CLOSE, 0, 0);
 }
 
+GLApplication* Application::GetGLManager(void) const
+{
+	return m_glApp;
+}
+
 //Build stages for game app
 bool Application::DataLoaded(void)
 {
@@ -178,7 +185,9 @@ void Application::SetResolution(const ScreenSize& res)
 	m_scrSize.width = res.width;
 	m_scrSize.height = res.height;
 	SetWindowPos(m_window, 0, 0, 0, m_scrSize.width, m_scrSize.height, SWP_NOMOVE);
-	GLApplication::GetInstance().Resize(m_scrSize.width, m_scrSize.height);
+	
+	//GLApplication::GetInstance().Resize(m_scrSize.width, m_scrSize.height);
+	m_glApp->Resize(m_scrSize.width, m_scrSize.height);
 }
 
 void Application::SetFullScreen(bool fullscreen)

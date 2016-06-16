@@ -67,7 +67,7 @@ void GameStateManager::Update(void)
 		m_pStage->Update(m_gameData);	//Game data update
 		TriggerInputController();		//Triggered Input Controller
 		SwapBuffers(					//Swap Buffer
-			GLApplication::GetInstance().GetHDC());	
+			m_pApp->GetGLManager()->GetHDC());
 
 		//clock_t newTime;
 		//do{
@@ -226,4 +226,9 @@ void GameStateManager::SetFullScreen(bool scr)
 bool GameStateManager::GetFullScreen(void) const
 {
 	return m_pApp->GetFullScreen();
+}
+
+Application* GameStateManager::GetAppPtr(void)
+{
+	return m_pApp;
 }

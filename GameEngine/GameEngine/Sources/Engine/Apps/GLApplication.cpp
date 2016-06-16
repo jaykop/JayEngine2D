@@ -7,10 +7,12 @@
 #include "Application.h"
 
 static const GLfloat m_vertex_buffer_data[] =
-{ -.5f, -.5f, 0.f,
--.5f, .5f, 0.f,
-.5f, .5f, 0.f,
-.5f, -.5f, 0.f
+{ 
+//		X		Y		Z		U		V
+	-.5f,	-.5f,	 0.f,	-.5f,	 -.5f,
+	-.5f,	 .5f,	 0.f,	-.5f,	  .5f,
+	 .5f,	 .5f,	 0.f,	 .5f,	  .5f,
+	 .5f,	-.5f,	 0.f,	 .5f,	 -.5f
 };
 
 GLApplication::GLApplication(void)
@@ -166,7 +168,7 @@ void GLApplication::OpenGLInit(HWND& window, int width, int height)
 	glBufferData(GL_ARRAY_BUFFER, sizeof(m_vertex_buffer_data), m_vertex_buffer_data, GL_STATIC_DRAW);
 
 	//Call shader
-	m_shader.LoadShaders("shader.vertex", "shader.fragment");
+	m_shader.LoadShaders("Resources/Shader/shader.vertex", "Resources/Shader/shader.fragment");
 
 	//Use shader
 	glUseProgram(m_shader.m_programID);
@@ -190,7 +192,7 @@ Shader GLApplication::GetShader(void) const
 
 GLuint GLApplication::GetMatrixID(void) const
 {
-	return m_matrixID;
+	return m_matrixId;
 }
 
 GLuint GLApplication::GetVertexBuffer(void) const

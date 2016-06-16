@@ -1,0 +1,17 @@
+#version 330 core
+
+// interpolated valuse form the vertex shaders
+in vec4 fragmentColor;
+in vec2 fragTexCoord;
+
+//Texture ID
+uniform sampler2D Texture;
+
+// Ouput data
+out vec4 finalColor;
+
+void main()
+{
+	// Output color
+	finalColor = texture(Texture, fragTexCoord) * fragmentColor;
+}

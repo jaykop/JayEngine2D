@@ -28,6 +28,7 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE /*prev*/,
 	if (app.DataLoaded())
 		app.Update();
 
+	delete app.GetGLManager();
 	DEBUG_DESTROY_CONSOLE();
 	//DEBUG_ASSERT(1 == 0 , "This is how u do a custom assert!");
 	return 0;

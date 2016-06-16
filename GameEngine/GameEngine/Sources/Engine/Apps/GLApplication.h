@@ -55,11 +55,14 @@ public:
 
 private:
 
+	// Basic info
 	HDC    m_hdc;
 	HGLRC  m_hglrc;
 	int    m_indexPixelFormat;
+
+	// Scene info
 	Shader m_shader;
-	GLuint m_matrixID;
+	GLuint m_matrixId;
 	GLuint m_vertexBuffer;
 	ProjectionInfo m_info;
 	

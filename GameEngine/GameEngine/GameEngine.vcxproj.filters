@@ -80,9 +80,6 @@
     <ClCompile Include="Sources\Game\GameStage\Pause.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Sources\Engine\StateManager\Factory\Factory.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="Sources\Engine\StateManager\GameStateManager\GameStateManager.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -90,6 +87,18 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Sources\Engine\Physics\PhyTemp.txt">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Includes\LodePNG\example_opengl.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Includes\LodePNG\lodepng.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Engine\Graphic\Texture.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Engine\StateManager\Factory\Factory.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -184,9 +193,6 @@
     <ClInclude Include="Sources\Engine\StateManager\Builder.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Sources\Engine\StateManager\Factory\Factory.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="Sources\Engine\StateManager\GameStateManager\GameStateManager.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
@@ -203,6 +209,15 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Sources\Engine\Logic\Logic.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Includes\LodePNG\lodepng.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Engine\Graphic\Texture.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Engine\StateManager\Factory\Factory.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

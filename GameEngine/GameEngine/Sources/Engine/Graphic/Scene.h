@@ -1,7 +1,7 @@
 #ifndef _SCENE_H_
 #define _SCENE_H_
 
-#include "../Apps/GLApplication.h"
+#include "../Graphic/Texture.h"
 #include "../Utilities/Math/MathUtils.h"
 
 //Separate ortho and persp sprites into 2 lists. 
@@ -13,6 +13,7 @@
 //typedef Matrix4x4<GLfloat> GLmat44;
 
 class ObjectManager;
+class Application;
 class Sprite;
 
 //Graphic scene
@@ -20,9 +21,9 @@ class Scene
 {
 public:
 
-	Scene();
+	Scene(Application* pApp);
 	~Scene();
-	void Init();
+	void Init(const ObjectManager& ObjM);
 	void Draw(const ObjectManager& ObjM);
 	void Shutdown();
 
@@ -47,6 +48,10 @@ private:
 	float aspectRatio;
 	float m_zNear, m_zFar, m_fovy;
 
+	Texture m_texture;
+	GLuint m_texId;
+
+	Application* m_pApp;
 	// Separate ortho and persp sprites into 2 lists.
 	// 2 vector
 	

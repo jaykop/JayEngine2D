@@ -43,6 +43,9 @@ public:
 	ScreenSize GetResolution(void) const;
 	void SetResolution(const ScreenSize& res);
 
+	//GL manager
+	GLApplication* GetGLManager(void) const;
+
 private:
 	static LRESULT CALLBACK WinProc(HWND win, UINT msg, WPARAM wp, LPARAM pl);
 
@@ -55,6 +58,7 @@ private:
 	ScreenSize m_scrSize;		//!< The window width and height
 
 	GameStateManager m_GSM;
+	GLApplication* m_glApp;
 
 }; //end GameEngine
 
