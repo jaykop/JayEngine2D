@@ -285,3 +285,161 @@ return true;
  
         return true;  
     } 
+
+
+		bool hooker[4] = { false, false, false, false };
+	vec3 collided_edge[4] = { vec3(), vec3(), vec3(), vec3() };
+	vec3 the_edge;
+	int  edgeChecker = 0;
+
+	// Put first body in
+	for (int i = 0; i < 4; ++i)
+	{
+		// Put second body in
+		for (int j = 0; j < 4; ++j)
+		{
+			// Check each index cases
+			if (j == 3 && i == 3)
+			{
+				// Calculate and check
+				hooker[0] = Math::LineIntersection(body1[i], body1[0],
+					body2[j], body2[0]);
+				// Get the edge
+				the_edge = collided_edge[0] = body2[0] - body2[j];
+				if (hooker[0]) ++edgeChecker;
+			}
+			else if (j != 3 && i == 3)
+			{
+				hooker[1] = Math::LineIntersection(body1[i], body1[0],
+					body2[j], body2[j + 1]);
+				the_edge = collided_edge[1] = body2[j + 1] - body2[j];
+				if (hooker[1]) ++edgeChecker;
+			}
+			else if (j == 3 && i != 3)
+			{
+				hooker[2] = Math::LineIntersection(body1[i], body1[i + 1],
+					body2[j], body2[0]);
+				the_edge = collided_edge[2] = body2[0] - body2[j];
+				if (hooker[2]) ++edgeChecker;
+			}
+			else
+			{
+				hooker[3] = Math::LineIntersection(body1[i], body1[i + 1],
+					body2[j], body2[j + 1]);
+				the_edge = collided_edge[3] = body2[j + 1] - body2[j];
+				if (hooker[3]) ++edgeChecker;
+			}
+
+			// If there are multiple collided line,
+			// then calculate the edges' distances
+			if (edgeChecker > 1)
+			{
+
+				return collided_edge;
+			}
+
+			else
+				return the_edge;
+		}
+		//If got the answer, quit the loop
+		if (hooker[0] || hooker[1] || hooker[2] || hooker[3])
+			return collided_edge;
+	}
+
+
+
+	======================================================
+
+		// Get spt2's collded line(edge) to set reflected velocity
+
+	// Get the vertice got 2nd sprite's inside 
+	float distance[4] = { 0 };
+	float shortest = distance[0] = Math::DistanceOf2Points(body1[0], spt1->GetPosition());;
+	int	shortest_index = 0;
+
+	// Calculate which one is the shorest from the 2nd sprite's middle point(position)
+	// So, get the vertice got 2nd sprite's inside 
+	for (int index = 1; index < 4; ++index)
+	{
+		distance[index] = Math::DistanceOf2Points(body1[index], spt1->GetPosition());
+		if (shortest > distance[index])
+		{
+			shortest = distance[index];
+			shortest_index = index;
+		}
+	}
+
+	// This is the one
+	body1[shortest_index];
+
+	bool hooker[4] = { false, false, false, false };
+	vec3 collided_edge[4] = { vec3(), vec3(), vec3(), vec3() };
+	vec3 the_edge;
+	int  edgeChecker = 0;
+
+	// Put first body in
+	for (int i = 0; i < 4; ++i)
+	{
+		// Put second body in
+		for (int j = 0; j < 4; ++j)
+		{
+			// Check each index cases
+			if (j == 3 && i == 3)
+			{
+				// Calculate and check
+				hooker[0] = Math::LineIntersection(body1[i], body1[0],
+					body2[j], body2[0]);
+				// Get the edge
+				the_edge = collided_edge[0] = body2[0] - body2[j];
+				if (hooker[0]) 
+					++edgeChecker;
+			}
+			else if (j != 3 && i == 3)
+			{
+				hooker[1] = Math::LineIntersection(body1[i], body1[0],
+					body2[j], body2[j + 1]);
+				the_edge = collided_edge[1] = body2[j + 1] - body2[j];
+				if (hooker[1]) 
+					++edgeChecker;
+			}
+			else if (j == 3 && i != 3)
+			{
+				hooker[2] = Math::LineIntersection(body1[i], body1[i + 1],
+					body2[j], body2[0]);
+				the_edge = collided_edge[2] = body2[0] - body2[j];
+				if (hooker[2]) 
+					++edgeChecker;
+			}
+			else
+			{
+				hooker[3] = Math::LineIntersection(body1[i], body1[i + 1],
+					body2[j], body2[j + 1]);
+				the_edge = collided_edge[3] = body2[j + 1] - body2[j];
+				if (hooker[3]) 
+					++edgeChecker;
+			}
+
+			// If there are multiple collided line,
+			// then calculate the edges' distances
+			if (edgeChecker > 1)
+			{
+
+				
+			}
+
+			else
+				return the_edge;
+		}
+		//If got the answer, quit the loop
+		//if (hooker[0] || hooker[1] || hooker[2] || hooker[3])
+		//	return collided_edge;
+	}
+
+	newy = sin(angle) * (oldy - centery) + cos(angle) * (oldx - centerx);
+newx = cos(angle) * (oldx - centerx) - sin(angle) * (oldy - centery);
+(you may need to adjust this depending on how angle is supposed to be measured, I'll leave that to you, since you didn't specify)
+
+Then hit test, the normal way:
+
+return (newy > centery - height / 2) && (newy < centery + height / 2) 
+    && (newx > centerx - width / 2) && (newx < centerx + width / 2);

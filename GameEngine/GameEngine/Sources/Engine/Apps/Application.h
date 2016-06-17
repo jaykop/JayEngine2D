@@ -46,6 +46,9 @@ public:
 	//GL manager
 	GLManager* GetGLManager(void) const;
 
+	//Set title icon
+	BOOL WINAPI SetConsoleIcon(HICON hIcon);
+
 private:
 	static LRESULT CALLBACK WinProc(HWND win, UINT msg, WPARAM wp, LPARAM pl);
 

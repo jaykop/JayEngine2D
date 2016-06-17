@@ -62,7 +62,7 @@ namespace Math
 		return inter_point;
 	}
 
-	// Check if two line is intersected or not.
+	// Check if two line is intersected or not; for lines.
 	bool LineIntersection(const Linef& line1, const Linef& line2)
 	{
 		float denominator = ((line1.p2.x - line1.p1.x) * (line2.p2.y - line2.p1.y)) - ((line1.p2.y - line1.p1.y) * (line2.p2.x - line2.p1.x));
@@ -103,6 +103,7 @@ namespace Math
 		return boolVec{ false, vec3() };
 	}
 
+	// Check if two line is intersected or not; for vectors.
 	bool LineIntersection(
 		const vec3& line1_start, const vec3& line1_end,
 		const vec3& line2_start, const vec3& line2_end)
@@ -116,5 +117,19 @@ namespace Math
 		float s = numerator2 / denominator;
 
 		return (r >= 0 && r <= 1) && (s >= 0 && s <= 1);
+	}
+
+	// Calculate the distance of two vector(point).
+	float DistanceOf2Points(const vec3& a, const vec3& b)
+	{
+		vec3 square((b.x - a.x) * (b.x - a.x), (b.y - a.y) * (b.y - a.y), 0);
+		return sqrt(square.x + square.y);
+	}
+
+	// Calculate the distance of two point.
+	float DistanceOf2Points(const Pointf& a, const Pointf& b)
+	{
+		vec3 square((b.x - a.x) * (b.x - a.x), (b.y - a.y) * (b.y - a.y), 0);
+		return sqrt(square.x + square.y);
 	}
 }

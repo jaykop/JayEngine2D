@@ -29,54 +29,26 @@ void MenuStage::Init(GameData& gd)
 	//Set sprites
 	m_ObjM.AddObject(0);
 	m_ObjM.AddObject(1);
-	m_ObjM.AddObject(2);
-	m_ObjM.AddObject(3);
-	m_ObjM.AddObject(4);
-	m_ObjM.AddObject(5);
 
 	//Set positions
-	m_ObjM.GetGameObject(0)->SetPosition(vec3(0, 0));
+	m_ObjM.GetGameObject(0)->SetPosition(vec3(20, 0));
 	m_ObjM.GetGameObject(1)->SetPosition(vec3(-20, 0));
-	//m_ObjM.GetGameObject(1)->SetRotation(45);
-	m_ObjM.GetGameObject(2)->SetPosition(vec3(0, 20));
-	//m_ObjM.GetGameObject(2)->SetRotation(45);
-	m_ObjM.GetGameObject(3)->SetPosition(vec3(0, -20));
-	//m_ObjM.GetGameObject(3)->SetRotation(45);
-	m_ObjM.GetGameObject(4)->SetPosition(vec3(20, 0));
-	//m_ObjM.GetGameObject(4)->SetRotation(45);
-	m_ObjM.GetGameObject(5)->SetPosition(vec3(10, 10));
 
 	m_ObjM.GetGameObject(0)->SetScale(vec3(5, 5));
-	m_ObjM.GetGameObject(1)->SetScale(vec3(1, 600));
-	m_ObjM.GetGameObject(2)->SetScale(vec3(800, 1));
-	m_ObjM.GetGameObject(3)->SetScale(vec3(800, 1));
-	m_ObjM.GetGameObject(4)->SetScale(vec3(1, 600));
-	m_ObjM.GetGameObject(5)->SetScale(vec3(10, 10));
+	m_ObjM.GetGameObject(1)->SetScale(vec3(10, 10));
 
 	//Set colors
 	m_ObjM.GetGameObject(0)->SetColor(vec4(1, 1, 1, 1));
 	m_ObjM.GetGameObject(1)->SetColor(vec4(0, 0, 1, 1));
-	m_ObjM.GetGameObject(2)->SetColor(vec4(1, 0, 0, 1));
-	m_ObjM.GetGameObject(3)->SetColor(vec4(0, 1, 0, 1));
-	m_ObjM.GetGameObject(4)->SetColor(vec4(1, 1, 0, 1));
-	m_ObjM.GetGameObject(5)->SetColor(vec4(1, 1, 1, 1));
 
 	//Bind rigid body
 	m_ObjM.GetGameObject(0)->BindRigidBody();
 	m_ObjM.GetGameObject(1)->BindRigidBody();
-	m_ObjM.GetGameObject(2)->BindRigidBody();
-	m_ObjM.GetGameObject(3)->BindRigidBody();
-	m_ObjM.GetGameObject(4)->BindRigidBody();
-	m_ObjM.GetGameObject(5)->BindRigidBody();
 
 	m_ObjM.GetGameObject(0)->GetRigidBody()->SetFriction(.0005f);
 	m_ObjM.GetGameObject(0)->GetRigidBody()->SetScale(vec3(5.f, 5.f));
-	m_ObjM.GetGameObject(1)->GetRigidBody()->ActivateMove(false);
-	m_ObjM.GetGameObject(2)->GetRigidBody()->ActivateMove(false);
-	m_ObjM.GetGameObject(3)->GetRigidBody()->ActivateMove(false);
-	m_ObjM.GetGameObject(4)->GetRigidBody()->ActivateMove(false);
-	m_ObjM.GetGameObject(5)->GetRigidBody()->SetFriction(.0005f);
-	m_ObjM.GetGameObject(5)->GetRigidBody()->SetScale(vec3(10.f, 10.f));
+	m_ObjM.GetGameObject(1)->GetRigidBody()->SetFriction(.0005f);
+	m_ObjM.GetGameObject(1)->GetRigidBody()->SetScale(vec3(10.f, 10.f));
 
 	//Init basic trunks
 	m_scene->Init(m_ObjM);
@@ -98,7 +70,6 @@ void MenuStage::Update(GameData& gd)
 	//Update basic trunks
 	m_world->Update(m_ObjM);
 	m_scene->Draw(m_ObjM);
-
 }
 
 void MenuStage::Shutdown()
@@ -162,13 +133,13 @@ void MenuStage::SampleAnimation(void)
 	if (InputManager::GetInstance().KeyTriggered(KEY_ENTER))
 	{
 		m_ObjM.GetGameObject(0)->GetRigidBody()->SetForce(Random::GetInstance().GetRandomVector(-1.f, 1.f));
-		m_ObjM.GetGameObject(5)->GetRigidBody()->SetForce(Random::GetInstance().GetRandomVector(-1.f, 1.f));
+		m_ObjM.GetGameObject(1)->GetRigidBody()->SetForce(Random::GetInstance().GetRandomVector(-1.f, 1.f));
 	}
 
 	if (InputManager::GetInstance().KeyTriggered(KEY_SPACE))
 	{
 		m_ObjM.GetGameObject(0)->GetRigidBody()->ClearVelocity();
-		m_ObjM.GetGameObject(5)->GetRigidBody()->ClearVelocity();
+		m_ObjM.GetGameObject(1)->GetRigidBody()->ClearVelocity();
 	}
 
 	//Show the mouse's position when mouse botton clicked

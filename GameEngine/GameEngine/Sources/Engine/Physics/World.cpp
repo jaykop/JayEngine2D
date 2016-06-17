@@ -34,15 +34,17 @@ void World::Update(ObjectManager& objM)
 			if (!it1->second->GetRigidBody()->IsCollided())
 				it1->second->GetRigidBody()->SetLastPosition(it1->second->GetPosition());
 
+			//Work basic motion
 			BodyPipeline(it1->second);
 			
 			// 2. if 2st sprite's colliders to be worked, check colliders
 			if (it1->second->GetRigidBody()->GetColliderToggle())
 			{
-				for (auto it2 = objM.GetList().begin(); it2 != objM.GetList().end(); ++it2)
+				auto next = it1;
+				for (auto it2 = ++next; it2 != objM.GetList().end(); ++it2)
 				{
-					// 3. If both objs are differenct, both bodies has own body, 
-					//activated body toggle and collider body,
+					// 3. If both objs are differenct and both bodies has own body, 
+					// activated body and collider body,
 					if (it1 != it2 && it2->second->HasRigidBody() &&
 						it2->second->GetRigidBody()->GetColliderToggle())
 					{					
@@ -51,15 +53,12 @@ void World::Update(ObjectManager& objM)
 							it2->second->GetRigidBody()->SetLastPosition(it2->second->GetPosition());
 
 						// 4. then check the colliders.
+						//Check two sprites' collision status
 						bool collisionIntersect = CollisionIntersect(it1->second, it2->second);
+						CollisionRelation(it1->second, it2->second, collisionIntersect);
+
 						if (collisionIntersect)
 							CollisionResponse(it1->second, it2->second);
-
-						//No collision, then set info diffrently
-						//Check two sprites' collision status
-						else
-							CollisionRelation(it1->second, it2->second, false);
-
 						// 4. Check the colliders
 					}// 3. Has Rigid Body, 2 toggles to work
 				}
@@ -86,9 +85,9 @@ void World::BodyPipeline(Sprite* spt)
 		spt->GetRigidBody()->GetFriction());
 
 	//Control the meaningless force
-	if (spt->GetRigidBody()->GetSpeed().x < SMALL_ENOUGH)
+	if (spt->GetRigidBody()->GetSpeed().x < 0)
 		spt->GetRigidBody()->SetSpeed(vec3(0.f, spt->GetRigidBody()->GetSpeed().y));
-	if (spt->GetRigidBody()->GetSpeed().y < SMALL_ENOUGH)
+	if (spt->GetRigidBody()->GetSpeed().y < 0)
 		spt->GetRigidBody()->SetSpeed(vec3(spt->GetRigidBody()->GetSpeed().x, 0.f));
 
 	//Update body's speed and velocity
@@ -103,69 +102,14 @@ void World::BodyPipeline(Sprite* spt)
 		spt->GetPosition().z));
 }
 
-bool World::CollisionIntersect(Sprite* spt1, Sprite* spt2)
-{
-	//Get rectangle;s vertices
-
-	//Refresh the vetices
-	body1 = GetVertices(spt1);
-	body2 = GetVertices(spt2);
-
-	//Refresh the mins and maxs
-	body1_min = 0, body1_max = 0;
-	body2_min = 0, body2_max = 0;
-
-	//Calculate 1st body's edges projection
-	for (int index = 0; index < 4; ++index)
-	{
-		vec3 edge;
-		if (index == 3)
-			edge = body1[0] - body1[index];
-		else
-			edge = body1[index + 1] - body1[index];
-
-		edge = vec3(edge.y, -edge.x, edge.z);
-		vec3 norm_edge = edge.Normalize();
-
-		LineProjection(body1, norm_edge, body1_min, body1_max);
-		LineProjection(body2, norm_edge, body2_min, body2_max);
-
-		if (spt1->GetID() == 0 && spt2->GetID() == 5)
-			std::cout << body1_min << " " << body1_max << " " << body2_min << " " << body2_max << "\n";
-
-		if (body1_min > body2_max || body2_min > body1_max)
-			return false;
-	}
-
-	//Calculate 2nd body's edges projection
-	for (int index = 0; index < 4; ++index)
-	{
-		vec3 edge;
-		if (index == 3)
-			edge = body2[0] - body2[index];
-		else
-			edge = body2[index + 1] - body2[index];
-
-		edge = vec3(edge.y, -edge.x, edge.z);
-		vec3 norm_edge = edge.Normalize();
-
-		LineProjection(body2, norm_edge, body2_min, body2_max);
-		LineProjection(body1, norm_edge, body1_min, body1_max);
-		if (body2_min > body1_max || body1_min > body2_max)
-			return false;
-	}
-
-	return true;
-}
-
 Vertices World::GetVertices(Sprite* spt)
 {
 	//  vert[1]     vert[2]
-	//    |----------|
+	//    *----------*
 	//    |		     |
 	//    |	  spt    |
 	//    |		     |
-	//    |----------|
+	//    *----------*
 	//	vert[0]     vert[3]
 
 	//Get rectangle;s vertices' position
@@ -201,29 +145,80 @@ void World::LineProjection(Vertices& vert, vec3& point, float &min, float &max)
 	}
 }
 
+bool World::CollisionIntersect(Sprite* spt1, Sprite* spt2)
+{
+	//Get rectangle;s vertices
+
+	//Refresh the vetices
+	body1 = GetVertices(spt1);
+	body2 = GetVertices(spt2);
+
+	//Refresh the mins and maxs
+	body1_min = 0, body1_max = 0;
+	body2_min = 0, body2_max = 0;
+
+	//Calculate 1st body's edges projection
+	for (int index = 0; index < 4; ++index)
+	{
+		vec3 edge;
+		if (index == 3)
+			edge = body1[0] - body1[index];
+		else
+			edge = body1[index + 1] - body1[index];
+
+		edge = vec3(edge.y, -edge.x, edge.z);
+		vec3 norm_edge = edge.Normalize();
+
+		LineProjection(body1, norm_edge, body1_min, body1_max);
+		LineProjection(body2, norm_edge, body2_min, body2_max);
+		if (body1_min > body2_max || body2_min > body1_max)
+			return false;
+	}
+
+	//Calculate 2nd body's edges projection
+	for (int index = 0; index < 4; ++index)
+	{
+		vec3 edge;
+		if (index == 3)
+			edge = body2[0] - body2[index];
+		else
+			edge = body2[index + 1] - body2[index];
+
+		edge = vec3(edge.y, -edge.x, edge.z);
+		vec3 norm_edge = edge.Normalize();
+
+		LineProjection(body2, norm_edge, body2_min, body2_max);
+		LineProjection(body1, norm_edge, body1_min, body1_max);
+		if (body2_min > body1_max || body1_min > body2_max)
+			return false;
+	}
+
+	return true;
+}
+
 void World::CollisionResponse(Sprite* spt1, Sprite* spt2)
 {	
 	// Todo: Temporary function!
 	// Need to be fixed!!!
-	// Set info that sprites are collided
-	CollisionRelation(spt1, spt2, true);
 
-	
-	spt1->SetPosition(spt1->GetRigidBody()->GetLastPosition());				// Move to the uncollided last position
+	//vec3 new_vel = -spt1->GetRigidBody()->GetVelocity();
 	vec3 new_vel = spt1->GetRigidBody()->GetVelocity().Reflection(
-		GetCollidedLine(body1, body2).Rotation(90).Normalize());			// Calculate new velocity
+		GetCollidedLine(spt1, spt2).Rotation(90).Normalize());			// Calculate new velocity
 	spt1->GetRigidBody()->SetVelocity(new_vel);								// Set new velocity
 	spt1->GetRigidBody()->SetSpeed(spt1->GetRigidBody()->GetSpeed() / 2);	// Reduce the speed(force)
+	spt1->SetPosition(spt1->GetRigidBody()->GetLastPosition());				// Move to the uncollided last position
+
 	//BodyPipeline(spt1);
 
 	// If 2nd sprite is movable, add half force of 1st sprite
 	if (spt2->GetRigidBody()->GetMoveToggle())
 	{
-		spt2->SetPosition(spt2->GetRigidBody()->GetLastPosition());			// Move to the uncollided last position
-		vec3 new_vel = spt2->GetRigidBody()->GetVelocity().Reflection(
-			GetCollidedLine(body1, body2).Rotation(90).Normalize());		// Calculate new velocity
-		spt2->GetRigidBody()->SetVelocity(new_vel);							// Set new velocity
-		spt2->GetRigidBody()->SetSpeed(spt1->GetRigidBody()->GetSpeed());	// Reduce the speed(force)
+		//spt2->SetPosition(spt2->GetRigidBody()->GetLastPosition());			// Move to the uncollided last position
+		//vec3 new_vel2 = spt2->GetRigidBody()->GetVelocity().Reflection(
+			//GetCollidedLine(spt2, spt1).Rotation(90).Normalize());		// Calculate new velocity
+		spt2->GetRigidBody()->SetVelocity(-spt1->GetRigidBody()->GetVelocity());// Set new velocity
+		spt2->GetRigidBody()->SetSpeed(spt2->GetRigidBody()->GetSpeed() 
+			+ spt1->GetRigidBody()->GetSpeed() / 2);	// Reduce the speed(force)
 		//BodyPipeline(spt2);
 	}
 
@@ -235,7 +230,9 @@ void World::CollisionRelation(Sprite* spt1, Sprite* spt2, bool coliided)
 	spt1->GetRigidBody()->CheckCollided(coliided);
 	spt2->GetRigidBody()->CheckCollided(coliided);
 	
-	//Refresh info
+	// Todo: Get 2 bodies' collision info
+	// write the code here
+
 	//of2Spts.Spt1_id = spt1->GetID();
 	//of2Spts.Spt2_id = spt2->GetID();
 	//of2Spts.collision = coliided;
@@ -260,93 +257,101 @@ bool World::GetCollisionResponse(Sprite* spt1, Sprite* spt2)
 void World::CollisionPipeline()
 {}
 
-vec3 World::GetCollidedLine(Vertices& body1, Vertices& body2)
+vec3 World::GetCollidedLine(const Sprite* spt1, const  Sprite* spt2)
 {
 	// Get spt2's collded line(edge) to set reflected velocity
 
-	bool hooker = false;
-	vec3 collided_edge;
-	vec3 inversed_edge;
-
-	// Put first body in
-	for (int i = 0; i < 4; ++i)
+	int numOfedge = 0;
+	int  edgeIndex[2];
+	vec3 edge[2];
+	vec3 result;
+	// Get the vertice got 2nd sprite's inside 
+	for (int index = 0; index < 4; ++index)
+	if (VerticeProjection(body1[index], spt2))
 	{
-		// Put second body in
-		for (int j = 0; j < 4; ++j)
-		{
-			// Check each index cases
-			if (j == 3 && i == 3)
-			{
-				// Calculate and check
-				hooker = Math::LineIntersection(body1[i], body1[0],
-					body2[j], body2[0]);
-				// Get the edge
-				collided_edge = body2[0] - body2[j];
-			}
-			else if (j != 3 && i == 3)
-			{
-				hooker = Math::LineIntersection(body1[i], body1[0],
-					body2[j], body2[j + 1]);
-				collided_edge = body2[j + 1] - body2[j];
-			}
-			else if (j == 3 && i != 3)
-			{
-				hooker = Math::LineIntersection(body1[i], body1[i + 1],
-					body2[j], body2[0]);
-				collided_edge = body2[0] - body2[j];
-			}
-			else
-			{
-				hooker = Math::LineIntersection(body1[i], body1[i + 1],
-					body2[j], body2[j + 1]);
-				collided_edge = body2[j + 1] - body2[j];
-			}
-			//If got the answer, quit the loop
-			if (hooker) 
-				return collided_edge;
-		}
-		//If got the answer, quit the loop
-		if (hooker) 
-			return collided_edge;
+		edgeIndex[numOfedge] = index;
+		edge[numOfedge] = body1[index];
+		++numOfedge;
 	}
-
-	return collided_edge;
-}
-
-void GetCollidedVertices(Vertices& vert1, Vertices& vert2)
-{
-	// Check the 1st sprites' vertices are if either
-	// inside or outside of the opponent sprite box.
-	
-	// Get highest vertices and lowest vertices
-
-
 
 	//		intersect 1 point
 	//			*---------------*
 	//			|				|
-	//			|		body1_vertices1
-	//		*-----------*		|
+	//			|		edge[0] |
+	//		*---+-------*		|
 	//		|	|		| dy	|
-	//		|	|		|		|
-	//		|	*-------|-------*
-	//		|		dx	|
+	//		|	|	dx	|		|
+	//		|	*-------+-------*
+	//		| shortest	|
 	//		*-----------*
-	//	body2_verteices2
-	//
-	//	solution: ->return reflection vector
-		
+	if (numOfedge == 1)
+	{
+		float distance[4] = { 0 };
+		float shortest = distance[0] = Math::DistanceOf2Points(body1[0], edge[0]);;
+		int	shortest_index = 0;
 
+		// Calculate which is the closest to the 1st sprite's middle point(position)
+		for (int index = 1; index < 4; ++index)
+		{
+			distance[index] = Math::DistanceOf2Points(body1[index], edge[0]);
+			if (shortest > distance[index])
+			{
+				shortest = distance[index];
+				shortest_index = index;
+			}
+		}
+
+		// Decide where to reflex
+		if (abs(body1[shortest_index].x - edge[0].x) > abs(body1[shortest_index].y - edge[0].y))
+		{
+			if (shortest_index == 0 && edgeIndex[0] == 3)
+				result = edge[0] - edge[1];
+			else
+				result = edge[1] - edge[0];
+		}
+
+		else
+		{
+			if (shortest_index == 0 && edgeIndex[0] == 3)
+				result = edge[0] - edge[1];
+			else
+				result = edge[1] - edge[0];
+		}
+	}
 
 	//		intersect 2 points
 	//			*-----------*	
 	//			|			|	
-	//		*-------------------*
+	//		*---+-----------+---*
 	//		|	|			|	|
 	//		|	*-----------*	|
-	//		|					|
+	//		| edge[0]	edge[1]	|
 	//		*-------------------*
-	//
-	//		solution: ->return -velocity
+	else if (numOfedge == 2)
+	{
+		if (edgeIndex[0] == 0 && edgeIndex[1] == 3)
+			result = edge[0] - edge[1];
+		else
+			result = edge[1] - edge[0];;
+	}
 
+	return result;
+}
+
+bool World::VerticeProjection(vec3& vert, const Sprite* spt)
+{
+	vec3 new_vert = vert;
+
+	// If 2nd sprite is rotated, then vertice also should be rotated
+	// but not real rotation, just for checking
+	if (spt->GetRotation())
+		new_vert = vert.Rotation(spt->GetRotation(), spt->GetPosition());
+	
+	if ((new_vert.y > spt->GetPosition().y - spt->GetRigidBody()->GetScale().y / 2) &&
+		(new_vert.y < spt->GetPosition().y + spt->GetRigidBody()->GetScale().y / 2) &&
+		(new_vert.x > spt->GetPosition().x - spt->GetRigidBody()->GetScale().x / 2) &&
+		(new_vert.x < spt->GetPosition().x + spt->GetRigidBody()->GetScale().x / 2))
+		return true;
+
+	return false;
 }

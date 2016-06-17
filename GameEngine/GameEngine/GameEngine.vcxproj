@@ -128,6 +128,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Includes\LodePNG\lodepng.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="Sources\Engine\Apps\Application.h" />
     <ClInclude Include="Sources\Engine\Graphic\Texture.h" />
     <ClInclude Include="Sources\Engine\Logic\Logic.h" />
@@ -177,6 +178,14 @@
     <Text Include="Sources\Engine\ObjectManager\copyMap2Vec.txt">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Resources\Texture\Icon\icon.bmp" />
+    <Image Include="Resources\Texture\Icon\icon.ico" />
+    <Image Include="Resources\Texture\Icon\icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="GameEngine.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

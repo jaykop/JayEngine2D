@@ -51,9 +51,10 @@ private:
 
 	//Collision helper functions
 	Vertices GetVertices(Sprite* spt);
-	vec3 GetCollidedLine(Vertices& body1, Vertices& body2);
+	bool VerticeProjection(vec3& vert, const Sprite* spt2);
+	vec3 GetCollidedLine(const Sprite* spt1, const  Sprite* spt2);
 	void LineProjection(Vertices& vert, vec3& point, float &min, float &max);
-
+	
 	//Collision functions
 	bool CollisionIntersect(Sprite* spt1, Sprite* spt2);
 	void CollisionResponse(Sprite* spt1, Sprite* spt2);
@@ -69,6 +70,8 @@ private:
 	float body1_min, body1_max; 
 	float body2_min, body2_max;
 	float tx_max, ty_max, tx_min, ty_min;
+
+	//Todo: Line collision (to be dynamic; list)
 };
 
 #endif // _WORLD_H_

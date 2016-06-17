@@ -71,7 +71,7 @@ Vector3<Type> Vector3<Type>::operator+(const Vector3& rhs) const
 
 	new_one.x = x + rhs.x;
 	new_one.y = y + rhs.y;
-	new_ont.z = z + rhs.z;
+	new_one.z = z + rhs.z;
 
 	return new_one;
 }

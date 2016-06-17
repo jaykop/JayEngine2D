@@ -217,8 +217,19 @@
     <ClInclude Include="Sources\Engine\Apps\GLManager.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Sources\Engine\ObjectManager\copyMap2Vec.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Resources\Texture\Icon\icon.png" />
+    <Image Include="Resources\Texture\Icon\icon.bmp" />
+    <Image Include="Resources\Texture\Icon\icon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="GameEngine.rc" />
   </ItemGroup>
 </Project>

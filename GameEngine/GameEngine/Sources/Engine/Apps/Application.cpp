@@ -3,11 +3,12 @@
 #include "../Utilities/Debug/Debug.h"
 #include "../InputManager/InputManager.h"
 #include "../../Game/BaseData/LoadStages.h"
+#include <tchar.h>
 
 namespace
 {
 	/*!Name of the window class*/
-	const char* CLASS_NAME = "How Engine";
+	const char* CLASS_NAME = "Game Engine";
 	/*!Window style if the user chooses full screen*/
 	const DWORD FULLSCREEN_STYLE = WS_POPUP | WS_VISIBLE;
 	/*!Window style if the user choose windowed mode*/
@@ -49,6 +50,8 @@ Application::Application(const InitData& initData)
 	m_isFullScreen = initData.isFullScreen;
 	m_style = (initData.isFullScreen) ? FULLSCREEN_STYLE : WINDOWED_STYLE;
 	m_isQuitting = false;
+
+	SetConsoleIcon(LoadIcon(0, IDI_EXCLAMATION));
 
 	//Set up our WNDCLASS(defaults)
 	m_winClass.style = CS_OWNDC | CS_HREDRAW | CS_VREDRAW; //OpenGL
@@ -348,4 +351,15 @@ LRESULT CALLBACK Application::WinProc(HWND win, UINT msg, WPARAM wp, LPARAM lp)
 
 	return 0;
 
+}
+
+BOOL WINAPI Application::SetConsoleIcon(HICON hIcon)
+{
+	typedef BOOL(WINAPI *PSetConsoleIcon)(HICON);
+	static PSetConsoleIcon pSetConsoleIcon = NULL;
+	if (!pSetConsoleIcon)
+		pSetConsoleIcon = (PSetConsoleIcon)GetProcAddress(GetModuleHandle(_T("kernel32")), "SetConsoleIcon");
+	if (!pSetConsoleIcon)
+		return false;
+	return pSetConsoleIcon(hIcon);
 }

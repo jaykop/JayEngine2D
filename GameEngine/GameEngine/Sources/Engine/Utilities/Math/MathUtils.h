@@ -20,24 +20,28 @@ typedef Matrix2x2 mat22;
 
 namespace Math
 {
+	//Point struct
 	struct Pointf
 	{
 		float x;
 		float y;
 	};
 
+	//Line struct
 	struct Linef
 	{
 		Pointf p1;
 		Pointf p2;
 	};
 
+	//boolean and vector
 	struct boolVec
 	{
 		bool boolean;
 		vec3 vector;
 	};
 
+	//Converters radian and degree
 	float DegToRad(float degree);
 	float RadToDeg(float radian);
 
@@ -52,6 +56,9 @@ namespace Math
 	bool LineIntersection(
 		const vec3& line1_start, const vec3& line1_end,
 		const vec3& line2_start, const vec3& line2_end);
+
+	float DistanceOf2Points(const vec3& a, const vec3& b);
+	float DistanceOf2Points(const Pointf& a, const Pointf& b);
 }
 
 #endif //_MATHUTILS_H_
