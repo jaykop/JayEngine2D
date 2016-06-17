@@ -36,7 +36,7 @@ void World::Update(ObjectManager& objM)
 
 			BodyPipeline(it1->second);
 			
-			// 2. if sprite's colliders to be worked
+			// 2. if 2st sprite's colliders to be worked, check colliders
 			if (it1->second->GetRigidBody()->GetColliderToggle())
 			{
 				for (auto it2 = objM.GetList().begin(); it2 != objM.GetList().end(); ++it2)
@@ -49,8 +49,6 @@ void World::Update(ObjectManager& objM)
 						//Save last position
 						if (!it2->second->GetRigidBody()->IsCollided())
 							it2->second->GetRigidBody()->SetLastPosition(it2->second->GetPosition());
-						
-						//BodyPipeline(it2->second);
 
 						// 4. then check the colliders.
 						bool collisionIntersect = CollisionIntersect(it1->second, it2->second);
@@ -61,6 +59,7 @@ void World::Update(ObjectManager& objM)
 						//Check two sprites' collision status
 						else
 							CollisionRelation(it1->second, it2->second, false);
+
 						// 4. Check the colliders
 					}// 3. Has Rigid Body, 2 toggles to work
 				}
@@ -87,9 +86,9 @@ void World::BodyPipeline(Sprite* spt)
 		spt->GetRigidBody()->GetFriction());
 
 	//Control the meaningless force
-	if (spt->GetRigidBody()->GetSpeed().x < 0.001f)
+	if (spt->GetRigidBody()->GetSpeed().x < SMALL_ENOUGH)
 		spt->GetRigidBody()->SetSpeed(vec3(0.f, spt->GetRigidBody()->GetSpeed().y));
-	if (spt->GetRigidBody()->GetSpeed().y < 0.001f)
+	if (spt->GetRigidBody()->GetSpeed().y < SMALL_ENOUGH)
 		spt->GetRigidBody()->SetSpeed(vec3(spt->GetRigidBody()->GetSpeed().x, 0.f));
 
 	//Update body's speed and velocity
@@ -130,6 +129,10 @@ bool World::CollisionIntersect(Sprite* spt1, Sprite* spt2)
 
 		LineProjection(body1, norm_edge, body1_min, body1_max);
 		LineProjection(body2, norm_edge, body2_min, body2_max);
+
+		if (spt1->GetID() == 0 && spt2->GetID() == 5)
+			std::cout << body1_min << " " << body1_max << " " << body2_min << " " << body2_max << "\n";
+
 		if (body1_min > body2_max || body2_min > body1_max)
 			return false;
 	}
@@ -205,29 +208,30 @@ void World::CollisionResponse(Sprite* spt1, Sprite* spt2)
 	// Set info that sprites are collided
 	CollisionRelation(spt1, spt2, true);
 
-	spt1->SetPosition(spt1->GetRigidBody()->GetLastPosition());
+	
+	spt1->SetPosition(spt1->GetRigidBody()->GetLastPosition());				// Move to the uncollided last position
 	vec3 new_vel = spt1->GetRigidBody()->GetVelocity().Reflection(
-		GetCollidedLine(body1, body2).Rotation(90).Normalize());
-	spt1->GetRigidBody()->SetVelocity(new_vel);
-	spt1->GetRigidBody()->SetSpeed(spt1->GetRigidBody()->GetSpeed() / 2);
+		GetCollidedLine(body1, body2).Rotation(90).Normalize());			// Calculate new velocity
+	spt1->GetRigidBody()->SetVelocity(new_vel);								// Set new velocity
+	spt1->GetRigidBody()->SetSpeed(spt1->GetRigidBody()->GetSpeed() / 2);	// Reduce the speed(force)
 	//BodyPipeline(spt1);
 
 	// If 2nd sprite is movable, add half force of 1st sprite
-	//if (spt2->GetRigidBody()->GetMoveToggle())
-	//{
-	//	spt2->SetPosition(spt2->GetRigidBody()->GetLastPosition());
-	//	vec3 new_vel = spt2->GetRigidBody()->GetVelocity().Reflection(
-	//		GetCollidedLine(body1, body2).Rotation(90).Normalize());
-	//	spt2->GetRigidBody()->SetVelocity(new_vel);
-	//	spt2->GetRigidBody()->SetSpeed(spt1->GetRigidBody()->GetSpeed());
-	//	//BodyPipeline(spt2);
-	//}
+	if (spt2->GetRigidBody()->GetMoveToggle())
+	{
+		spt2->SetPosition(spt2->GetRigidBody()->GetLastPosition());			// Move to the uncollided last position
+		vec3 new_vel = spt2->GetRigidBody()->GetVelocity().Reflection(
+			GetCollidedLine(body1, body2).Rotation(90).Normalize());		// Calculate new velocity
+		spt2->GetRigidBody()->SetVelocity(new_vel);							// Set new velocity
+		spt2->GetRigidBody()->SetSpeed(spt1->GetRigidBody()->GetSpeed());	// Reduce the speed(force)
+		//BodyPipeline(spt2);
+	}
 
 }
 
 void World::CollisionRelation(Sprite* spt1, Sprite* spt2, bool coliided)
 {
-	//Set each sprite's status
+	//Set each sprite's collision status
 	spt1->GetRigidBody()->CheckCollided(coliided);
 	spt2->GetRigidBody()->CheckCollided(coliided);
 	
@@ -258,17 +262,25 @@ void World::CollisionPipeline()
 
 vec3 World::GetCollidedLine(Vertices& body1, Vertices& body2)
 {
+	// Get spt2's collded line(edge) to set reflected velocity
+
 	bool hooker = false;
 	vec3 collided_edge;
+	vec3 inversed_edge;
 
+	// Put first body in
 	for (int i = 0; i < 4; ++i)
 	{
+		// Put second body in
 		for (int j = 0; j < 4; ++j)
 		{
+			// Check each index cases
 			if (j == 3 && i == 3)
 			{
+				// Calculate and check
 				hooker = Math::LineIntersection(body1[i], body1[0],
 					body2[j], body2[0]);
+				// Get the edge
 				collided_edge = body2[0] - body2[j];
 			}
 			else if (j != 3 && i == 3)
@@ -289,10 +301,52 @@ vec3 World::GetCollidedLine(Vertices& body1, Vertices& body2)
 					body2[j], body2[j + 1]);
 				collided_edge = body2[j + 1] - body2[j];
 			}
-			if (hooker) return collided_edge;
+			//If got the answer, quit the loop
+			if (hooker) 
+				return collided_edge;
 		}
-		if (hooker) return collided_edge;
+		//If got the answer, quit the loop
+		if (hooker) 
+			return collided_edge;
 	}
 
 	return collided_edge;
+}
+
+void GetCollidedVertices(Vertices& vert1, Vertices& vert2)
+{
+	// Check the 1st sprites' vertices are if either
+	// inside or outside of the opponent sprite box.
+	
+	// Get highest vertices and lowest vertices
+
+
+
+	//		intersect 1 point
+	//			*---------------*
+	//			|				|
+	//			|		body1_vertices1
+	//		*-----------*		|
+	//		|	|		| dy	|
+	//		|	|		|		|
+	//		|	*-------|-------*
+	//		|		dx	|
+	//		*-----------*
+	//	body2_verteices2
+	//
+	//	solution: ->return reflection vector
+		
+
+
+	//		intersect 2 points
+	//			*-----------*	
+	//			|			|	
+	//		*-------------------*
+	//		|	|			|	|
+	//		|	*-----------*	|
+	//		|					|
+	//		*-------------------*
+	//
+	//		solution: ->return -velocity
+
 }

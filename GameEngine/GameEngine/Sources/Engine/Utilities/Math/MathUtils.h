@@ -7,9 +7,10 @@
 #include "Vector/Vector3.h"
 #include "Vector/Vector4.h"
 
-#define PI 3.1415926535897932
-#define RADIAN 0.01745329251994329576923690768489
-#define RADIAN_DEGREE 57.2958
+#define PI 3.1415926535897932F
+#define RADIAN 0.01745329251994329576923690768489F
+#define RADIAN_DEGREE 57.2958F
+#define SMALL_ENOUGH 0.00000000001F
 
 typedef Vector4<float> vec4;
 typedef Vector3<float> vec3;
