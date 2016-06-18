@@ -30,25 +30,57 @@ void MenuStage::Init(GameData& gd)
 	m_ObjM.AddObject(0);
 	m_ObjM.AddObject(1);
 
-	//Set positions
-	m_ObjM.GetGameObject(0)->SetPosition(vec3(20, 0));
-	m_ObjM.GetGameObject(1)->SetPosition(vec3(-20, 0));
+	m_ObjM.AddObject(2);
+	m_ObjM.AddObject(3);
+	m_ObjM.AddObject(4);
+	m_ObjM.AddObject(5);
 
-	m_ObjM.GetGameObject(0)->SetScale(vec3(5, 5));
-	m_ObjM.GetGameObject(1)->SetScale(vec3(10, 10));
+	//Set positions
+	m_ObjM.GetGameObject(0)->SetPosition(vec3(10, 10));
+	m_ObjM.GetGameObject(1)->SetPosition(vec3(-10, -10));
+	//m_ObjM.GetGameObject(0)->SetRotation(Random::GetInstance().GetRandomFloat(0, 360));
+	//m_ObjM.GetGameObject(1)->SetRotation(Random::GetInstance().GetRandomFloat(0, 360));
+	m_ObjM.GetGameObject(0)->SetScale(vec3(30, 30));
+	m_ObjM.GetGameObject(1)->SetScale(vec3(30, 30));
+	m_ObjM.GetGameObject(0)->SetSpriteShape(CIRCLE);
+
+	m_ObjM.GetGameObject(2)->SetPosition(vec3(20, 0));
+	m_ObjM.GetGameObject(3)->SetPosition(vec3(-20, 0));
+	m_ObjM.GetGameObject(4)->SetPosition(vec3(0, -20));
+	m_ObjM.GetGameObject(5)->SetPosition(vec3(0, 20));
+
+	m_ObjM.GetGameObject(2)->SetScale(vec3(1, 300));
+	m_ObjM.GetGameObject(3)->SetScale(vec3(1, 300));
+	m_ObjM.GetGameObject(4)->SetScale(vec3(300, 1));
+	m_ObjM.GetGameObject(5)->SetScale(vec3(300, 1));
 
 	//Set colors
 	m_ObjM.GetGameObject(0)->SetColor(vec4(1, 1, 1, 1));
-	m_ObjM.GetGameObject(1)->SetColor(vec4(0, 0, 1, 1));
+	m_ObjM.GetGameObject(1)->SetColor(vec4(1, 1, 1, 1));
+
+	m_ObjM.GetGameObject(2)->SetColor(vec4(0, 0, 1, 1));
+	m_ObjM.GetGameObject(3)->SetColor(vec4(1, 1, 0, 1));
+	m_ObjM.GetGameObject(4)->SetColor(vec4(1, 0, 0, 1));
+	m_ObjM.GetGameObject(5)->SetColor(vec4(0, 1, 0, 1));
 
 	//Bind rigid body
 	m_ObjM.GetGameObject(0)->BindRigidBody();
 	m_ObjM.GetGameObject(1)->BindRigidBody();
 
+	m_ObjM.GetGameObject(2)->BindRigidBody();
+	m_ObjM.GetGameObject(3)->BindRigidBody();
+	m_ObjM.GetGameObject(4)->BindRigidBody();
+	m_ObjM.GetGameObject(5)->BindRigidBody();
+
 	m_ObjM.GetGameObject(0)->GetRigidBody()->SetFriction(.0005f);
 	m_ObjM.GetGameObject(0)->GetRigidBody()->SetScale(vec3(5.f, 5.f));
 	m_ObjM.GetGameObject(1)->GetRigidBody()->SetFriction(.0005f);
-	m_ObjM.GetGameObject(1)->GetRigidBody()->SetScale(vec3(10.f, 10.f));
+	m_ObjM.GetGameObject(1)->GetRigidBody()->SetScale(vec3(5.f, 5.f));
+
+	m_ObjM.GetGameObject(2)->GetRigidBody()->ActivateMove(false);
+	m_ObjM.GetGameObject(3)->GetRigidBody()->ActivateMove(false);
+	m_ObjM.GetGameObject(4)->GetRigidBody()->ActivateMove(false);
+	m_ObjM.GetGameObject(5)->GetRigidBody()->ActivateMove(false);
 
 	//Init basic trunks
 	m_scene->Init(m_ObjM);
@@ -111,8 +143,10 @@ void MenuStage::BasicControl(void)
 		m_GSM->Restart(true);
 
 	else if (InputManager::GetInstance().KeyTriggered(KEY_TAB))
+	{
 		m_ObjM.GetGameObject(0)->GetTexture()->LoadTexture("Resources/Texture/test.png");
-
+		m_ObjM.GetGameObject(1)->GetTexture()->LoadTexture("Resources/Texture/test.png");
+	}
 }
 
 void MenuStage::SampleAnimation(void)

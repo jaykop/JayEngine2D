@@ -303,3 +303,21 @@ Vector3<Type> Vector3<Type>::Rotation(float angle)
 
 	return result;
 }
+
+template<typename Type>
+bool Vector3<Type>::operator==(const Vector3& rhs)
+{
+	if (x != rhs.x || y != rhs.y || z != rhs.z)
+		return false;
+
+	return true;
+}
+
+template<typename Type>
+bool Vector3<Type>::operator!=(const Vector3& rhs)
+{
+	if (x != rhs.x || y != rhs.y || z != rhs.z)
+		return true;
+
+	return false;
+}

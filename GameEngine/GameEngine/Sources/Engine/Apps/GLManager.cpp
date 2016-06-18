@@ -9,10 +9,10 @@
 static const GLfloat m_vertex_buffer_data[] =
 { 
 //		X		Y		Z		U		V
-	-.5f,	-.5f,	 0.f,	-.5f,	 -.5f,
-	-.5f,	 .5f,	 0.f,	-.5f,	  .5f,
-	 .5f,	 .5f,	 0.f,	 .5f,	  .5f,
-	 .5f,	-.5f,	 0.f,	 .5f,	 -.5f
+	-.5f,	-.5f,	 0.f,	-1.f,	 -1.f,
+	-.5f,	 .5f,	 0.f,	-1.f,	  1.f, 
+	 .5f,	 .5f,	 0.f,	 1.f,	  1.f,
+	 .5f,	-.5f,	 0.f,	 1.f,	 -1.f
 };
 
 GLManager::GLManager(void)

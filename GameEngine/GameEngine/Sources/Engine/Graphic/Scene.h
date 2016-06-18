@@ -47,6 +47,7 @@ private:
 	int	m_width, m_height;
 	float aspectRatio;
 	float m_zNear, m_zFar, m_fovy;
+	float m_radius;
 
 	Texture m_texture;
 	GLuint m_texId;

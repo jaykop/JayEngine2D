@@ -20,6 +20,9 @@ public:
 	Vector3(const Vector4<Type>& copy);
 	~Vector3(void);
 
+	bool operator==(const Vector3& rhs);
+	bool operator!=(const Vector3& rhs);
+
 	Vector3& operator=(const Vector3& rhs);
 	Vector3& operator-(void);
 	Vector3& operator+=(const Vector3& rhs);

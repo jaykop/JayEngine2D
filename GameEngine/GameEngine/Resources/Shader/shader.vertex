@@ -15,7 +15,7 @@ out vec2 fragTexCoord;
 void main(){
 
 	fragmentColor = Color;
-    
-	gl_Position =  MVP * vec4(vertexPosition_modelspace, 1);
 	fragTexCoord = vertTexCoord;
+	gl_Position =  MVP * vec4(vertexPosition_modelspace, 1);
+
 }

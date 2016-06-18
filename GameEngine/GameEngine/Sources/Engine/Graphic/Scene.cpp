@@ -5,7 +5,7 @@
 
 Scene::Scene(Application* pApp)
 : m_width(0), m_height(0), m_zNear(0),
-m_zFar(0), m_fovy(0), aspectRatio(0),
+m_zFar(0), m_fovy(0), aspectRatio(0), m_radius(0),
 m_camera(vec4()), m_bgColor(vec4(0,0,0,0))
 {
 	m_pApp = pApp;
@@ -32,6 +32,7 @@ void Scene::Init(const ObjectManager& ObjM)
 		it->second->Init();
 
 	m_texId = glGetUniformLocation(m_pApp->GetGLManager()->GetShader().m_programID, "Texture");
+	
 }
 
 void Scene::Draw(const ObjectManager& ObjM)
@@ -56,6 +57,9 @@ void Scene::Draw(const ObjectManager& ObjM)
 		GLuint color = glGetUniformLocation(m_pApp->GetGLManager()->GetShader().m_programID, "Color");
 		glUniform4f(color, sptColor.x, sptColor.y, sptColor.z, sptColor.w);
 		
+		GLuint shape = glGetUniformLocation(m_pApp->GetGLManager()->GetShader().m_programID, "Shape");
+		glUniform1d(shape, it->second->GetSpriteShape());
+
 		//More high quality?
 		//glUniformMatrix4fv();
 
@@ -72,7 +76,7 @@ void Scene::Draw(const ObjectManager& ObjM)
 		glBindBuffer(GL_ARRAY_BUFFER, m_pApp->GetGLManager()->GetVertexBuffer());
 		glVertexAttribPointer(
 			0,						// must be match the layout in the shader
-			3,						// size
+			3,						// size : X+Y+Z => 3
 			GL_FLOAT,				// type
 			GL_FALSE,				// normalized
 			5 * sizeof(GLfloat),	// stride
@@ -83,13 +87,14 @@ void Scene::Draw(const ObjectManager& ObjM)
 		glEnableVertexAttribArray(1);
 		glBindBuffer(GL_ARRAY_BUFFER, m_pApp->GetGLManager()->GetVertexBuffer());
 		glVertexAttribPointer(
-			1,									// attribute. No particular reason for 1, but must match the layout in the shader.
-			2,									// size : U+V => 2
-			GL_FLOAT,							// type
-			GL_TRUE,							// normalized?
-			5 * sizeof(GLfloat),				// stride
-			(const GLvoid*)(3 * sizeof(GLfloat))// array buffer offset
+			1,								// attribute. No particular reason for 1, but must match the layout in the shader.
+			2,								// size : U+V => 2
+			GL_FLOAT,						// type
+			GL_TRUE,						// normalized?
+			5 * sizeof(GLfloat),			// stride
+			(GLvoid*)(3 * sizeof(GLfloat))	// array buffer offset
 		);
+
 
 		// Draw the triangle
 		glDrawArrays(GL_QUADS, 0, 4);

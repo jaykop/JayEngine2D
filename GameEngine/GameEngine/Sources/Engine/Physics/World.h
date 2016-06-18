@@ -51,8 +51,8 @@ private:
 
 	//Collision helper functions
 	Vertices GetVertices(Sprite* spt);
-	bool VerticeProjection(vec3& vert, const Sprite* spt2);
-	vec3 GetCollidedLine(const Sprite* spt1, const  Sprite* spt2);
+	vec3 GetCollidedLine(const Sprite* spt1, const Sprite* spt2);
+	Vertices GetOverlappedBox(const Sprite* spt1, const Sprite* spt2);
 	void LineProjection(Vertices& vert, vec3& point, float &min, float &max);
 	
 	//Collision functions
@@ -64,12 +64,19 @@ private:
 	//Calculate bodies' motion
 	void BodyPipeline(Sprite* spt);
 
+	// Helper variables
 	bool tx_Toggle, ty_Toggle;
 	CollisionInfo of2Spts;
 	Vertices body1, body2;
 	float body1_min, body1_max; 
 	float body2_min, body2_max;
 	float tx_max, ty_max, tx_min, ty_min;
+
+	vec3 collided_edge[2];
+	int body1_1stIndex[2];	// body1's 1st edge index
+	int body1_2ndIndex[2];	// body1's 2nd edge index
+	int body2_1stIndex[2];	// body2's 1st edge index
+	int body2_2ndIndex[2];	// body2's 2nd edge index
 
 	//Todo: Line collision (to be dynamic; list)
 };
