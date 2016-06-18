@@ -26,3 +26,28 @@ int main()
         cout << v[i].first << " : " << v[i].second << endl;
     return 0;
 }
+
+	bool order_comp(ZOrder* a, ZOrder* b)
+	{
+		if (a->m_isOrtho && !b->m_isOrtho)
+		{
+			return false;
+		}
+		else if (!a->m_isOrtho && b->m_isOrtho)
+		{
+			return true;
+		}
+		else
+		{
+			return a->m_Order < b->m_Order;
+		}
+			
+	}
+
+	void GraphicSystem::SortOrders(void)
+{
+	auto begin = m_OrderList.begin();
+	auto end = m_OrderList.end();
+
+	std::sort(begin, end, order_comp);
+}

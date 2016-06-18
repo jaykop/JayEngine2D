@@ -2,6 +2,7 @@
 #include "../Graphic//Sprite.h"
 #include "../ObjectManager/ObjectManager.h"
 #include "../Apps/Application.h"
+#include <algorithm>
 
 Scene::Scene(Application* pApp)
 : m_width(0), m_height(0), m_zNear(0),
@@ -158,4 +159,30 @@ void Scene::SetBackgroundColor(const vec4& background)
 vec4 Scene::GetBackgroundColor(void) const
 {
 	return m_bgColor;
+}
+
+void Scene::ReorderSprites(const ObjectManager* ObjM)
+{
+	auto begin = ObjM->GetList().begin();
+	auto end = ObjM->GetList().end();
+
+	//std::sort(begin, end, order_comp);
+}
+
+bool Scene::reorder_sprites(const Sprite* a, const Sprite* b)
+{
+	//Todo: Reorder sprites bu z order
+	if (a->GetProjectionType() == ORTHOGONAL && !(b->GetProjectionType() == ORTHOGONAL))
+	{
+		return false;
+	}
+	else if (!(a->GetProjectionType() == ORTHOGONAL) && b->GetProjectionType() == ORTHOGONAL)
+	{
+		return true;
+	}
+	else
+	{
+		// Todo: Finish the algorithm
+		//return a->m_Order < b->m_Order;
+	}
 }

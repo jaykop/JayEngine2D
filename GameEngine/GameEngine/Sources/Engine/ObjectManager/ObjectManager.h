@@ -2,7 +2,9 @@
 #define _OBJECTMANAGER_H_
 
 #include <hash_map>
-//#include <vector>
+#include <vector>
+//#include <iterator>
+//#include <algorithm>
 
 typedef std::hash_map<int, bool> Relation;
 
@@ -29,8 +31,8 @@ private:
 	std::hash_map<int, Sprite*> m_ObjectList;	// Sprite hashmap
 	
 	//// for scsne
-	//std::vector<float, Sprite*> m_orthoList;	// Ortho sprites hashmap
-	//std::vector<float, Sprite*> m_perspList;	// Persp sprites hashmap
+	std::vector<std::pair<int, Sprite*>> m_orthoList;	// Ortho sprites hashmap
+	std::vector<std::pair<int, Sprite*>> m_perspList;	// Persp sprites hashmap
 
 	//// for world
 	//std::vector<int, Relation> m_collision;	// Collision relation hashmap

@@ -37,6 +37,10 @@ private:
 	// Private function
 	void Pipeline(const Sprite& sprite);
 
+	// Reorder sprites by z orders
+	void ReorderSprites(const ObjectManager* ObjM);
+	bool reorder_sprites(const Sprite* a, const Sprite* b);
+
 	// Math info
 	mat44 m_mvp;
 	vec4  m_camera;
@@ -53,7 +57,12 @@ private:
 	GLuint m_texId;
 
 	Application* m_pApp;
-	// Separate ortho and persp sprites into 2 lists.
+
+	std::vector<std::pair<int, Sprite*>> m_orthoList;	// Ortho sprites hashmap
+	std::vector<std::pair<int, Sprite*>> m_perspList;	// Persp sprites hashmap
+
+	// Todo: Separate ortho and persp sprites into 2 lists.
+	// Todo: Set drawing order sprites' z value
 	// 2 vector
 	
 };

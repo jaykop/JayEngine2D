@@ -55,6 +55,11 @@ private:
 	Vertices GetOverlappedBox(const Sprite* spt1, const Sprite* spt2);
 	void LineProjection(Vertices& vert, vec3& point, float &min, float &max);
 	
+	// Todo: RECT - RECT collision,
+	// RECT - CIRCLE collision,
+	// CIRCLE - CIRCLE collision.
+	// Collision response to be polished
+
 	//Collision functions
 	bool CollisionIntersect(Sprite* spt1, Sprite* spt2);
 	void CollisionResponse(Sprite* spt1, Sprite* spt2);
@@ -78,7 +83,8 @@ private:
 	int body2_1stIndex[2];	// body2's 1st edge index
 	int body2_2ndIndex[2];	// body2's 2nd edge index
 
-	//Todo: Line collision (to be dynamic; list)
+	// Todo: Line collision (to be dynamic; list)
+	// Todo: record collision relation between 2 spts
 };
 
 #endif // _WORLD_H_

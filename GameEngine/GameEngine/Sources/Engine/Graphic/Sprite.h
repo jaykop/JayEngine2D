@@ -7,7 +7,7 @@
 
 //Sprites' shape
 enum Shape { CIRCLE, RECTANGLE };
-enum Projt { PERSP, ORTHO };
+enum Projt { PERSPECTIVE, ORTHOGONAL };
 class RigidBody;
 class Sprite
 {
@@ -23,7 +23,7 @@ public:
 
 	const int GetID(void) const;
 
-	//Transforming functions
+	// Transforming functions
 	void SetPosition(const vec3& position);
 	void SetScale(const vec3& scale);
 	void SetRotation(float degree);
@@ -32,21 +32,27 @@ public:
 	vec3 GetScale(void) const;
 	float GetRotation(void) const;
 
-	//Color and texture setting
+	// Color and texture setting
 	void SetColor(const vec4& color);
 	vec4 GetColor(void) const;
 	
-	//Physics setting
+	// Physics setting
 	void BindRigidBody(void);
 	RigidBody* GetRigidBody(void) const;
 	void RemoveRigidBody(void);
 	bool HasRigidBody(void) const;
 
+	// Sprite's shape type
 	void SetSpriteShape(Shape type);
 	Shape GetSpriteShape(void) const;
 
+	// Sprite's texture 
 	void SetTexture(Texture* texture);
 	Texture* GetTexture(void) const;
+
+	// Projection type
+	void SetProjectionType(Projt projection);
+	Projt GetProjectionType(void) const;
 
 private:
 	

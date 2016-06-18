@@ -11,6 +11,7 @@ Sprite::Sprite(const int id)
 	m_body = 0;
 	m_id = id;
 	m_type = RECTANGLE;
+	m_prjt = PERSPECTIVE;
 	m_texture = 0;
 }
 
@@ -115,4 +116,14 @@ void Sprite::SetTexture(Texture* texture)
 Texture* Sprite::GetTexture(void) const
 {
 	return m_texture;
+}
+
+void Sprite::SetProjectionType(Projt projection)
+{
+	m_prjt = projection;
+}
+
+Projt Sprite::GetProjectionType(void) const
+{
+	return m_prjt;
 }
