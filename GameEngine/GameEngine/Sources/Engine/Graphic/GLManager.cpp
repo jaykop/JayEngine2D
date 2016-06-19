@@ -12,7 +12,7 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 /******************************************************************************/
 
 #include "GLManager.h"
-#include "Application.h"
+#include "../Apps/Application.h"
 
 //! vectext buffer information
 static const GLfloat m_vertex_buffer_data[] =

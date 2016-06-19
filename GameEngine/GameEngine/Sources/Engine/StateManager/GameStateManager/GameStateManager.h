@@ -7,6 +7,7 @@
 
 \description
 Contains GameStageManager's class and members
+
 All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 */
 /******************************************************************************/
@@ -24,9 +25,10 @@ class Stage;
 class Builder;
 class Application;
 
-//! Pause information
-struct PauseInfo
+//! Stage stack information
+struct StageInfo
 {
+	//! Stage stack's info
 	StageType stage;
 	Stage* pStage;
 };
@@ -43,6 +45,9 @@ stage, restart or quit.
 class GameStateManager
 {
 public:
+
+	// Destructor
+	~GameStateManager();
 
 	/*For use in Main*/
 	void Init(Application* pApp);
@@ -67,30 +72,34 @@ public:
 	ScreenSize GetResolution(void) const;
 	void SetResolution(const ScreenSize& res);
 
+	//! Manage window mode
 	void SetFullScreen(bool scr);
 	bool GetFullScreen(void) const;
+
+	//! Pointer to app gettor
 	Application* GetAppPtr(void);
 
 private:
 
-	void TriggerInputController(void);	//! Triggered Input Controller
-	void ChangeGameState(void);
+	void TriggerInputController(void);	//!< Triggered Input Controller
+	void ChangeGameState(void);			//!< Changed the current stage
 
-	bool m_isPausing;
-	bool m_isResuming;
+	bool m_isPausing;		//!< To control if the game is pausing.
+	bool m_isResuming;		//!< To control if the game is resuming.
 	bool m_isQuitting;      //!< To control if the game is quitting.
 	bool m_isRestarting;    //!< To control if the stage should restart.
 
 	Stage*		m_pStage;   //!< A pointer to the current stage
+	Stage*		m_paused;	//!< A pointer to the pause stage
 	StageType	m_next;     //!< The next stage to switch to
 	StageType	m_current;  //!< The current stage to update
-	StageType   m_1stStage;
+	StageType   m_1stStage;	//!< The 1st stage of this application
 
-	GameData	m_gameData;
-	Factory		m_factory;	
-	Application* m_pApp;
+	GameData	m_gameData;	//!< Game data to be used
+	Factory		m_factory;	//!< Factory that makes new stages
+	Application* m_pApp;	//!< pointer to the application
 
-	std::stack<PauseInfo> m_pauseStack;
+	std::stack<StageInfo> m_StageStack;
 };
 
 void ProccessMessages(void);

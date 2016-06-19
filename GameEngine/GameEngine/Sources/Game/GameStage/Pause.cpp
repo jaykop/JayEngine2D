@@ -15,22 +15,32 @@ void PauseStage::Init(GameData& gd)
 {
 	UNREFERENCED_PARAMETER(gd);
 	std::cout << "PauseStage::Init\n";
+
+	std::cout << "[Instruction]\n"
+		"Press P: Go back to Last stage\n ESC: Quit the App\n";
+
+	std::cout << "You can control the White box with keyboard arrows!\n";
+	
+	m_ObjM.BindGameSystem(m_GSM->GetAppPtr());
+	m_ObjM.InitGameSystem();
 }
 
 void PauseStage::Update(GameData& gd)
 {
 	UNREFERENCED_PARAMETER(gd);
-	std::cout << "PauseStage::Update\n";
+	//std::cout << "PauseStage::Update\n";
 
-	//if (InputManager::GetInstance().KeyPressed(KEY_ESC))
-	//	m_GSM->SetQuit(true);
+	if (InputManager::GetInstance().KeyTriggered(KEY_ESC))
+		m_GSM->SetQuit(true);
 
-	if (InputManager::GetInstance().KeyPressed(KEY_ESC))
+	if (InputManager::GetInstance().KeyTriggered(KEY_P))
 		m_GSM->Resume();
 
+	m_ObjM.UpdateGameSystem();
 }
 
 void PauseStage::Shutdown()
 {
 	std::cout << "PauseStage::Shutdown\n";
+	m_ObjM.ShutdownGameSystem();
 }

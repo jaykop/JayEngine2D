@@ -7,6 +7,7 @@
 
 \description
 Contains GameStageManager's class and member function
+
 All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 */
 /******************************************************************************/
@@ -14,6 +15,22 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 #include "../../../Game/BaseData/BaseStage.h"
 #include "../../InputManager/InputManager.h"
 #include "../../Apps/Application.h"
+
+/******************************************************************************/
+/*!
+\brief - GameStateManager's Destructor
+*/
+/******************************************************************************/
+GameStateManager::~GameStateManager()
+{
+	//Pop every stack
+	while (!m_StageStack.empty())
+		m_StageStack.pop();
+
+	// Delete pre-assigned pause stage 
+	delete m_paused;
+	m_paused = 0;
+}
 
 /******************************************************************************/
 /*!
@@ -26,14 +43,17 @@ void GameStateManager::Init(Application* pApp)
 {
 	//Init gsm info
 	m_pApp = pApp;
-	m_current = m_1stStage;
-	m_next = ST_MENU;
+				
 	m_pStage = 0;
 	m_gameData.dt = 0;
+	m_isPausing = false;
+	m_isResuming = false;
 	m_isQuitting = false;
 	m_isRestarting = false;
-	m_isPausing = false;
-	m_isPausing = false;
+
+	m_current = m_next = m_1stStage;
+	m_paused = m_factory.CreateStage(ST_PAUSE, this);	// Pre-assigned
+
 }
 /******************************************************************************/
 /*!
@@ -44,40 +64,77 @@ void GameStateManager::Init(Application* pApp)
 /******************************************************************************/
 void GameStateManager::Update(void)
 {
-	//if we are not restarting, we need to change stages
-	ChangeGameState();
-
-	//Init current stage
-	m_pStage->Init(m_gameData);
-
-	//Vsync
-	wglSwapIntervalEXT(1);
-	
-	//Timer timer;
-	//timer.StartTime();
-	//clock_t current;
-
-	//Update stage in a loop until a stage change/quit/restart is requested.
-	while (!m_isQuitting && !m_isRestarting &&
-		m_current == m_next)
+	// If gms is on resuming, nothing to init again
+	if (!m_isResuming)
 	{
-		//current = clock();				//dt settor
-		m_gameData.dt = 1.f / 60;
+		// if we are not restarting, we need to change stages
+		// but if this refresh is for pausing stage,
+		// no need to change stage
+		if (!m_isRestarting && !m_isPausing)
+			ChangeGameState();
 
-		ProccessMessages();				//Proccess Messages
-		m_pStage->Update(m_gameData);	//Game data update
-		TriggerInputController();		//Triggered Input Controller
-		SwapBuffers(					//Swap Buffer
-			m_pApp->GetGLManager()->GetHDC());
+		// If restarted once, then shut the toggle down
+		else if (m_isRestarting) m_isRestarting = false;
 
-		//clock_t newTime;
-		//do{
-		//	newTime = clock();
-		//} while ((newTime - current < CLOCKS_PER_SEC / 60));
+		// If paused once, then shut the toggle down
+		else if (m_isPausing) m_isPausing = false;
+
+		//Init current stage
+		m_StageStack.top().pStage->Init(m_gameData);
 	}
 
-	//shutdown current stage
-	m_pStage->Shutdown();
+	else m_isResuming = false;
+
+	// Vsync
+	// This does control the frame rate per second
+	wglSwapIntervalEXT(1);
+
+	//Update stage in a loop until a stage change/quit/restart is requested.
+	while (!m_isQuitting && !m_isRestarting && m_current == m_next
+		&& !m_isPausing && !m_isResuming)
+	{			
+		m_gameData.dt = 1.f / 60;	//dt settor
+		ProccessMessages();			//Proccess Messages
+
+		// Update the top stack stage with game data
+		m_StageStack.top().pStage->Update(m_gameData);
+
+		//Triggered Input Controller
+		TriggerInputController();		
+
+		//Swap Buffer
+		SwapBuffers(m_pApp->GetGLManager()->GetHDC());	
+	}
+
+	// If paused the app, 
+	// push pause stage to the stack 
+	if (m_isPausing)
+	{
+		m_StageStack.push(StageInfo{ ST_PAUSE, m_paused });
+	}
+
+	// If resume the app, 
+	// pop pause stage from the stack 
+	else if (m_isResuming)
+	{
+		m_StageStack.top().pStage->Shutdown();	// Do shutdown first
+		m_StageStack.pop();	// And then pop the stack
+	}
+
+	// If User quit at the puased stage,
+	else if (m_isQuitting)
+	{
+		// then shutdown every stage from the stack
+		while (!m_StageStack.empty())
+		{
+			m_StageStack.top().pStage->Shutdown();
+			m_StageStack.pop();
+		}
+	}
+
+	// Non for upper cases, just shutdown current stage
+	else
+		m_StageStack.top().pStage->Shutdown();
 
 }
 /******************************************************************************/
@@ -158,6 +215,12 @@ void GameStateManager::ChangeGameState(void)
 
 	//dynamically allocate a new stage based on the current state (use a swtich)
 	m_pStage = m_factory.CreateStage(m_current, this);
+
+	// This is to prevent crash
+	if(!m_StageStack.empty()) m_StageStack.pop();
+
+	// Add m_pStage to stage stack
+	m_StageStack.push(StageInfo{ m_current, m_pStage });
 }
 
 /******************************************************************************/
@@ -234,6 +297,7 @@ void GameStateManager::Resume(void)
 {
 	//Bo back to the last state
 	m_isPausing = false;
+	m_isResuming = true;
 }
 
 /******************************************************************************/

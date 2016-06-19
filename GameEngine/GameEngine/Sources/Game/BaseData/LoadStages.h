@@ -19,6 +19,7 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 #include "../GameStage/LV1Builder.h"
 #include "../GameStage/LV2Builder.h"
 #include "../GameStage/LV3Builder.h"
+#include "../GameStage/PauseBuilder.h"
 #include "../GameStage/MainMenuBuilder.h"
 #include "../GameStage/GameOverBuilder.h"
 

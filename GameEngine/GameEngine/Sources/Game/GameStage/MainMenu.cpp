@@ -7,6 +7,7 @@
 
 \description
 Contains MainMenu's class functions
+
 All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 */
 /******************************************************************************/
@@ -16,12 +17,9 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 
 /******************************************************************************/
 /*!
-\brief - Get Game Object(first created) using name.
+\brief - MenuStage constructor
 
-\param name - Object's name
-
-\return ObjectPtr - pointer to Object
-
+\param gsm - pointer to the gams state manager
 */
 /******************************************************************************/
 MenuStage::MenuStage(GameStateManager* gsm)
@@ -31,12 +29,7 @@ MenuStage::MenuStage(GameStateManager* gsm)
 
 /******************************************************************************/
 /*!
-\brief - Get Game Object(first created) using name.
-
-\param name - Object's name
-
-\return ObjectPtr - pointer to Object
-
+\brief - MenuStage destructor
 */
 /******************************************************************************/
 MenuStage::~MenuStage()
@@ -48,7 +41,7 @@ void MenuStage::Init(GameData& gd)
 {
 	UNREFERENCED_PARAMETER(gd);
 	std::cout << "MenuStage::Init\n";
-	std::cout << "[Instruction]\nPress 0: Main Menu\n"
+	std::cout << "[Instruction]\nPress P: Pause Stage\nPress 0: Main Menu\n"
 		"Press 1: ST_LV1\nPress 2: ST_LV2\nPress 3: ST_LV3\nPress ESC: Quit the App\n";
 	
 	std::cout << "You can control the White box with keyboard arrows!\n";
@@ -155,6 +148,9 @@ void MenuStage::BasicControl(void)
 
 	else if (InputManager::GetInstance().KeyTriggered(KEY_R))
 		m_GSM->Restart(true);
+
+	if (InputManager::GetInstance().KeyTriggered(KEY_P))
+		m_GSM->Pause();
 
 	else if (InputManager::GetInstance().KeyTriggered(KEY_TAB))
 	{

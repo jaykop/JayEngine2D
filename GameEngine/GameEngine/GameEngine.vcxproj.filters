@@ -95,7 +95,7 @@
     <ClCompile Include="Sources\Engine\StateManager\Factory\Factory.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Sources\Engine\Apps\GLManager.cpp">
+    <ClCompile Include="Sources\Engine\Graphic\GLManager.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -214,10 +214,13 @@
     <ClInclude Include="Sources\Engine\StateManager\Factory\Factory.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Sources\Engine\Apps\GLManager.h">
+    <ClInclude Include="resource.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="resource.h">
+    <ClInclude Include="Sources\Game\GameStage\PauseBuilder.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Engine\Graphic\GLManager.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

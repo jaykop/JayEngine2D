@@ -23,7 +23,7 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 #include "../../../Includes/GL/gl.h"
 #include "../../../Includes/GL/glu.h"
 
-#include "../Graphic/Shader.hpp"
+#include "Shader.hpp"
 
 class Shader;
 

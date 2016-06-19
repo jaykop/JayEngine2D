@@ -15,7 +15,5 @@ private:
 
 	//Obj Manager
 	ObjectManager m_ObjM;
-	Scene* m_scene;
-	World* m_world;
 
 };

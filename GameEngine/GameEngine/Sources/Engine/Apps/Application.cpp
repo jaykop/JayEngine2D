@@ -7,12 +7,12 @@
 
 \description
 Contains Application's class and member functions
+
 All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 */
 /******************************************************************************/
 
 #include "Application.h"
-#include "GLManager.h"
 #include "../Utilities/Debug/Debug.h"
 #include "../InputManager/InputManager.h"
 #include "../../Game/BaseData/LoadStages.h"
@@ -219,7 +219,7 @@ GLManager* Application::GetGLManager(void) const
 
 /******************************************************************************/
 /*!
-\brief - Build stages for game app
+\brief - Build stages and game logics for game app
 
 \return true
 */
@@ -231,6 +231,7 @@ bool Application::DataLoaded(void)
 	m_GSM.AddStage(ST_LV2, new LV2Builder);
 	m_GSM.AddStage(ST_LV3, new LV3Builder);
 	m_GSM.AddStage(ST_GAMEOVER, new GameOverBuilder);
+	m_GSM.AddStage(ST_PAUSE, new PauseBuilder);
 
 	m_GSM.SetFirstStage(ST_MENU);
 
