@@ -19,12 +19,10 @@ void MenuStage::Init(GameData& gd)
 		"Press 1: ST_LV1\nPress 2: ST_LV2\nPress 3: ST_LV3\nPress ESC: Quit the App\n";
 	
 	std::cout << "You can control the White box with keyboard arrows!\n";
-	
-	//New scene(for graphic)
-	m_scene = new Scene(m_GSM->GetAppPtr());
 
-	//New world(for physics)
-	m_world = new World();
+	//Init basic trunks
+	m_ObjM.BindGameSystem(m_GSM->GetAppPtr());
+	m_ObjM.InitGameSystem();
 
 	//Set sprites
 	m_ObjM.AddObject(0);
@@ -36,10 +34,10 @@ void MenuStage::Init(GameData& gd)
 	m_ObjM.AddObject(5);
 
 	//Set positions
-	m_ObjM.GetGameObject(0)->SetPosition(vec3(10, 10));
-	m_ObjM.GetGameObject(1)->SetPosition(vec3(-10, -10));
-	//m_ObjM.GetGameObject(0)->SetRotation(Random::GetInstance().GetRandomFloat(0, 360));
-	//m_ObjM.GetGameObject(1)->SetRotation(Random::GetInstance().GetRandomFloat(0, 360));
+	m_ObjM.GetGameObject(0)->SetPosition(vec3(10, 10, 0.2f));
+	m_ObjM.GetGameObject(1)->SetPosition(vec3(-10, -10, 0.1f));
+	m_ObjM.GetGameObject(0)->SetRotation(Random::GetInstance().GetRandomFloat(0, 360));
+	m_ObjM.GetGameObject(1)->SetRotation(Random::GetInstance().GetRandomFloat(0, 360));
 	m_ObjM.GetGameObject(0)->SetScale(vec3(30, 30));
 	m_ObjM.GetGameObject(1)->SetScale(vec3(30, 30));
 	m_ObjM.GetGameObject(0)->SetSpriteShape(CIRCLE);
@@ -56,7 +54,7 @@ void MenuStage::Init(GameData& gd)
 
 	//Set colors
 	m_ObjM.GetGameObject(0)->SetColor(vec4(1, 1, 1, 1));
-	m_ObjM.GetGameObject(1)->SetColor(vec4(1, 1, 1, 1));
+	m_ObjM.GetGameObject(1)->SetColor(vec4(0, 1, 1, 1));
 
 	m_ObjM.GetGameObject(2)->SetColor(vec4(0, 0, 1, 1));
 	m_ObjM.GetGameObject(3)->SetColor(vec4(1, 1, 0, 1));
@@ -81,10 +79,6 @@ void MenuStage::Init(GameData& gd)
 	m_ObjM.GetGameObject(3)->GetRigidBody()->ActivateMove(false);
 	m_ObjM.GetGameObject(4)->GetRigidBody()->ActivateMove(false);
 	m_ObjM.GetGameObject(5)->GetRigidBody()->ActivateMove(false);
-
-	//Init basic trunks
-	m_scene->Init(m_ObjM);
-	m_world->Init();
 }
 
 void MenuStage::Update(GameData& gd)
@@ -92,16 +86,11 @@ void MenuStage::Update(GameData& gd)
 	UNREFERENCED_PARAMETER(gd);
 	//std::cout << "MenuStage::Update\n";
 
-	static float a = 0;
-
 	BasicControl();
 	SampleAnimation();
 
-	//m_ObjM.GetGameObject(0)->SetRotation(++a);
-
 	//Update basic trunks
-	m_world->Update(m_ObjM);
-	m_scene->Draw(m_ObjM);
+	m_ObjM.UpdateGameSystem();
 }
 
 void MenuStage::Shutdown()
@@ -110,16 +99,7 @@ void MenuStage::Shutdown()
 
 	//Cleare all Objects of the list
 	m_ObjM.ClearObjectList();
-
-	//Shutdown basic trunks
-	m_scene->Shutdown();
-	m_world->Shutdown();
-
-	//Delete dynamic scene and world
-	delete m_scene;
-	delete m_world;
-	m_scene = 0;
-	m_world = 0;
+	m_ObjM.ShutdownGameSystem();
 }
 
 void MenuStage::BasicControl(void)

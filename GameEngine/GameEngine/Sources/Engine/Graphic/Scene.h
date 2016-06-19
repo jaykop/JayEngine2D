@@ -1,20 +1,22 @@
 #ifndef _SCENE_H_
 #define _SCENE_H_
 
+#include <vector>
+#include <hash_map>
 #include "../Graphic/Texture.h"
 #include "../Utilities/Math/MathUtils.h"
-
-//Separate ortho and persp sprites into 2 lists. 
-//#include <hash_map>
 
 //Todo: Should I use this or not?
 //typedef Vector3<GLfloat> GLvec3;
 //typedef Vector4<GLfloat> GLvec4;
 //typedef Matrix4x4<GLfloat> GLmat44;
 
-class ObjectManager;
-class Application;
 class Sprite;
+class Application;
+class ObjectManager;
+
+typedef std::hash_map<int, Sprite*> SpriteList;
+typedef std::vector<Sprite*> DrawList;
 
 //Graphic scene
 class Scene
@@ -23,8 +25,8 @@ public:
 
 	Scene(Application* pApp);
 	~Scene();
-	void Init(const ObjectManager& ObjM);
-	void Draw(const ObjectManager& ObjM);
+	void Init(void);
+	void Draw(void);
 	void Shutdown();
 
 	void SetBackgroundColor(const vec4& background);
@@ -32,14 +34,16 @@ public:
  	void SetCamera(const vec4& camera);
 	vec4 GetCamera(void) const;
 
+	void AddSprite(Sprite* newSpt);
+	void DeleteSprite(const int id);
+
 private:
 
 	// Private function
-	void Pipeline(const Sprite& sprite);
+	void Pipeline(const Sprite* sprite);
 
 	// Reorder sprites by z orders
-	void ReorderSprites(const ObjectManager* ObjM);
-	bool reorder_sprites(const Sprite* a, const Sprite* b);
+	void ReorderSprites(void);
 
 	// Math info
 	mat44 m_mvp;
@@ -53,18 +57,15 @@ private:
 	float m_zNear, m_zFar, m_fovy;
 	float m_radius;
 
+	// Texture info
 	Texture m_texture;
 	GLuint m_texId;
 
+	// To get GL manager
 	Application* m_pApp;
 
-	std::vector<std::pair<int, Sprite*>> m_orthoList;	// Ortho sprites hashmap
-	std::vector<std::pair<int, Sprite*>> m_perspList;	// Persp sprites hashmap
-
-	// Todo: Separate ortho and persp sprites into 2 lists.
-	// Todo: Set drawing order sprites' z value
-	// 2 vector
-	
+	// Ordered List (Depends on Z order, projection type...)
+	DrawList m_DrawList;
 };
 
 #endif // _SCENE_H_

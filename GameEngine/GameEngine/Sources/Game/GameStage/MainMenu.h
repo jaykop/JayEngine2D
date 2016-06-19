@@ -21,10 +21,6 @@ private:
 
 	//Obj Manager
 	ObjectManager m_ObjM;
-	Scene* m_scene;
-	World* m_world;
-
-	int numOfSprite;
 };
 
 #endif // _MAINMENUSTAGE_H_

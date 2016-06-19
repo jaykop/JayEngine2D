@@ -19,8 +19,7 @@ public:
 	Sprite(const int id);
 	~Sprite();
 
-	void Init();
-
+	// Id gettor
 	const int GetID(void) const;
 
 	// Transforming functions

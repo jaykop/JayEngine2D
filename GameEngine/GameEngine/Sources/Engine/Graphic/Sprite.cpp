@@ -16,16 +16,16 @@ Sprite::Sprite(const int id)
 }
 
 Sprite::~Sprite(void)
-{}
+{
+	if (m_HasBody)
+		delete m_body;
+
+	delete m_texture;
+}
 
 const int Sprite::GetID(void) const
 {
 	return m_id;
-}
-
-void Sprite::Init(void)
-{
-	//Todo: something here?
 }
 
 void Sprite::SetPosition(const vec3& position)

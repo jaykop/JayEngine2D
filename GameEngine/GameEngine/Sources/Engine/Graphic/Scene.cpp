@@ -1,8 +1,8 @@
+#include <algorithm>
 #include "Scene.h"
 #include "../Graphic//Sprite.h"
 #include "../ObjectManager/ObjectManager.h"
 #include "../Apps/Application.h"
-#include <algorithm>
 
 Scene::Scene(Application* pApp)
 : m_width(0), m_height(0), m_zNear(0),
@@ -10,12 +10,13 @@ m_zFar(0), m_fovy(0), aspectRatio(0), m_radius(0),
 m_camera(vec4()), m_bgColor(vec4(0,0,0,0))
 {
 	m_pApp = pApp;
+	m_DrawList.clear();
 }
 
 Scene::~Scene(void)
 {}
 
-void Scene::Init(const ObjectManager& ObjM)
+void Scene::Init(void)
 {
 	//Get projection information
 	ProjectionInfo temp = m_pApp->GetGLManager()->GetProjectionInfo();
@@ -29,23 +30,25 @@ void Scene::Init(const ObjectManager& ObjM)
 
 	m_camera = vec4(0, 0, 80, 0);
 
-	for (auto it = ObjM.GetList().begin(); it != ObjM.GetList().end(); ++it)
-		it->second->Init();
-
 	m_texId = glGetUniformLocation(m_pApp->GetGLManager()->GetShader().m_programID, "Texture");
 	
 }
 
-void Scene::Draw(const ObjectManager& ObjM)
+void Scene::Draw(void)
 {
 	//Refresh the screen
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glClearColor(m_bgColor.x, m_bgColor.y, m_bgColor.z, m_bgColor.w);
 
-	for (auto it = ObjM.GetList().begin(); it != ObjM.GetList().end(); ++it)
+	//Lambda loop expression
+	//std::for_each(m_DrawList.begin(), m_DrawList.end(),
+	//	[&](DrawList::iterator it)
+	//{
+
+	for (auto it = m_DrawList.begin(); it != m_DrawList.end(); ++it)
 	{
 		//Update pipeline
-		Pipeline(*it->second);
+		Pipeline((*it));
 
 		//Initialize matrix
 		m_matrixID = glGetUniformLocation(m_pApp->GetGLManager()->GetShader().m_programID, "MVP");
@@ -54,20 +57,20 @@ void Scene::Draw(const ObjectManager& ObjM)
 		glUniformMatrix4fv(m_matrixID, 1, GL_FALSE, &m_mvp.m_member[0][0]);
 
 		//Coloring
-		vec4 sptColor = (it->second->GetColor());
+		vec4 sptColor = ((*it)->GetColor());
 		GLuint color = glGetUniformLocation(m_pApp->GetGLManager()->GetShader().m_programID, "Color");
 		glUniform4f(color, sptColor.x, sptColor.y, sptColor.z, sptColor.w);
-		
+
 		GLuint shape = glGetUniformLocation(m_pApp->GetGLManager()->GetShader().m_programID, "Shape");
-		glUniform1d(shape, it->second->GetSpriteShape());
+		glUniform1d(shape, (*it)->GetSpriteShape());
 
 		//More high quality?
 		//glUniformMatrix4fv();
 
 		// Bind our texture in Texture Unit 0
 		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, it->second->GetTexture()->GetTexId());
-		
+		glBindTexture(GL_TEXTURE_2D, (*it)->GetTexture()->GetTexId());
+
 		// Set our "myTextureSampler" sampler to user Texture Unit 0
 		glUniform1i(m_texId, 0);
 
@@ -82,7 +85,7 @@ void Scene::Draw(const ObjectManager& ObjM)
 			GL_FALSE,				// normalized
 			5 * sizeof(GLfloat),	// stride
 			(GLvoid*)0				// array buffer offset
-		);
+			);
 
 		//// 2nd attribute buffer : UVs
 		glEnableVertexAttribArray(1);
@@ -94,24 +97,27 @@ void Scene::Draw(const ObjectManager& ObjM)
 			GL_TRUE,						// normalized?
 			5 * sizeof(GLfloat),			// stride
 			(GLvoid*)(3 * sizeof(GLfloat))	// array buffer offset
-		);
+			);
 
 
 		// Draw the triangle
 		glDrawArrays(GL_QUADS, 0, 4);
 		glDisableVertexAttribArray(0);
 		glDisableVertexAttribArray(1);
-		glDisable(GL_NICEST);
+		glDisable(GL_NICEST);		
 	}
+
+	//}); //Lambda loop expression
 }
 
 void Scene::Shutdown()
 {
-	
+	// Clear all sprites from the list to draw
+	m_DrawList.clear();
 }
 
 
-void Scene::Pipeline(const Sprite& sprite)
+void Scene::Pipeline(const Sprite* sprite)
 {
 	//Setting Perspection
 	mat44 projection = mat44::Perspective(m_fovy, aspectRatio, m_zNear, m_zFar);
@@ -132,9 +138,9 @@ void Scene::Pipeline(const Sprite& sprite)
 	model.SetIdentity();
 
 	//Transform model mat
-	model = model * mat44::Scale(sprite.GetScale());
-	model = model * mat44::Rotate(Math::DegToRad(sprite.GetRotation()), vec3(.0f, .0f, 1.f));
-	model = model * mat44::Translate(sprite.GetPosition());
+	model = model * mat44::Scale(sprite->GetScale());
+	model = model * mat44::Rotate(Math::DegToRad(sprite->GetRotation()), vec3(.0f, .0f, 1.f));
+	model = model * mat44::Translate(sprite->GetPosition());
 
 	//calculate fined final matrix
 	m_mvp = projection.Transpose() * camera.Transpose() * model.Transpose();
@@ -161,28 +167,68 @@ vec4 Scene::GetBackgroundColor(void) const
 	return m_bgColor;
 }
 
-void Scene::ReorderSprites(const ObjectManager* ObjM)
+namespace
 {
-	auto begin = ObjM->GetList().begin();
-	auto end = ObjM->GetList().end();
-
-	//std::sort(begin, end, order_comp);
+	// Order algorithm
+	bool reorder_sprites(const Sprite* a, const Sprite* b)
+	{
+		// Distinguish ortho type and pers type 
+		if (a->GetProjectionType() == ORTHOGONAL && !(b->GetProjectionType() == ORTHOGONAL))
+		{
+			return false;
+		}
+		else if (!(a->GetProjectionType() == ORTHOGONAL) && b->GetProjectionType() == ORTHOGONAL)
+		{
+			return true;
+		}
+		else
+		{
+			// Return higher z order one
+			return a->GetPosition().z < b->GetPosition().z;
+		}
+	}
 }
 
-bool Scene::reorder_sprites(const Sprite* a, const Sprite* b)
+void Scene::ReorderSprites(void)
 {
-	//Todo: Reorder sprites bu z order
-	if (a->GetProjectionType() == ORTHOGONAL && !(b->GetProjectionType() == ORTHOGONAL))
+	// Order algorithm
+	std::sort(m_DrawList.begin(), m_DrawList.end(), reorder_sprites);
+}
+
+void Scene::AddSprite(Sprite* newSpt)
+{
+	// Add sprite by Zorder and Projection type
+
+	auto it = m_DrawList.begin();
+
+	for (; it != m_DrawList.end(); ++it)
 	{
-		return false;
+		// If new sprite's z order is lower than next sprite
+		// Stop here
+		if ((*it)->GetPosition().z > newSpt->GetPosition().z)
+			break;	
 	}
-	else if (!(a->GetProjectionType() == ORTHOGONAL) && b->GetProjectionType() == ORTHOGONAL)
+
+	// Add sprite to the place where stopped
+	m_DrawList.insert(it, newSpt);
+
+	// Sort
+	ReorderSprites();
+}
+
+void Scene::DeleteSprite(const int id)
+{
+	//Find the sprite from the vector
+	for (auto it = m_DrawList.begin(); it != m_DrawList.end(); ++it)
 	{
-		return true;
+		// If found same id that client want to get
+		if ((*it)->GetID() == id)
+		{
+			// Delete it
+			m_DrawList.erase(it);
+			break;
+		}
 	}
-	else
-	{
-		// Todo: Finish the algorithm
-		//return a->m_Order < b->m_Order;
-	}
+
+	ReorderSprites();
 }

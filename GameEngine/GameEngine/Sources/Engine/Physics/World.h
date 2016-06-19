@@ -4,9 +4,11 @@
 #include <hash_map>
 #include "../Utilities/Math/MathUtils.h"
 
-class ObjectManager;
-class RigidBody;
 class Sprite;
+class RigidBody;
+class ObjectManager;
+
+typedef std::hash_map<int, Sprite*> SpriteList;
 
 //To check between 2 Sprites
 struct CollisionInfo
@@ -40,7 +42,7 @@ public:
 	~World();
 	
 	void Init();
-	void Update(ObjectManager& objM);
+	void Update(SpriteList& sptList);
 	void Shutdown();
 
 	//Make line collider in the world form point1 to point2

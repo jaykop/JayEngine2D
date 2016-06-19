@@ -27,10 +27,10 @@ void World::Init(void)
 	body1_min = body1_max = body2_min = body2_max = 0;
 }
 
-void World::Update(ObjectManager& objM)
+void World::Update(SpriteList& sptList)
 {
 	//Works each bodies' physics
-	for (auto it1 = objM.GetList().begin(); it1 != objM.GetList().end(); ++it1)
+	for (auto it1 = sptList.begin(); it1 != sptList.end(); ++it1)
 	{
 		// 1. If sprite has body and activated body to work.
 		if (it1->second->HasRigidBody() && 
@@ -49,7 +49,7 @@ void World::Update(ObjectManager& objM)
 			if (it1->second->GetRigidBody()->GetColliderToggle())
 			{
 				auto next = it1;
-				for (auto it2 = ++next; it2 != objM.GetList().end(); ++it2)
+				for (auto it2 = ++next; it2 != sptList.end(); ++it2)
 				{
 					// 3. If both objs are differenct and both bodies has own body, 
 					// activated body and collider body,
