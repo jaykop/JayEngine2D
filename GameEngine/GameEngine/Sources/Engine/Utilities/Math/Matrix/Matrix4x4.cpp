@@ -1,6 +1,6 @@
 /******************************************************************************/
 /*!
-\file   Matrix4x4.h
+\file   Matrix4x4.cpp
 \author Jeong Juyong
 \par    email: jeykop14\@gmail.com
 \date   2016/06/19(yy/mm/dd)

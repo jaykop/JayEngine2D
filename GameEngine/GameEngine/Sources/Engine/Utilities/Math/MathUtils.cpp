@@ -1,24 +1,58 @@
+/******************************************************************************/
+/*!
+\file   MathUtils.cpp
+\author Jeong Juyong
+\par    email: jeykop14\@gmail.com
+\date   2016/06/19(yy/mm/dd)
+
+\description
+Contains MathUtils's class and member function
+
+All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
+*/
+/******************************************************************************/
+
 #include "MathUtils.h"
 #include <cmath>
 #include <iomanip>
 
 namespace Math
 {
-	//Convert degree to radian 
+	/******************************************************************************/
+	/*!
+	\brief - Convert degree to radian 
+	\param degree - to be converted
+	\return result
+	*/
+	/******************************************************************************/
 	float DegToRad(float degree)
 	{
 		float result = degree * static_cast<float>(RADIAN);
 		return result;
 	}
 
-	//Convert radian to degree
+	/******************************************************************************/
+	/*!
+	\brief - Convert radian to degree
+	\param radian - to be converted
+	\return result
+	*/
+	/******************************************************************************/
 	float RadToDeg(float radian)
 	{
 		float result = radian * static_cast<float>(RADIAN_DEGREE);
 		return result;
 	}
 
-	//Get Rotated point around specific pivot point
+	/******************************************************************************/
+	/*!
+	\brief - Get Rotated point around specific pivot point
+	\param point - point to be rotated
+	\param angle - rotate degree
+	\param pivot - pivot point
+	\return new_point
+	*/
+	/******************************************************************************/
 	Pointf Rotation(const Pointf& point, float angle, const Pointf& pivot)
 	{
 		Pointf new_point(point);
@@ -38,7 +72,14 @@ namespace Math
 		return new_point;
 	}
 
-	//Get a intersection point by two lines
+	/******************************************************************************/
+	/*!
+	\brief - Get a intersection point by two lines
+	\param line1 - 1st line
+	\param line2 - 2nd line
+	\return inter_point
+	*/
+	/******************************************************************************/
 	Pointf  IntersectPointOf2Lines(const Linef& line1, const Linef& line2)
 	{
 		//Get Coefficients
@@ -62,7 +103,14 @@ namespace Math
 		return inter_point;
 	}
 
-	// Check if two line is intersected or not; for lines.
+	/******************************************************************************/
+	/*!
+	\brief - Check if two line is intersected or not; for lines.
+	\param line1 - 1st line
+	\param line2 - 2nd line
+	\return bool
+	*/
+	/******************************************************************************/
 	bool LineIntersection(const Linef& line1, const Linef& line2)
 	{
 		float denominator = ((line1.p2.x - line1.p1.x) * (line2.p2.y - line2.p1.y)) - ((line1.p2.y - line1.p1.y) * (line2.p2.x - line2.p1.x));
@@ -77,7 +125,16 @@ namespace Math
 
 	}
 
-	//Get a intersection point by two lines
+	/******************************************************************************/
+	/*!
+	\brief - Get a intersection point by two lines
+	\param line1 - 1st line's staring point(vector)
+	\param line2 - 2nd line's staring point(vector)
+	\param line1 - 1st line's ending point(vector)
+	\param line2 - 2nd line's ending point(vector)
+	\return boolVec
+	*/
+	/******************************************************************************/
 	boolVec  IntersectPointOf2Lines(
 		const vec3& line1_start, const vec3& line1_end,
 		const vec3& line2_start, const vec3& line2_end)
@@ -103,7 +160,16 @@ namespace Math
 		return boolVec{ false, vec3() };
 	}
 
-	// Check if two line is intersected or not; for vectors.
+	/******************************************************************************/
+	/*!
+	\brief - Check if two line is intersected or not; for vectors.
+	\param line1 - 1st line's staring point(vector)
+	\param line2 - 2nd line's staring point(vector)
+	\param line1 - 1st line's ending point(vector)
+	\param line2 - 2nd line's ending point(vector)
+	\return bool
+	*/
+	/******************************************************************************/
 	bool LineIntersection(
 		const vec3& line1_start, const vec3& line1_end,
 		const vec3& line2_start, const vec3& line2_end)
@@ -119,14 +185,28 @@ namespace Math
 		return (r >= 0 && r <= 1) && (s >= 0 && s <= 1);
 	}
 
-	// Calculate the distance of two vector(point).
+	/******************************************************************************/
+	/*!
+	\brief - Calculate the distance of two vector(point).
+	\param line1 - 1st point(vector)
+	\param line2 - 2nd point(vector)
+	\return float
+	*/
+	/******************************************************************************/
 	float DistanceOf2Points(const vec3& a, const vec3& b)
 	{
 		vec3 square((b.x - a.x) * (b.x - a.x), (b.y - a.y) * (b.y - a.y), 0);
 		return sqrt(square.x + square.y);
 	}
 
-	// Calculate the distance of two point.
+	/******************************************************************************/
+	/*!
+	\brief - Calculate the distance of two point.
+	\param line1 - 1st point
+	\param line2 - 2nd point
+	\return float
+	*/
+	/******************************************************************************/
 	float DistanceOf2Points(const Pointf& a, const Pointf& b)
 	{
 		vec3 square((b.x - a.x) * (b.x - a.x), (b.y - a.y) * (b.y - a.y), 0);

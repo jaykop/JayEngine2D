@@ -1,3 +1,17 @@
+/******************************************************************************/
+/*!
+\file   GameData.h
+\author Jeong Juyong
+\par    email: jeykop14\@gmail.com
+\date   2016/06/19(yy/mm/dd)
+
+\description
+Contains stage type, game data, resolution for screen size
+
+All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
+*/
+/******************************************************************************/
+
 #ifndef _GAMEDATA_H_
 #define _GAMEDATA_H_
 
@@ -12,11 +26,13 @@ enum  StageType {
 	ST_PAUSE 
 };
 
+/*! This game data will be used! */
 struct GameData
 {
 	float dt;
 };
 
+/*! This resolutions are standard for this engine! */
 namespace Resolution{
 
 	//Resolution Setup

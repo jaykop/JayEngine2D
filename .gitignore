@@ -70,3 +70,4 @@ GameEngine/GameEngine.v12.suo
 GameEngine/GameEngine/Debug/GameEngine.Build.CppClean.log
 *.pdb
 *.exe
+*.res

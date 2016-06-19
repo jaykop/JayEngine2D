@@ -7,6 +7,14 @@
 
 \description
 Contains Matrix4x4's template class and members
+Custom Matrix looks like this...
+
+0  1  2  3
+0	[ 00 10 20 30 ]
+1	[ 01 11 21 31 ]
+2	[ 02 12 22 32 ]
+3	[ 03 13 23 33 ]
+
 All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 */
 /******************************************************************************/
@@ -20,7 +28,7 @@ class Vector3;
 template <typename Type>
 class Vector4;
 
-//Matrix 4x4
+//! Matrix 4x4 template class
 template <typename Type>
 class Matrix4x4
 {
@@ -48,6 +56,7 @@ public:
 	Matrix4x4 operator*(const Type& constant) const;
 	Matrix4x4 operator/(const Type& constant) const;
 
+	// Transforming functions
 	// Matrix settor
 	Matrix4x4 Transpose(void);
 	void SetIdentity(void);

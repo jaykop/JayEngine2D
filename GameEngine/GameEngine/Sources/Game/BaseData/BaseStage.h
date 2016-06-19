@@ -1,3 +1,17 @@
+/******************************************************************************/
+/*!
+\file   BaseStage.h
+\author Jeong Juyong
+\par    email: jeykop14\@gmail.com
+\date   2016/06/19(yy/mm/dd)
+
+\description
+Contains base stage, base utils' header files consists of stage(state)
+
+All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
+*/
+/******************************************************************************/
+
 #ifndef _BASESTAGE_H_
 #define _BASESTAGE_H_
 

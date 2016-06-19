@@ -1,15 +1,48 @@
+/******************************************************************************/
+/*!
+\file   Vector3.cpp
+\author Jeong Juyong
+\par    email: jeykop14\@gmail.com
+\date   2016/06/19(yy/mm/dd)
+
+\description
+Contains vector3's template class and member function
+
+All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
+*/
+/******************************************************************************/
+
 #include "Vector4.h"
 #include <cmath>
 
+/******************************************************************************/
+/*!
+\brief - Vector3 Destructor
+*/
+/******************************************************************************/
 template <typename Type>
 Vector3<Type>::~Vector3(void)
 {}
 
+/******************************************************************************/
+/*!
+\brief - Vector3 Constructor
+\param _x - element x
+\param _y - element y
+\param _z - element z
+*/
+/******************************************************************************/
 template<typename Type>
 Vector3<Type>::Vector3(Type _x, Type _y, Type _z)
 : x(_x), y(_y), z(_z)
 {}
 
+/******************************************************************************/
+/*!
+\brief - Vector3 Copy Constructor
+\param copy - Vector3 to be copied
+*/
+/******************************************************************************/
 template <typename Type>
 Vector3<Type>::Vector3(const Vector3<Type>& copy)
 {
@@ -21,6 +54,12 @@ Vector3<Type>::Vector3(const Vector3<Type>& copy)
 	}
 }
 
+/******************************************************************************/
+/*!
+\brief - Vecto4 converter
+\param copy - to be converted to vector3
+*/
+/******************************************************************************/
 template <typename Type>
 Vector3<Type>::Vector3(const Vector4<Type>& copy)
 {
@@ -29,6 +68,13 @@ Vector3<Type>::Vector3(const Vector4<Type>& copy)
 	z = copy.z;
 }
 
+/******************************************************************************/
+/*!
+\brief - Vector3 = operator
+\param rhs - vector3 to be assigned
+\return *this
+*/
+/******************************************************************************/
 template <typename Type>
 Vector3<Type>& Vector3<Type>::operator=(const Vector3& rhs)
 {
@@ -42,6 +88,13 @@ Vector3<Type>& Vector3<Type>::operator=(const Vector3& rhs)
 	return *this;
 }
 
+/******************************************************************************/
+/*!
+\brief - Vector3 unary - operator
+\param rhs - Vector3 to be assigned
+\return *this
+*/
+/******************************************************************************/
 template <typename Type>
 Vector3<Type>& Vector3<Type>::operator-(void)
 {
@@ -52,6 +105,13 @@ Vector3<Type>& Vector3<Type>::operator-(void)
 	return *this;
 }
 
+/******************************************************************************/
+/*!
+\brief - Vector3 + operator
+\param rhs - number to be added
+\return new_one
+*/
+/******************************************************************************/
 template <typename Type>
 Vector3<Type> Vector3<Type>::operator+(const Type& constant) const
 {
@@ -64,6 +124,13 @@ Vector3<Type> Vector3<Type>::operator+(const Type& constant) const
 	return new_one;
 }
 
+/******************************************************************************/
+/*!
+\brief - Vector3 + operator
+\param rhs - Vector3 to be added
+\return new_one
+*/
+/******************************************************************************/
 template <typename Type>
 Vector3<Type> Vector3<Type>::operator+(const Vector3& rhs) const
 {
@@ -76,6 +143,13 @@ Vector3<Type> Vector3<Type>::operator+(const Vector3& rhs) const
 	return new_one;
 }
 
+/******************************************************************************/
+/*!
+\brief - Vector3 - operator
+\param rhs - number to be subtracted
+\return new_one
+*/
+/******************************************************************************/
 template <typename Type>
 Vector3<Type> Vector3<Type>::operator-(const Type& constant) const
 {
@@ -88,6 +162,13 @@ Vector3<Type> Vector3<Type>::operator-(const Type& constant) const
 	return new_one;
 }
 
+/******************************************************************************/
+/*!
+\brief - Vector3 - operator
+\param rhs - Vector3 to be subtracted
+\return new_one
+*/
+/******************************************************************************/
 template <typename Type>
 Vector3<Type> Vector3<Type>::operator-(const Vector3& rhs) const
 {
@@ -100,6 +181,13 @@ Vector3<Type> Vector3<Type>::operator-(const Vector3& rhs) const
 	return new_one;
 }
 
+/******************************************************************************/
+/*!
+\brief - Vector3 * operator
+\param rhs - number to be nultiplied
+\return new_one
+*/
+/******************************************************************************/
 template <typename Type>
 Vector3<Type> Vector3<Type>::operator*(const Type& constant) const
 {
@@ -112,6 +200,13 @@ Vector3<Type> Vector3<Type>::operator*(const Type& constant) const
 	return new_one;
 }
 
+/******************************************************************************/
+/*!
+\brief - Vector3 / operator
+\param rhs - number to be divided
+\return new_one
+*/
+/******************************************************************************/
 template <typename Type>
 Vector3<Type> Vector3<Type>::operator/(const Type& constant) const
 {
@@ -124,6 +219,14 @@ Vector3<Type> Vector3<Type>::operator/(const Type& constant) const
 	return new_one;
 }
 
+/******************************************************************************/
+/*!
+\brief - Friend function, + operator
+\param constant - number to be added
+\param rhs - *this
+\return new_one
+*/
+/******************************************************************************/
 template <typename Type>
 Vector3<Type> operator+(Type constant, const Vector3<Type>& rhs)
 {
@@ -134,6 +237,14 @@ Vector3<Type> operator+(Type constant, const Vector3<Type>& rhs)
 	return new_one;
 }
 
+/******************************************************************************/
+/*!
+\brief - Friend function, * operator
+\param constant - number to be multiplied
+\param rhs - *this
+\return new_one
+*/
+/******************************************************************************/
 template <typename Type>
 Vector3<Type> operator*(Type constant, const Vector3<Type>& rhs)
 {
@@ -144,6 +255,14 @@ Vector3<Type> operator*(Type constant, const Vector3<Type>& rhs)
 	return new_one;
 }
 
+/******************************************************************************/
+/*!
+\brief - Friend function, << operator
+\param constant - storage to put contents in
+\param rhs - *this
+\return os
+*/
+/******************************************************************************/
 template <typename Type>
 std::ostream& operator<<(std::ostream& os, const Vector3<Type>& constents)
 {
@@ -151,12 +270,26 @@ std::ostream& operator<<(std::ostream& os, const Vector3<Type>& constents)
 	return os;
 }
 
+/******************************************************************************/
+/*!
+\brief - Get two vector3s' DotProduct
+\param rhs - to be calculated
+\return x * rhs.x + y * rhs.y;
+*/
+/******************************************************************************/
 template <typename Type>
 Type Vector3<Type>::DotProduct(const Vector3& rhs)
 {
 	return x * rhs.x + y * rhs.y + z * rhs.z;
 }
 
+/******************************************************************************/
+/*!
+\brief - Get two vector3s' CrossProduct
+\param rhs - to be calculated
+\return x * x * rhs.y - y * rhs.x;
+*/
+/******************************************************************************/
 template <typename Type>
 Vector3<Type> Vector3<Type>::CrossProduct(const Vector3& rhs)
 {
@@ -169,6 +302,13 @@ Vector3<Type> Vector3<Type>::CrossProduct(const Vector3& rhs)
 	return result;
 }
 
+/******************************************************************************/
+/*!
+\brief - Vector3 += operator
+\param rhs - Vector3 to be added
+\return *this
+*/
+/******************************************************************************/
 template <typename Type>
 Vector3<Type>& Vector3<Type>::operator+=(const Vector3& rhs)
 {
@@ -179,6 +319,13 @@ Vector3<Type>& Vector3<Type>::operator+=(const Vector3& rhs)
 	return *this;
 }
 
+/******************************************************************************/
+/*!
+\brief - Vector3 += operator
+\param rhs - number to be added
+\return *this
+*/
+/******************************************************************************/
 template <typename Type>
 Vector3<Type>& Vector3<Type>::operator+=(const Type& constant)
 {
@@ -189,6 +336,13 @@ Vector3<Type>& Vector3<Type>::operator+=(const Type& constant)
 	return *this;
 }
 
+/******************************************************************************/
+/*!
+\brief - Vector3 -= operator
+\param rhs - Vector3 to be subtracted
+\return *this
+*/
+/******************************************************************************/
 template <typename Type>
 Vector3<Type>& Vector3<Type>::operator-=(const Vector3& rhs)
 {
@@ -199,6 +353,13 @@ Vector3<Type>& Vector3<Type>::operator-=(const Vector3& rhs)
 	return *this;
 }
 
+/******************************************************************************/
+/*!
+\brief - Vector3 -= operator
+\param rhs - number to be subtracted
+\return *this
+*/
+/******************************************************************************/
 template <typename Type>
 Vector3<Type>& Vector3<Type>::operator-=(const Type& constant)
 {
@@ -209,6 +370,13 @@ Vector3<Type>& Vector3<Type>::operator-=(const Type& constant)
 	return *this;
 }
 
+/******************************************************************************/
+/*!
+\brief - Vector3 *= operator
+\param rhs - Vector3 to be multiplied
+\return *this
+*/
+/******************************************************************************/
 template <typename Type>
 Vector3<Type>& Vector3<Type>::operator*=(const Type& constant)
 {
@@ -219,6 +387,12 @@ Vector3<Type>& Vector3<Type>::operator*=(const Type& constant)
 	return *this;
 }
 
+/******************************************************************************/
+/*!
+\brief - Get normalized vector3
+\return result
+*/
+/******************************************************************************/
 template <typename Type>
 Vector3<Type> Vector3<Type>::Normalize(void)
 {
@@ -231,13 +405,24 @@ Vector3<Type> Vector3<Type>::Normalize(void)
 	return result;
 }
 
+/******************************************************************************/
+/*!
+\brief - Get vector3's length
+\return sqrt(x*x + y*y)
+*/
+/******************************************************************************/
 template <typename Type>
 Type Vector3<Type>::Length(void) const
 {
 	return sqrt(x*x + y*y + z*z);
 }
 
-//Calculate vector's absolute value
+/******************************************************************************/
+/*!
+\brief - Calculate vector's absolute value
+\return result
+*/
+/******************************************************************************/
 template <typename Type>
 Vector3<Type> Vector3<Type>::Absolute(void)
 {
@@ -253,7 +438,14 @@ Vector3<Type> Vector3<Type>::Absolute(void)
 	return result;
 }
 
-//Regard vector as point
+/******************************************************************************/
+/*!
+\brief - Calculate vector's rotated position; Regard vector as a point
+\param angle - degree to rotate
+\param pivot - pivot point
+\return point
+*/
+/******************************************************************************/
 template <typename Type>
 Vector3<Type> Vector3<Type>::Rotation(float angle, const Vector3& pivot)
 {
@@ -274,6 +466,13 @@ Vector3<Type> Vector3<Type>::Rotation(float angle, const Vector3& pivot)
 	return point;
 }
 
+/******************************************************************************/
+/*!
+\brief - Calculate vector's reflection
+\param rhs - vector to reflect
+\return reflected
+*/
+/******************************************************************************/
 template <typename Type>
 Vector3<Type> Vector3<Type>::Reflection(Vector3 rhs)
 {
@@ -285,6 +484,13 @@ Vector3<Type> Vector3<Type>::Reflection(Vector3 rhs)
 	return reflected;
 }
 
+/******************************************************************************/
+/*!
+\brief - Calculate 2 vectors' included angle
+\param other - 2nd vector
+\return Math::RadToDeg(radian)
+*/
+/******************************************************************************/
 template <typename Type>
 float Vector3<Type>::IncludedAngle(const Vector3& other)
 {
@@ -293,6 +499,13 @@ float Vector3<Type>::IncludedAngle(const Vector3& other)
 	return Math::RadToDeg(radian);
 }
 
+/******************************************************************************/
+/*!
+\brief - Calculate rotated vector
+\param angle - degree to rotate
+\return result
+*/
+/******************************************************************************/
 template <typename Type>
 Vector3<Type> Vector3<Type>::Rotation(float angle)
 {
@@ -304,6 +517,13 @@ Vector3<Type> Vector3<Type>::Rotation(float angle)
 	return result;
 }
 
+/******************************************************************************/
+/*!
+\brief - Compare == operator
+\param rhs - to be compared
+\return bool
+*/
+/******************************************************************************/
 template<typename Type>
 bool Vector3<Type>::operator==(const Vector3& rhs)
 {
@@ -313,6 +533,13 @@ bool Vector3<Type>::operator==(const Vector3& rhs)
 	return true;
 }
 
+/******************************************************************************/
+/*!
+\brief - Compare != operator
+\param rhs - to be compared
+\return bool
+*/
+/******************************************************************************/
 template<typename Type>
 bool Vector3<Type>::operator!=(const Vector3& rhs)
 {

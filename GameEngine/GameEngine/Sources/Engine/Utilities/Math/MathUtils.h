@@ -1,3 +1,17 @@
+/******************************************************************************/
+/*!
+\file   MathUtils.h
+\author Jeong Juyong
+\par    email: jeykop14\@gmail.com
+\date   2016/06/19(yy/mm/dd)
+
+\description
+Contains MathUtils's class 
+
+All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
+*/
+/******************************************************************************/
+
 #ifndef _MATHUTILS_H_
 #define _MATHUTILS_H_
 
@@ -7,11 +21,13 @@
 #include "Vector/Vector3.h"
 #include "Vector/Vector4.h"
 
+//! Math Deifnitions
 #define PI 3.1415926535897932F
 #define RADIAN 0.01745329251994329576923690768489F
 #define RADIAN_DEGREE 57.2958F
 #define SMALL_ENOUGH 0.00000000001F
 
+//! Type definitions
 typedef Vector4<float> vec4;
 typedef Vector3<float> vec3;
 typedef Vector2 vec2;
@@ -20,28 +36,27 @@ typedef Matrix2x2 mat22;
 
 namespace Math
 {
-	//Point struct
+	//! Point struct
 	struct Pointf
 	{
 		float x;
 		float y;
 	};
 
-	//Line struct
+	//! Line struct
 	struct Linef
 	{
 		Pointf p1;
 		Pointf p2;
 	};
 
-	//boolean and vector
+	//! boolean and vector
 	struct boolVec
 	{
 		bool boolean;
 		vec3 vector;
 	};
 
-	//Converters radian and degree
 	float DegToRad(float degree);
 	float RadToDeg(float radian);
 

@@ -1,24 +1,59 @@
+/******************************************************************************/
+/*!
+\file   Vector4.cpp
+\author Jeong Juyong
+\par    email: jeykop14\@gmail.com
+\date   2016/06/19(yy/mm/dd)
+
+\description
+Contains Vector4's template class and member function
+
+All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
+*/
+/******************************************************************************/
 #include "Vector3.h"
 
-//template <typename Type>
-//Vector4<Type>::Vector4(void)
-//:x(0), y(0), z(0), w(0)
-//{}
-
+/******************************************************************************/
+/*!
+\brief - Vector4 Destructor
+*/
+/******************************************************************************/
 template <typename Type>
 Vector4<Type>::~Vector4(void)
 {}
 
+/******************************************************************************/
+/*!
+\brief - Vector4 Constructor
+\param _x - element x
+\param _y - element y
+\param _z - element z
+\param _w - element w
+*/
+/******************************************************************************/
 template <typename Type>
 Vector4<Type>::Vector4(Type _x, Type _y, Type _z, Type _w)
 :x(_x), y(_y), z(_z), w(_w)
 {}
 
+/******************************************************************************/
+/*!
+\brief - Vector4 Constructor
+\param vec - Vector3
+\param _w - element w
+*/
+/******************************************************************************/
 template <typename Type>
 Vector4<Type>::Vector4(Vector3<Type> vec, Type _w)
 : x(vec.x), y(vec.y), z(vec.z), w(_w)
 {}
 
+/******************************************************************************/
+/*!
+\brief - Vector4 Copy Constructor
+\param copy - Vector4 to be copied
+*/
+/******************************************************************************/
 template <typename Type>
 Vector4<Type>::Vector4(const Vector4<Type>& rhs)
 {
@@ -31,6 +66,13 @@ Vector4<Type>::Vector4(const Vector4<Type>& rhs)
 	}
 }
 
+/******************************************************************************/
+/*!
+\brief - Vector4 = operator
+\param rhs - Vector4 to be assigned
+\return *this
+*/
+/******************************************************************************/
 template <typename Type>
 Vector4<Type>& Vector4<Type>::operator=(const Vector4<Type>& rhs)
 {
@@ -45,6 +87,13 @@ Vector4<Type>& Vector4<Type>::operator=(const Vector4<Type>& rhs)
 	return *this;
 }
 
+/******************************************************************************/
+/*!
+\brief - Vector4 unary - operator
+\param rhs - Vector4 to be assigned
+\return *this
+*/
+/******************************************************************************/
 template <typename Type>
 Vector4<Type>& Vector4<Type>::operator-(void)
 {
@@ -56,6 +105,13 @@ Vector4<Type>& Vector4<Type>::operator-(void)
 	return *this;
 }
 
+/******************************************************************************/
+/*!
+\brief - Vector4 + operator
+\param rhs - number to be added
+\return result
+*/
+/******************************************************************************/
 template <typename Type>
 Vector4<Type> Vector4<Type>::operator+(const Vector4<Type>& rhs) const
 {
@@ -69,6 +125,13 @@ Vector4<Type> Vector4<Type>::operator+(const Vector4<Type>& rhs) const
 	return result;
 }
 
+/******************************************************************************/
+/*!
+\brief - Vector4 + operator
+\param rhs - Vector4 to be added
+\return result
+*/
+/******************************************************************************/
 template <typename Type>
 Vector4<Type> Vector4<Type>::operator+(const Type& constant) const
 {
@@ -82,6 +145,13 @@ Vector4<Type> Vector4<Type>::operator+(const Type& constant) const
 	return result;
 }
 
+/******************************************************************************/
+/*!
+\brief - Vector4 - operator
+\param rhs - Vector4 to be subtracted
+\return result
+*/
+/******************************************************************************/
 template <typename Type>
 Vector4<Type> Vector4<Type>::operator-(const Vector4<Type>& rhs) const
 {
@@ -95,6 +165,13 @@ Vector4<Type> Vector4<Type>::operator-(const Vector4<Type>& rhs) const
 	return result;
 }
 
+/******************************************************************************/
+/*!
+\brief - Vector4 - operator
+\param rhs - number to be subtracted
+\return result
+*/
+/******************************************************************************/
 template <typename Type>
 Vector4<Type> Vector4<Type>::operator-(const Type& constant) const
 {
@@ -108,6 +185,13 @@ Vector4<Type> Vector4<Type>::operator-(const Type& constant) const
 	return result;
 }
 
+/******************************************************************************/
+/*!
+\brief - Vector4 * operator
+\param rhs - number to be nultiplied
+\return result
+*/
+/******************************************************************************/
 template <typename Type>
 Vector4<Type> Vector4<Type>::operator*(const Type& constant) const
 {
@@ -121,6 +205,13 @@ Vector4<Type> Vector4<Type>::operator*(const Type& constant) const
 	return result;
 }
 
+/******************************************************************************/
+/*!
+\brief - Vector4 / operator
+\param rhs - number to be divided
+\return result
+*/
+/******************************************************************************/
 template <typename Type>
 Vector4<Type> Vector4<Type>::operator / (const Type& constant) const
 {
@@ -134,6 +225,14 @@ Vector4<Type> Vector4<Type>::operator / (const Type& constant) const
 	return result;
 }
 
+/******************************************************************************/
+/*!
+\brief - Friend function, + operator
+\param constant - number to be added
+\param rhs - *this
+\return result
+*/
+/******************************************************************************/
 template <typename Type>
 Vector4<Type> operator+(Type constant, const Vector4<Type>& rhs)
 {
@@ -144,6 +243,14 @@ Vector4<Type> operator+(Type constant, const Vector4<Type>& rhs)
 	return result;
 }
 
+/******************************************************************************/
+/*!
+\brief - Friend function, * operator
+\param constant - number to be multiplied
+\param rhs - *this
+\return result
+*/
+/******************************************************************************/
 template <typename Type>
 Vector4<Type> operator*(Type constant, const Vector4<Type>& rhs)
 {
@@ -154,6 +261,14 @@ Vector4<Type> operator*(Type constant, const Vector4<Type>& rhs)
 	return result;
 }
 
+/******************************************************************************/
+/*!
+\brief - Friend function, << operator
+\param constant - storage to put contents in
+\param rhs - *this
+\return os
+*/
+/******************************************************************************/
 template <typename Type>
 std::ostream& operator<<(std::ostream& os, const Vector4<Type>& contents)
 {
@@ -161,13 +276,26 @@ std::ostream& operator<<(std::ostream& os, const Vector4<Type>& contents)
 	return os;
 }
 
+/******************************************************************************/
+/*!
+\brief - Get two Vector4s' DotProduct
+\param rhs - to be calculated
+\return x * rhs.x + y * rhs.y + z * rhs.z + w * rhs.w;
+*/
+/******************************************************************************/
 template <typename Type>
 Type Vector4<Type>::DotProduct(const Vector4& rhs)
 {
-	Type result = x * rhs.x + y * rhs.y + z * rhs.z + w * rhs.w;
-	return result;
+	return x * rhs.x + y * rhs.y + z * rhs.z + w * rhs.w;
 }
 
+/******************************************************************************/
+/*!
+\brief - Vector4 += operator
+\param rhs - Vector4 to be added
+\return *this
+*/
+/******************************************************************************/
 template <typename Type>
 Vector4<Type>& Vector4<Type>::operator+=(const Vector4& rhs)
 {
@@ -179,6 +307,13 @@ Vector4<Type>& Vector4<Type>::operator+=(const Vector4& rhs)
 	return *this;
 }
 
+/******************************************************************************/
+/*!
+\brief - Vector4 += operator
+\param rhs - number to be added
+\return *this
+*/
+/******************************************************************************/
 template <typename Type>
 Vector4<Type>& Vector4<Type>::operator+=(const Type& constant)
 {
@@ -190,6 +325,13 @@ Vector4<Type>& Vector4<Type>::operator+=(const Type& constant)
 	return *this;
 }
 
+/******************************************************************************/
+/*!
+\brief - Vector4 -= operator
+\param rhs - Vector4 to be subtracted
+\return *this
+*/
+/******************************************************************************/
 template <typename Type>
 Vector4<Type>& Vector4<Type>::operator-=(const Vector4& rhs)
 {
@@ -201,6 +343,13 @@ Vector4<Type>& Vector4<Type>::operator-=(const Vector4& rhs)
 	return *this;
 }
 
+/******************************************************************************/
+/*!
+\brief - Vector4 -= operator
+\param rhs - number to be subtracted
+\return *this
+*/
+/******************************************************************************/
 template <typename Type>
 Vector4<Type>& Vector4<Type>::operator-=(const Type& constant)
 {
@@ -212,6 +361,13 @@ Vector4<Type>& Vector4<Type>::operator-=(const Type& constant)
 	return *this;
 }
 
+/******************************************************************************/
+/*!
+\brief - Vector4 *= operator
+\param rhs - Vector4 to be multiplied
+\return *this
+*/
+/******************************************************************************/
 template <typename Type>
 Vector4<Type>& Vector4<Type>::operator*=(const Type& constant)
 {
@@ -223,6 +379,12 @@ Vector4<Type>& Vector4<Type>::operator*=(const Type& constant)
 	return *this;
 }
 
+/******************************************************************************/
+/*!
+\brief - Get normalized Vector4
+\return result
+*/
+/******************************************************************************/
 template <typename Type>
 Vector4<Type> Vector4<Type>::Normalize(void)
 {
@@ -232,6 +394,12 @@ Vector4<Type> Vector4<Type>::Normalize(void)
 	return result;
 }
 
+/******************************************************************************/
+/*!
+\brief - Get Vector4's length
+\return sqrt(x*x + y*y)
+*/
+/******************************************************************************/
 template <typename Type>
 Type Vector4<Type>::Length(void) const
 {
