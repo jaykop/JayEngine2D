@@ -1,3 +1,16 @@
+/******************************************************************************/
+/*!
+\file   WinMain.cpp
+\author Jeong Juyong
+\par    email: jeykop14\@gmail.com
+\date   2016/06/19(yy/mm/dd)
+
+\description
+Contains WinMain function
+All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
+*/
+/******************************************************************************/
+
 #if defined(DEBUG) | defined (_DEBUG)
 #define CRTDBG_MAP_ALLOC
 #include <cstdlib>
@@ -9,6 +22,16 @@
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h> //WinMain
 
+/******************************************************************************/
+/*!
+\brief - Main window function
+
+\param instance
+
+\return 0 
+
+*/
+/******************************************************************************/
 int WINAPI WinMain(HINSTANCE instance, HINSTANCE /*prev*/, 
 	LPSTR /*command line*/, int /*show*/)
 {

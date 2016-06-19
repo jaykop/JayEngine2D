@@ -1,3 +1,16 @@
+/******************************************************************************/
+/*!
+\file   World.cpp
+\author Jeong Juyong
+\par    email: jeykop14\@gmail.com
+\date   2016/06/19(yy/mm/dd)
+
+\description
+Contains World's class member function
+All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
+*/
+/******************************************************************************/
+
 #include "World.h"
 #include <hash_map>
 #include "../Graphic/Sprite.h"
@@ -5,6 +18,11 @@
 #include "../Utilities/Math/MathUtils.h"
 #include "../ObjectManager/ObjectManager.h"
 
+/******************************************************************************/
+/*!
+\brief - World's costructor
+*/
+/******************************************************************************/
 World::World(void)
 :tx_Toggle(true), ty_Toggle(true),
 body1(Vertices()), body2(Vertices()),
@@ -18,15 +36,30 @@ body1_min(0), body1_max(0), body2_min(0), body2_max(0)
 	collided_edge[0] = collided_edge[1] = 0;
 }
 
+/******************************************************************************/
+/*!
+\brief - World's destructor
+*/
+/******************************************************************************/
 World::~World(void)
 {}
 
+/******************************************************************************/
+/*!
+\brief - World's init function
+*/
+/******************************************************************************/
 void World::Init(void)
 {
 	body1 = body2 = Vertices();
 	body1_min = body1_max = body2_min = body2_max = 0;
 }
 
+/******************************************************************************/
+/*!
+\brief - World's update function
+*/
+/******************************************************************************/
 void World::Update(SpriteList& sptList)
 {
 	//Works each bodies' physics
@@ -78,11 +111,21 @@ void World::Update(SpriteList& sptList)
 	}
 }
 
+/******************************************************************************/
+/*!
+\brief - World's shutdown function
+*/
+/******************************************************************************/
 void World::Shutdown()
-{
+{}
 
-}
+/******************************************************************************/
+/*!
+\brief - World's Body Pipeline
 
+\param spt - sprite to work
+*/
+/******************************************************************************/
 void World::BodyPipeline(Sprite* spt)
 {
 	//Set directed angle 
@@ -113,6 +156,13 @@ void World::BodyPipeline(Sprite* spt)
 		spt->GetPosition().z));
 }
 
+/******************************************************************************/
+/*!
+\brief - Get sprite's 4 vertices
+
+\param spt - sprite to get 4 verts
+*/
+/******************************************************************************/
 Vertices World::GetVertices(Sprite* spt)
 {
 	//  vert[1]     vert[2]
@@ -144,6 +194,17 @@ Vertices World::GetVertices(Sprite* spt)
 	return result;
 }
 
+/******************************************************************************/
+/*!
+\brief - Do line projection
+
+\param vert - sprite's 4 vertices
+\param point - normalized edge
+\param min - minimum projection range
+\param max - maximum projection range
+
+*/
+/******************************************************************************/
 void World::LineProjection(Vertices& vert, vec3& point, float &min, float &max)
 {
 	//Implement 4 edges' projection
@@ -156,11 +217,18 @@ void World::LineProjection(Vertices& vert, vec3& point, float &min, float &max)
 	}
 }
 
+/******************************************************************************/
+/*!
+\brief - Do Collision Intersect
+
+\param spt1 - get 1st body's verts
+\param spt2 - get 2nd body's verts
+
+*/
+/******************************************************************************/
 bool World::CollisionIntersect(Sprite* spt1, Sprite* spt2)
 {
 	//Get rectangle;s vertices
-
-	//Refresh the vetices
 	body1 = GetVertices(spt1);
 	body2 = GetVertices(spt2);
 
@@ -207,6 +275,15 @@ bool World::CollisionIntersect(Sprite* spt1, Sprite* spt2)
 	return true;
 }
 
+/******************************************************************************/
+/*!
+\brief - Do Collision Response
+
+\param spt1 - get 1st body's verts
+\param spt2 - get 2nd body's verts
+
+*/
+/******************************************************************************/
 void World::CollisionResponse(Sprite* spt1, Sprite* spt2)
 {	
 	// Todo: Temporary function!
@@ -233,6 +310,16 @@ void World::CollisionResponse(Sprite* spt1, Sprite* spt2)
 	}	
 }
 
+/******************************************************************************/
+/*!
+\brief - Do Collision Relation
+
+\param spt1 - get 1st sprite
+\param spt2 - get 2nd sprite
+\param coliided - Set 2 bodies collision status
+
+*/
+/******************************************************************************/
 void World::CollisionRelation(Sprite* spt1, Sprite* spt2, bool coliided)
 {
 	//Set each sprite's collision status
@@ -254,18 +341,15 @@ void World::CollisionRelation(Sprite* spt1, Sprite* spt2, bool coliided)
 	}
 }
 
-bool World::GetCollisionResponse(Sprite* spt1, Sprite* spt2)
-{
-	if (spt1->GetID() == of2Spts.Spt1_id &&
-		spt2->GetID() == of2Spts.Spt2_id)
-		return true;
+/******************************************************************************/
+/*!
+\brief - Get collided line segment
 
-	return false;
-}
+\param spt1 - get 1st sprite
+\param spt2 - get 2nd sprite
 
-void World::CollisionPipeline()
-{}
-
+*/
+/******************************************************************************/
 vec3 World::GetCollidedLine(const Sprite* spt1, const  Sprite* spt2)
 {
 	spt1; spt2;
@@ -384,6 +468,15 @@ vec3 World::GetCollidedLine(const Sprite* spt1, const  Sprite* spt2)
 	}
 }
 
+/******************************************************************************/
+/*!
+\brief - Get Overlapped Box
+
+\param spt1 - get 1st sprite
+\param spt2 - get 2nd sprite
+
+*/
+/******************************************************************************/
 Vertices World::GetOverlappedBox(const Sprite* spt1, const Sprite* spt2)
 {
 	spt1, spt2;
@@ -434,3 +527,15 @@ Vertices World::GetOverlappedBox(const Sprite* spt1, const Sprite* spt2)
 
 	return new_box;
 }
+
+bool World::GetCollisionResponse(Sprite* spt1, Sprite* spt2)
+{
+	if (spt1->GetID() == of2Spts.Spt1_id &&
+		spt2->GetID() == of2Spts.Spt2_id)
+		return true;
+
+	return false;
+}
+
+void World::CollisionPipeline()
+{}

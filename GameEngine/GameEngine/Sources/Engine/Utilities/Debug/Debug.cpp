@@ -1,9 +1,34 @@
+/******************************************************************************/
+/*!
+\file   Debug.cpp
+\author Jeong Juyong
+\par    email: jeykop14\@gmail.com
+\date   2016/06/19(yy/mm/dd)
+
+\description
+Contains Debug's macros and functions in debug mode
+All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
+*/
+/******************************************************************************/
+
+
 #include "Debug.h"
 #include <sstream>
 #include <string>
 
 namespace DebugTools
 {
+	/******************************************************************************/
+	/*!
+	\brief - Assert when to do
+
+	\param expression - Show expression
+	\param outputMessage - Show message set
+	\param functionName - Show function name
+	\param fileName - Show file naem
+	\param lineNumber - Show line number where crashed
+	*/
+	/******************************************************************************/
 	bool Assert(int expression, const char* outputMessage,
 		const char* functionName, const char* fileName,
 		unsigned lineNumber)
@@ -37,6 +62,11 @@ namespace DebugTools
 		return false;
 	}
 
+	/******************************************************************************/
+	/*!
+	\brief - Create debug console
+	*/
+	/******************************************************************************/
 	void CreateConsole(void)
 	{
 		FILE* pFile;
@@ -47,11 +77,21 @@ namespace DebugTools
 		SetConsoleTitle("Debug Console");
 	}
 
+	/******************************************************************************/
+	/*!
+	\brief - Destroy debug console
+	*/
+	/******************************************************************************/
 	void DestroyConsole(void)
 	{
 		FreeConsole();
 	}
 
+	/******************************************************************************/
+	/*!
+	\brief - Clear the debug screen
+	*/
+	/******************************************************************************/
 	void ClearScreen(void)
 	{
 		COORD coordScreen = {0, 0};
@@ -100,6 +140,13 @@ namespace DebugTools
 		SetConsoleCursorPosition(hStdout, coordScreen);
 	}
 
+	/******************************************************************************/
+	/*!
+	\brief - Show customized message box
+
+	\param outputMessage - Show the message set
+	*/
+	/******************************************************************************/
 	void CustomizedMessageBox(const char* outputMessage)
 	{
 		MessageBox(NULL, outputMessage, "Message Alarmed!",

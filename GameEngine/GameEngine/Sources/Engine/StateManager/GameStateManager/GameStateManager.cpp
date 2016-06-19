@@ -1,12 +1,13 @@
 /******************************************************************************/
 /*!
-\file   GameStateManager.cpp
-\author Matt Casanova
-\par    email: mcasanov\@digipen.edu
+\file   GameStageManager.cpp
+\author Jeong Juyong
+\par    email: jeykop14\@gmail.com
+\date   2016/06/19(yy/mm/dd)
 
-\brief
-GameStateManager implementation for the C++ game engine skeleton.
-
+\description
+Contains GameStageManager's class and member function
+All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 */
 /******************************************************************************/
 
@@ -16,7 +17,7 @@ GameStateManager implementation for the C++ game engine skeleton.
 
 /******************************************************************************/
 /*!
-Function that will initialize the GameStateManager data.
+\brief - Function that will initialize the GameStateManager data.
 
 \return - NONE
 */
@@ -36,7 +37,7 @@ void GameStateManager::Init(Application* pApp)
 }
 /******************************************************************************/
 /*!
-Main game loop that controls Stage switching.
+\brief - Main game loop that controls Stage switching.
 
 \return - NONE
 */
@@ -81,7 +82,7 @@ void GameStateManager::Update(void)
 }
 /******************************************************************************/
 /*!
-Deallocates game resources
+\brief - Deallocates game resources
 
 \return - NONE
 */
@@ -96,7 +97,7 @@ void GameStateManager::Shutdown(void)
 /******************************************************************************/
 /*!
 
-Lets client know if quit has been requested.
+\brief - Lets client know if quit has been requested.
 
 \return    - True if the GameStateManager will quit, false otherwise.
 
@@ -109,10 +110,9 @@ bool GameStateManager::IsQuitting(void) const
 /******************************************************************************/
 /*!
 
-Lets the client request a stage change.
+\brief - Lets the client request a stage change.
 
-\param stageType
-The stageType to change to.
+\param stageType - The stageType to change to.
 
 \return - NONE
 
@@ -125,10 +125,9 @@ void GameStateManager::SetNextStage(StageType stageType)
 /******************************************************************************/
 /*!
 
-Allows the client to request that the game quit.
+\brief - Allows the client to request that the game quit.
 
-\param isQuitting
-The bool value to set to.
+\param isQuitting - he bool value to set to.
 
 \return - NONE
 
@@ -141,7 +140,7 @@ void GameStateManager::SetQuit(bool isQuitting)
 /******************************************************************************/
 /*!
 
-Function to delete old stage and create a new one.
+\brief - Function to delete old stage and create a new one.
 
 \return - NONE
 
@@ -161,6 +160,11 @@ void GameStateManager::ChangeGameState(void)
 	m_pStage = m_factory.CreateStage(m_current, this);
 }
 
+/******************************************************************************/
+/*!
+\brief - Manage proccess messages
+*/
+/******************************************************************************/
 void ProccessMessages(void)
 {
 	//m_window->NULL??
@@ -172,11 +176,24 @@ void ProccessMessages(void)
 	}
 }
 
+/******************************************************************************/
+/*!
+\brief - Manage proccess messages
+
+\param stage - stage to make
+\param pBuilder - pointer to builder
+*/
+/******************************************************************************/
 void GameStateManager::AddStage(StageType stage, Builder* pBuilder)
 {
 	m_factory.AddBuilder(stage, pBuilder);
 }
 
+/******************************************************************************/
+/*!
+\brief - Refresh key input status 
+*/
+/******************************************************************************/
 void GameStateManager::TriggerInputController(void)
 {
 	//Get button's status and set trigger's condition
@@ -187,47 +204,105 @@ void GameStateManager::TriggerInputController(void)
 		InputManager::GetInstance().SetTriggerToggle(true);
 }
 
+/******************************************************************************/
+/*!
+\brief - Restart stage
+\param isRestarted
+*/
+/******************************************************************************/
 void GameStateManager::Restart(bool isRestarted)
 {
 	m_isRestarting = isRestarted;
 }
 
+/******************************************************************************/
+/*!
+\brief - Pause stage
+*/
+/******************************************************************************/
 void GameStateManager::Pause(void)
 {
 	m_isPausing = true;
 }
 
+/******************************************************************************/
+/*!
+\brief - Resume stage
+*/
+/******************************************************************************/
 void GameStateManager::Resume(void)
 {
 	//Bo back to the last state
 	m_isPausing = false;
 }
 
+/******************************************************************************/
+/*!
+\brief - Set First Stage of app
+
+\param first - stage to be 1st
+*/
+/******************************************************************************/
 void GameStateManager::SetFirstStage(StageType first)
 {
 	m_1stStage = first;
 }
 
+/******************************************************************************/
+/*!
+\brief - Get aplication's resolution
+
+\return app's resolution
+*/
+/******************************************************************************/
 ScreenSize GameStateManager::GetResolution(void) const
 {
 	return m_pApp->GetResolution();
 }
 
+/******************************************************************************/
+/*!
+\brief - Set aplication's resolution
+
+\param res - screen resolution
+*/
+/******************************************************************************/
 void GameStateManager::SetResolution(const ScreenSize& res)
 {
 	m_pApp->SetResolution(res);
 }
 
+/******************************************************************************/
+/*!
+\brief - Set aplication's screen mode
+
+\param scr - screen mode (full ? windowed)
+*/
+/******************************************************************************/
 void GameStateManager::SetFullScreen(bool scr)
 {
 	m_pApp->SetFullScreen(scr);
 }
 
+/******************************************************************************/
+/*!
+\brief - Get aplication's screen mode
+
+\return app's screen mode
+*/
+/******************************************************************************/
 bool GameStateManager::GetFullScreen(void) const
 {
 	return m_pApp->GetFullScreen();
 }
 
+/******************************************************************************/
+/*!
+\brief - Get pointer to the app
+
+\return m_pApp
+*/
+/******************************************************************************/
 Application* GameStateManager::GetAppPtr(void)
 {
 	return m_pApp;

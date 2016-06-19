@@ -1,11 +1,20 @@
-#include <cstdio>
-#include <cstdlib>
-#include <iostream>
-#include <vector>
-#include <string>
+/******************************************************************************/
+/*!
+\file   GLManager.cpp
+\author Jeong Juyong
+\par    email: jeykop14\@gmail.com
+\date   2016/06/19(yy/mm/dd)
+
+\description
+Contains GLManager's class and member functions
+All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
+*/
+/******************************************************************************/
+
 #include "GLManager.h"
 #include "Application.h"
 
+//! vectext buffer information
 static const GLfloat m_vertex_buffer_data[] =
 { 
 //		X		Y		Z		U		V
@@ -15,6 +24,11 @@ static const GLfloat m_vertex_buffer_data[] =
 	 .5f,	-.5f,	 0.f,	 1.f,	 -1.f
 };
 
+/******************************************************************************/
+/*!
+\brief - GLManager Constructor
+*/
+/******************************************************************************/
 GLManager::GLManager(void)
 {
 	//Set projection matrix
@@ -27,11 +41,24 @@ GLManager::GLManager(void)
 	m_info.m_fovy = 45.f;
 }
 
+/******************************************************************************/
+/*!
+\brief - GLManager Destructor
+*/
+/******************************************************************************/
 GLManager::~GLManager(void)
 {
-
+	// Nothing here
 }
 
+/******************************************************************************/
+/*!
+\brief - Resize the projection screen
+
+\param width - Screen's width
+\param height - Screen's height
+*/
+/******************************************************************************/
 void GLManager::Resize(int width, int height)
 {
 	//Resize screen size
@@ -51,11 +78,15 @@ void GLManager::Resize(int width, int height)
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	gluPerspective(45.0f, aspectRatio, 0.1f, 100.f);
-	//glOrtho(-m_width / 2.f, m_width / 2.f, -m_height / 2.f, m_height / 2.f, 0.1f, 100.f);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 }
 
+/******************************************************************************/
+/*!
+\brief - Shutdown app when gl is not properly loaded
+*/
+/******************************************************************************/
 void GLManager::SysShutdown(void)
 {
 	//release current device context
@@ -68,6 +99,11 @@ void GLManager::SysShutdown(void)
 	PostQuitMessage(0);
 }
 
+/******************************************************************************/
+/*!
+\brief - Set GL's pixel format
+*/
+/******************************************************************************/
 void GLManager::SetGLFormat(void)
 {
 	//number of available format
@@ -90,6 +126,11 @@ void GLManager::SetGLFormat(void)
 	SetPixelFormat(m_hdc, m_indexPixelFormat, &pfd);
 }
 
+/******************************************************************************/
+/*!
+\brief - Check if gl is either not properly loaded or not
+*/
+/******************************************************************************/
 void GLManager::CheckGL(HWND& window)
 {
 	//Get wnd DC
@@ -125,6 +166,13 @@ void GLManager::CheckGL(HWND& window)
 	}
 }
 
+/******************************************************************************/
+/*!
+\brief - Initialize GL information
+
+\return true
+*/
+/******************************************************************************/
 bool GLManager::InitGL(void)
 {
 	//InitGL
@@ -140,6 +188,11 @@ bool GLManager::InitGL(void)
 	return true;
 }
 
+/******************************************************************************/
+/*!
+\brief - Initialize GLEW information
+*/
+/******************************************************************************/
 void GLManager::OpenGLInit(HWND& window, int width, int height)
 {
 	CheckGL(window);
@@ -176,26 +229,66 @@ void GLManager::OpenGLInit(HWND& window, int width, int height)
 
 }
 
+/******************************************************************************/
+/*!
+\brief - Get device context handle
+
+\return m_hdc 
+
+*/
+/******************************************************************************/
 HDC GLManager::GetHDC(void) const
 {
 	return m_hdc;
 }
 
+/******************************************************************************/
+/*!
+\brief - Get projectionInfo
+
+\return m_info - initialized projection information
+
+*/
+/******************************************************************************/
 ProjectionInfo GLManager::GetProjectionInfo(void) const
 {
 	return m_info;
 }
 
+/******************************************************************************/
+/*!
+\brief - Get shader
+
+\return m_shader
+
+*/
+/******************************************************************************/
 Shader GLManager::GetShader(void) const
 {
 	return m_shader;
 }
 
+/******************************************************************************/
+/*!
+\brief - Get matrix's ID
+
+\return m_matrixId
+
+*/
+/******************************************************************************/
 GLuint GLManager::GetMatrixID(void) const
 {
 	return m_matrixId;
 }
 
+/******************************************************************************/
+/*!
+\brief - Get vertex buffer
+
+\return m_vertexBuffer
+
+*/
+/******************************************************************************/
 GLuint GLManager::GetVertexBuffer(void) const
 {
 	return m_vertexBuffer;

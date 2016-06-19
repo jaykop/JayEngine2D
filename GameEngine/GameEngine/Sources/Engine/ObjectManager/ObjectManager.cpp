@@ -1,3 +1,16 @@
+/******************************************************************************/
+/*!
+\file   ObjectManager.cpp
+\author Jeong Juyong
+\par    email: jeykop14\@gmail.com
+\date   2016/06/19(yy/mm/dd)
+
+\description
+Contains ObjectManager's class and member functions
+All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
+*/
+/******************************************************************************/
+
 #include <algorithm>
 #include "ObjectManager.h"
 #include "../Graphic/Sprite.h"
@@ -5,13 +18,31 @@
 #include "../Physics/World.h"
 #include "../Physics/RigidBody.h"
 
+/******************************************************************************/
+/*!
+\brief - ObjectManager Constructor
+*/
+/******************************************************************************/
 ObjectManager::ObjectManager(void)
 	:number_of_Spt(0)
 {}
 
+/******************************************************************************/
+/*!
+\brief - ObjectManager Destructor
+*/
+/******************************************************************************/
 ObjectManager::~ObjectManager(void)
 {}
 
+/******************************************************************************/
+/*!
+\brief - Add Object to the list
+
+\param SpriteID - sprite's id
+\param textureDir - sprite's texture
+*/
+/******************************************************************************/
 void ObjectManager::AddObject(const int SpriteID, const std::string& textureDir)
 {
 	//Make new sprite
@@ -30,6 +61,14 @@ void ObjectManager::AddObject(const int SpriteID, const std::string& textureDir)
 	++number_of_Spt;
 }
 
+/******************************************************************************/
+/*!
+\brief - Delete Object from the list
+
+\param SpriteID - sprite's id
+
+*/
+/******************************************************************************/
 void ObjectManager::RemoveObject(const int id)
 {
 	//If there is id that client to find,
@@ -42,12 +81,28 @@ void ObjectManager::RemoveObject(const int id)
 	--number_of_Spt;
 }
 
+/******************************************************************************/
+/*!
+\brief - Get Object 
+
+\param SpriteID - sprite's id
+
+*/
+/******************************************************************************/
 Sprite* ObjectManager::GetGameObject(const int id)
 {
 	//return the found one
 	return m_ObjectList.find(id)->second;
 }
 
+/******************************************************************************/
+/*!
+\brief - Check if list has the obhect or not
+
+\param SpriteID - sprite's id
+
+*/
+/******************************************************************************/
 bool ObjectManager::HasObject(const int id)
 {
 	//Get object
@@ -60,6 +115,11 @@ bool ObjectManager::HasObject(const int id)
 	return false;
 }
 
+/******************************************************************************/
+/*!
+\brief - Clear Object List
+*/
+/******************************************************************************/
 void ObjectManager::ClearObjectList(void)
 {
 	//Remove the all objects in the lsit
@@ -70,38 +130,59 @@ void ObjectManager::ClearObjectList(void)
 	number_of_Spt = 0;
 }
 
+/******************************************************************************/
+/*!
+\brief - Get Object List
+
+\return m_ObjectList
+*/
+/******************************************************************************/
 const SpriteList& ObjectManager::GetList(void) const
 {
 	//return the list
 	return m_ObjectList;
 }
 
+/******************************************************************************/
+/*!
+\brief - Bind scene and world 
+
+\param pApp - pointer to app to bind to scene
+*/
+/******************************************************************************/
 void ObjectManager::BindGameSystem(Application* pApp)
 {
 	scenePtr = new Scene(pApp);
 	worldPtr = new World();
 }
 
+/******************************************************************************/
+/*!
+\brief - Initialize scene and world
+*/
+/******************************************************************************/
 void ObjectManager::InitGameSystem()
 {
-	//Lambda expression
-	//std::for_each(std::begin(m_ObjectList), std::end(m_ObjectList),
-	//	[&](std::hash_map<int, Sprite*>::iterator it) 
-	//{
-	//	Don't use this anymore
-	//	it->second->Init();
-	//});
-
 	scenePtr->Init();
 	worldPtr->Init();
 }
 
+/******************************************************************************/
+/*!
+\brief - Update scene and world
+*/
+/******************************************************************************/
 void ObjectManager::UpdateGameSystem(void)
 {
 	scenePtr->Draw();
 	worldPtr->Update(m_ObjectList);
 }
 
+/******************************************************************************/
+/*!
+\brief - Shutdown scene and world
+*/
+/******************************************************************************/
 void ObjectManager::ShutdownGameSystem()
 {
 	//Shutdown basic trunks
@@ -115,11 +196,25 @@ void ObjectManager::ShutdownGameSystem()
 	worldPtr = 0;
 }
 
+/******************************************************************************/
+/*!
+\brief - Get pointer to the scene
+
+\return scenePtr
+*/
+/******************************************************************************/
 Scene* ObjectManager::GetGameScene(void) const
 {
 	return scenePtr;
 }
 
+/******************************************************************************/
+/*!
+\brief - Get pointer to the world
+
+\return worldPtr
+*/
+/******************************************************************************/
 World* ObjectManager::GetGameWorld(void) const
 {
 	return worldPtr;

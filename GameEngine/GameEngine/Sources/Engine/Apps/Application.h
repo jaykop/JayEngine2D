@@ -1,3 +1,16 @@
+/******************************************************************************/
+/*!
+\file   Application.h
+\author Jeong Juyong
+\par    email: jeykop14\@gmail.com
+\date   2016/06/19(yy/mm/dd)
+
+\description
+Contains Application's class and members
+All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
+*/
+/******************************************************************************/
+
 #ifndef APPLICATION_H
 #define APPLICATION_H
 
@@ -7,7 +20,7 @@
 
 using namespace Resolution;
 
-//Used as the staring point for the program
+//! Used in main to give initial values to the application.
 struct InitData
 {
 	const char* title;
@@ -16,6 +29,7 @@ struct InitData
 	ScreenSize	scrSize;
 };
 
+//! Used as the staring point for the program
 class Application
 {
 public:

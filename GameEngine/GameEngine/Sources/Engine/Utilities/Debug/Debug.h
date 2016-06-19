@@ -1,3 +1,16 @@
+/******************************************************************************/
+/*!
+\file   Debug.h
+\author Jeong Juyong
+\par    email: jeykop14\@gmail.com
+\date   2016/06/19(yy/mm/dd)
+
+\description
+Contains Debug's macros in debug mode
+All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
+*/
+/******************************************************************************/
+
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #include <cstdio>

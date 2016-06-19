@@ -1,3 +1,16 @@
+/******************************************************************************/
+/*!
+\file   GLManager.h
+\author Jeong Juyong
+\par    email: jeykop14\@gmail.com
+\date   2016/06/19(yy/mm/dd)
+
+\description
+Contains GLManager's class and members
+All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
+*/
+/******************************************************************************/
+
 #ifndef _GLManager_H_
 #define _GLManager_H_
 
@@ -14,12 +27,14 @@
 
 class Shader;
 
+//! projection info to use in scene class
 struct ProjectionInfo
 {
 	float  m_fovy, m_zNear, m_zFar;
 	float  m_width, m_height;
 };
 
+//! GLManager to manage base GL info
 class GLManager
 {
 

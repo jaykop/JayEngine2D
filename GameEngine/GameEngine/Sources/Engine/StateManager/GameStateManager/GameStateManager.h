@@ -1,14 +1,13 @@
 /******************************************************************************/
 /*!
-\file   GameManager.h
-\author Matt Casanova
-\par    email: mcasanov\@digipen.edu
-\par    Extra Classes
-\par    Assignment #1
-\date   01/05/2015
-\brief
-This is the header for the GameEngine class
+\file   GameStageManager.h
+\author Jeong Juyong
+\par    email: jeykop14\@gmail.com
+\date   2016/06/19(yy/mm/dd)
 
+\description
+Contains GameStageManager's class and members
+All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 */
 /******************************************************************************/
 #ifndef GAME_MANAGER_H
@@ -20,10 +19,12 @@ This is the header for the GameEngine class
 
 using namespace Resolution;
 
-//forward declaration
+//! forward declaration
 class Stage;
 class Builder;
 class Application;
+
+//! Pause information
 struct PauseInfo
 {
 	StageType stage;
@@ -62,7 +63,7 @@ public:
 	void SetFirstStage(StageType first);
 	void AddStage(StageType stage, Builder* pBuilder);
 
-	//Manage resolution
+	//! Manage resolution
 	ScreenSize GetResolution(void) const;
 	void SetResolution(const ScreenSize& res);
 
@@ -72,7 +73,7 @@ public:
 
 private:
 
-	void TriggerInputController(void);	//Triggered Input Controller
+	void TriggerInputController(void);	//! Triggered Input Controller
 	void ChangeGameState(void);
 
 	bool m_isPausing;

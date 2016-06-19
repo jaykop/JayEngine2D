@@ -1,11 +1,24 @@
+/******************************************************************************/
+/*!
+\file   InputManager.h
+\author Jeong Juyong
+\par    email: jeykop14\@gmail.com
+\date   2016/06/19(yy/mm/dd)
+
+\description
+Contains InputManager's class and member
+All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
+*/
+/******************************************************************************/
+
 #ifndef _INPUT_MANAGER_H_
 #define _INPUT_MANAGER_H_
 
-#include <Windows.h>
 #include <map>
+#include <Windows.h>
 #include "../Utilities/Math/MathUtils.h"
 
-//Key member
+//! Key members
 enum INPUT_KEY {
 	KEY_INVALID, MOUSE_LBUTTON, MOUSE_RBUTTON, MOUSE_MBUTTON = 4, KEY_BACK = 8, KEY_TAB, 
 	KEY_ENTER = 13, KEY_SHIFT = 16, KEY_CONTROL, KEY_ALT,KEY_PAUSE, KEY_CAPSLOCK, 
@@ -26,8 +39,10 @@ enum INPUT_KEY {
 	KEY_BACKSLASH = 220, KEY_RIGHTBRACE, KEY_LEFTBRACE, KEY_APOSTROPHE, KEY_LAST
 };
 
+//! enum to check input triggers
 enum PRESSED_STATUS {DOWN, UP};
 
+//! InputManager class
 class InputManager
 {
 public:

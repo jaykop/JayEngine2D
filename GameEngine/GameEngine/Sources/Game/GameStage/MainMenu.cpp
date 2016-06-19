@@ -1,11 +1,44 @@
+/******************************************************************************/
+/*!
+\file   MainMenu.cpp
+\author Jeong Juyong
+\par    email: jeykop14\@gmail.com
+\date   2016/06/19(yy/mm/dd)
+
+\description
+Contains MainMenu's class functions
+All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
+*/
+/******************************************************************************/
+
 #include "../BaseData/BaseEnigne.h"
 #include "MainMenu.h"
 
+/******************************************************************************/
+/*!
+\brief - Get Game Object(first created) using name.
+
+\param name - Object's name
+
+\return ObjectPtr - pointer to Object
+
+*/
+/******************************************************************************/
 MenuStage::MenuStage(GameStateManager* gsm)
 {
 	m_GSM = gsm;
 }
 
+/******************************************************************************/
+/*!
+\brief - Get Game Object(first created) using name.
+
+\param name - Object's name
+
+\return ObjectPtr - pointer to Object
+
+*/
+/******************************************************************************/
 MenuStage::~MenuStage()
 {
 
@@ -41,6 +74,7 @@ void MenuStage::Init(GameData& gd)
 	m_ObjM.GetGameObject(0)->SetScale(vec3(30, 30));
 	m_ObjM.GetGameObject(1)->SetScale(vec3(30, 30));
 	m_ObjM.GetGameObject(0)->SetSpriteShape(CIRCLE);
+	m_ObjM.GetGameObject(1)->SetSpriteShape(CIRCLE);
 
 	m_ObjM.GetGameObject(2)->SetPosition(vec3(20, 0));
 	m_ObjM.GetGameObject(3)->SetPosition(vec3(-20, 0));

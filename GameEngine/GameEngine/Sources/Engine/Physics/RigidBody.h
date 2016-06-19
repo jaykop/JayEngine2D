@@ -1,11 +1,24 @@
+/******************************************************************************/
+/*!
+\file   RigidBody.h
+\author Jeong Juyong
+\par    email: jeykop14\@gmail.com
+\date   2016/06/19(yy/mm/dd)
+
+\description
+Contains RigidBody's class and members
+All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
+*/
+/******************************************************************************/
+
 #ifndef _RIGIDBODY_H_
 #define _RIGIDBODY_H_
 
 #include "../Utilities/Math/MathUtils.h"
 
-//enum CollisionType {RECT, CIRCLE};
-
 class Sprite;
+
+//! class RigidBody
 class RigidBody{
 
 public:
@@ -37,6 +50,10 @@ public:
 	void SetAcceleration(float acceleration);
 	float GetAcceleration(void) const;
 
+	//Todo: do with mass
+	// void SetMass(float mass);
+	// float GetMass(void) const;
+
 	//Manage Body's status
 	void ActivateMove(bool move);
 	bool GetMoveToggle(void) const;
@@ -52,6 +69,8 @@ public:
 
 private:
 
+	//Todo: do with mass
+	//float m_mass;
 	float m_direction;
 	float m_acceleration;
 	float m_friction;

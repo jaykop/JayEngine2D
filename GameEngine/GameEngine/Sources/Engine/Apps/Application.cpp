@@ -1,9 +1,21 @@
+/******************************************************************************/
+/*!
+\file   Application.cpp
+\author Jeong Juyong
+\par    email: jeykop14\@gmail.com
+\date   2016/06/19(yy/mm/dd)
+
+\description
+Contains Application's class and member functions
+All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
+*/
+/******************************************************************************/
+
 #include "Application.h"
 #include "GLManager.h"
 #include "../Utilities/Debug/Debug.h"
 #include "../InputManager/InputManager.h"
 #include "../../Game/BaseData/LoadStages.h"
-#include <tchar.h>
 
 namespace
 {
@@ -15,6 +27,16 @@ namespace
 	const DWORD WINDOWED_STYLE = WS_POPUP | WS_CAPTION;
 	//const DWORD WINDOWED_STYLE = WS_OVERLAPPEDWINDOW;
 
+	/******************************************************************************/
+	/*!
+	\brief - Adjust window size that client want
+
+	\param style - Window's style
+	\param size  - Window's size
+	\param xStart - Window's x starting point
+	\param yStart - Window's y starting point
+	*/
+	/******************************************************************************/
 	void AdjustAndCenterWindow(DWORD style, RECT& size, int& xStart, int& yStart)
 	{
 		DEVMODE dm = { 0 };
@@ -38,6 +60,14 @@ namespace
 
 }//end unnamed namespace
 
+/******************************************************************************/
+/*!
+\brief - Application Constructor
+
+\param initData - Application's init data
+
+*/
+/******************************************************************************/
 Application::Application(const InitData& initData)
 {
 	//ONLY CALSS ONCE;
@@ -50,8 +80,6 @@ Application::Application(const InitData& initData)
 	m_isFullScreen = initData.isFullScreen;
 	m_style = (initData.isFullScreen) ? FULLSCREEN_STYLE : WINDOWED_STYLE;
 	m_isQuitting = false;
-
-	SetConsoleIcon(LoadIcon(0, IDI_EXCLAMATION));
 
 	//Set up our WNDCLASS(defaults)
 	m_winClass.style = CS_OWNDC | CS_HREDRAW | CS_VREDRAW; //OpenGL
@@ -116,6 +144,11 @@ Application::Application(const InitData& initData)
 	UpdateWindow(m_window);
 }
 
+/******************************************************************************/
+/*!
+\brief - Application Destructor
+*/
+/******************************************************************************/
 Application::~Application(void)
 {
 	//Only Call Once
@@ -126,6 +159,11 @@ Application::~Application(void)
 	m_instance = 0;
 }
 
+/******************************************************************************/
+/*!
+\brief - Update Application 
+*/
+/******************************************************************************/
 void Application::Update(void)
 {
 	//Only Call Once
@@ -142,6 +180,11 @@ void Application::Update(void)
 	m_GSM.Shutdown();
 }
 
+/******************************************************************************/
+/*!
+\brief - Manage proccess messages
+*/
+/******************************************************************************/
 void Application::ProccessMessages(void)
 {
 	MSG message;
@@ -152,18 +195,35 @@ void Application::ProccessMessages(void)
 	}
 }
 
-//Will used by Game Manager
+/******************************************************************************/
+/*!
+\brief - Quit application
+*/
+/******************************************************************************/
 void Application::Quit(void)
 {
 	SendMessage(m_window, WM_CLOSE, 0, 0);
 }
 
+/******************************************************************************/
+/*!
+\brief - Get GLManager
+
+\return GLManager - pointer to GLManager
+*/
+/******************************************************************************/
 GLManager* Application::GetGLManager(void) const
 {
 	return m_GLM;
 }
 
-//Build stages for game app
+/******************************************************************************/
+/*!
+\brief - Build stages for game app
+
+\return true
+*/
+/******************************************************************************/
 bool Application::DataLoaded(void)
 {
 	m_GSM.AddStage(ST_MENU, new MainMenuBuilder);
@@ -177,12 +237,25 @@ bool Application::DataLoaded(void)
 	return true;
 }
 
-//Following two functions are provided to user to give control
+/******************************************************************************/
+/*!
+\brief - Get apllication;s resolution
+
+\return m_scrSize - screen size of app
+*/
+/******************************************************************************/
 ScreenSize Application::GetResolution(void) const
 {
 	return m_scrSize;
 }
 
+/******************************************************************************/
+/*!
+\brief - Set apllication;s resolution
+
+\param res - screen size of app that client want
+*/
+/******************************************************************************/
 void Application::SetResolution(const ScreenSize& res)
 {
 	m_scrSize.width = res.width;
@@ -193,6 +266,13 @@ void Application::SetResolution(const ScreenSize& res)
 	m_GLM->Resize(m_scrSize.width, m_scrSize.height);
 }
 
+/******************************************************************************/
+/*!
+\brief - Set apllication;s window mode
+
+\param fullscreen - bool toggle to set app's window mode
+*/
+/******************************************************************************/
 void Application::SetFullScreen(bool fullscreen)
 {
 	m_isFullScreen = fullscreen;
@@ -256,11 +336,25 @@ void Application::SetFullScreen(bool fullscreen)
 	}
 }
 
+/******************************************************************************/
+/*!
+\brief - Get apllication;s window mode
+
+\return m_isFullScreen - bool toggle of app's window mode
+*/
+/******************************************************************************/
 bool Application::GetFullScreen(void) const
 {
 	return m_isFullScreen;
 }
 
+/******************************************************************************/
+/*!
+\brief - Application's window procedure
+
+\return 0
+*/
+/******************************************************************************/
 LRESULT CALLBACK Application::WinProc(HWND win, UINT msg, WPARAM wp, LPARAM lp)
 {
 	static Application* s_pApp = 0;
@@ -287,6 +381,7 @@ LRESULT CALLBACK Application::WinProc(HWND win, UINT msg, WPARAM wp, LPARAM lp)
 		InputManager::GetInstance().SetPressedStatus(DOWN);
 		break;
 
+		//Button Up
 	case WM_KEYUP:
 		InputManager::GetInstance().PressInactivate(InputManager::GetInstance().KeyTranslator(wp));
 		InputManager::GetInstance().SetPressedStatus(UP);
@@ -312,17 +407,6 @@ LRESULT CALLBACK Application::WinProc(HWND win, UINT msg, WPARAM wp, LPARAM lp)
 					  //Create graphics here..
 					  break;
 	}
-	
-	//case WM_SIZE:
-	//{
-	//				RECT rt;
-	//				int width, height;
-	//				GetWindowRect(win, &rt);
-	//				width = rt.right - rt.left;
-	//				height = rt.bottom - rt.top;
-	//				SetWindowPos(win, NULL, 0, 0, width, height, SWP_NOMOVE);
-	//				break;
-	//}
 
 	//Where window is actually destroyed
 	case WM_DESTROY:
@@ -351,15 +435,4 @@ LRESULT CALLBACK Application::WinProc(HWND win, UINT msg, WPARAM wp, LPARAM lp)
 
 	return 0;
 
-}
-
-BOOL WINAPI Application::SetConsoleIcon(HICON hIcon)
-{
-	typedef BOOL(WINAPI *PSetConsoleIcon)(HICON);
-	static PSetConsoleIcon pSetConsoleIcon = NULL;
-	if (!pSetConsoleIcon)
-		pSetConsoleIcon = (PSetConsoleIcon)GetProcAddress(GetModuleHandle(_T("kernel32")), "SetConsoleIcon");
-	if (!pSetConsoleIcon)
-		return false;
-	return pSetConsoleIcon(hIcon);
 }

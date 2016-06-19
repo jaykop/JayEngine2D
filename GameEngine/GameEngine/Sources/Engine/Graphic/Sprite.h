@@ -1,17 +1,32 @@
+/******************************************************************************/
+/*!
+\file   Sprite.h
+\author Jeong Juyong
+\par    email: jeykop14\@gmail.com
+\date   2016/06/19(yy/mm/dd)
+
+\description
+Contains Sprite's class and members
+All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
+*/
+/******************************************************************************/
+
 #ifndef _SPRITE_H_
 #define _SPRITE_H_
 
-#include <string>
 #include "Texture.h"
 #include "../Utilities/Math/MathUtils.h"
 
-//Sprites' shape
+//! Sprites' shape
 enum Shape { CIRCLE, RECTANGLE };
+
+//! Sprite's prohection type
 enum Projt { PERSPECTIVE, ORTHOGONAL };
 class RigidBody;
+
+//! Sprite class
 class Sprite
 {
-	//friend ObjectManager;
 
 public:
 	

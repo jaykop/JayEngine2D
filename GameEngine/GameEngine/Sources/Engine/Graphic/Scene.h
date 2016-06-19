@@ -1,3 +1,16 @@
+/******************************************************************************/
+/*!
+\file   Scene.h
+\author Jeong Juyong
+\par    email: jeykop14\@gmail.com
+\date   2016/06/19(yy/mm/dd)
+
+\description
+Contains Scene's class and member
+All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
+*/
+/******************************************************************************/
+
 #ifndef _SCENE_H_
 #define _SCENE_H_
 
@@ -15,10 +28,11 @@ class Sprite;
 class Application;
 class ObjectManager;
 
+//! type definition for list
 typedef std::hash_map<int, Sprite*> SpriteList;
 typedef std::vector<Sprite*> DrawList;
 
-//Graphic scene
+//! Scene class
 class Scene
 {
 public:
@@ -64,7 +78,8 @@ private:
 	// To get GL manager
 	Application* m_pApp;
 
-	// Ordered List (Depends on Z order, projection type...)
+	// Ordered List 
+	// Depends on Z order and projection type
 	DrawList m_DrawList;
 };
 

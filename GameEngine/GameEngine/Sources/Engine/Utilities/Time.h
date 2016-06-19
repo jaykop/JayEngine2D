@@ -1,3 +1,16 @@
+/******************************************************************************/
+/*!
+\file   Timer.h
+\author Jeong Juyong
+\par    email: jeykop14\@gmail.com
+\date   2016/06/19(yy/mm/dd)
+
+\description
+Contains Timer's class and members
+All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
+*/
+/******************************************************************************/
+
 #ifndef _TIMER_H_
 #define _TIMER_H_
 
@@ -6,6 +19,8 @@
 class Timer
 {
 private:
+
+	//! begining time
 	double m_begTime;
 
 public:
@@ -13,16 +28,31 @@ public:
 	Timer() { m_begTime = 0; };
 	~Timer(){};
 
+	/******************************************************************************/
+	/*!
+	\brief - Start to check time
+	*/
+	/******************************************************************************/
 	void StartTime(void)
 	{
 		m_begTime = clock();
 	}
 
+	/******************************************************************************/
+	/*!
+	\brief - Get spent time from StartTime() moment
+	*/
+	/******************************************************************************/
 	double GetElapsedTime(void) const
 	{
 		return (double(clock()) - m_begTime) / (CLOCKS_PER_SEC);
 	}
 
+	/******************************************************************************/
+	/*!
+	\brief - Singletone pattern for Timer
+	*/
+	/******************************************************************************/
 	static Timer& GetInstance(void)
 	{
 		static Timer gi_timer;

@@ -1,17 +1,33 @@
+/******************************************************************************/
+/*!
+\file   Matrix4x4.h
+\author Jeong Juyong
+\par    email: jeykop14\@gmail.com
+\date   2016/06/19(yy/mm/dd)
+
+\description
+Contains Matrix4x4's template class and member function
+Custom Matrix looks like this...
+
+		  0  1  2  3
+	0	[ 00 10 20 30 ]
+	1	[ 01 11 21 31 ]
+	2	[ 02 12 22 32 ]
+	3	[ 03 13 23 33 ]
+
+All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
+*/
+/******************************************************************************/
+
 #include "../Vector/Vector3.h"
 #include "../Vector/Vector4.h"
 #include "Matrix4x4.h"
 
-//
-//  Custom Matrix looks like this...
-//
-//		  0  1  2  3
-//	0	[ 00 10 20 30 ]
-//	1	[ 01 11 21 31 ]	
-//	2	[ 02 12 22 32 ]
-//	3	[ 03 13 23 33 ]
-//	
-
+/******************************************************************************/
+/*!
+\brief - Matrix4x4 Constructor
+*/
+/******************************************************************************/
 template <typename Type>
 Matrix4x4<Type>::Matrix4x4(void)
 {
@@ -20,25 +36,20 @@ Matrix4x4<Type>::Matrix4x4(void)
 		m_member[i][j] = 0;
 }
 
+/******************************************************************************/
+/*!
+\brief - Matrix4x4 Destructor
+*/
+/******************************************************************************/
 template <typename Type>
 Matrix4x4<Type>::~Matrix4x4(void)
-{
+{}
 
-}
-
-template <typename Type>
-Matrix4x4<Type>::Matrix4x4(const Vector4<Type> member)
-{
-
-}
-
-template <typename Type>
-Matrix4x4<Type>::Matrix4x4(Vector4<Type> member1, Vector4<Type> member2,
-	Vector4<Type> member3, Vector4<Type> member4)
-{
-
-}
-
+/******************************************************************************/
+/*!
+\brief - Matrix4x4 Constructor
+*/
+/******************************************************************************/
 template <typename Type>
 Matrix4x4<Type>::Matrix4x4(const Type& element)
 {
@@ -47,6 +58,11 @@ Matrix4x4<Type>::Matrix4x4(const Type& element)
 		m_member[i][j] = element;
 }
 
+/******************************************************************************/
+/*!
+\brief - Matrix4x4 Copy Constructor
+*/
+/******************************************************************************/
 template <typename Type>
 Matrix4x4<Type>::Matrix4x4(const Matrix4x4<Type>& rhs)
 {
@@ -58,6 +74,13 @@ Matrix4x4<Type>::Matrix4x4(const Matrix4x4<Type>& rhs)
 	}
 }
 
+/******************************************************************************/
+/*!
+\brief - Matrix4x4 = operator 
+\param rhs - matrix to assign
+\return *this
+*/
+/******************************************************************************/
 template <typename Type>
 Matrix4x4<Type>& Matrix4x4<Type>::operator = (const Matrix4x4<Type>& rhs)
 {
@@ -71,6 +94,12 @@ Matrix4x4<Type>& Matrix4x4<Type>::operator = (const Matrix4x4<Type>& rhs)
 	return *this;
 }
 
+/******************************************************************************/
+/*!
+\brief - Matrix4x4 - unary operator
+\return *this
+*/
+/******************************************************************************/
 template <typename Type>
 Matrix4x4<Type>& Matrix4x4<Type>::operator-(void)
 {
@@ -81,6 +110,13 @@ Matrix4x4<Type>& Matrix4x4<Type>::operator-(void)
 	return *this;
 }
 
+/******************************************************************************/
+/*!
+\brief - Matrix4x4 + operator
+\param rhs - matrix to add
+\return result
+*/
+/******************************************************************************/
 template <typename Type>
 Matrix4x4<Type> Matrix4x4<Type>::operator + (const Matrix4x4<Type>& rhs) const
 {
@@ -93,6 +129,13 @@ Matrix4x4<Type> Matrix4x4<Type>::operator + (const Matrix4x4<Type>& rhs) const
 	return result;
 }
 
+/******************************************************************************/
+/*!
+\brief - Matrix4x4 + operator
+\param rhs - number to add
+\return result
+*/
+/******************************************************************************/
 template <typename Type>
 Matrix4x4<Type> Matrix4x4<Type>::operator + (const Type& constant) const
 {
@@ -105,6 +148,13 @@ Matrix4x4<Type> Matrix4x4<Type>::operator + (const Type& constant) const
 	return result;
 }
 
+/******************************************************************************/
+/*!
+\brief - Matrix4x4 - operator
+\param rhs - matrix to subtract
+\return result
+*/
+/******************************************************************************/
 template <typename Type>
 Matrix4x4<Type> Matrix4x4<Type>::operator - (const Matrix4x4<Type>& rhs) const
 {
@@ -117,6 +167,13 @@ Matrix4x4<Type> Matrix4x4<Type>::operator - (const Matrix4x4<Type>& rhs) const
 	return result;
 }
 
+/******************************************************************************/
+/*!
+\brief - Matrix4x4 - operator
+\param rhs - number to subtract
+\return result
+*/
+/******************************************************************************/
 template <typename Type>
 Matrix4x4<Type> Matrix4x4<Type>::operator - (const Type& constant) const
 {
@@ -129,6 +186,13 @@ Matrix4x4<Type> Matrix4x4<Type>::operator - (const Type& constant) const
 	return result;
 }
 
+/******************************************************************************/
+/*!
+\brief - Matrix4x4 * operator
+\param rhs - number to multiply
+\return result
+*/
+/******************************************************************************/
 template <typename Type>
 Matrix4x4<Type> Matrix4x4<Type>::operator * (const Type& constant) const
 {
@@ -141,6 +205,13 @@ Matrix4x4<Type> Matrix4x4<Type>::operator * (const Type& constant) const
 	return result;
 }
 
+/******************************************************************************/
+/*!
+\brief - Matrix4x4 * operator
+\param rhs - matrix to multiply
+\return result
+*/
+/******************************************************************************/
 template <typename Type>
 Matrix4x4<Type> Matrix4x4<Type>::operator*(const Matrix4x4<Type>& rhs) const
 {
@@ -169,6 +240,13 @@ Matrix4x4<Type> Matrix4x4<Type>::operator*(const Matrix4x4<Type>& rhs) const
 	return result;
 }
 
+/******************************************************************************/
+/*!
+\brief - Matrix4x4 * operator with vector4
+\param rhs - vector4 to multiply
+\return result
+*/
+/******************************************************************************/
 template <typename Type>
 Vector4<Type> Matrix4x4<Type>::operator*(const Vector4<Type>& rhs) const
 {
@@ -182,6 +260,13 @@ Vector4<Type> Matrix4x4<Type>::operator*(const Vector4<Type>& rhs) const
 	return result;
 }
 
+/******************************************************************************/
+/*!
+\brief - Matrix4x4 / operator 
+\param rhs - number to divide
+\return result
+*/
+/******************************************************************************/
 template <typename Type>
 Matrix4x4<Type> Matrix4x4<Type>::operator / (const Type& constant) const
 {
@@ -194,6 +279,11 @@ Matrix4x4<Type> Matrix4x4<Type>::operator / (const Type& constant) const
 	return result;
 }
 
+/******************************************************************************/
+/*!
+\brief - Set matrix identity
+*/
+/******************************************************************************/
 template <typename Type>
 void Matrix4x4<Type>::SetIdentity(void)
 {
@@ -209,6 +299,14 @@ void Matrix4x4<Type>::SetIdentity(void)
 	}
 }
 
+/******************************************************************************/
+/*!
+\brief - Friend function + operator
+\param constant - number to add
+\param rhs - this
+\return result
+*/
+/******************************************************************************/
 template <typename Type>
 Matrix4x4<Type> operator+(Type constant, const Matrix4x4<Type>& rhs)
 {
@@ -219,6 +317,14 @@ Matrix4x4<Type> operator+(Type constant, const Matrix4x4<Type>& rhs)
 	return result;
 }
 
+/******************************************************************************/
+/*!
+\brief - Friend function * operator
+\param constant - number to multiply
+\param rhs - this
+\return result
+*/
+/******************************************************************************/
 template <typename Type>
 Matrix4x4<Type> operator*(Type constant, const Matrix4x4<Type>& rhs)
 {
@@ -227,6 +333,14 @@ Matrix4x4<Type> operator*(Type constant, const Matrix4x4<Type>& rhs)
 	return result;
 }
 
+/******************************************************************************/
+/*!
+\brief - Friend function << operator
+\param os - storage to put contents
+\param contents - contents to print out
+\return os
+*/
+/******************************************************************************/
 template <typename Type>
 std::ostream& operator<<(std::ostream& os, const Matrix4x4<Type>& contents)
 {
@@ -244,6 +358,12 @@ std::ostream& operator<<(std::ostream& os, const Matrix4x4<Type>& contents)
 	return os;
 }
 
+/******************************************************************************/
+/*!
+\brief - Transpose matrix
+\return result
+*/
+/******************************************************************************/
 template <typename Type>
 Matrix4x4<Type> Matrix4x4<Type>::Transpose(void)
 {
@@ -257,7 +377,13 @@ Matrix4x4<Type> Matrix4x4<Type>::Transpose(void)
 	return result;
 }
 
-
+/******************************************************************************/
+/*!
+\brief - Make tanslate matrix
+\param vec - position
+\return result
+*/
+/******************************************************************************/
 template <typename Type>
 Matrix4x4<Type> Matrix4x4<Type>::Translate(const Vector3<Type>& vec)
 {
@@ -271,6 +397,13 @@ Matrix4x4<Type> Matrix4x4<Type>::Translate(const Vector3<Type>& vec)
 	return result;
 }
 
+/******************************************************************************/
+/*!
+\brief - Make scale matrix
+\param vec - scale
+\return result
+*/
+/******************************************************************************/
 template <typename Type>
 Matrix4x4<Type> Matrix4x4<Type>::Scale(const Vector3<Type>& vec)
 {
@@ -284,6 +417,14 @@ Matrix4x4<Type> Matrix4x4<Type>::Scale(const Vector3<Type>& vec)
 	return result;
 }
 
+/******************************************************************************/
+/*!
+\brief - Make tanslate matrix
+\param degree - degree to rotate
+\param vec - axis to rotate
+\return result
+*/
+/******************************************************************************/
 template <typename Type>
 Matrix4x4<Type> Matrix4x4<Type>::Rotate(float degree, Vector3<Type> vec)
 {
@@ -312,6 +453,16 @@ Matrix4x4<Type> Matrix4x4<Type>::Rotate(float degree, Vector3<Type> vec)
 	return rotate;
 }
 
+/******************************************************************************/
+/*!
+\brief - Make perspective matrix
+\param fovy - Field of view by y
+\param aspectRatio - aspect ratio
+\param zNear - closest projection position
+\param zFar - the most far projection position
+\return result
+*/
+/******************************************************************************/
 template <typename Type>
 Matrix4x4<Type> Matrix4x4<Type>::Perspective(float fovy, float aspectRatio, float zNear, float zFar)
 {
@@ -327,6 +478,18 @@ Matrix4x4<Type> Matrix4x4<Type>::Perspective(float fovy, float aspectRatio, floa
 	return result;
 }
 
+/******************************************************************************/
+/*!
+\brief - Make orthogonal matrix
+\param left - left screen side
+\param right - right screen side
+\param bottom - bottom screen side
+\param top - top screen side
+\param zNear - closest projection position
+\param zFar - the most far projection position
+\return result
+*/
+/******************************************************************************/
 template <typename Type>
 Matrix4x4<Type> Matrix4x4<Type>::Ortho(float left, float right, float bottom, float top, float zNear, float zFar)
 {
@@ -344,6 +507,15 @@ Matrix4x4<Type> Matrix4x4<Type>::Ortho(float left, float right, float bottom, fl
 	return result;
 }
 
+/******************************************************************************/
+/*!
+\brief - Make LookAt matrix
+\param eye - set row axis
+\param look - set right axis
+\param up - set up axis 
+\return result
+*/
+/******************************************************************************/
 template <typename Type>
 Matrix4x4<Type> Matrix4x4<Type>::LookAt(Vector3<Type> eye, Vector3<Type> look, Vector3<Type> up)
 {

@@ -1,9 +1,30 @@
+/******************************************************************************/
+/*!
+\file   Scene.cpp
+\author Jeong Juyong
+\par    email: jeykop14\@gmail.com
+\date   2016/06/19(yy/mm/dd)
+
+\description
+Contains Scene's class functions
+All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
+*/
+/******************************************************************************/
+
 #include <algorithm>
 #include "Scene.h"
 #include "../Graphic//Sprite.h"
 #include "../ObjectManager/ObjectManager.h"
 #include "../Apps/Application.h"
 
+/******************************************************************************/
+/*!
+\brief - Scene Constructor
+
+\param pApp - pointer to Application
+
+*/
+/******************************************************************************/
 Scene::Scene(Application* pApp)
 : m_width(0), m_height(0), m_zNear(0),
 m_zFar(0), m_fovy(0), aspectRatio(0), m_radius(0),
@@ -13,9 +34,19 @@ m_camera(vec4()), m_bgColor(vec4(0,0,0,0))
 	m_DrawList.clear();
 }
 
+/******************************************************************************/
+/*!
+\brief - Scene Destructor
+*/
+/******************************************************************************/
 Scene::~Scene(void)
 {}
 
+/******************************************************************************/
+/*!
+\brief - Initiaiize Scene
+*/
+/******************************************************************************/
 void Scene::Init(void)
 {
 	//Get projection information
@@ -34,6 +65,11 @@ void Scene::Init(void)
 	
 }
 
+/******************************************************************************/
+/*!
+\brief - Draw Scene
+*/
+/******************************************************************************/
 void Scene::Draw(void)
 {
 	//Refresh the screen
@@ -110,20 +146,36 @@ void Scene::Draw(void)
 	//}); //Lambda loop expression
 }
 
+/******************************************************************************/
+/*!
+\brief - Shutdown Scene
+*/
+/******************************************************************************/
 void Scene::Shutdown()
 {
 	// Clear all sprites from the list to draw
 	m_DrawList.clear();
 }
 
+/******************************************************************************/
+/*!
+\brief - Scene's graphic pipeline
 
+\param sprite - sprite to be drawed
+*/
+/******************************************************************************/
 void Scene::Pipeline(const Sprite* sprite)
 {
-	//Setting Perspection
-	mat44 projection = mat44::Perspective(m_fovy, aspectRatio, m_zNear, m_zFar);
+	//Init model matrix
+	mat44 model;
+	model.SetIdentity();
 
-	// Ortho Perspection
-	//mat44 projection = mat44::Ortho(-m_width / 2.f, m_width / 2.f, -m_height / 2.f, m_height / 2.f, m_zNear, m_zFar);
+	//Setting Perspection
+	mat44 projection;
+	if (sprite->GetProjectionType() == PERSPECTIVE)
+		projection = mat44::Perspective(m_fovy, aspectRatio, m_zNear, m_zFar);
+	else
+		projection = mat44::Ortho(-m_width / 2.f, m_width / 2.f, -m_height / 2.f, m_height / 2.f, m_zNear, m_zFar);
 
 	//Setting Camera
 	mat44 camera = mat44::LookAt(
@@ -132,10 +184,6 @@ void Scene::Pipeline(const Sprite* sprite)
 		vec3(cosf(Math::DegToRad((m_camera.w + 90.f))),
 			sinf(Math::DegToRad((m_camera.w + 90.f))),
 			0));
-
-	//Init model matrix
-	mat44 model;
-	model.SetIdentity();
 
 	//Transform model mat
 	model = model * mat44::Scale(sprite->GetScale());
@@ -147,21 +195,49 @@ void Scene::Pipeline(const Sprite* sprite)
 	m_mvp = m_mvp.Transpose();
 }
 
+/******************************************************************************/
+/*!
+\brief - Camera settor
+
+\param camera
+*/
+/******************************************************************************/
 void Scene::SetCamera(const vec4& camera)
 {
 	m_camera = camera;
 }
 
+/******************************************************************************/
+/*!
+\brief - Camera gettor
+
+\return m_camera
+*/
+/******************************************************************************/
 vec4 Scene::GetCamera(void) const
 {
 	return m_camera;
 }
 
+/******************************************************************************/
+/*!
+\brief - Background Color settor
+
+\param background
+*/
+/******************************************************************************/
 void Scene::SetBackgroundColor(const vec4& background)
 {
 	m_bgColor = background;
 }
 
+/******************************************************************************/
+/*!
+\brief - Background Color gettor
+
+\return m_bgColor
+*/
+/******************************************************************************/
 vec4 Scene::GetBackgroundColor(void) const
 {
 	return m_bgColor;
@@ -169,7 +245,15 @@ vec4 Scene::GetBackgroundColor(void) const
 
 namespace
 {
-	// Order algorithm
+	/******************************************************************************/
+	/*!
+	\brief - Order algorithm
+
+	\param a - 1st compared
+	\param b - 2nd compared
+
+	*/
+	/******************************************************************************/
 	bool reorder_sprites(const Sprite* a, const Sprite* b)
 	{
 		// Distinguish ortho type and pers type 
@@ -189,12 +273,25 @@ namespace
 	}
 }
 
+/******************************************************************************/
+/*!
+\brief - Order algorithm
+
+*/
+/******************************************************************************/
 void Scene::ReorderSprites(void)
 {
 	// Order algorithm
 	std::sort(m_DrawList.begin(), m_DrawList.end(), reorder_sprites);
 }
 
+/******************************************************************************/
+/*!
+\brief - Add Sprite to the list
+
+\param newSpt - sprite to put into the list
+*/
+/******************************************************************************/
 void Scene::AddSprite(Sprite* newSpt)
 {
 	// Add sprite by Zorder and Projection type
@@ -216,6 +313,13 @@ void Scene::AddSprite(Sprite* newSpt)
 	ReorderSprites();
 }
 
+/******************************************************************************/
+/*!
+\brief - Delete Sprite from the list
+
+\param id - sprite's id to delete
+*/
+/******************************************************************************/
 void Scene::DeleteSprite(const int id)
 {
 	//Find the sprite from the vector
