@@ -67,7 +67,7 @@ private:
 	static LRESULT CALLBACK WinProc(HWND win, UINT msg, WPARAM wp, LPARAM pl);
 
 	HINSTANCE  m_instance;		//!< The instance from main
-	WNDCLASS   m_winClass;		//!< The windows class
+	WNDCLASSEX m_winClass;		//!< The windows class
 	DWORD	   m_style;			//!< The windows style
 	HWND	   m_window;		//!< The handle to the window
 	bool       m_isQuitting;	//!< flag for quitting

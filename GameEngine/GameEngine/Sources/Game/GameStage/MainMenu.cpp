@@ -12,8 +12,28 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 */
 /******************************************************************************/
 
-#include "../BaseData/BaseEnigne.h"
 #include "MainMenu.h"
+#include "../BaseData/BaseEnigne.h"
+
+#include <algorithm>
+#include <functional> 
+
+namespace
+{
+	/******************************************************************************/
+	/*!
+	\brief - Order algorithm
+
+	\param a - 1st compared
+	\param b - 2nd compared
+
+	*/
+	/******************************************************************************/
+	bool reorder_sprites(const int a, const int b)
+	{
+			return a > b;
+	}
+}
 
 /******************************************************************************/
 /*!
@@ -48,31 +68,31 @@ void MenuStage::Init(GameData& gd)
 
 	//Init basic trunks
 	m_ObjM.BindGameSystem(m_GSM->GetAppPtr());
-	m_ObjM.InitGameSystem();
+	
 
 	//Set sprites
 	m_ObjM.AddObject(0);
 	m_ObjM.AddObject(1);
-
 	m_ObjM.AddObject(2);
 	m_ObjM.AddObject(3);
 	m_ObjM.AddObject(4);
 	m_ObjM.AddObject(5);
 
 	//Set positions
-	m_ObjM.GetGameObject(0)->SetPosition(vec3(10, 10, 0.2f));
-	m_ObjM.GetGameObject(1)->SetPosition(vec3(-10, -10, 0.1f));
+	m_ObjM.GetGameObject(0)->SetPosition(vec3(10, 10, 1.05f));
+	m_ObjM.GetGameObject(1)->SetPosition(vec3(-10, -10, 1.1f));
 	m_ObjM.GetGameObject(0)->SetRotation(Random::GetInstance().GetRandomFloat(0, 360));
 	m_ObjM.GetGameObject(1)->SetRotation(Random::GetInstance().GetRandomFloat(0, 360));
 	m_ObjM.GetGameObject(0)->SetScale(vec3(30, 30));
 	m_ObjM.GetGameObject(1)->SetScale(vec3(30, 30));
-	m_ObjM.GetGameObject(0)->SetSpriteShape(CIRCLE);
-	m_ObjM.GetGameObject(1)->SetSpriteShape(CIRCLE);
 
-	m_ObjM.GetGameObject(2)->SetPosition(vec3(20, 0));
-	m_ObjM.GetGameObject(3)->SetPosition(vec3(-20, 0));
-	m_ObjM.GetGameObject(4)->SetPosition(vec3(0, -20));
-	m_ObjM.GetGameObject(5)->SetPosition(vec3(0, 20));
+	//m_ObjM.GetGameObject(0)->SetSpriteShape(CIRCLE);
+	//m_ObjM.GetGameObject(1)->SetSpriteShape(CIRCLE);
+
+	m_ObjM.GetGameObject(2)->SetPosition(vec3(20, 0, .5));
+	m_ObjM.GetGameObject(3)->SetPosition(vec3(-20, 0, 1.0));
+	m_ObjM.GetGameObject(4)->SetPosition(vec3(0, -20 ,0.1));
+	m_ObjM.GetGameObject(5)->SetPosition(vec3(0, 20, .7));
 
 	m_ObjM.GetGameObject(2)->SetScale(vec3(1, 300));
 	m_ObjM.GetGameObject(3)->SetScale(vec3(1, 300));
@@ -106,6 +126,55 @@ void MenuStage::Init(GameData& gd)
 	m_ObjM.GetGameObject(3)->GetRigidBody()->ActivateMove(false);
 	m_ObjM.GetGameObject(4)->GetRigidBody()->ActivateMove(false);
 	m_ObjM.GetGameObject(5)->GetRigidBody()->ActivateMove(false);
+
+	m_ObjM.GetGameScene()->SetBackgroundColor(vec4(1,1,1,1));
+	m_ObjM.InitGameSystem();
+
+	std::vector<int> test;
+
+	test.push_back(43);
+	test.push_back(23);
+	test.push_back(4);
+	test.push_back(45);
+	test.push_back(546);
+	test.push_back(34);
+	test.push_back(5);
+	test.push_back(654);
+	test.push_back(858);
+	test.push_back(54);
+
+	for (auto it = test.begin(); it != test.end(); ++it)
+		std::cout << *it << " ";
+
+	std::cout << "\n";
+
+	std::sort(test.begin(), test.end(), std::less<int>());
+
+	for (auto it = test.begin(); it != test.end(); ++it)
+		std::cout << *it << " ";
+
+	std::cout << "\n";
+
+	std::sort(test.begin(), test.end(), std::greater<int>());
+
+	for (auto it = test.begin(); it != test.end(); ++it)
+		std::cout << *it << " ";
+
+	std::cout << "\n";
+
+	std::sort(test.begin(), test.end(), std::less<int>());
+
+	for (auto it = test.begin(); it != test.end(); ++it)
+		std::cout << *it << " ";
+
+	std::cout << "\n";
+
+	std::sort(test.begin(), test.end(), reorder_sprites);
+
+	for (auto it = test.begin(); it != test.end(); ++it)
+		std::cout << *it << " ";
+
+	std::cout << "\n";
 }
 
 void MenuStage::Update(GameData& gd)
@@ -154,8 +223,8 @@ void MenuStage::BasicControl(void)
 
 	else if (InputManager::GetInstance().KeyTriggered(KEY_TAB))
 	{
-		m_ObjM.GetGameObject(0)->GetTexture()->LoadTexture("Resources/Texture/test.png");
-		m_ObjM.GetGameObject(1)->GetTexture()->LoadTexture("Resources/Texture/test.png");
+		m_ObjM.GetGameObject(0)->GetTexture()->LoadTexture("Resources/Texture/Phantom.png");
+		m_ObjM.GetGameObject(1)->GetTexture()->LoadTexture("Resources/Texture/Phantom.png");
 	}
 }
 

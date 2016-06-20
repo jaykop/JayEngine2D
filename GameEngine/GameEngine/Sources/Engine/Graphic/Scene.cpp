@@ -62,7 +62,9 @@ void Scene::Init(void)
 	m_camera = vec4(0, 0, 80, 0);
 
 	m_texId = glGetUniformLocation(m_pApp->GetGLManager()->GetShader().m_programID, "Texture");
-	
+
+	// Sort Sprites by projection type and z Order
+	ReorderSprites();
 }
 
 /******************************************************************************/
@@ -141,8 +143,10 @@ void Scene::Draw(void)
 		glDisableVertexAttribArray(0);
 		glDisableVertexAttribArray(1);
 		glDisable(GL_NICEST);		
-	}
 
+		//std::cout << (*it)->GetID() << " ";
+	}
+	//std::cout <<  "\n";
 	//}); //Lambda loop expression
 }
 
@@ -257,19 +261,15 @@ namespace
 	bool reorder_sprites(const Sprite* a, const Sprite* b)
 	{
 		// Distinguish ortho type and pers type 
-		if (a->GetProjectionType() == ORTHOGONAL && !(b->GetProjectionType() == ORTHOGONAL))
-		{
+		if (a->GetProjectionType() == ORTHOGONAL && b->GetProjectionType() == PERSPECTIVE)
 			return false;
-		}
-		else if (!(a->GetProjectionType() == ORTHOGONAL) && b->GetProjectionType() == ORTHOGONAL)
-		{
+		
+		else if (a->GetProjectionType() == PERSPECTIVE && b->GetProjectionType() == ORTHOGONAL)
 			return true;
-		}
+		
+		// Return higher z order on
 		else
-		{
-			// Return higher z order one
 			return a->GetPosition().z < b->GetPosition().z;
-		}
 	}
 }
 
@@ -295,7 +295,6 @@ void Scene::ReorderSprites(void)
 void Scene::AddSprite(Sprite* newSpt)
 {
 	// Add sprite by Zorder and Projection type
-
 	auto it = m_DrawList.begin();
 
 	for (; it != m_DrawList.end(); ++it)
@@ -303,13 +302,13 @@ void Scene::AddSprite(Sprite* newSpt)
 		// If new sprite's z order is lower than next sprite
 		// Stop here
 		if ((*it)->GetPosition().z > newSpt->GetPosition().z)
-			break;	
+			break;
 	}
 
 	// Add sprite to the place where stopped
 	m_DrawList.insert(it, newSpt);
-
-	// Sort
+	
+	// Sort Sprites by projection type and z Order
 	ReorderSprites();
 }
 
@@ -330,9 +329,11 @@ void Scene::DeleteSprite(const int id)
 		{
 			// Delete it
 			m_DrawList.erase(it);
+			// m_OrderList.erase(it++); 
 			break;
 		}
 	}
 
+	// Sort Sprites by projection type and z Order
 	ReorderSprites();
 }

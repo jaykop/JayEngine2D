@@ -30,6 +30,6 @@ void main()
 	{
 		// Output color
 		vec2 newTexCoord = 0.5 * fragTexCoord + vec2(0.5, 0.5);
-		finalColor = texture(Texture, newTexCoord) * fragmentColor;
+		finalColor = fragmentColor * texture(Texture, newTexCoord);
 	}
 }

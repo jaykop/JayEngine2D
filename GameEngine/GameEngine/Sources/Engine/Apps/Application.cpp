@@ -24,7 +24,7 @@ namespace
 	/*!Window style if the user chooses full screen*/
 	const DWORD FULLSCREEN_STYLE = WS_POPUP | WS_VISIBLE;
 	/*!Window style if the user choose windowed mode*/
-	const DWORD WINDOWED_STYLE = WS_POPUP | WS_CAPTION;
+	const DWORD WINDOWED_STYLE = WS_POPUP | WS_CAPTION | WS_SYSMENU;
 	//const DWORD WINDOWED_STYLE = WS_OVERLAPPEDWINDOW;
 
 	/******************************************************************************/
@@ -70,6 +70,7 @@ namespace
 /******************************************************************************/
 Application::Application(const InitData& initData)
 {
+
 	//ONLY CALSS ONCE;
 	DEBUG_CALL_CHECK();
 
@@ -84,17 +85,21 @@ Application::Application(const InitData& initData)
 	//Set up our WNDCLASS(defaults)
 	m_winClass.style = CS_OWNDC | CS_HREDRAW | CS_VREDRAW; //OpenGL
 	m_winClass.cbClsExtra = 0;
+	m_winClass.cbSize = sizeof(WNDCLASSEX);
 	m_winClass.cbWndExtra = 0;
 	m_winClass.lpszMenuName = 0;
-	m_winClass.hIcon = LoadIcon(0, IDI_APPLICATION);
 	m_winClass.hCursor = LoadCursor(0, IDC_ARROW);
 	m_winClass.hbrBackground = (HBRUSH)GetStockObject(WHITE_BRUSH);
 	m_winClass.hInstance = initData.instance;					//Instance from main 
-	m_winClass.lpszClassName = CLASS_NAME;							//Window class name
-	m_winClass.lpfnWndProc = WinProc;								//Static member
+	m_winClass.lpszClassName = CLASS_NAME;						//Window class name
+	m_winClass.lpfnWndProc = WinProc;							//Static member
+
+	// Set Icon for app
+	m_winClass.hIcon = (HICON)LoadImage(NULL, "Resources/Texture/Icon/icon_256.ico", IMAGE_ICON, 256, 256, LR_LOADFROMFILE);
+	m_winClass.hIconSm = (HICON)LoadImage(NULL, "Resources/Texture/Icon/icon_32.ico", IMAGE_ICON, 32, 32, LR_LOADFROMFILE);
 
 	//Register our window class
-	RegisterClass(&m_winClass);
+	RegisterClassEx(&m_winClass);
 
 	//Make client are the size that we want
 	int xStart;
@@ -397,7 +402,6 @@ LRESULT CALLBACK Application::WinProc(HWND win, UINT msg, WPARAM wp, LPARAM lp)
 		InputManager::GetInstance().PressInactivate(MOUSE_RBUTTON);
 		InputManager::GetInstance().SetPressedStatus(UP);
 		break;
-	
 
 	case WM_CREATE:
 	{
