@@ -1,0 +1,86 @@
+/******************************************************************************/
+/*!
+\file   GLManager.h
+\author Jeong Juyong
+\par    email: jeykop14\@gmail.com
+\date   2016/06/19(yy/mm/dd)
+
+\description
+Contains GLManager's class and members
+All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
+*/
+/******************************************************************************/
+
+#ifndef _GLManager_H_
+#define _GLManager_H_
+
+#pragma comment(lib,"opengl32.lib")
+
+#include "../../../Include/GL/glew.h"
+#include "../../../Include//GL/wglew.h"
+#include <windows.h>
+
+#include "../../../Include/GL/gl.h"
+#include "../../../Include/GL/glu.h"
+
+#include "Shader.hpp"
+
+class Shader;
+
+//! projection info to use in scene class
+struct ProjectionInfo
+{
+	float  m_fovy, m_zNear, m_zFar;
+	float  m_width, m_height;
+};
+
+//! GLManager to manage base GL info
+class GLManager
+{
+
+public:
+	
+	GLManager(void);
+	~GLManager(void);
+
+	//Settor functions
+	void SysShutdown(void);
+	void SetGLFormat(void);
+	
+	//Init GL info
+	bool InitGL(void);
+	void Resize(int width, int height);
+	
+	void CheckGL(HWND& window);
+	void OpenGLInit(HWND& window, int width, int height);
+	
+	//Gettor for GL info
+	HDC  GetHDC(void) const;
+	Shader GetShader(void) const;
+	GLuint GetMatrixID(void) const;
+	GLuint GetVertexBuffer(void) const;
+	ProjectionInfo GetProjectionInfo(void) const;
+
+	//Single tone pattern
+	static GLManager& GetInstance(void)
+	{
+		static GLManager gl_app;
+		return gl_app;
+	}
+
+private:
+
+	// Basic info
+	HDC    m_hdc;
+	HGLRC  m_hglrc;
+	int    m_indexPixelFormat;
+
+	// Scene info
+	Shader m_shader;
+	GLuint m_matrixId;
+	GLuint m_vertexBuffer;
+	ProjectionInfo m_info;
+	
+};
+
+#endif // _GLManager_H_
