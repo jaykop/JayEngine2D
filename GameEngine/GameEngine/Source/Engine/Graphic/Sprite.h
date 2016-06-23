@@ -14,8 +14,12 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 #ifndef _SPRITE_H_
 #define _SPRITE_H_
 
+#include <map>
 #include "Texture.h"
 #include "../Utilities/Math/MathUtils.h"
+
+//! Sprite's type
+enum Type {NORMAL, TEXT, PARTICLE};
 
 //! Sprites' shape
 enum Shape { CIRCLE, RECTANGLE };
@@ -24,6 +28,9 @@ enum Shape { CIRCLE, RECTANGLE };
 enum Projt { PERSPECTIVE, ORTHOGONAL };
 class RigidBody;
 
+//! Pointer to GameStateManager
+class GameStateManager;
+
 //! Sprite class
 class Sprite
 {
@@ -31,11 +38,16 @@ class Sprite
 public:
 	
 	//Constructor and destructor
-	Sprite(const int id);
+	Sprite(const int id = 0, Type type = NORMAL);
 	~Sprite();
 
-	// Id gettor
+	// Id functions
 	const int GetID(void) const;
+	void SetID(const int id);
+
+	// Type functions
+	Type GetSpriteType(void) const;
+	void SetSpriteType(Type type);
 
 	// Transforming functions
 	void SetPosition(const vec3& position);
@@ -68,6 +80,10 @@ public:
 	void SetProjectionType(Projt projection);
 	Projt GetProjectionType(void) const;
 
+	// Empty functions; for Text class
+	virtual void SetText(wchar_t* text);
+	virtual wchar_t* GetText(void) const;
+
 private:
 	
 	// Sprite id
@@ -81,7 +97,8 @@ private:
 	float m_degree;
 
 	// Type Info
-	Shape m_type;
+	Type  m_type;
+	Shape m_shape;
 	Projt m_prjt;
 
 	// Texture Info

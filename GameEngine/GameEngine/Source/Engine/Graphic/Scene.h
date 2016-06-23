@@ -24,12 +24,14 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 //typedef Vector4<GLfloat> GLvec4;
 //typedef Matrix4x4<GLfloat> GLmat44;
 
+class Text;
 class Sprite;
 class Application;
 class ObjectManager;
 
 //! type definition for list
 typedef std::hash_map<int, Sprite*> SpriteList;
+typedef std::hash_map<int, Text*> TextList;
 typedef std::vector<Sprite*> DrawList;
 
 //! Scene class
@@ -40,7 +42,7 @@ public:
 	Scene(Application* pApp);
 	~Scene();
 	void Init(void);
-	void Draw(void);
+	void Draw(TextList textList);
 	void Shutdown();
 
 	void SetBackgroundColor(const vec4& background);
@@ -48,7 +50,8 @@ public:
  	void SetCamera(const vec4& camera);
 	vec4 GetCamera(void) const;
 
-	void AddSprite(Sprite* newSpt);
+	void AddSprite(Sprite* sprite);
+	void AddSprite(Text* text);
 	void DeleteSprite(const int id);
 
 private:
@@ -81,6 +84,7 @@ private:
 	// Ordered List 
 	// Depends on Z order and projection type
 	DrawList m_DrawList;
+	TextList m_TextList;
 };
 
 #endif // _SCENE_H_

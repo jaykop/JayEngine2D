@@ -20,16 +20,12 @@ void main()
 	
 		// dscard if the distance is bigger than radius, otherwise draw the pixle
 		if (l > 1) discard;
-		
-		// Output color
-		vec2 newTexCoord = 0.5 * fragTexCoord + vec2(0.5, 0.5);
-		finalColor = texture(Texture, newTexCoord) * fragmentColor;
 	}
 	
-	else
-	{
-		// Output color
-		vec2 newTexCoord = 0.5 * fragTexCoord + vec2(0.5, 0.5);
-		finalColor = fragmentColor * texture(Texture, newTexCoord);
-	}
+	// Output color
+	 vec2 newTexCoord = 0.5 * fragTexCoord + vec2(0.5, 0.5);
+	 finalColor = texture(Texture, newTexCoord) * fragmentColor;
+	
+	//vec4 sampled = vec4(1.0, 1.0, 1.0, texture(Texture, fragTexCoord).r);
+   // finalColor = fragmentColor * sampled;
 }

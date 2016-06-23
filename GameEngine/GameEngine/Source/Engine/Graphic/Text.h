@@ -22,11 +22,6 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 #include <ftoutln.h>
 #include <fttrigon.h>
 
-// GL headers
-#include <windows.h>                                     
-#include "../Include/GL/gl.h"
-#include "../Include/GL/glu.h"
-
 // STL headers
 #include <vector>
 #include <string>
@@ -34,49 +29,55 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 
 #pragma warning(disable: 4786)
 
-#include "../Utilities/Math/MathUtils.h"
+// GL headers
+#include <map>
+#include "Sprite.h"
 
-using namespace std;
+//This holds all of the information related to any
+//freetype font that we want to create.  
+struct font_data {
 
-class Text
+	int glyph_size;		///< Font's size
+	float height;		///< Holds the height of the font.
+	GLuint * textures;	///< Holds the texture id's 
+	GLuint list_base;	///< Holds the first display list id
+
+	//The init function will create a font of
+	//of the height h from the file fname.
+	void SetFont(const char * fname, unsigned int height);
+
+	//Free all the resources assosiated with the font.
+	void Clean();
+};
+
+namespace freetype{
+
+	int next_p2(int a);
+	void make_dlist(FT_Face face, unsigned short ch, GLuint list_base, GLuint* text_base);
+	void pushScreenCoordinateMatrix(void);
+	void pop_projection_matrix(void);
+
+	static font_data m_font;
+}
+
+//! Text class
+class Text : public Sprite
 {
 public:
 
-	Text();
+	//! Constructor and destructor
+	Text(const int id = 0, Type type = TEXT);
 	~Text(void);
 
-
-	struct font_data {
-		float  height;
-		GLuint *texture;	//Texture *texture;
-		GLuint list_base;
-
-		font_data(void);
-		~font_data(void);
-
-		void Make_dlist(FT_Face face, char ch, GLuint list_base, GLuint* tex_base);
-		void SetFont(const char* fontDir
-			= "Resource/Font/Default.ttf", unsigned size = 36);
-
-		int Next_p2(int a);
-		void Clear(void);
-	};
-
-	//void Print(TCHAR* string);
-	//void Print(const font_data &ft_font, float x, float y, const char* fmt);
-
-	//void SetFontSize(HDC hdc, int width, int height);
+	//! Font functions
+	virtual void SetText(wchar_t* text);
+	virtual wchar_t* GetText(void) const;
 
 private:
 
-	vec3 m_scale;
-	vec4 m_color;
-	vec3 m_position;
-	float m_rotation;
+	wchar_t* m_text;
 	float m_fontSize;
 
-	FT_Face m_face;
-	font_data m_font;
 };
 
 #endif // _FREETYPE_TEXT_H_

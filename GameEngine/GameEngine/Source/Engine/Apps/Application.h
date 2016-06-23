@@ -68,9 +68,6 @@ public:
 	//GL manager
 	GLManager* GetGLManager(void) const;
 
-	//Text manager;
-	FT_Library* GetFreetypeLib(void) const;
-
 	//Set title icon
 	BOOL WINAPI SetConsoleIcon(HICON hIcon);
 

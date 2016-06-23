@@ -146,7 +146,6 @@ Application::Application(const InitData& initData)
 		);
 
 	//Set opengl
-	//GLManager::GetInstance().OpenGLInit(m_window, m_scrSize.width, m_scrSize.height);
 	m_GLM = new GLManager;
 	m_GLM->OpenGLInit(m_window, m_scrSize.width, m_scrSize.height);
 
@@ -365,11 +364,6 @@ void Application::SetFullScreen(bool fullscreen)
 bool Application::GetFullScreen(void) const
 {
 	return m_isFullScreen;
-}
-
-FT_Library* Application::GetFreetypeLib(void) const
-{
-	return m_FTL;
 }
 
 /******************************************************************************/

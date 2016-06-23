@@ -16,6 +16,7 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 
 #include <hash_map>
 #include <vector>
+#include "../Graphic/Text.h"
 
 class Scene;
 class World;
@@ -25,6 +26,7 @@ class Application;
 //! type definition for the list
 typedef std::hash_map<int, bool> Relation;
 typedef std::hash_map<int, Sprite*> SpriteList;
+typedef std::hash_map<int, Text*> TextList;
 
 //! ObjectManager class
 class ObjectManager
@@ -36,11 +38,11 @@ public:
 	~ObjectManager();
 
 	// Functions manages objects
-	void AddObject(const int SpriteID, 
+	void AddObject(const int SpriteID, Type type = NORMAL,
 		const char* textureDir = "Resource/Texture/rect.png");
-	Sprite* GetGameObject(const int id);
-	bool HasObject(const int id);
-	void RemoveObject(const int id);
+	Sprite* GetGameObject(const int id, Type type = NORMAL);
+	bool HasObject(const int id, Type type = NORMAL);
+	void RemoveObject(const int id, Type type = NORMAL);
 	
 	// Manage list
 	const SpriteList& GetList(void) const;
@@ -56,10 +58,14 @@ public:
 	Scene* GetGameScene(void) const;
 	World* GetGameWorld(void) const;
 
+	const SpriteList& GetSpriteList(void) const;
+	const TextList& GetTextList(void) const;
+
 private:
 	
 	// Sprites info
-	SpriteList m_ObjectList;
+	SpriteList m_SpriteList;
+	TextList m_TextList;
 
 	// The number of the sprites
 	int number_of_Spt;

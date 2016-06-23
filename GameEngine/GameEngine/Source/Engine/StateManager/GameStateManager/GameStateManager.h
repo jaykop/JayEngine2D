@@ -95,8 +95,8 @@ private:
 	StageType	m_current;  //!< The current stage to update
 	StageType   m_1stStage;	//!< The 1st stage of this application
 
-	GameData	m_gameData;	//!< Game data to be used
-	Factory		m_factory;	//!< Factory that makes new stages
+	GameData	 m_gameData;	//!< Game data to be used
+	Factory		 m_factory;	//!< Factory that makes new stages
 	Application* m_pApp;	//!< pointer to the application
 
 	std::stack<StageInfo> m_StageStack;

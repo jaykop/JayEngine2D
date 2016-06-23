@@ -11,8 +11,10 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 */
 /******************************************************************************/
 
+#include "Text.h"
 #include "Sprite.h"
 #include "../Physics/RigidBody.h"
+#include "../StateManager/GameStateManager/GameStateManager.h"
 
 /******************************************************************************/
 /*!
@@ -22,18 +24,20 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 
 */
 /******************************************************************************/
-Sprite::Sprite(const int id)
+Sprite::Sprite(const int id, Type type)
+
 {
 	m_position = vec3(0.f, 0.f, 0.f);
 	m_scale = vec3(5.f, 5.f, 0.f);
 	m_degree = 0;
-	m_color = vec4(1.f);
+	m_color = vec4(1.f, 1.f, 1.f, 1.f);
 	m_HasBody = false;
 	m_body = 0;
 	m_id = id;
-	m_type = RECTANGLE;
+	m_shape = RECTANGLE;
 	m_prjt = PERSPECTIVE;
 	m_texture = 0;
+	m_type = type;
 }
 
 /******************************************************************************/
@@ -60,6 +64,18 @@ Sprite::~Sprite(void)
 const int Sprite::GetID(void) const
 {
 	return m_id;
+}
+
+/******************************************************************************/
+/*!
+\brief - Set Sprite;s id
+
+\param id - sprite's id
+*/
+/******************************************************************************/
+void Sprite::SetID(const int id)
+{
+	m_id = id;
 }
 
 /******************************************************************************/
@@ -215,26 +231,50 @@ bool Sprite::HasRigidBody(void) const
 
 /******************************************************************************/
 /*!
-\brief - Set Sprite;s shape
+\brief - Get Sprite;s type
 
-\param type - sprite's shape
+\return m_type - sprite's shape
 */
 /******************************************************************************/
-void Sprite::SetSpriteShape(Shape type)
+Type Sprite::GetSpriteType(void) const
+{
+	return m_type;
+}
+
+/******************************************************************************/
+/*!
+\brief - Set Sprite;s type
+
+\param type - sprite's type
+*/
+/******************************************************************************/
+void Sprite::SetSpriteType(Type type)
 {
 	m_type = type;
 }
 
 /******************************************************************************/
 /*!
+\brief - Set Sprite;s shape
+
+\param shape - sprite's shape
+*/
+/******************************************************************************/
+void Sprite::SetSpriteShape(Shape shape)
+{
+	m_shape = shape;
+}
+
+/******************************************************************************/
+/*!
 \brief - Get Sprite;s shape
 
-\return m_type - sprite's shape
+\return m_shape - sprite's shape
 */
 /******************************************************************************/
 Shape Sprite::GetSpriteShape(void) const
 {
-	return m_type;
+	return m_shape;
 }
 
 /******************************************************************************/
@@ -283,4 +323,24 @@ void Sprite::SetProjectionType(Projt projection)
 Projt Sprite::GetProjectionType(void) const
 {
 	return m_prjt;
+}
+
+/******************************************************************************/
+/*!
+\brief - Do nothing!
+*/
+/******************************************************************************/
+void Sprite::SetText(wchar_t* text)
+{
+	UNREFERENCED_PARAMETER(text);
+}
+
+/******************************************************************************/
+/*!
+\brief - Do nothing!
+*/
+/******************************************************************************/
+wchar_t* Sprite::GetText(void) const
+{
+	return 0;
 }

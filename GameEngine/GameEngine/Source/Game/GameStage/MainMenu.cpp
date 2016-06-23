@@ -56,22 +56,32 @@ void MenuStage::Init(GameData& gd)
 	m_ObjM.AddObject(3);
 	m_ObjM.AddObject(4);
 	m_ObjM.AddObject(5);
+	m_ObjM.AddObject(10, TEXT);
 
 	//Set positions
 	m_ObjM.GetGameObject(0)->SetPosition(vec3(10, 10, 1.05f));
 	m_ObjM.GetGameObject(1)->SetPosition(vec3(-10, -10, 1.1f));
 	m_ObjM.GetGameObject(0)->SetRotation(Random::GetInstance().GetRandomFloat(0, 360));
 	m_ObjM.GetGameObject(1)->SetRotation(Random::GetInstance().GetRandomFloat(0, 360));
-	m_ObjM.GetGameObject(0)->SetScale(vec3(30, 30));
-	m_ObjM.GetGameObject(1)->SetScale(vec3(30, 30));
+	m_ObjM.GetGameObject(0)->SetScale(vec3(5, 5));
+	m_ObjM.GetGameObject(1)->SetScale(vec3(5, 5));
 
 	//m_ObjM.GetGameObject(0)->SetSpriteShape(CIRCLE);
 	//m_ObjM.GetGameObject(1)->SetSpriteShape(CIRCLE);
+	//m_ObjM.GetGameObject(10, TEXT)->SetFont();
+	m_ObjM.GetGameObject(10, TEXT)->SetText(L"xcvbnmxcvb");
 
-	m_ObjM.GetGameObject(2)->SetPosition(vec3(20, 0, .5));
-	m_ObjM.GetGameObject(3)->SetPosition(vec3(-20, 0, 1.0));
-	m_ObjM.GetGameObject(4)->SetPosition(vec3(0, -20 ,0.1));
-	m_ObjM.GetGameObject(5)->SetPosition(vec3(0, 20, .7));
+	//m_ObjM.GetGameObject(0)->SetProjectionType(ORTHOGONAL);
+	//m_ObjM.GetGameObject(1)->SetProjectionType(ORTHOGONAL);
+	//m_ObjM.GetGameObject(2)->SetProjectionType(ORTHOGONAL);
+	//m_ObjM.GetGameObject(3)->SetProjectionType(ORTHOGONAL);
+	//m_ObjM.GetGameObject(4)->SetProjectionType(ORTHOGONAL);
+	//m_ObjM.GetGameObject(5)->SetProjectionType(ORTHOGONAL);
+
+	m_ObjM.GetGameObject(2)->SetPosition(vec3(20, 0, .5f));
+	m_ObjM.GetGameObject(3)->SetPosition(vec3(-20, 0, 1.f));
+	m_ObjM.GetGameObject(4)->SetPosition(vec3(0, -20 ,.1f));
+	m_ObjM.GetGameObject(5)->SetPosition(vec3(0, 20, .7f));
 
 	m_ObjM.GetGameObject(2)->SetScale(vec3(1, 300));
 	m_ObjM.GetGameObject(3)->SetScale(vec3(1, 300));

@@ -14,16 +14,6 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 #include "GLManager.h"
 #include "../Apps/Application.h"
 
-//! vectext buffer information
-static const GLfloat m_vertex_buffer_data[] =
-{ 
-//		X		Y		Z		U		V
-	-.5f,	-.5f,	 0.f,	-1.f,	 -1.f,
-	-.5f,	 .5f,	 0.f,	-1.f,	  1.f, 
-	 .5f,	 .5f,	 0.f,	 1.f,	  1.f,
-	 .5f,	-.5f,	 0.f,	 1.f,	 -1.f
-};
-
 /******************************************************************************/
 /*!
 \brief - GLManager Constructor
@@ -222,10 +212,12 @@ void GLManager::OpenGLInit(HWND& window, int width, int height)
 	glBufferData(GL_ARRAY_BUFFER, sizeof(m_vertex_buffer_data), m_vertex_buffer_data, GL_STATIC_DRAW);
 
 	//Call shader
-	m_shader.LoadShaders("Resource/Shader/shader.vertex", "Resource/Shader/shader.fragment");
+	m_shader[0].LoadShaders("Resource/Shader/shader.vertex", "Resource/Shader/shader.fragment");
+	m_shader[1].LoadShaders("Resource/Shader/text.vertex", "Resource/Shader/text.fragment");
 
 	//Use shader
-	glUseProgram(m_shader.m_programID);
+	glUseProgram(m_shader[0].m_programID);
+	//glUseProgram(m_shader[1].m_programID);
 
 }
 
@@ -263,9 +255,9 @@ ProjectionInfo GLManager::GetProjectionInfo(void) const
 
 */
 /******************************************************************************/
-Shader GLManager::GetShader(void) const
+Shader GLManager::GetShader(const int id) const
 {
-	return m_shader;
+	return m_shader[id];
 }
 
 /******************************************************************************/
@@ -292,4 +284,17 @@ GLuint GLManager::GetMatrixID(void) const
 GLuint GLManager::GetVertexBuffer(void) const
 {
 	return m_vertexBuffer;
+}
+
+/******************************************************************************/
+/*!
+\brief - Get vertex attribute
+
+\return m_vertexAttrib
+
+*/
+/******************************************************************************/
+GLuint GLManager::GetVertexAttrib(void) const
+{
+	return m_vertexAttrib;
 }

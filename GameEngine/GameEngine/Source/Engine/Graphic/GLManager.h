@@ -25,6 +25,16 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 
 #include "Shader.hpp"
 
+//! vectext buffer information
+static const GLfloat m_vertex_buffer_data[] =
+{
+//		X		Y		Z		U		V
+	 -.5f,	 -.5f,	  0.f,	 -1.f,	 -1.f,
+	 -.5f,	  .5f,	  0.f,	 -1.f,	  1.f,
+	  .5f,	  .5f,	  0.f,	  1.f,	  1.f,
+	  .5f,	 -.5f,	  0.f,	  1.f,	 -1.f
+};
+
 class Shader;
 
 //! projection info to use in scene class
@@ -56,9 +66,10 @@ public:
 	
 	//Gettor for GL info
 	HDC  GetHDC(void) const;
-	Shader GetShader(void) const;
+	Shader GetShader(const int id) const;
 	GLuint GetMatrixID(void) const;
 	GLuint GetVertexBuffer(void) const;
+	GLuint GetVertexAttrib(void) const;
 	ProjectionInfo GetProjectionInfo(void) const;
 
 	//Single tone pattern
@@ -76,9 +87,10 @@ private:
 	int    m_indexPixelFormat;
 
 	// Scene info
-	Shader m_shader;
+	Shader m_shader[2];
 	GLuint m_matrixId;
 	GLuint m_vertexBuffer;
+	GLuint m_vertexAttrib;
 	ProjectionInfo m_info;
 	
 };

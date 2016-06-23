@@ -227,6 +227,9 @@
     <ClInclude Include="Include\LodePNG\lodepng.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="Include\GL\glext.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Source\Engine\ObjectManager\copyMap2Vec.txt" />
