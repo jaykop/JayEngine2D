@@ -19,21 +19,21 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 #include "../../../Game/BaseData/GameData.h"
 
 class Stage;
-class Builder;
+class StageBuilder;
 class GameStateManager;
 
 //! class Factory
-class Factory
+class StageFactory
 {
 
 public:
 
-	~Factory(void);
+	~StageFactory(void);
 
 	//! Function manages factory
-	void AddBuilder(StageType stage, Builder* pBuilder);
+	void AddBuilder(StageType stage, StageBuilder* pBuilder);
 	void DeleteBuilder(StageType stage);
-	void Clear();
+	void Clear(void);
 
 	//! Create stage
 	Stage* CreateStage(StageType stage, GameStateManager* GSM);
@@ -41,7 +41,7 @@ public:
 private:
 
 	//! Builder list
-	std::map<StageType, Builder*> m_builderMap;
+	std::map<StageType, StageBuilder*> m_builderMap;
 
 };
 

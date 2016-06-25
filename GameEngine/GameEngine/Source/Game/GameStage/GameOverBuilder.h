@@ -2,15 +2,15 @@
 #define _GAMEOVERBUILDER_H_
 
 #include "GameOver.h"
-#include "../../Engine/StateManager/Builder.h"
+#include "../../Engine/StateManager/StageBuilder.h"
 
-class GameOverBuilder : public Builder
+class GameOverBuilder : public StageBuilder
 {
 	
 public:
 	virtual ~GameOverBuilder(){};
 
-	Stage* BuildeStage(GameStateManager* GSM)
+	Stage* BuildStage(GameStateManager* GSM)
 	{
 		return new GameOverStage(GSM);
 	}

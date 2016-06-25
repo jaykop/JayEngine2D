@@ -2,16 +2,16 @@
 #define _PUASEUBUILDER_H_
 
 #include "Pause.h"
-#include "../../Engine/StateManager/Builder.h"
+#include "../../Engine/StateManager/StageBuilder.h"
 
-class PauseBuilder : public Builder
+class PauseBuilder : public StageBuilder
 {
 
 public:
 
 	virtual ~PauseBuilder(){};
 
-	Stage* BuildeStage(GameStateManager* GSM)
+	Stage* BuildStage(GameStateManager* GSM)
 	{
 		return new PauseStage(GSM);
 	}

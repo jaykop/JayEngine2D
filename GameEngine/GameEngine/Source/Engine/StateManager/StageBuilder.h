@@ -16,11 +16,11 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 #include "../StateManager/GameStateManager/GameStateManager.h"
 
 //! class Builder
-class Builder
+class StageBuilder
 {
 public:
-	virtual ~Builder(void) {};
-	virtual Stage* BuildeStage(GameStateManager* m_GSM) = 0;
+	virtual ~StageBuilder(void) {};
+	virtual Stage* BuildStage(GameStateManager* m_GSM) = 0;
 
 private:
 

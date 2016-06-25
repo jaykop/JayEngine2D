@@ -3,7 +3,7 @@
 \file   Logic.h
 \author Jeong Juyong
 \par    email: jeykop14\@gmail.com
-\date   2016/06/19(yy/mm/dd)
+\date   2016/06/25(yy/mm/dd)
 
 \description
 Contains Logic's class
@@ -15,7 +15,14 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 #ifndef _LOGIC_G_
 #define _LOGIC_G_
 
-class ObjectManager;
+#include <hash_map>
+#include "../ObjectManager/ObjectManager.h"
+
+class Sprite;
+//class ObjectManager;
+
+//! Type definition for list
+typedef std::hash_map<int, Sprite*> ObjectList;
 
 class Logic
 {
@@ -23,15 +30,15 @@ class Logic
 public:
 
 	Logic(void);
-	virtual ~Logic(void);
+	~Logic(void);
 
-	virtual void InitLogic(void) = 0;
-	virtual void UpdateLogic(void) = 0;
-	virtual void ShutdownLogic(void) = 0;
+	void Init(const ObjectList& objList);
+	void Update(const ObjectList& objList);
+	void Shutdown(const ObjectList& objList);
 
 private:
 
-	ObjectManager* m_OBM;
+	//ObjectManager* m_OBM;
 
 };
 

@@ -2,15 +2,15 @@
 #define _LV3BUILDER_H_
 
 #include "LV3.h"
-#include "../../Engine/StateManager/Builder.h"
+#include "../../Engine/StateManager/StageBuilder.h"
 
-class LV3Builder : public Builder
+class LV3Builder : public StageBuilder
 {
 
 public:
 	virtual ~LV3Builder(){};
 
-	Stage* BuildeStage(GameStateManager* GSM)
+	Stage* BuildStage(GameStateManager* GSM)
 	{
 		return new LV3Stage(GSM);
 	}

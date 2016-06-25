@@ -18,6 +18,7 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 #include <vector>
 #include "../Graphic/Text.h"
 
+class Logic;
 class Scene;
 class World;
 class Sprite;
@@ -70,7 +71,7 @@ private:
 	// Game system
 	Scene* scenePtr;
 	World* worldPtr;
-
+	Logic* logicPtr;
 };
 
 #endif //_OBJECTMANAGER_H_

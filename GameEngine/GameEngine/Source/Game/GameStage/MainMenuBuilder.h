@@ -2,16 +2,16 @@
 #define _MAINMENUBUILDER_H_
 
 #include "MainMenu.h"
-#include "../../Engine/StateManager/Builder.h"
+#include "../../Engine/StateManager/StageBuilder.h"
 
-class MainMenuBuilder : public Builder
+class MainMenuBuilder : public StageBuilder
 {
 
 public:
 
 	virtual ~MainMenuBuilder(){};
 
-	Stage* BuildeStage(GameStateManager* GSM)
+	Stage* BuildStage(GameStateManager* GSM)
 	{
 		return new MenuStage(GSM);
 	}

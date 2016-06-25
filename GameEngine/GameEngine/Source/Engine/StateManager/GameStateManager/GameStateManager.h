@@ -16,14 +16,14 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 
 #include <stack>
 #include <windows.h>
-#include "../Factory/Factory.h"
+#include "../StageFactory/StageFactory.h"
 
 using namespace Resolution;
 
 //! forward declaration
 class Stage;
-class Builder;
 class Application;
+class StageBuilder;
 
 //! Stage stack information
 struct StageInfo
@@ -66,7 +66,7 @@ public:
 
 	StageType GetCurrentStage(void) const;
 	void SetFirstStage(StageType first);
-	void AddStage(StageType stage, Builder* pBuilder);
+	void AddStage(StageType stage, StageBuilder* pBuilder);
 
 	//! Manage resolution
 	ScreenSize GetResolution(void) const;
@@ -96,7 +96,7 @@ private:
 	StageType   m_1stStage;	//!< The 1st stage of this application
 
 	GameData	 m_gameData;	//!< Game data to be used
-	Factory		 m_factory;	//!< Factory that makes new stages
+	StageFactory m_factory;	//!< Factory that makes new stages
 	Application* m_pApp;	//!< pointer to the application
 
 	std::stack<StageInfo> m_StageStack;

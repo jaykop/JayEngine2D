@@ -13,6 +13,7 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 
 #include <algorithm>
 #include "ObjectManager.h"
+#include "../Logic/Logic.h"
 #include "../Graphic/Scene.h"
 #include "../Physics/World.h"
 #include "../Physics/RigidBody.h"
@@ -186,6 +187,7 @@ void ObjectManager::BindGameSystem(Application* pApp)
 {
 	scenePtr = new Scene(pApp);
 	worldPtr = new World();
+	logicPtr = new Logic();
 }
 
 /******************************************************************************/
@@ -195,8 +197,10 @@ void ObjectManager::BindGameSystem(Application* pApp)
 /******************************************************************************/
 void ObjectManager::InitGameSystem()
 {
+	// Initialize game system
 	scenePtr->Init(m_ObjectList);
 	worldPtr->Init(m_ObjectList);
+	logicPtr->Init(m_ObjectList);
 }
 
 /******************************************************************************/
@@ -206,8 +210,10 @@ void ObjectManager::InitGameSystem()
 /******************************************************************************/
 void ObjectManager::UpdateGameSystem(void)
 {
+	// Update game system
 	scenePtr->Draw(m_ObjectList);
 	worldPtr->Update(m_ObjectList);
+	logicPtr->Update(m_ObjectList);
 }
 
 /******************************************************************************/
@@ -220,10 +226,14 @@ void ObjectManager::ShutdownGameSystem()
 	//Shutdown basic trunks
 	scenePtr->Shutdown(m_ObjectList);
 	worldPtr->Shutdown(m_ObjectList);
+	logicPtr->Shutdown(m_ObjectList);
 
-	//Delete dynamic scene and world
+	//Delete dynamic scene, world, logic
 	delete scenePtr;
 	delete worldPtr;
+	delete logicPtr;
+
+	logicPtr = 0;
 	scenePtr = 0;
 	worldPtr = 0;
 }

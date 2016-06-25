@@ -2,15 +2,15 @@
 #define _LV2BUILDER_H_
 
 #include "LV2.h"
-#include "../../Engine/StateManager/Builder.h"
+#include "../../Engine/StateManager/StageBuilder.h"
 
-class LV2Builder : public Builder
+class LV2Builder : public StageBuilder
 {
 
 public:
 	virtual ~LV2Builder(){};
 
-	Stage* BuildeStage(GameStateManager* GSM)
+	Stage* BuildStage(GameStateManager* GSM)
 	{
 		return new LV2Stage(GSM);
 	}

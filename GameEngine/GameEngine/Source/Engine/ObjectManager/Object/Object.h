@@ -3,7 +3,7 @@
 \file   Object.h
 \author Jeong Juyong
 \par    email: jeykop14\@gmail.com
-\date   2016/06/19(yy/mm/dd)
+\date   2016/06/25(yy/mm/dd)
 
 \description
 Contains Object's class and members
@@ -15,12 +15,16 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 #ifndef _OBJECT_H_
 #define _OBJECT_H_
 
+#include <hash_map>
 #include "../../Utilities/Math/MathUtils.h"
 
 //! Object type
 enum Type { SPRITE, TEXT, PARTICLE, AUDIO };
 
+class GameLogic;
 class ObjectManager;
+
+typedef std::hash_map<const char*, GameLogic*> LogicList;
 
 class Object {
 
@@ -37,19 +41,50 @@ public:
 	Type GetObjectType(void) const;
 	void SetObjectType(Type type);
 
+	// GameLogic normal function
+	void AddLogic(GameLogic* logic);
+	void ClearLogicList(void);
+	const LogicList& GetLogicList(void) const;
+
+	// GameLogic template function
+	template <class Type>
+	bool HasLogic(void)
+	{
+		Logic::iterator found = m_logicList.found(typeid(Type).name());
+		if (found != m_logicList.end())
+			return true;
+
+		return false;
+	}
+
+	template <class Type>
+	Type* GetLogic(void)
+	{
+		Logic::iterator found = m_logicList.find(typeid(Type).name());
+		if (found != m_logicList.end())
+			return static_cast<Type*>(found->second);
+
+		return nullptr;
+	}
+
+	template <class Type>
+	void DeleteLogic(void)
+	{
+		LogicList::iterator found = m_logicList.find(typeid(Type).name());
+		if (found != m_logicList.end())
+			delete found->second;
+		m_logicList.erase(found);
+	}
+
 protected:
 	void SetObjectManager(ObjectManager* obm);
 
 private:
 
-	// Object id
-	int m_id;
-
-	// Object type
-	Type  m_type;
-
-	// Pointer to object manager
-	ObjectManager* m_OBM;
+	int m_id;				//! Object id
+	Type  m_type;			//! Object type
+	ObjectManager* m_OBM;	//! Pointer to object manager
+	LogicList m_logicList;	//! Logic list;
 };
 
 #endif // _OBJECT_H_

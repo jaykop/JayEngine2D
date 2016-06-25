@@ -12,8 +12,8 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 */
 /******************************************************************************/
 
-#include "Factory.h"
-#include "../Builder.h"
+#include "StageFactory.h"
+#include "../StageBuilder.h"
 #include "../../Utilities/Debug/Debug.h"
 
 /******************************************************************************/
@@ -21,7 +21,7 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 \brief - Factory Destrutor
 */
 /******************************************************************************/
-Factory::~Factory(void)
+StageFactory::~StageFactory(void)
 {
 	Clear();
 }
@@ -35,7 +35,7 @@ Factory::~Factory(void)
 
 */
 /******************************************************************************/
-void Factory::AddBuilder(StageType stage, Builder* pBuilder)
+void StageFactory::AddBuilder(StageType stage, StageBuilder* pBuilder)
 {
 	//Find if there is existing stage 
 	auto found = m_builderMap.find(stage);
@@ -55,7 +55,7 @@ void Factory::AddBuilder(StageType stage, Builder* pBuilder)
 
 */
 /******************************************************************************/
-void Factory::DeleteBuilder(StageType stage)
+void StageFactory::DeleteBuilder(StageType stage)
 {
 	//I do not understand why we need this
 
@@ -74,7 +74,7 @@ void Factory::DeleteBuilder(StageType stage)
 \brief - Clear the builder map
 */
 /******************************************************************************/
-void Factory::Clear()
+void StageFactory::Clear()
 {
 	for (auto it = m_builderMap.begin(); it != m_builderMap.end(); ++it)
 		delete it->second;
@@ -91,7 +91,7 @@ void Factory::Clear()
 
 */
 /******************************************************************************/
-Stage* Factory::CreateStage(StageType stage, GameStateManager* GSM)
+Stage* StageFactory::CreateStage(StageType stage, GameStateManager* GSM)
 {
 	//Find if there is existing stage 
 	auto found = m_builderMap.find(stage);
@@ -100,5 +100,5 @@ Stage* Factory::CreateStage(StageType stage, GameStateManager* GSM)
 	DEBUG_ASSERT(found != m_builderMap.end(), "Error: Not Existing Stage!");
 
 	//if there is, erase
-	return found->second->BuildeStage(GSM);
+	return found->second->BuildStage(GSM);
 }

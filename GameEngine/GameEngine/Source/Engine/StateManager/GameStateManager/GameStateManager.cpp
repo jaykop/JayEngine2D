@@ -247,7 +247,7 @@ void ProccessMessages(void)
 \param pBuilder - pointer to builder
 */
 /******************************************************************************/
-void GameStateManager::AddStage(StageType stage, Builder* pBuilder)
+void GameStateManager::AddStage(StageType stage, StageBuilder* pBuilder)
 {
 	m_factory.AddBuilder(stage, pBuilder);
 }
