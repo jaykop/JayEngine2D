@@ -74,11 +74,8 @@ Application::Application(const InitData& initData)
 	//ONLY CALSS ONCE;
 	DEBUG_CALL_CHECK();
 
-	//// freetype lib init
-	//m_FTL = new FT_Library;
-	//if (FT_Init_FreeType(m_FTL)){
-	//	MessageBox(NULL, TEXT("Failed to init Freetype"), L"Error", MB_OK);
-	//}
+	// Init sound system; FMOD
+	FMOD::System_Create(&m_SM);
 
 	//Code data form initData
 	m_instance = initData.instance;
@@ -145,7 +142,7 @@ Application::Application(const InitData& initData)
 		this					//Lparm This will be available in WM_CREATE
 		);
 
-	//Set opengl
+	//Set Open GL
 	m_GLM = new GLManager;
 	m_GLM->OpenGLInit(m_window, m_scrSize.width, m_scrSize.height);
 
@@ -163,10 +160,6 @@ Application::~Application(void)
 {
 	//Only Call Once
 	DEBUG_CALL_CHECK();
-
-	// Clear freetype
-	//FT_Done_FreeType(*m_FTL);
-	//delete m_FTL;
 
 	// C;ear gl
 	delete m_GLM;
@@ -226,12 +219,24 @@ void Application::Quit(void)
 /*!
 \brief - Get GLManager
 
-\return GLManager - pointer to GLManager
+\return m_GLM - pointer to GLManager
 */
 /******************************************************************************/
 GLManager* Application::GetGLManager(void) const
 {
 	return m_GLM;
+}
+
+/******************************************************************************/
+/*!
+\brief - Get Sound Manager
+
+\return m_SM - pointer to Sound Manager
+*/
+/******************************************************************************/
+SoundManager* Application::GetSManager(void) const
+{
+	return m_SM;
 }
 
 /******************************************************************************/
@@ -280,7 +285,6 @@ void Application::SetResolution(const ScreenSize& res)
 	m_scrSize.height = res.height;
 	SetWindowPos(m_window, 0, 0, 0, m_scrSize.width, m_scrSize.height, SWP_NOMOVE);
 	
-	//GLManager::GetInstance().Resize(m_scrSize.width, m_scrSize.height);
 	m_GLM->Resize(m_scrSize.width, m_scrSize.height);
 }
 

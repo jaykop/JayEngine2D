@@ -7,6 +7,7 @@
 
 \description
 Contains RigidBody's class member functions
+
 All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 */
 /******************************************************************************/

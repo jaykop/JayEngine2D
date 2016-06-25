@@ -16,15 +16,9 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 #define APPLICATION_H
 
 #define WIN32_LEAN_AND_MEAN
+#include "../Sound/Sound.h"
 #include "../Graphic/GLManager.h"
 #include "../StateManager/GameStateManager/GameStateManager.h"
-
-// Freetype setting
-#include <tchar.h>
-#include "../Include/ft2build.h"
-#include FT_FREETYPE_H
-
-#pragma comment(lib, "freetype26.lib")
 
 using namespace Resolution;
 
@@ -68,6 +62,9 @@ public:
 	//GL manager
 	GLManager* GetGLManager(void) const;
 
+	//Sound Manager
+	SoundManager* GetSManager(void) const;
+
 	//Set title icon
 	BOOL WINAPI SetConsoleIcon(HICON hIcon);
 
@@ -82,9 +79,10 @@ private:
 	bool	   m_isFullScreen;	//!< flag for fullscreen
 	ScreenSize m_scrSize;		//!< The window width and height
 
-	GameStateManager m_GSM;
 	GLManager* m_GLM;
-
+	SoundManager* m_SM;
+	GameStateManager m_GSM;
+	
 }; //end GameEngine
 
 
