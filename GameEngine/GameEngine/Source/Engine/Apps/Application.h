@@ -84,7 +84,6 @@ private:
 
 	GameStateManager m_GSM;
 	GLManager* m_GLM;
-	FT_Library* m_FTL;
 
 }; //end GameEngine
 

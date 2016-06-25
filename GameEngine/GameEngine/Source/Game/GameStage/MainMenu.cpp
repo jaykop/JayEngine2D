@@ -50,71 +50,65 @@ void MenuStage::Init(GameData& gd)
 	m_ObjM.BindGameSystem(m_GSM->GetAppPtr());
 	
 	//Set sprites
-	m_ObjM.AddObject(0);
-	m_ObjM.AddObject(1);
-	m_ObjM.AddObject(2);
-	m_ObjM.AddObject(3);
-	m_ObjM.AddObject(4);
-	m_ObjM.AddObject(5);
+	m_ObjM.AddObject(0, SPRITE);
+	m_ObjM.AddObject(1, SPRITE);
+	m_ObjM.AddObject(2, SPRITE);
+	m_ObjM.AddObject(3, SPRITE);
+	m_ObjM.AddObject(4, SPRITE);
+	m_ObjM.AddObject(5, SPRITE);
 	m_ObjM.AddObject(10, TEXT);
 
 	//Set positions
-	m_ObjM.GetGameObject(0)->SetPosition(vec3(10, 10, 1.05f));
-	m_ObjM.GetGameObject(1)->SetPosition(vec3(-10, -10, 1.1f));
-	m_ObjM.GetGameObject(0)->SetRotation(Random::GetInstance().GetRandomFloat(0, 360));
-	m_ObjM.GetGameObject(1)->SetRotation(Random::GetInstance().GetRandomFloat(0, 360));
-	m_ObjM.GetGameObject(0)->SetScale(vec3(5, 5));
-	m_ObjM.GetGameObject(1)->SetScale(vec3(5, 5));
+	m_ObjM.GetSprite(0)->SetPosition(vec3(10, 10, 1.05f));
+	m_ObjM.GetSprite(1)->SetPosition(vec3(-10, -10, 1.1f));
+	m_ObjM.GetSprite(0)->SetRotation(Random::GetInstance().GetRandomFloat(0, 360));
+	m_ObjM.GetSprite(1)->SetRotation(Random::GetInstance().GetRandomFloat(0, 360));
+	m_ObjM.GetSprite(0)->SetScale(vec3(5, 5));
+	m_ObjM.GetSprite(1)->SetScale(vec3(5, 5));
 
-	//m_ObjM.GetGameObject(0)->SetSpriteShape(CIRCLE);
-	//m_ObjM.GetGameObject(1)->SetSpriteShape(CIRCLE);
-	//m_ObjM.GetGameObject(10, TEXT)->SetFont();
-	m_ObjM.GetGameObject(10, TEXT)->SetText(L"xcvbnmxcvb");
+	//m_ObjM.GetSprite(0)->SetSpriteShape(CIRCLE);
+	//m_ObjM.GetSprite(1)->SetSpriteShape(CIRCLE);
+	//m_ObjM.GetSprite(10, TEXT)->SetFont();
+	m_ObjM.GetText(10)->SetText(L"¡¿ ¨ª ¨­ ©¬ ©¡ ©£ ¡À ©ª ©­?");
+	//m_ObjM.GetSprite(10)->SetPosition(vec3(0, 0, 0));
 
-	//m_ObjM.GetGameObject(0)->SetProjectionType(ORTHOGONAL);
-	//m_ObjM.GetGameObject(1)->SetProjectionType(ORTHOGONAL);
-	//m_ObjM.GetGameObject(2)->SetProjectionType(ORTHOGONAL);
-	//m_ObjM.GetGameObject(3)->SetProjectionType(ORTHOGONAL);
-	//m_ObjM.GetGameObject(4)->SetProjectionType(ORTHOGONAL);
-	//m_ObjM.GetGameObject(5)->SetProjectionType(ORTHOGONAL);
+	m_ObjM.GetSprite(2)->SetPosition(vec3(20, 0, .5f));
+	m_ObjM.GetSprite(3)->SetPosition(vec3(-20, 0, 1.f));
+	m_ObjM.GetSprite(4)->SetPosition(vec3(0, -20 ,.1f));
+	m_ObjM.GetSprite(5)->SetPosition(vec3(0, 20, .7f));
 
-	m_ObjM.GetGameObject(2)->SetPosition(vec3(20, 0, .5f));
-	m_ObjM.GetGameObject(3)->SetPosition(vec3(-20, 0, 1.f));
-	m_ObjM.GetGameObject(4)->SetPosition(vec3(0, -20 ,.1f));
-	m_ObjM.GetGameObject(5)->SetPosition(vec3(0, 20, .7f));
-
-	m_ObjM.GetGameObject(2)->SetScale(vec3(1, 300));
-	m_ObjM.GetGameObject(3)->SetScale(vec3(1, 300));
-	m_ObjM.GetGameObject(4)->SetScale(vec3(300, 1));
-	m_ObjM.GetGameObject(5)->SetScale(vec3(300, 1));
+	m_ObjM.GetSprite(2)->SetScale(vec3(1, 300));
+	m_ObjM.GetSprite(3)->SetScale(vec3(1, 300));
+	m_ObjM.GetSprite(4)->SetScale(vec3(300, 1));
+	m_ObjM.GetSprite(5)->SetScale(vec3(300, 1));
 
 	//Set colors
-	m_ObjM.GetGameObject(0)->SetColor(vec4(1, 1, 1, 1));
-	m_ObjM.GetGameObject(1)->SetColor(vec4(0, 1, 1, 1));
+	m_ObjM.GetSprite(0)->SetColor(vec4(1, 1, 1, 1));
+	m_ObjM.GetSprite(1)->SetColor(vec4(0, 1, 1, 1));
 
-	m_ObjM.GetGameObject(2)->SetColor(vec4(0, 0, 1, 1));
-	m_ObjM.GetGameObject(3)->SetColor(vec4(1, 1, 0, 1));
-	m_ObjM.GetGameObject(4)->SetColor(vec4(1, 0, 0, 1));
-	m_ObjM.GetGameObject(5)->SetColor(vec4(0, 1, 0, 1));
+	m_ObjM.GetSprite(2)->SetColor(vec4(0, 0, 1, 1));
+	m_ObjM.GetSprite(3)->SetColor(vec4(1, 1, 0, 1));
+	m_ObjM.GetSprite(4)->SetColor(vec4(1, 0, 0, 1));
+	m_ObjM.GetSprite(5)->SetColor(vec4(0, 1, 0, 1));
 
 	//Bind rigid body
-	m_ObjM.GetGameObject(0)->BindRigidBody();
-	m_ObjM.GetGameObject(1)->BindRigidBody();
+	m_ObjM.GetSprite(0)->BindRigidBody();
+	m_ObjM.GetSprite(1)->BindRigidBody();
 
-	m_ObjM.GetGameObject(2)->BindRigidBody();
-	m_ObjM.GetGameObject(3)->BindRigidBody();
-	m_ObjM.GetGameObject(4)->BindRigidBody();
-	m_ObjM.GetGameObject(5)->BindRigidBody();
+	m_ObjM.GetSprite(2)->BindRigidBody();
+	m_ObjM.GetSprite(3)->BindRigidBody();
+	m_ObjM.GetSprite(4)->BindRigidBody();
+	m_ObjM.GetSprite(5)->BindRigidBody();
 
-	m_ObjM.GetGameObject(0)->GetRigidBody()->SetFriction(.0005f);
-	m_ObjM.GetGameObject(0)->GetRigidBody()->SetScale(vec3(5.f, 5.f));
-	m_ObjM.GetGameObject(1)->GetRigidBody()->SetFriction(.0005f);
-	m_ObjM.GetGameObject(1)->GetRigidBody()->SetScale(vec3(5.f, 5.f));
+	m_ObjM.GetSprite(0)->GetRigidBody()->SetFriction(.0005f);
+	m_ObjM.GetSprite(0)->GetRigidBody()->SetScale(vec3(5.f, 5.f));
+	m_ObjM.GetSprite(1)->GetRigidBody()->SetFriction(.0005f);
+	m_ObjM.GetSprite(1)->GetRigidBody()->SetScale(vec3(5.f, 5.f));
 
-	m_ObjM.GetGameObject(2)->GetRigidBody()->ActivateMove(false);
-	m_ObjM.GetGameObject(3)->GetRigidBody()->ActivateMove(false);
-	m_ObjM.GetGameObject(4)->GetRigidBody()->ActivateMove(false);
-	m_ObjM.GetGameObject(5)->GetRigidBody()->ActivateMove(false);
+	m_ObjM.GetSprite(2)->GetRigidBody()->ActivateMove(false);
+	m_ObjM.GetSprite(3)->GetRigidBody()->ActivateMove(false);
+	m_ObjM.GetSprite(4)->GetRigidBody()->ActivateMove(false);
+	m_ObjM.GetSprite(5)->GetRigidBody()->ActivateMove(false);
 
 	m_ObjM.GetGameScene()->SetBackgroundColor(vec4(1,1,1,1));
 	m_ObjM.InitGameSystem();
@@ -166,8 +160,8 @@ void MenuStage::BasicControl(void)
 
 	else if (InputManager::GetInstance().KeyTriggered(KEY_TAB))
 	{
-		m_ObjM.GetGameObject(0)->GetTexture()->LoadTexture("Resource/Texture/Phantom.png");
-		m_ObjM.GetGameObject(1)->GetTexture()->LoadTexture("Resource/Texture/Phantom.png");
+		m_ObjM.GetSprite(0)->GetTexture()->LoadTexture("Resource/Texture/Phantom.png");
+		m_ObjM.GetSprite(1)->GetTexture()->LoadTexture("Resource/Texture/Phantom.png");
 	}
 }
 
@@ -175,27 +169,27 @@ void MenuStage::SampleAnimation(void)
 {
 	//Control White box with keyboard
 	if (InputManager::GetInstance().KeyPressed(KEY_RIGHT))
-		m_ObjM.GetGameObject(0)->GetRigidBody()->SetForce(vec3(.5f, 0, 0));
+		m_ObjM.GetSprite(0)->GetRigidBody()->SetForce(vec3(.5f, 0, 0));
 
 	if (InputManager::GetInstance().KeyPressed(KEY_LEFT))
-		m_ObjM.GetGameObject(0)->GetRigidBody()->SetForce(vec3(-.5f, 0, 0));
+		m_ObjM.GetSprite(0)->GetRigidBody()->SetForce(vec3(-.5f, 0, 0));
 
 	if (InputManager::GetInstance().KeyPressed(KEY_UP))
-		m_ObjM.GetGameObject(0)->GetRigidBody()->SetForce(vec3(0, .5f, 0));
+		m_ObjM.GetSprite(0)->GetRigidBody()->SetForce(vec3(0, .5f, 0));
 
 	if (InputManager::GetInstance().KeyPressed(KEY_DOWN))
-		m_ObjM.GetGameObject(0)->GetRigidBody()->SetForce(vec3(0, -.5f, 0));
+		m_ObjM.GetSprite(0)->GetRigidBody()->SetForce(vec3(0, -.5f, 0));
 
 	if (InputManager::GetInstance().KeyTriggered(KEY_ENTER))
 	{
-		m_ObjM.GetGameObject(0)->GetRigidBody()->SetForce(Random::GetInstance().GetRandomVector(-1.f, 1.f));
-		m_ObjM.GetGameObject(1)->GetRigidBody()->SetForce(Random::GetInstance().GetRandomVector(-1.f, 1.f));
+		m_ObjM.GetSprite(0)->GetRigidBody()->SetForce(Random::GetInstance().GetRandomVector(-1.f, 1.f));
+		m_ObjM.GetSprite(1)->GetRigidBody()->SetForce(Random::GetInstance().GetRandomVector(-1.f, 1.f));
 	}
 
 	if (InputManager::GetInstance().KeyTriggered(KEY_SPACE))
 	{
-		m_ObjM.GetGameObject(0)->GetRigidBody()->ClearVelocity();
-		m_ObjM.GetGameObject(1)->GetRigidBody()->ClearVelocity();
+		m_ObjM.GetSprite(0)->GetRigidBody()->ClearVelocity();
+		m_ObjM.GetSprite(1)->GetRigidBody()->ClearVelocity();
 	}
 
 	//Show the mouse's position when mouse botton clicked

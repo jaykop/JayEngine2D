@@ -7,6 +7,7 @@
 
 \description
 Contains Sprite's class and members
+
 All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 */
 /******************************************************************************/
@@ -16,10 +17,7 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 
 #include <map>
 #include "Texture.h"
-#include "../Utilities/Math/MathUtils.h"
-
-//! Sprite's type
-enum Type {NORMAL, TEXT, PARTICLE};
+#include "../ObjectManager/Object/Object.h"
 
 //! Sprites' shape
 enum Shape { CIRCLE, RECTANGLE };
@@ -32,22 +30,14 @@ class RigidBody;
 class GameStateManager;
 
 //! Sprite class
-class Sprite
+class Sprite : public Object
 {
 
 public:
 	
 	//Constructor and destructor
-	Sprite(const int id = 0, Type type = NORMAL);
-	~Sprite();
-
-	// Id functions
-	const int GetID(void) const;
-	void SetID(const int id);
-
-	// Type functions
-	Type GetSpriteType(void) const;
-	void SetSpriteType(Type type);
+	Sprite(const int id = 0, Type type = SPRITE);
+	virtual ~Sprite();
 
 	// Transforming functions
 	void SetPosition(const vec3& position);
@@ -80,14 +70,7 @@ public:
 	void SetProjectionType(Projt projection);
 	Projt GetProjectionType(void) const;
 
-	// Empty functions; for Text class
-	virtual void SetText(wchar_t* text);
-	virtual wchar_t* GetText(void) const;
-
 private:
-	
-	// Sprite id
-	int m_id;
 
 	// Drawing Info
 	// Math info
@@ -97,7 +80,6 @@ private:
 	float m_degree;
 
 	// Type Info
-	Type  m_type;
 	Shape m_shape;
 	Projt m_prjt;
 

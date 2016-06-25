@@ -17,6 +17,7 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 #include <vector>
 #include <hash_map>
 #include "../Graphic/Texture.h"
+#include "../Graphic/Text.h"
 #include "../Utilities/Math/MathUtils.h"
 
 //Todo: Should I use this or not?
@@ -29,9 +30,17 @@ class Sprite;
 class Application;
 class ObjectManager;
 
+///! Holds all state information relevant to a character as loaded using FreeType
+struct Character {
+	GLuint TextureID; // ID handle of the glyph texture
+	vec2 Size;		  // Size of glyph
+	vec2 Bearing;	  // Offset from baseline to left/top of glyph
+	GLuint Advance;   // Horizontal offset to advance to next glyph
+};
+
 //! type definition for list
-typedef std::hash_map<int, Sprite*> SpriteList;
-typedef std::hash_map<int, Text*> TextList;
+typedef std::map<wchar_t, Character> Characters;
+typedef std::hash_map<int, Sprite*> ObjectList;
 typedef std::vector<Sprite*> DrawList;
 
 //! Scene class
@@ -41,9 +50,9 @@ public:
 
 	Scene(Application* pApp);
 	~Scene();
-	void Init(void);
-	void Draw(TextList textList);
-	void Shutdown();
+	void Init(const ObjectList& objList);
+	void Draw(const ObjectList& objList);
+	void Shutdown(const ObjectList& objList);
 
 	void SetBackgroundColor(const vec4& background);
 	vec4 GetBackgroundColor(void) const;
@@ -51,16 +60,19 @@ public:
 	vec4 GetCamera(void) const;
 
 	void AddSprite(Sprite* sprite);
-	void AddSprite(Text* text);
 	void DeleteSprite(const int id);
 
 private:
 
 	// Private function
+	void SetFont(const char* fontDir);
 	void Pipeline(const Sprite* sprite);
 
 	// Reorder sprites by z orders
 	void ReorderSprites(void);
+
+	void DrawSprites(Sprite* sprite);
+	void DrawTexts(Text* text);
 
 	// Math info
 	mat44 m_mvp;
@@ -84,7 +96,10 @@ private:
 	// Ordered List 
 	// Depends on Z order and projection type
 	DrawList m_DrawList;
-	TextList m_TextList;
+	
+	// Shader index
+	int shader_index;
+	Characters m_chars;
 };
 
 #endif // _SCENE_H_

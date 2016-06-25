@@ -23,7 +23,7 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 */
 /******************************************************************************/
 ObjectManager::ObjectManager(void)
-	:number_of_Spt(0)
+:number_of_Obj(0)
 {}
 
 /******************************************************************************/
@@ -42,40 +42,35 @@ ObjectManager::~ObjectManager(void)
 \param textureDir - sprite's texture
 */
 /******************************************************************************/
-void ObjectManager::AddObject(const int SpriteID, Type type, const char* textureDir)
+void ObjectManager::AddObject(const int SpriteID, Type type)
 {
-	if (type == NORMAL)
+
+	//Make new sprite
+	if (type == SPRITE)
 	{
-		//Make new sprite
 		Sprite* new_sprite = new Sprite(SpriteID, type);
 
 		new_sprite->SetTexture(new Texture);
-		new_sprite->GetTexture()->LoadTexture(textureDir);
 
 		//Push it into the list
-		m_SpriteList.insert(std::hash_map<int, Sprite*>::value_type(
+		m_ObjectList.insert(std::hash_map<int, Sprite*>::value_type(
 			SpriteID, new_sprite));
 
 		scenePtr->AddSprite(new_sprite);
 	}
 
-	else
+	else if (type == TEXT)
 	{
-		//Make new text
-		Text* new_text = new Text(SpriteID, type);
-
-		//new_text->SetTexture(new Texture);
-		//new_text->GetTexture()->LoadTexture(textureDir);
+		Text* new_sprite = new Text(SpriteID, type);
 
 		//Push it into the list
-		m_TextList.insert(std::hash_map<int, Text*>::value_type(
-			SpriteID, new_text));
+		m_ObjectList.insert(std::hash_map<int, Sprite*>::value_type(
+			SpriteID, new_sprite));
 
-		scenePtr->AddSprite(new_text);
+		scenePtr->AddSprite(new_sprite);
 	}
-
 	//Change id number and the number of sprites;
-	++number_of_Spt;
+	++number_of_Obj;
 }
 
 /******************************************************************************/
@@ -83,52 +78,53 @@ void ObjectManager::AddObject(const int SpriteID, Type type, const char* texture
 \brief - Delete Object from the list
 
 \param SpriteID - sprite's id
-\param type - sprite's type
 */
 /******************************************************************************/
-void ObjectManager::RemoveObject(const int id, Type type)
+void ObjectManager::RemoveObject(const int id)
 {
-	if (type == NORMAL)
-	{	
-		//If there is id that client to find,
-		scenePtr->DeleteSprite(id);
+	//If there is id that client to find,
+	scenePtr->DeleteSprite(id);
 
-		//Delete it
-		delete m_SpriteList.find(id)->second;
+	//Delete it
+	delete m_ObjectList.find(id)->second;
 
-		m_SpriteList.erase(id);
-	}
+	m_ObjectList.erase(id);
 
-	else
-	{
-		//If there is id that client to find,
-		scenePtr->DeleteSprite(id);
-
-		//Delete it
-		delete m_TextList.find(id)->second;
-
-		m_TextList.erase(id);
-	}
-
-	--number_of_Spt;
+	--number_of_Obj;
 }
 
 /******************************************************************************/
 /*!
-\brief - Get Object 
+\brief - Get Sprite 
 
 \param SpriteID - sprite's id
-\param type - sprite's type
 */
 /******************************************************************************/
-Sprite* ObjectManager::GetGameObject(const int id, Type type)
+Sprite* ObjectManager::GetSprite(const int id)
 {
 	//return the found one
-	if (type == NORMAL)
-		return m_SpriteList.find(id)->second;
+	auto it = m_ObjectList.find(id)->second;
+	if (it->GetObjectType() == SPRITE)
+		return it;
+	else
+		return 0;
+}
 
-	else 
-		return m_TextList.find(id)->second;
+/******************************************************************************/
+/*!
+\brief - Get Text
+
+\param SpriteID - sprite's id
+*/
+/******************************************************************************/
+Text* ObjectManager::GetText(const int id)
+{
+	// return the found one
+	auto it = m_ObjectList.find(id)->second;
+	if (it->GetObjectType() == TEXT)
+		return static_cast<Text*>(it);
+	else
+		return 0;
 }
 
 /******************************************************************************/
@@ -136,29 +132,16 @@ Sprite* ObjectManager::GetGameObject(const int id, Type type)
 \brief - Check if list has the obhect or not
 
 \param SpriteID - sprite's id
-\param type - sprite's type
 */
 /******************************************************************************/
-bool ObjectManager::HasObject(const int id, Type type)
+bool ObjectManager::HasObject(const int id)
 {
 	//Get object
-	if (type == NORMAL)
-	{
-		auto it = m_SpriteList.find(id);
+	auto it = m_ObjectList.find(id);
 
-		//Compare the id from user input
-		if (it->second->GetID() == id)
+	//Compare the id from user input
+	if (it->second->GetID() == id)
 			return true;
-	}
-
-	else
-	{
-		auto it = m_TextList.find(id);
-
-		//Compare the id from user input
-		if (it->second->GetID() == id)
-			return true;
-	}
 
 	return false;
 }
@@ -171,43 +154,25 @@ bool ObjectManager::HasObject(const int id, Type type)
 void ObjectManager::ClearObjectList(void)
 {
 	//Remove the all objects in the lsit
-	for (auto it = m_SpriteList.begin(); it != m_SpriteList.end(); ++it)
+	for (auto it = m_ObjectList.begin(); it != m_ObjectList.end(); ++it)
 		delete (it->second);				//Delete all it
 
-	//Remove the all objects in the lsit
-	for (auto it = m_TextList.begin(); it != m_TextList.end(); ++it)
-		delete (it->second);				//Delete all it
+	m_ObjectList.clear();
 
-	m_SpriteList.clear();
-	m_TextList.clear();
-
-	number_of_Spt = 0;
+	number_of_Obj = 0;
 }
 
 /******************************************************************************/
 /*!
 \brief - Get Sprite List
 
-\return m_SpriteList
+\return m_ObjectList
 */
 /******************************************************************************/
-const SpriteList& ObjectManager::GetSpriteList(void) const
+const ObjectList& ObjectManager::GetObjectList(void) const
 {
 	//return the list
-	return m_SpriteList;
-}
-
-/******************************************************************************/
-/*!
-\brief - Get Text List
-
-\return m_TextList
-*/
-/******************************************************************************/
-const TextList& ObjectManager::GetTextList(void) const
-{
-	//return the list
-	return m_TextList;
+	return m_ObjectList;
 }
 
 /******************************************************************************/
@@ -230,8 +195,8 @@ void ObjectManager::BindGameSystem(Application* pApp)
 /******************************************************************************/
 void ObjectManager::InitGameSystem()
 {
-	scenePtr->Init();
-	worldPtr->Init();
+	scenePtr->Init(m_ObjectList);
+	worldPtr->Init(m_ObjectList);
 }
 
 /******************************************************************************/
@@ -241,8 +206,8 @@ void ObjectManager::InitGameSystem()
 /******************************************************************************/
 void ObjectManager::UpdateGameSystem(void)
 {
-	scenePtr->Draw(m_TextList);
-	worldPtr->Update(m_SpriteList);
+	scenePtr->Draw(m_ObjectList);
+	worldPtr->Update(m_ObjectList);
 }
 
 /******************************************************************************/
@@ -253,8 +218,8 @@ void ObjectManager::UpdateGameSystem(void)
 void ObjectManager::ShutdownGameSystem()
 {
 	//Shutdown basic trunks
-	scenePtr->Shutdown();
-	worldPtr->Shutdown();
+	scenePtr->Shutdown(m_ObjectList);
+	worldPtr->Shutdown(m_ObjectList);
 
 	//Delete dynamic scene and world
 	delete scenePtr;

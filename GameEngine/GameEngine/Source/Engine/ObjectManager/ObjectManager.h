@@ -25,8 +25,7 @@ class Application;
 
 //! type definition for the list
 typedef std::hash_map<int, bool> Relation;
-typedef std::hash_map<int, Sprite*> SpriteList;
-typedef std::hash_map<int, Text*> TextList;
+typedef std::hash_map<int, Sprite*> ObjectList;
 
 //! ObjectManager class
 class ObjectManager
@@ -38,37 +37,35 @@ public:
 	~ObjectManager();
 
 	// Functions manages objects
-	void AddObject(const int SpriteID, Type type = NORMAL,
-		const char* textureDir = "Resource/Texture/rect.png");
-	Sprite* GetGameObject(const int id, Type type = NORMAL);
-	bool HasObject(const int id, Type type = NORMAL);
-	void RemoveObject(const int id, Type type = NORMAL);
+	void AddObject(const int SpriteID, Type type);
+	Sprite* GetSprite(const int id);
+	Text* GetText(const int id);
+	bool HasObject(const int id);
+	void RemoveObject(const int id);
 	
 	// Manage list
-	const SpriteList& GetList(void) const;
+	const ObjectList& GetList(void) const;
 	void ClearObjectList(void);
 
 	// Manage main system
 	void BindGameSystem(Application* pApp);
-	void InitGameSystem();
+	void InitGameSystem(void);
 	void UpdateGameSystem(void);
-	void ShutdownGameSystem();
+	void ShutdownGameSystem(void);
 
 	// Game System gettor
 	Scene* GetGameScene(void) const;
 	World* GetGameWorld(void) const;
 
-	const SpriteList& GetSpriteList(void) const;
-	const TextList& GetTextList(void) const;
+	const ObjectList& GetObjectList(void) const;
 
 private:
 	
 	// Sprites info
-	SpriteList m_SpriteList;
-	TextList m_TextList;
+	ObjectList m_ObjectList;
 
 	// The number of the sprites
-	int number_of_Spt;
+	int number_of_Obj;
 
 	// Game system
 	Scene* scenePtr;

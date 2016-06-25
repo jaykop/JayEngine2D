@@ -22,7 +22,7 @@ class RigidBody;
 class ObjectManager;
 
 //! Type definition for list
-typedef std::hash_map<int, Sprite*> SpriteList;
+typedef std::hash_map<int, Sprite*> ObjectList;
 
 //! To check between 2 Sprites
 struct CollisionInfo
@@ -59,9 +59,9 @@ public:
 	~World();
 	
 	//! World's base function
-	void Init();
-	void Update(SpriteList& sptList);
-	void Shutdown();
+	void Init(const ObjectList& objList);
+	void Update(const ObjectList& objList);
+	void Shutdown(const ObjectList& objList);
 
 	//! Make line collider in the world form point1 to point2
 	void SetLineCollision(vec3& point1, vec3& point2);

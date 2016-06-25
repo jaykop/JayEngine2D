@@ -99,6 +99,9 @@
     <ClCompile Include="Include\LodePNG\lodepng.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Engine\ObjectManager\Object\Object.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -230,6 +233,9 @@
     <ClInclude Include="Include\GL\glext.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Engine\ObjectManager\Object\Object.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Source\Engine\ObjectManager\copyMap2Vec.txt" />
@@ -241,5 +247,8 @@
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="GameEngine.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Source\Engine\Graphic\Temp.txt" />
   </ItemGroup>
 </Project>

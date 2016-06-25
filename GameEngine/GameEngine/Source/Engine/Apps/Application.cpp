@@ -74,11 +74,11 @@ Application::Application(const InitData& initData)
 	//ONLY CALSS ONCE;
 	DEBUG_CALL_CHECK();
 
-	// freetype lib init
-	m_FTL = new FT_Library;
-	if (FT_Init_FreeType(m_FTL)){
-		MessageBox(NULL, TEXT("Failed to init Freetype"), L"Error", MB_OK);
-	}
+	//// freetype lib init
+	//m_FTL = new FT_Library;
+	//if (FT_Init_FreeType(m_FTL)){
+	//	MessageBox(NULL, TEXT("Failed to init Freetype"), L"Error", MB_OK);
+	//}
 
 	//Code data form initData
 	m_instance = initData.instance;
@@ -165,8 +165,8 @@ Application::~Application(void)
 	DEBUG_CALL_CHECK();
 
 	// Clear freetype
-	FT_Done_FreeType(*m_FTL);
-	delete m_FTL;
+	//FT_Done_FreeType(*m_FTL);
+	//delete m_FTL;
 
 	// C;ear gl
 	delete m_GLM;
