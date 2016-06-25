@@ -15,12 +15,23 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 #ifndef _LOGIC_G_
 #define _LOGIC_G_
 
+class ObjectManager;
+
 class Logic
 {
 
 public:
 
+	Logic(void);
+	virtual ~Logic(void);
+
+	virtual void InitLogic(void) = 0;
+	virtual void UpdateLogic(void) = 0;
+	virtual void ShutdownLogic(void) = 0;
+
 private:
+
+	ObjectManager* m_OBM;
 
 };
 

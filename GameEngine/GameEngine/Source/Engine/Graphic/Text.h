@@ -33,13 +33,15 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 #include <map>
 #include "Sprite.h"
 
+class ObjectManager;
+
 //! Text class
 class Text : public Sprite
 {
 public:
 
 	//! Constructor and destructor
-	Text(const int id = 0, Type type = TEXT);
+	Text(const int id = 0, Type type = TEXT, ObjectManager* obm = 0);
 	virtual ~Text(void);
 
 	//! Font functions

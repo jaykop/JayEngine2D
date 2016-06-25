@@ -20,11 +20,13 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 //! Object type
 enum Type { SPRITE, TEXT, PARTICLE, AUDIO };
 
+class ObjectManager;
+
 class Object {
 
 public:
 
-	Object(const int id = 0, Type type = SPRITE);
+	Object(const int id = 0, Type type = SPRITE, ObjectManager* obm = 0);
 	virtual ~Object();
 
 	// Id functions
@@ -35,6 +37,9 @@ public:
 	Type GetObjectType(void) const;
 	void SetObjectType(Type type);
 
+protected:
+	void SetObjectManager(ObjectManager* obm);
+
 private:
 
 	// Object id
@@ -43,6 +48,8 @@ private:
 	// Object type
 	Type  m_type;
 
+	// Pointer to object manager
+	ObjectManager* m_OBM;
 };
 
 #endif // _OBJECT_H_

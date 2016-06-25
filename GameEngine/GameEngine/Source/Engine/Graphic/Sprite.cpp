@@ -15,7 +15,7 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 #include "Text.h"
 #include "Sprite.h"
 #include "../Physics/RigidBody.h"
-#include "../StateManager/GameStateManager/GameStateManager.h"
+#include "../ObjectManager/ObjectManager.h"
 
 /******************************************************************************/
 /*!
@@ -25,7 +25,7 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 
 */
 /******************************************************************************/
-Sprite::Sprite(const int id, Type type)
+Sprite::Sprite(const int id, Type type, ObjectManager* obm)
 :m_position(vec3(0.f, 0.f, 0.f)), m_scale(vec3(5.f, 5.f, 0.f)), 
 m_degree(0), m_color(vec4(1.f, 1.f, 1.f, 1.f)),
 m_HasBody(false), m_body(0),
@@ -33,6 +33,7 @@ m_shape(RECTANGLE), m_prjt(PERSPECTIVE), m_texture(0)
 {
 	SetID(id);
 	SetObjectType(type);
+	SetObjectManager(obm);
 }
 
 /******************************************************************************/

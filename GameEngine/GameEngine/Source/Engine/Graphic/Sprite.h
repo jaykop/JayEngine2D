@@ -26,9 +26,6 @@ enum Shape { CIRCLE, RECTANGLE };
 enum Projt { PERSPECTIVE, ORTHOGONAL };
 class RigidBody;
 
-//! Pointer to GameStateManager
-class GameStateManager;
-
 //! Sprite class
 class Sprite : public Object
 {
@@ -36,7 +33,7 @@ class Sprite : public Object
 public:
 	
 	//Constructor and destructor
-	Sprite(const int id = 0, Type type = SPRITE);
+	Sprite(const int id = 0, Type type = SPRITE, ObjectManager* obm = 0);
 	virtual ~Sprite();
 
 	// Transforming functions

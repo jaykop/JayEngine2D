@@ -139,7 +139,6 @@ void Scene::DrawTexts(Text* text)
 	for (c = text->GetText().begin(); c != text->GetText().end(); ++c)
 	{
 		Character ch = m_chars[*c];
-		//Character ch = text->GetCharacter()[*c];
 		GLfloat xpos = new_x + ch.Bearing.x * text->GetScale().x;
 		GLfloat ypos = text->GetPosition().y - (ch.Size.y - ch.Bearing.y) * text->GetScale().y;
 
@@ -166,7 +165,6 @@ void Scene::DrawTexts(Text* text)
 		glBindBuffer(GL_ARRAY_BUFFER, m_pApp->GetGLManager()->GetVertexBuffer());
 		glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat), 0);
 		glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices);
-		//glDrawElements(GL_TRIANGLES, sizeof(vertices), GL_UNSIGNED_SHORT, 0);
 		//Render quad
 		glDrawArrays(GL_TRIANGLES, 0, 6);
 		// advance cursor for next glyph
@@ -463,7 +461,7 @@ void Scene::SetFont(const char* fontDir)
 	//std::for_each(m_DrawList.begin(), m_DrawList.end(),
 	//	[&](DrawList::iterator it)
 	//{
-
+	
 	// Load first 128 characters of ASCII set
 	for (GLubyte c = 0; c < 128; c++)
 	{

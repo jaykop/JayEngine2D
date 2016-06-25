@@ -69,7 +69,7 @@ void MenuStage::Init(GameData& gd)
 	//m_ObjM.GetSprite(0)->SetSpriteShape(CIRCLE);
 	//m_ObjM.GetSprite(1)->SetSpriteShape(CIRCLE);
 	//m_ObjM.GetSprite(10, TEXT)->SetFont();
-	m_ObjM.GetText(10)->SetText(L"¡¿ ¨ª ¨­ ©¬ ©¡ ©£ ¡À ©ª ©­?");
+	m_ObjM.GetText(10)->SetText(L"sdfghj¡¿ ¨ª ¨­ ©¬ ©¡ ©£ ¡À ©ª ©­?");
 	//m_ObjM.GetSprite(10)->SetPosition(vec3(0, 0, 0));
 
 	m_ObjM.GetSprite(2)->SetPosition(vec3(20, 0, .5f));

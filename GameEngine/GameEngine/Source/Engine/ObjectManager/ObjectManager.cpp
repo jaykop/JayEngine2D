@@ -48,7 +48,7 @@ void ObjectManager::AddObject(const int SpriteID, Type type)
 	//Make new sprite
 	if (type == SPRITE)
 	{
-		Sprite* new_sprite = new Sprite(SpriteID, type);
+		Sprite* new_sprite = new Sprite(SpriteID, type, this);
 
 		new_sprite->SetTexture(new Texture);
 
@@ -61,7 +61,7 @@ void ObjectManager::AddObject(const int SpriteID, Type type)
 
 	else if (type == TEXT)
 	{
-		Text* new_sprite = new Text(SpriteID, type);
+		Text* new_sprite = new Text(SpriteID, type, this);
 
 		//Push it into the list
 		m_ObjectList.insert(std::hash_map<int, Sprite*>::value_type(

@@ -13,9 +13,10 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 /******************************************************************************/
 
 #include "Object.h"
+#include "../ObjectManager.h"
 
-Object::Object(const int id, Type type)
-: m_id(id), m_type(type)
+Object::Object(const int id, Type type, ObjectManager* obm)
+: m_id(id), m_type(type), m_OBM(obm)
 {}
 
 Object::~Object()
@@ -47,7 +48,7 @@ void Object::SetID(const int id)
 
 /******************************************************************************/
 /*!
-\brief - Get Object;s type
+\brief - Get Object's type
 
 \return m_type - Object's shape
 */
@@ -59,7 +60,7 @@ Type Object::GetObjectType(void) const
 
 /******************************************************************************/
 /*!
-\brief - Set Object;s type
+\brief - Set Object's type
 
 \param type - Object's type
 */
@@ -67,4 +68,16 @@ Type Object::GetObjectType(void) const
 void Object::SetObjectType(Type type)
 {
 	m_type = type;
+}
+
+/******************************************************************************/
+/*!
+\brief - Set Object manager
+
+\param obm - Pointer to Object manager
+*/
+/******************************************************************************/
+void Object::SetObjectManager(ObjectManager* obm)
+{
+	m_OBM = obm;
 }
