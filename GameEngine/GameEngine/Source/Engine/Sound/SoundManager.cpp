@@ -13,13 +13,17 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 /******************************************************************************/
 
 #include "SoundManager.h"
+#include "../Utilities/Debug/Debug.h"
 
 SoundManager::SoundManager(void)
-:m_channel(0), m_system(0)
+:m_system(0)
 {
 	// Init all sound pointers
-	for (int i = 0; i < SOUND_END; ++i)
+	for (int i = 0; i < SOUND_END; ++i) {
 		m_sound[i] = 0;
+		m_channel[i] = 0;
+		m_channel[i]->setVolume(.5f);
+	}
 }
 
 SoundManager::~SoundManager(void)
@@ -31,7 +35,7 @@ SoundManager::~SoundManager(void)
 void SoundManager::Init(/*const int numOfchannel*/)
 {
 	FMOD::System_Create(&m_system);
-	m_system->init(1, FMOD_INIT_NORMAL, 0);
+	m_system->init(SOUND_END, FMOD_INIT_NORMAL, 0);
 	//m_system->init(numOfchannel, FMOD_INIT_NORMAL, 0);
 }
 
@@ -40,31 +44,25 @@ void SoundManager::Load(const char* SoundDir, SoundData sound)
 	m_system->createSound(SoundDir, FMOD_HARDWARE, 0, &m_sound[sound]);
 }
 
-void SoundManager::Play()
+void SoundManager::ErrorCheck(FMOD_RESULT result)
 {
-	m_system->playSound(FMOD_CHANNEL_FREE, m_sound[SE_1], false, &m_channel);
+	if (result != FMOD_OK)
+		MessageBox(NULL, L"Failed to init basic sound system.",
+			L"FMOD Error", MB_OK);
 }
 
-void SoundManager::Stop()
-{}
-
-void SoundManager::ErrorCheck()
-{}
-
-//void SoundManager::SetVolume()
-//{}
 
 FMOD::System* SoundManager::GetSystem(void)
 {
 	return m_system;
 }
 
-FMOD::Channel* SoundManager::GetChannel(void)
+FMOD::Sound* SoundManager::GetSound(const SoundData soundData)
 {
-	return m_channel;
+	return m_sound[soundData];
 }
 
-FMOD::Sound* SoundManager::GetSound(const SoundData s_data)
+FMOD::Channel* SoundManager::GetChannel(const SoundData soundData)
 {
-	return m_sound[s_data];
+	return m_channel[soundData];
 }

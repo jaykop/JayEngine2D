@@ -81,6 +81,7 @@ bool Application::DataLoaded(void)
 
 	// Load sound resources
 	m_SM->Load("Resource/Sound/arrow_x.wav", SE_1);
+	m_SM->Load("Resource/Sound/drum_roll_y.wav", SE_2);
 
 	// Load game logics
 

@@ -18,6 +18,7 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 #include <vector>
 #include "../Graphic/Text.h"
 
+class Sound;
 class Logic;
 class Scene;
 class World;
@@ -57,6 +58,8 @@ public:
 	// Game System gettor
 	Scene* GetGameScene(void) const;
 	World* GetGameWorld(void) const;
+	Logic* GetGameLogic(void) const;
+	Sound* GetGameSound(void) const;
 
 	const ObjectList& GetObjectList(void) const;
 
@@ -72,6 +75,7 @@ private:
 	Scene* scenePtr;
 	World* worldPtr;
 	Logic* logicPtr;
+	Sound* soundPtr;
 };
 
 #endif //_OBJECTMANAGER_H_

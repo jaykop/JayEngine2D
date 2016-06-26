@@ -71,7 +71,10 @@ INPUT_KEY InputManager::KeyTranslator(WPARAM user_input)
 bool InputManager::KeyTriggered(WPARAM input_tobe)
 {
 	if (m_key[input_tobe] && m_trigger)
+	{
+		m_key[input_tobe] = false;
 		return true;
+	}
 
 	return false;
 }

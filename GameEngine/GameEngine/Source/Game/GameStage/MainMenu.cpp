@@ -70,6 +70,7 @@ void MenuStage::Init(GameData& gd)
 	//m_ObjM.GetSprite(1)->SetSpriteShape(CIRCLE);
 	//m_ObjM.GetSprite(10, TEXT)->SetFont();
 	m_ObjM.GetText(10)->SetText(L"sdfghj¡¿ ¨ª ¨­ ©¬ ©¡ ©£ ¡À ©ª ©­?");
+	m_ObjM.GetText(10)->SetColor(vec4(1, 1, 1, 1));
 	//m_ObjM.GetSprite(10)->SetPosition(vec3(0, 0, 0));
 
 	m_ObjM.GetSprite(2)->SetPosition(vec3(20, 0, .5f));
@@ -110,7 +111,7 @@ void MenuStage::Init(GameData& gd)
 	m_ObjM.GetSprite(4)->GetRigidBody()->ActivateMove(false);
 	m_ObjM.GetSprite(5)->GetRigidBody()->ActivateMove(false);
 
-	m_ObjM.GetGameScene()->SetBackgroundColor(vec4(1,1,1,1));
+	m_ObjM.GetGameScene()->SetBackgroundColor(vec4(0, 0, 0, 1));
 	m_ObjM.InitGameSystem();
 }
 

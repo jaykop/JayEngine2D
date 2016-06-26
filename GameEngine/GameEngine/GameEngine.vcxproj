@@ -59,7 +59,10 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)\GameEngine\Lib</AdditionalLibraryDirectories>
       <AdditionalDependencies>opengl32.lib;glu32.lib;glew32.lib;freetype26.lib;fmodex_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <IgnoreSpecificDefaultLibraries>/NODEFAULTLIB:library</IgnoreSpecificDefaultLibraries>
+      <IgnoreSpecificDefaultLibraries>
+      </IgnoreSpecificDefaultLibraries>
+      <IgnoreAllDefaultLibraries>
+      </IgnoreAllDefaultLibraries>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -87,6 +90,7 @@
     <ClCompile Include="Source\Engine\Graphic\Text.cpp" />
     <ClCompile Include="Source\Engine\Graphic\Texture.cpp" />
     <ClCompile Include="Source\Engine\Logic\Logic.cpp" />
+    <ClCompile Include="Source\Engine\Sound\Sound.cpp" />
     <ClCompile Include="Source\Engine\Sound\SoundManager.cpp" />
     <ClCompile Include="Source\Engine\StateManager\StageFactory\StageFactory.cpp" />
     <ClCompile Include="Source\Engine\Utilities\Debug\Debug.cpp" />
@@ -144,6 +148,7 @@
     <ClInclude Include="Source\Engine\Graphic\Text.h" />
     <ClInclude Include="Source\Engine\Graphic\Texture.h" />
     <ClInclude Include="Source\Engine\Logic\Logic.h" />
+    <ClInclude Include="Source\Engine\Sound\Sound.h" />
     <ClInclude Include="Source\Engine\Sound\SoundManager.h" />
     <ClInclude Include="Source\Engine\StateManager\StageBuilder.h" />
     <ClInclude Include="Source\Engine\Utilities\Debug\Debug.h" />

@@ -14,6 +14,7 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 #include <algorithm>
 #include "ObjectManager.h"
 #include "../Logic/Logic.h"
+#include "../Sound/Sound.h"
 #include "../Graphic/Scene.h"
 #include "../Physics/World.h"
 #include "../StateManager/GameStateManager/GameStateManager.h"
@@ -185,8 +186,9 @@ const ObjectList& ObjectManager::GetObjectList(void) const
 /******************************************************************************/
 void ObjectManager::BindGameSystem(GameStateManager* gsm)
 {
-	scenePtr = new Scene(gsm);
+	soundPtr = new Sound(gsm);
 	worldPtr = new World();
+	scenePtr = new Scene(gsm);
 	logicPtr = new Logic();
 }
 
@@ -198,8 +200,9 @@ void ObjectManager::BindGameSystem(GameStateManager* gsm)
 void ObjectManager::InitGameSystem()
 {
 	// Initialize game system
-	scenePtr->Init(m_ObjectList);
+	soundPtr->Init();
 	worldPtr->Init(m_ObjectList);
+	scenePtr->Init(m_ObjectList);
 	logicPtr->Init(m_ObjectList);
 }
 
@@ -211,9 +214,10 @@ void ObjectManager::InitGameSystem()
 void ObjectManager::UpdateGameSystem(void)
 {
 	// Update game system
-	scenePtr->Draw(m_ObjectList);
-	worldPtr->Update(m_ObjectList);
 	logicPtr->Update(m_ObjectList);
+	worldPtr->Update(m_ObjectList);
+	scenePtr->Draw(m_ObjectList);
+	soundPtr->Update();
 }
 
 /******************************************************************************/
@@ -227,15 +231,18 @@ void ObjectManager::ShutdownGameSystem()
 	scenePtr->Shutdown(m_ObjectList);
 	worldPtr->Shutdown(m_ObjectList);
 	logicPtr->Shutdown(m_ObjectList);
+	soundPtr->Shutdown();
 
 	//Delete dynamic scene, world, logic
 	delete scenePtr;
 	delete worldPtr;
 	delete logicPtr;
+	delete soundPtr;
 
 	logicPtr = 0;
 	scenePtr = 0;
 	worldPtr = 0;
+	soundPtr = 0;
 }
 
 /******************************************************************************/
@@ -260,4 +267,28 @@ Scene* ObjectManager::GetGameScene(void) const
 World* ObjectManager::GetGameWorld(void) const
 {
 	return worldPtr;
+}
+
+/******************************************************************************/
+/*!
+\brief - Get pointer to the Sound
+
+\return soundPtr
+*/
+/******************************************************************************/
+Sound* ObjectManager::GetGameSound(void) const
+{
+	return soundPtr;
+}
+
+/******************************************************************************/
+/*!
+\brief - Get pointer to the Logic
+
+\return logicPtr
+*/
+/******************************************************************************/
+Logic* ObjectManager::GetGameLogic(void) const
+{
+	return logicPtr;
 }

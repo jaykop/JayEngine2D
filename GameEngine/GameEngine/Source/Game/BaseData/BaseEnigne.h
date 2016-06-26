@@ -20,11 +20,11 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 #include "../../Engine/Graphic/Scene.h"
 #include "../../Engine/Physics/World.h"
 #include "../../Engine/Physics/RigidBody.h"
+#include "../../Engine/Sound/Sound.h"
+#include "../../Engine/Logic/Logic.h"
 #include "../../Engine/ObjectManager/ObjectManager.h"
 #include "../../Engine/InputManager/InputManager.h"
 #include "../../Engine/Utilities/Debug/Debug.h"
-// #include "../../Engine/StateManager/GameStateManager/GameStateManager.h"
-
 
 //Someday delete this
 #include <iostream>

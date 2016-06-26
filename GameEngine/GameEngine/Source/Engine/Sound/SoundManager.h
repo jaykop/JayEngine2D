@@ -19,9 +19,9 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 #include "FMOD/fmod.hpp"
 #pragma comment(lib, "fmodex_vc.lib")
 
-using namespace FMOD;
+//using namespace FMOD;
 
-enum SoundData{BG, END, SE_1, SOUND_END};
+enum SoundData{BG, END, SE_1, SE_2, SOUND_END};
 
 class SoundManager
 {
@@ -33,20 +33,18 @@ public:
 
 	void Init(void/*const int numOfchannel*/);
 	void Load(const char* SoundDir, SoundData sound);
-	void Play();
-	void Stop();
-	void ErrorCheck();
-	//void SetVolume();
 
-	FMOD::System* GetSystem(void);
-	FMOD::Channel* GetChannel(void);
-	FMOD::Sound* GetSound(const SoundData s_data);
+	void ErrorCheck(FMOD_RESULT result);
+
+	FMOD::System*	GetSystem(void);
+	FMOD::Channel*	GetChannel(const SoundData soundData);
+	FMOD::Sound*	GetSound(const SoundData soundData);
 
 private:
 
-	FMOD::System*	m_system;	// pointer to system
-	FMOD::Channel*	m_channel;	// pointer to channel
-	FMOD::Sound*	m_sound[SOUND_END];	// pointer to sound file
+	FMOD::System*	m_system;				// pointer to system
+	FMOD::Channel*	m_channel[SOUND_END];	// pointer to channel
+	FMOD::Sound*	m_sound[SOUND_END];		// pointer to sound file
 };
 
 #endif // _SOUND_H_
