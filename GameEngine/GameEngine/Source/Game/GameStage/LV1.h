@@ -16,6 +16,8 @@ public:
 
 private:
 
+	ObjectManager m_ObjM;
+
 };
 
 #endif // _LV1STAGE_H_

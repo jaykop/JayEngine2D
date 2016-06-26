@@ -21,7 +21,7 @@ void PauseStage::Init(GameData& gd)
 
 	std::cout << "You can control the White box with keyboard arrows!\n";
 	
-	m_ObjM.BindGameSystem(m_GSM->GetAppPtr());
+	m_ObjM.BindGameSystem(m_GSM);
 	m_ObjM.InitGameSystem();
 }
 

@@ -22,7 +22,7 @@ class Logic;
 class Scene;
 class World;
 class Sprite;
-class Application;
+class GameStateManager;
 
 //! type definition for the list
 typedef std::hash_map<int, bool> Relation;
@@ -49,7 +49,7 @@ public:
 	void ClearObjectList(void);
 
 	// Manage main system
-	void BindGameSystem(Application* pApp);
+	void BindGameSystem(GameStateManager* gsm);
 	void InitGameSystem(void);
 	void UpdateGameSystem(void);
 	void ShutdownGameSystem(void);

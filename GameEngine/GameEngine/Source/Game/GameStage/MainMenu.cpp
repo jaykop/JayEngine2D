@@ -47,7 +47,7 @@ void MenuStage::Init(GameData& gd)
 	std::cout << "You can control the White box with keyboard arrows!\n";
 
 	//Init basic trunks
-	m_ObjM.BindGameSystem(m_GSM->GetAppPtr());
+	m_ObjM.BindGameSystem(m_GSM);
 	
 	//Set sprites
 	m_ObjM.AddObject(0, SPRITE);

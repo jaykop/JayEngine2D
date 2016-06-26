@@ -27,8 +27,8 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 
 class Text;
 class Sprite;
-class Application;
 class ObjectManager;
+class GameStateManager;
 
 ///! Holds all state information relevant to a character as loaded using FreeType
 struct Character {
@@ -48,7 +48,7 @@ class Scene
 {
 public:
 
-	Scene(Application* pApp);
+	Scene(GameStateManager* gsm);
 	~Scene();
 	void Init(const ObjectList& objList);
 	void Draw(const ObjectList& objList);
@@ -90,8 +90,8 @@ private:
 	Texture m_texture;
 	GLuint m_texId;
 
-	// To get GL manager
-	Application* m_pApp;
+	// To get GSM
+	GameStateManager* m_GSM;
 
 	// Ordered List 
 	// Depends on Z order and projection type

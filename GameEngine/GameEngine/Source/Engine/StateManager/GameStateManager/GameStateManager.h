@@ -22,8 +22,10 @@ using namespace Resolution;
 
 //! forward declaration
 class Stage;
+class GLManager;
 class Application;
 class StageBuilder;
+class SoundManager;
 
 //! Stage stack information
 struct StageInfo
@@ -78,6 +80,8 @@ public:
 
 	//! Pointer to app gettor
 	Application* GetAppPtr(void);
+	GLManager* GetGLManager(void);
+	SoundManager* GetSoundManager(void);
 
 private:
 
@@ -95,7 +99,7 @@ private:
 	StageType	m_current;  //!< The current stage to update
 	StageType   m_1stStage;	//!< The 1st stage of this application
 
-	GameData	 m_gameData;	//!< Game data to be used
+	GameData	 m_gameData;//!< Game data to be used
 	StageFactory m_factory;	//!< Factory that makes new stages
 	Application* m_pApp;	//!< pointer to the application
 

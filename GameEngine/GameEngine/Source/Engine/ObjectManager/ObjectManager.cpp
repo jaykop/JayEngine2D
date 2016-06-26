@@ -16,7 +16,7 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 #include "../Logic/Logic.h"
 #include "../Graphic/Scene.h"
 #include "../Physics/World.h"
-#include "../Physics/RigidBody.h"
+#include "../StateManager/GameStateManager/GameStateManager.h"
 
 /******************************************************************************/
 /*!
@@ -183,9 +183,9 @@ const ObjectList& ObjectManager::GetObjectList(void) const
 \param pApp - pointer to app to bind to scene
 */
 /******************************************************************************/
-void ObjectManager::BindGameSystem(Application* pApp)
+void ObjectManager::BindGameSystem(GameStateManager* gsm)
 {
-	scenePtr = new Scene(pApp);
+	scenePtr = new Scene(gsm);
 	worldPtr = new World();
 	logicPtr = new Logic();
 }

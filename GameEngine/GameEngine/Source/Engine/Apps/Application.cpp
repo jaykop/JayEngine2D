@@ -62,6 +62,33 @@ namespace
 
 /******************************************************************************/
 /*!
+\brief - Build stages and game logics for game app
+
+\return true
+*/
+/******************************************************************************/
+bool Application::DataLoaded(void)
+{
+	// Load stages
+	m_GSM.AddStage(ST_MENU, new MainMenuBuilder);
+	m_GSM.AddStage(ST_LV1, new LV1Builder);
+	m_GSM.AddStage(ST_LV2, new LV2Builder);
+	m_GSM.AddStage(ST_LV3, new LV3Builder);
+	m_GSM.AddStage(ST_GAMEOVER, new GameOverBuilder);
+	m_GSM.AddStage(ST_PAUSE, new PauseBuilder);
+
+	m_GSM.SetFirstStage(ST_MENU);
+
+	// Load sound resources
+	m_SM->Load("Resource/Sound/arrow_x.wav", SE_1);
+
+	// Load game logics
+
+	return true;
+}
+
+/******************************************************************************/
+/*!
 \brief - Application Constructor
 
 \param initData - Application's init data
@@ -74,8 +101,10 @@ Application::Application(const InitData& initData)
 	//ONLY CALSS ONCE;
 	DEBUG_CALL_CHECK();
 
-	// Init sound system; FMOD
-	FMOD::System_Create(&m_SM);
+	/******************** Init sound system; FMOD ********************/
+	m_SM = new SoundManager;
+	m_SM->Init();
+	/*****************************************************************/
 
 	//Code data form initData
 	m_instance = initData.instance;
@@ -142,9 +171,10 @@ Application::Application(const InitData& initData)
 		this					//Lparm This will be available in WM_CREATE
 		);
 
-	//Set Open GL
+	/******************** Set Open GL ********************/ 
 	m_GLM = new GLManager;
 	m_GLM->OpenGLInit(m_window, m_scrSize.width, m_scrSize.height);
+	/*****************************************************/
 
 	//Make sure window is showing and messages have been sent
 	ShowWindow(m_window, true);
@@ -161,9 +191,13 @@ Application::~Application(void)
 	//Only Call Once
 	DEBUG_CALL_CHECK();
 
-	// C;ear gl
+	// Clear gl and sm
 	delete m_GLM;
-	
+	delete m_SM;
+
+	m_GLM = 0;
+	m_SM = 0;
+
 	UnregisterClass(LPCTSTR(CLASS_NAME), m_instance);
 
 	m_instance = 0;
@@ -237,27 +271,6 @@ GLManager* Application::GetGLManager(void) const
 SoundManager* Application::GetSManager(void) const
 {
 	return m_SM;
-}
-
-/******************************************************************************/
-/*!
-\brief - Build stages and game logics for game app
-
-\return true
-*/
-/******************************************************************************/
-bool Application::DataLoaded(void)
-{
-	m_GSM.AddStage(ST_MENU, new MainMenuBuilder);
-	m_GSM.AddStage(ST_LV1, new LV1Builder);
-	m_GSM.AddStage(ST_LV2, new LV2Builder);
-	m_GSM.AddStage(ST_LV3, new LV3Builder);
-	m_GSM.AddStage(ST_GAMEOVER, new GameOverBuilder);
-	m_GSM.AddStage(ST_PAUSE, new PauseBuilder);
-
-	m_GSM.SetFirstStage(ST_MENU);
-
-	return true;
 }
 
 /******************************************************************************/

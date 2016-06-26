@@ -16,7 +16,7 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 #include "../Graphic//Sprite.h"
 #include "../Graphic/Text.h"
 #include "../ObjectManager/ObjectManager.h"
-#include "../Apps/Application.h"
+#include "../StateManager/GameStateManager/GameStateManager.h"
 
 /******************************************************************************/
 /*!
@@ -26,13 +26,13 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 
 */
 /******************************************************************************/
-Scene::Scene(Application* pApp)
+Scene::Scene(GameStateManager* gsm)
 : m_width(0), m_height(0), m_zNear(0),
 m_zFar(0), m_fovy(0), aspectRatio(0), m_radius(0),
 m_camera(vec4()), m_bgColor(vec4(0,0,0,0)),
 shader_index(0)
 {
-	m_pApp = pApp;
+	m_GSM = gsm;
 	m_DrawList.clear();
 }
 
@@ -52,7 +52,7 @@ Scene::~Scene(void)
 void Scene::Init(const ObjectList& objList)
 {
 	//Get projection information
-	ProjectionInfo temp = m_pApp->GetGLManager()->GetProjectionInfo();
+	ProjectionInfo temp = m_GSM->GetGLManager()->GetProjectionInfo();
 
 	// Set basic scene infomation
 	m_width = static_cast<int>(temp.m_width);
@@ -95,7 +95,7 @@ void Scene::DrawSprites(Sprite* sprite)
 
 	//first attribute buffer : vertices
 	glEnableVertexAttribArray(0);
-	glBindBuffer(GL_ARRAY_BUFFER, m_pApp->GetGLManager()->GetVertexBuffer());
+	glBindBuffer(GL_ARRAY_BUFFER, m_GSM->GetGLManager()->GetVertexBuffer());
 	glVertexAttribPointer(
 		0,						// must be match the layout in the shader
 		3,						// size : X+Y+Z => 3
@@ -107,7 +107,7 @@ void Scene::DrawSprites(Sprite* sprite)
 
 	// 2nd attribute buffer : UVs
 	glEnableVertexAttribArray(1);
-	glBindBuffer(GL_ARRAY_BUFFER, m_pApp->GetGLManager()->GetVertexBuffer());
+	glBindBuffer(GL_ARRAY_BUFFER, m_GSM->GetGLManager()->GetVertexBuffer());
 	glVertexAttribPointer(
 		1,								// attribute. No particular reason for 1, but must match the layout in the shader.
 		2,								// size : U+V => 2
@@ -162,7 +162,7 @@ void Scene::DrawTexts(Text* text)
 		glUniform1i(m_texId, 0);
 
 		glEnableVertexAttribArray(0);
-		glBindBuffer(GL_ARRAY_BUFFER, m_pApp->GetGLManager()->GetVertexBuffer());
+		glBindBuffer(GL_ARRAY_BUFFER, m_GSM->GetGLManager()->GetVertexBuffer());
 		glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat), 0);
 		glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices);
 		//Render quad
@@ -205,24 +205,24 @@ void Scene::Draw(const ObjectList& objList)
 		}
 
 		// Change shader and tex_id
-		m_texId = glGetUniformLocation(m_pApp->GetGLManager()->GetShader(shader_index).m_programID, "Texture");
-		glUseProgram(m_pApp->GetGLManager()->GetShader(shader_index).m_programID);
+		m_texId = glGetUniformLocation(m_GSM->GetGLManager()->GetShader(shader_index).m_programID, "Texture");
+		glUseProgram(m_GSM->GetGLManager()->GetShader(shader_index).m_programID);
 
 		//Update pipeline
 		Pipeline((*it));
 
 		//Initialize matrix
-		m_matrixID = glGetUniformLocation(m_pApp->GetGLManager()->GetShader(shader_index).m_programID, "MVP");
+		m_matrixID = glGetUniformLocation(m_GSM->GetGLManager()->GetShader(shader_index).m_programID, "MVP");
 
 		//Implement Matrix
 		glUniformMatrix4fv(m_matrixID, 1, GL_FALSE, &m_mvp.m_member[0][0]);
 
 		//Coloring
 		vec4 sptColor = ((*it)->GetColor());
-		GLuint color = glGetUniformLocation(m_pApp->GetGLManager()->GetShader(shader_index).m_programID, "Color");
+		GLuint color = glGetUniformLocation(m_GSM->GetGLManager()->GetShader(shader_index).m_programID, "Color");
 		glUniform4f(color, sptColor.x, sptColor.y, sptColor.z, sptColor.w);
 
-		GLuint shape = glGetUniformLocation(m_pApp->GetGLManager()->GetShader(shader_index).m_programID, "Shape");
+		GLuint shape = glGetUniformLocation(m_GSM->GetGLManager()->GetShader(shader_index).m_programID, "Shape");
 		glUniform1d(shape, (*it)->GetSpriteShape());
 
 		//More high quality?

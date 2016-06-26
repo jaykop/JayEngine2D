@@ -371,3 +371,27 @@ Application* GameStateManager::GetAppPtr(void)
 {
 	return m_pApp;
 }
+
+/******************************************************************************/
+/*!
+\brief - Get pointer to the GL Manager
+
+\return GLManager
+*/
+/******************************************************************************/
+GLManager* GameStateManager::GetGLManager(void)
+{
+	return m_pApp->GetGLManager();
+}
+
+/******************************************************************************/
+/*!
+\brief - Get pointer to the Sound Manager
+
+\return SoundManager
+*/
+/******************************************************************************/
+SoundManager* GameStateManager::GetSoundManager(void)
+{
+	return m_pApp->GetSManager();
+}
