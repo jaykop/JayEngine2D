@@ -56,7 +56,7 @@ void Sound::PlayBGM(SoundData sound)
 		m_system->playSound(FMOD_CHANNEL_FREE, m_sound[sound], false, &m_channel[BGM]);
 }
 
-void Sound::StopBGM(SoundData sound)
+void Sound::StopBGM(void)
 {
 	m_channel[BGM]->stop();
 }
@@ -72,7 +72,7 @@ void Sound::PlaySE(SoundData sound)
 		m_system->playSound(FMOD_CHANNEL_FREE, m_sound[sound], false, &m_channel[SE]);
 }
 
-void Sound::StopSE(SoundData sound)
+void Sound::StopSE(void)
 {
 	m_channel[SE]->stop();
 }
@@ -160,7 +160,7 @@ void Sound::SetSEVolume(float volume)
 	m_SEVolume = volume;
 
 	// Set master volume 
-	m_MasterVolume = m_SEVolume > m_BGMToggle ? m_SEVolume : m_BGMToggle;
+	m_MasterVolume = m_SEVolume > m_BGMVolume ? m_SEVolume : m_BGMVolume;
 
 	//Set channel
 	m_channel[SE]->setVolume(m_SEVolume);
@@ -175,7 +175,7 @@ void Sound::SetBGMVolume(float volume)
 	m_BGMVolume = volume;
 
 	// Set master volume 
-	m_MasterVolume = m_SEVolume > m_BGMToggle ? m_SEVolume : m_BGMToggle;
+	m_MasterVolume = m_SEVolume > m_BGMVolume ? m_SEVolume : m_BGMVolume;
 	
 	//Set channel
 	m_channel[BGM]->setVolume(m_BGMToggle);

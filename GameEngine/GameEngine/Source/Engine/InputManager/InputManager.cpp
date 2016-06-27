@@ -204,7 +204,7 @@ void InputManager::SetPressedStatus(PRESSED_STATUS status)
 \param yPos - mouse's y position
 */
 /******************************************************************************/
-void InputManager::GetRawMousePosition(WORD xPos, WORD yPos)
+void InputManager::SetRawMousePosition(WORD xPos, WORD yPos)
 {
 	m_position.x = static_cast<float>(xPos);
 	m_position.y = static_cast<float>(yPos);
@@ -218,7 +218,57 @@ void InputManager::GetRawMousePosition(WORD xPos, WORD yPos)
 
 */
 /******************************************************************************/
-vec3 InputManager::GetMousePosition(void) const
+const vec3& InputManager::GetRawMousePosition(void) const
 {
 	return m_position;
+}
+
+/******************************************************************************/
+/*!
+\brief - Get Perspective Mouse Position
+
+\return m_perspPos
+
+*/
+/******************************************************************************/
+const vec3& InputManager::GetPerspPosition(void) const
+{
+	return m_perspPos;
+}
+
+/******************************************************************************/
+/*!
+\brief - Get Ortho Mouse Position
+
+\return m_orthoPod
+
+*/
+/******************************************************************************/
+const vec3& InputManager::GetOrthoPosition(void) const
+{
+	return m_orthoPos;
+}
+
+/******************************************************************************/
+/*!
+\brief - Set Perspective Mouse Position
+
+\param pos -  Ortho Perspective Position
+*/
+/******************************************************************************/
+void InputManager::SetPerspMouse(const vec3& pos)
+{
+	m_perspPos = pos;
+}
+
+/******************************************************************************/
+/*!
+\brief - Set Ortho Mouse Position
+
+\param pos -  Ortho Mouse Position
+*/
+/******************************************************************************/
+void InputManager::SetOrthoMouse(const vec3& pos)
+{
+	m_orthoPos = pos;
 }

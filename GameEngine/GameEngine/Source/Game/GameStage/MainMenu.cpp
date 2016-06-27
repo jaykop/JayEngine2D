@@ -120,6 +120,9 @@ void MenuStage::Update(GameData& gd)
 	UNREFERENCED_PARAMETER(gd);
 	//std::cout << "MenuStage::Update\n";
 
+	m_ObjM.GetGameScene()->GetPerspPosition();
+	m_ObjM.GetGameScene()->GetOrthoPosition();
+
 	BasicControl();
 	SampleAnimation();
 
@@ -196,5 +199,9 @@ void MenuStage::SampleAnimation(void)
 	//Show the mouse's position when mouse botton clicked
 	if (InputManager::GetInstance().KeyTriggered(MOUSE_LBUTTON) ||
 		InputManager::GetInstance().KeyTriggered(MOUSE_RBUTTON))
-		std::cout << InputManager::GetInstance().GetMousePosition() << "\n";
+	{
+		std::cout << InputManager::GetInstance().GetRawMousePosition() << "\n";
+		std::cout << InputManager::GetInstance().GetOrthoPosition() << "\n";
+		std::cout << InputManager::GetInstance().GetPerspPosition() << "\n";
+	}
 }

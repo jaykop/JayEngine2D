@@ -30,11 +30,11 @@ public:
 	void Shutdown(void);
 
 	void PlayBGM(SoundData sound);
-	void StopBGM(SoundData sound);
+	void StopBGM(void);
 	void PauseBGM(bool boolean);
 
 	void PlaySE(SoundData sound);
-	void StopSE(SoundData sound);
+	void StopSE(void);
 	void PauseSE(bool boolean);
 
 	bool GSetSEMuteToggle(void) const;

@@ -84,7 +84,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Include\LodePNG\lodepng.cpp" />
-    <ClCompile Include="Source\Engine\Apps\Application.cpp" />
+    <ClCompile Include="Source\Engine\App\Application.cpp" />
     <ClCompile Include="Source\Engine\Logic\LogicFactory.cpp" />
     <ClCompile Include="Source\Engine\ObjectManager\Object\Object.cpp" />
     <ClCompile Include="Source\Engine\Graphic\Text.cpp" />
@@ -140,7 +140,7 @@
     <ClInclude Include="Include\GL\glext.h" />
     <ClInclude Include="Include\LodePNG\lodepng.h" />
     <ClInclude Include="Resource.h" />
-    <ClInclude Include="Source\Engine\Apps\Application.h" />
+    <ClInclude Include="Source\Engine\App\Application.h" />
     <ClInclude Include="Source\Engine\Logic\GameLogic.h" />
     <ClInclude Include="Source\Engine\Logic\LogicBuilder.h" />
     <ClInclude Include="Source\Engine\Logic\LogicFactory.h" />

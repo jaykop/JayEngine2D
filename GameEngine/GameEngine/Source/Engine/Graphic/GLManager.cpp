@@ -12,7 +12,7 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 /******************************************************************************/
 
 #include "GLManager.h"
-#include "../Apps/Application.h"
+#include "../App/Application.h"
 
 /******************************************************************************/
 /*!

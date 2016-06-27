@@ -13,8 +13,9 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 
 #include <algorithm>
 #include "Scene.h"
-#include "../Graphic//Sprite.h"
 #include "../Graphic/Text.h"
+#include "../Graphic//Sprite.h"
+#include "../InputManager/InputManager.h"
 #include "../ObjectManager/ObjectManager.h"
 #include "../StateManager/GameStateManager/GameStateManager.h"
 
@@ -179,13 +180,16 @@ void Scene::DrawTexts(Text* text)
 \brief - Draw Scene
 */
 /******************************************************************************/
-void Scene::Draw(const ObjectList& objList)
+void Scene::Update(const ObjectList& objList)
 {
 	UNREFERENCED_PARAMETER(objList);
 
 	//Refresh the screen
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glClearColor(m_bgColor.x, m_bgColor.y, m_bgColor.z, m_bgColor.w);
+
+	GetPerspPosition();
+	GetOrthoPosition();
 
 	//Todo: Lambda loop expression
 	//std::for_each(m_DrawList.begin(), m_DrawList.end(),
@@ -508,4 +512,87 @@ void Scene::SetFont(const char* fontDir)
 	// Destroy FreeType once we're finished
 	FT_Done_Face(face);
 	FT_Done_FreeType(ft);
+}
+
+/******************************************************************************/
+/*!
+\brief Set mouse position on perpective world
+*/
+/******************************************************************************/
+void Scene::GetPerspPosition(void)
+{
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+
+	gluPerspective(m_fovy, aspectRatio, m_zNear, m_zFar);
+
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	
+	gluLookAt(m_camera.x, m_camera.y, m_camera.z,
+		m_camera.x, m_camera.y, 0.0,
+		(double)cosf((float)((m_camera.w + 90.f) * RADIAN)),
+		(double)sinf((float)((m_camera.w + 90.f) * RADIAN)),
+		0.0);
+
+	GLint viewport[4];
+	glGetIntegerv(GL_VIEWPORT, viewport);
+
+	GLdouble modelview[16];
+	glGetDoublev(GL_MODELVIEW_MATRIX, modelview);
+
+	GLdouble projection[16];
+	glGetDoublev(GL_PROJECTION_MATRIX, projection);
+
+	GLdouble winX = 0, winY = 0, winZ = 0;
+
+	gluProject(0, 0, 0, modelview, projection, viewport, &winX, &winY, &winZ);
+
+	winX = (float)InputManager::GetInstance().GetRawMousePosition().x;
+	winY = (float)InputManager::GetInstance().GetRawMousePosition().y;
+	winY = (float)viewport[3] - winY;
+
+	GLdouble posX = m_camera.x, posY = m_camera.y, posZ = m_camera.z;
+
+	gluUnProject(winX, winY, winZ, modelview, projection, viewport, &posX, &posY, &posZ);
+
+	InputManager::GetInstance().SetPerspMouse(vec3((float)posX, (float)posY, (float)posZ));
+
+}
+
+/******************************************************************************/
+/*!
+\brief Set mouse position on orthogonal world
+*/
+/******************************************************************************/
+void Scene::GetOrthoPosition(void)
+{
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	glOrtho(-m_width / 2.f, m_width / 2.f, m_height / 2.f, -m_height / 2.f, m_zNear, m_zFar);
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+
+	GLint viewport[4];
+	glGetIntegerv(GL_VIEWPORT, viewport);
+
+	GLdouble modelview[16];
+	glGetDoublev(GL_MODELVIEW_MATRIX, modelview);
+
+	GLdouble projection[16];
+	glGetDoublev(GL_PROJECTION_MATRIX, projection);
+
+	GLdouble winX = 0, winY = 0, winZ = 0;
+
+	gluProject(0, 0, 0, modelview, projection, viewport, &winX, &winY, &winZ);
+
+	winX = (float)InputManager::GetInstance().GetRawMousePosition().x;
+	winY = (float)InputManager::GetInstance().GetRawMousePosition().y;
+	winY = (float)viewport[3] - winY;
+
+	GLdouble posX = 0, posY = 0, posZ = 0;
+
+	gluUnProject(winX, winY, winZ, modelview, projection, viewport, &posX, &posY, &posZ);
+
+	InputManager::GetInstance().SetOrthoMouse(vec3((float)posX, (float)posY, (float)posZ));
 }

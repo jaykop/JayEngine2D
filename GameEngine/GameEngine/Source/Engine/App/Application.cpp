@@ -398,7 +398,7 @@ LRESULT CALLBACK Application::WinProc(HWND win, UINT msg, WPARAM wp, LPARAM lp)
 	switch (msg)
 	{
 	case WM_MOUSEMOVE:
-		InputManager::GetInstance().GetRawMousePosition(LOWORD(lp), HIWORD(lp));
+		InputManager::GetInstance().SetRawMousePosition(LOWORD(lp), HIWORD(lp));
 		break;
 
 		//Button Down

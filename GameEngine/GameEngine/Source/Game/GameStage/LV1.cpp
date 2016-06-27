@@ -70,13 +70,13 @@ void LV1Stage::Update(GameData& gd)
 		m_ObjM.GetGameSound()->PlayBGM(SE_1);
 
 	if (InputManager::GetInstance().KeyTriggered(KEY_S))
-		m_ObjM.GetGameSound()->StopBGM(SE_1);
+		m_ObjM.GetGameSound()->StopBGM();
 
 	if (InputManager::GetInstance().KeyTriggered(KEY_Z))
 		m_ObjM.GetGameSound()->PlaySE(SE_2);
 
 	if (InputManager::GetInstance().KeyTriggered(KEY_X))
-		m_ObjM.GetGameSound()->StopSE(SE_2);
+		m_ObjM.GetGameSound()->StopSE();
 
 	if (InputManager::GetInstance().KeyTriggered(KEY_SPACE))
 		m_ObjM.GetGameSound()->SetMasterMuteToggle(true);

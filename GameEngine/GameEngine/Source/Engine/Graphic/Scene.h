@@ -71,8 +71,13 @@ private:
 	// Reorder sprites by z orders
 	void ReorderSprites(void);
 
+	// Draw sprites
 	void DrawSprites(Sprite* sprite);
 	void DrawTexts(Text* text);
+
+	// Set mouse position
+	void GetPerspPosition(void);
+	void GetOrthoPosition(void);
 
 	// Math info
 	mat44 m_mvp;
@@ -94,7 +99,6 @@ private:
 	GameStateManager* m_GSM;
 
 	// Ordered List 
-	// Depends on Z order and projection type
 	DrawList m_DrawList;
 	
 	// Shader index

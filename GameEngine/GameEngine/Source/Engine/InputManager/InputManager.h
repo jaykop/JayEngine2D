@@ -64,8 +64,14 @@ public:
 	PRESSED_STATUS GetPressedStatus(void) const;
 	void SetPressedStatus(PRESSED_STATUS status);
 
-	vec3 GetMousePosition(void) const;
-	void GetRawMousePosition(WORD xPos, WORD yPos);
+	const vec3& GetRawMousePosition(void) const;
+	void SetRawMousePosition(WORD xPos, WORD yPos);
+
+	void SetPerspMouse(const vec3& pos);
+	void SetOrthoMouse(const vec3& pos);
+
+	const vec3& GetPerspPosition(void) const;
+	const vec3& GetOrthoPosition(void) const;
 
 	//Singleton pattern
 	static InputManager& GetInstance(void)
@@ -76,7 +82,7 @@ public:
 
 private:
 
-	vec3 m_position;
+	vec3 m_position, m_orthoPos, m_perspPos;
 	WPARAM m_pressedInput;
 	WPARAM m_triggeredInput;
 	PRESSED_STATUS m_status;

@@ -19,7 +19,7 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 #endif
 
 #include "Utilities/Debug/Debug.h"
-#include "Apps/Application.h"
+#include "App/Application.h"
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h> //WinMain
 

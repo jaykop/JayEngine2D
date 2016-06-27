@@ -216,7 +216,7 @@ void ObjectManager::UpdateGameSystem(void)
 	// Update game system
 	logicPtr->Update(m_ObjectList);
 	worldPtr->Update(m_ObjectList);
-	scenePtr->Draw(m_ObjectList);
+	scenePtr->Update(m_ObjectList);
 	soundPtr->Update();
 }
 

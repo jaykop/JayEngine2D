@@ -1662,8 +1662,8 @@ symbol.
 *) 08 aug 2010: only changed some comments and external samples.
 *) 05 jul 2010: fixed bug thanks to warnings in the new gcc version.
 *) 14 mar 2010: fixed bug where too much memory was allocated for char buffers.
-*) 02 sep 2008: fixed bug where it could create empty tree that linux apps could
-    read by ignoring the problem but windows apps couldn't.
+*) 02 sep 2008: fixed bug where it could create empty tree that linux App could
+    read by ignoring the problem but windows App couldn't.
 *) 06 jun 2008: added more error checks for out of memory cases.
 *) 26 apr 2008: added a few more checks here and there to ensure more safety.
 *) 06 mar 2008: crash with encoding of strings fixed
