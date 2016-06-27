@@ -7,6 +7,7 @@
 
 \description
 Contains Scene's class and member
+
 All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 */
 /******************************************************************************/
@@ -16,8 +17,8 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 
 #include <vector>
 #include <hash_map>
-#include "../Graphic/Texture.h"
 #include "../Graphic/Text.h"
+#include "../Graphic/Texture.h"
 #include "../Utilities/Math/MathUtils.h"
 
 //Todo: Should I use this or not?
@@ -25,8 +26,8 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 //typedef Vector4<GLfloat> GLvec4;
 //typedef Matrix4x4<GLfloat> GLmat44;
 
-class Text;
 class Sprite;
+class Particle;
 class ObjectManager;
 class GameStateManager;
 
@@ -50,8 +51,9 @@ public:
 
 	Scene(GameStateManager* gsm);
 	~Scene();
+
 	void Init(const ObjectList& objList);
-	void Draw(const ObjectList& objList);
+	void Update(const ObjectList& objList);
 	void Shutdown(const ObjectList& objList);
 
 	void SetBackgroundColor(const vec4& background);
@@ -72,8 +74,9 @@ private:
 	void ReorderSprites(void);
 
 	// Draw sprites
-	void DrawSprites(Sprite* sprite);
 	void DrawTexts(Text* text);
+	void DrawSprites(Sprite* sprite);
+	void DrawParticle(Particle* particle);
 
 	// Set mouse position
 	void GetPerspPosition(void);

@@ -7,6 +7,7 @@
 
 \description
 Contains InputManager's class and member
+
 All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 */
 /******************************************************************************/

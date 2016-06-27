@@ -7,6 +7,7 @@
 
 \description
 Contains Scene's class functions
+
 All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 */
 /******************************************************************************/
@@ -173,6 +174,41 @@ void Scene::DrawTexts(Text* text)
 		//Bit shift	
 	}
 	glDisableVertexAttribArray(0);
+}
+
+/******************************************************************************/
+/*!
+\brief - Draw particles
+
+\param particle - particle to be drawn
+*/
+/******************************************************************************/
+void Scene::DrawParticle(Particle* particle)
+{
+	//vec3 v(0, 0);
+	//float velocity, theta, phi;
+	//GLfloat* data = new GLfloat[nParticles * 3];
+	//for (GLuint i = 0; i < nParticles; ++i)
+	//{
+	//	//Piack the direction of the velocity
+	//	theta = ;
+	//	phi = ;
+
+	//	v.x = sinf(theta) * cosf(phi);
+	//	v.y = cosf(theta);
+	//	v.z = sinf(theta) * sinf(phi);
+
+	//	// Scale to set the magnitude of the velocity (speed)
+	//	velocity = ;
+	//	v = v * velocity;
+
+	//	data[3 * i] = v.x;
+	//	data[3 * i + 1] = v.y;
+	//	data[3 * i + 2] = v.z;
+
+	//	glBindBuffer(GL_ARRAY_BUFFER. initVel);
+	//	glBufferSubData(GL_ARRAY_BUFFER, 0, nParticles * 3 * sizeof(GLfloat), data);
+	//}
 }
 
 /******************************************************************************/

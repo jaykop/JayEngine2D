@@ -120,9 +120,6 @@ void MenuStage::Update(GameData& gd)
 	UNREFERENCED_PARAMETER(gd);
 	//std::cout << "MenuStage::Update\n";
 
-	m_ObjM.GetGameScene()->GetPerspPosition();
-	m_ObjM.GetGameScene()->GetOrthoPosition();
-
 	BasicControl();
 	SampleAnimation();
 

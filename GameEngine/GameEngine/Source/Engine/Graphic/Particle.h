@@ -1,34 +1,34 @@
 /******************************************************************************/
 /*!
-\file   Shader.hpp
+\file   Particle.h
 \author Jeong Juyong
 \par    email: jeykop14\@gmail.com
-\date   2016/06/19(yy/mm/dd)
+\date   2016/06/27(yy/mm/dd)
 
 \description
-Contains Shader's class and members
+Contains Particle's class and members
 
 All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 */
 /******************************************************************************/
 
-#ifndef _SHADER_HPP
-#define _SHADER_HPP
+#ifndef _PARTICLE_H_
+#define _PARTICLE_H_
 
-//! Shader class
-class Shader{
+#include "Sprite.h"
+
+class Particle : public Sprite
+{
+
 public:
 
-	Shader();
-	~Shader();
+	Particle(void);
+	virtual ~Particle(void);
 
-	// Load shader
-	void LoadShaders(const char* vertex_file_path, const char* fragment_file_path);
-
-	GLuint m_programID;
 
 private:
 
+
 };
 
-#endif
+#endif //_PARTICLE_H_
