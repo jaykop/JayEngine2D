@@ -21,8 +21,6 @@ SoundManager::SoundManager(void)
 	// Init all sound pointers
 	for (int i = 0; i < SOUND_END; ++i) {
 		m_sound[i] = 0;
-		m_channel[i] = 0;
-		m_channel[i]->setVolume(.5f);
 	}
 }
 
@@ -32,11 +30,10 @@ SoundManager::~SoundManager(void)
 	m_system->close();
 }
 
-void SoundManager::Init(/*const int numOfchannel*/)
+void SoundManager::Init()
 {
 	FMOD::System_Create(&m_system);
 	m_system->init(SOUND_END, FMOD_INIT_NORMAL, 0);
-	//m_system->init(numOfchannel, FMOD_INIT_NORMAL, 0);
 }
 
 void SoundManager::Load(const char* SoundDir, SoundData sound)
@@ -51,7 +48,6 @@ void SoundManager::ErrorCheck(FMOD_RESULT result)
 			L"FMOD Error", MB_OK);
 }
 
-
 FMOD::System* SoundManager::GetSystem(void)
 {
 	return m_system;
@@ -60,9 +56,4 @@ FMOD::System* SoundManager::GetSystem(void)
 FMOD::Sound* SoundManager::GetSound(const SoundData soundData)
 {
 	return m_sound[soundData];
-}
-
-FMOD::Channel* SoundManager::GetChannel(const SoundData soundData)
-{
-	return m_channel[soundData];
 }

@@ -31,19 +31,17 @@ public:
 	SoundManager(void);
 	~SoundManager(void);
 
-	void Init(void/*const int numOfchannel*/);
+	void Init(void);
 	void Load(const char* SoundDir, SoundData sound);
 
 	void ErrorCheck(FMOD_RESULT result);
 
 	FMOD::System*	GetSystem(void);
-	FMOD::Channel*	GetChannel(const SoundData soundData);
 	FMOD::Sound*	GetSound(const SoundData soundData);
 
 private:
 
 	FMOD::System*	m_system;				// pointer to system
-	FMOD::Channel*	m_channel[SOUND_END];	// pointer to channel
 	FMOD::Sound*	m_sound[SOUND_END];		// pointer to sound file
 };
 

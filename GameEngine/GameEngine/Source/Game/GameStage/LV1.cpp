@@ -52,37 +52,38 @@ void LV1Stage::Update(GameData& gd)
 	else if (InputManager::GetInstance().KeyTriggered(KEY_P))
 		m_GSM->Pause();
 
-	if (InputManager::GetInstance().KeyTriggered(KEY_A))
-	{
-		m_ObjM.GetGameSound()->Play(SE_1);
-		std::cout << "Sound Effect 1\n";
-		// std::cout << InputManager::GetInstance().GetPressedStatus() << "\n";
-	}
-
-	if (InputManager::GetInstance().KeyTriggered(KEY_S))
-		m_ObjM.GetGameSound()->Stop(SE_1);
-
-	if (InputManager::GetInstance().KeyTriggered(KEY_Z))
-	{
-		m_ObjM.GetGameSound()->Play(SE_2);
-		std::cout << "Sound Effect 2\n";
-		// std::cout << InputManager::GetInstance().GetPressedStatus() << "\n";
-	}
-
-	if (InputManager::GetInstance().KeyTriggered(KEY_X))
-		m_ObjM.GetGameSound()->Stop(SE_2);
-
 	if (InputManager::GetInstance().KeyTriggered(KEY_UP))
 	{
 		volume += 0.1f;
+		if (volume > 1) volume = 1;
 		m_ObjM.GetGameSound()->SetMasterVolume(volume);
 	}
 
 	if (InputManager::GetInstance().KeyTriggered(KEY_DOWN))
 	{
 		volume -= 0.1f;
+		if (volume < 0) volume = 0;
 		m_ObjM.GetGameSound()->SetMasterVolume(volume);
 	}
+
+	if (InputManager::GetInstance().KeyTriggered(KEY_A))
+		m_ObjM.GetGameSound()->PlayBGM(SE_1);
+
+	if (InputManager::GetInstance().KeyTriggered(KEY_S))
+		m_ObjM.GetGameSound()->StopBGM(SE_1);
+
+	if (InputManager::GetInstance().KeyTriggered(KEY_Z))
+		m_ObjM.GetGameSound()->PlaySE(SE_2);
+
+	if (InputManager::GetInstance().KeyTriggered(KEY_X))
+		m_ObjM.GetGameSound()->StopSE(SE_2);
+
+	if (InputManager::GetInstance().KeyTriggered(KEY_SPACE))
+		m_ObjM.GetGameSound()->SetMasterMuteToggle(true);
+
+	if (InputManager::GetInstance().KeyTriggered(KEY_ENTER))
+		m_ObjM.GetGameSound()->SetMasterMuteToggle(false);
+
 }
 
 void LV1Stage::Shutdown()
