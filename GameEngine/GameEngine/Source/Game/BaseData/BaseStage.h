@@ -17,7 +17,6 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 
 #include "../../Engine/Utilities/Time.h"
 #include "../../Engine/Utilities/Random.h"
-#include "../../Engine/Utilities/Math/MathUtils.h"
 #include "../../Engine/ObjectManager/ObjectManager.h"
 
 struct GameData;

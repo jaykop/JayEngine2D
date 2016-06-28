@@ -15,8 +15,6 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 #ifndef _FREETYPE_TEXT_H_
 #define _FREETYPE_TEXT_H_
 
-#include <ft2build.h>
-#include FT_FREETYPE_H
 #include <string>
 #include "Sprite.h"
 

@@ -7,15 +7,28 @@ layout(location = 1) in vec2 vertTexCoord;
 //Values that stay constant for the whole mesh.
 uniform vec4 Color ;
 uniform mat4 MVP;
+uniform mat4 Animation;
+uniform bool Type;
 
 //Output data
 out vec4 fragmentColor;
 out vec2 fragTexCoord;
 
 void main(){
-
-	fragmentColor = Color;
-	fragTexCoord = vertTexCoord;
+	
+	// Set model vertex
 	gl_Position =  MVP * vec4(vertexPosition_modelspace, 1);
-
+	
+	// Set Color
+	fragmentColor = Color;
+	
+	// Set texture coordinate
+	vec4 newTexCoord = Animation * vec4(vertTexCoord, 0, 1);
+	
+	if (Type == false)
+		fragTexCoord = vec2(newTexCoord.x, -newTexCoord.y);
+	
+	else
+		fragTexCoord = vertTexCoord;
+	
 }

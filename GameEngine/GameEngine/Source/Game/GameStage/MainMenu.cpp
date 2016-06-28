@@ -61,14 +61,14 @@ void MenuStage::Init(GameData& gd)
 	//Set positions
 	m_ObjM.GetSprite(0)->SetPosition(vec3(10, 10, 1.05f));
 	m_ObjM.GetSprite(1)->SetPosition(vec3(-10, -10, 1.1f));
-	m_ObjM.GetSprite(0)->SetRotation(Random::GetInstance().GetRandomFloat(0, 360));
-	m_ObjM.GetSprite(1)->SetRotation(Random::GetInstance().GetRandomFloat(0, 360));
+	//m_ObjM.GetSprite(0)->SetRotation(Random::GetInstance().GetRandomFloat(0, 360));
+	//m_ObjM.GetSprite(1)->SetRotation(Random::GetInstance().GetRandomFloat(0, 360));
 	m_ObjM.GetSprite(0)->SetScale(vec3(5, 5));
 	m_ObjM.GetSprite(1)->SetScale(vec3(5, 5));
+	m_ObjM.GetSprite(1)->SetSpriteShape(CIRCLE);
 
 	//m_ObjM.GetSprite(0)->SetSpriteShape(CIRCLE);
 	//m_ObjM.GetSprite(1)->SetSpriteShape(CIRCLE);
-	//m_ObjM.GetSprite(10, TEXT)->SetFont();
 	m_ObjM.GetText(10)->SetText(L"sdfghj¡¿ ¨ª ¨­ ©¬ ©¡ ©£ ¡À ©ª ©­?");
 	m_ObjM.GetText(10)->SetColor(vec4(1, 1, 1, 1));
 	//m_ObjM.GetSprite(10)->SetPosition(vec3(0, 0, 0));

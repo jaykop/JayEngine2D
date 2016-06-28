@@ -17,30 +17,19 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 
 #include <vector>
 #include <hash_map>
-#include "../Graphic/Text.h"
 #include "../Graphic/Texture.h"
-#include "../Utilities/Math/MathUtils.h"
 
 //Todo: Should I use this or not?
 //typedef Vector3<GLfloat> GLvec3;
 //typedef Vector4<GLfloat> GLvec4;
 //typedef Matrix4x4<GLfloat> GLmat44;
 
+class Text;
 class Sprite;
 class Particle;
 class ObjectManager;
 class GameStateManager;
 
-///! Holds all state information relevant to a character as loaded using FreeType
-struct Character {
-	GLuint TextureID; // ID handle of the glyph texture
-	vec2 Size;		  // Size of glyph
-	vec2 Bearing;	  // Offset from baseline to left/top of glyph
-	GLuint Advance;   // Horizontal offset to advance to next glyph
-};
-
-//! type definition for list
-typedef std::map<wchar_t, Character> Characters;
 typedef std::hash_map<int, Sprite*> ObjectList;
 typedef std::vector<Sprite*> DrawList;
 
@@ -66,8 +55,8 @@ public:
 
 private:
 
-	// Private function
-	void SetFont(const char* fontDir);
+	// Private functions
+
 	void Pipeline(const Sprite* sprite);
 
 	// Reorder sprites by z orders
@@ -82,31 +71,27 @@ private:
 	void GetPerspPosition(void);
 	void GetOrthoPosition(void);
 
-	// Math info
+	// Math(by sprites) info
 	mat44 m_mvp;
+	GLuint m_matrixID;
+	
 	vec4  m_camera;
 	vec4  m_bgColor;
-	GLuint m_matrixID;
 
-	// screen info
+	GLuint m_uv;
+	mat44 m_animation;
+	
+	// Screen info
 	int	m_width, m_height;
 	float aspectRatio;
 	float m_zNear, m_zFar, m_fovy;
 	float m_radius;
-
-	// Texture info
-	Texture m_texture;
-	GLuint m_texId;
 
 	// To get GSM
 	GameStateManager* m_GSM;
 
 	// Ordered List 
 	DrawList m_DrawList;
-	
-	// Shader index
-	int shader_index;
-	Characters m_chars;
 };
 
 #endif // _SCENE_H_

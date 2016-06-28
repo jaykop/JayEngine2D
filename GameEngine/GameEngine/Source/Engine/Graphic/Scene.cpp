@@ -14,10 +14,12 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 
 #include <algorithm>
 #include "Scene.h"
-#include "../Graphic/Text.h"
-#include "../Graphic//Sprite.h"
+#include "Text.h"
+#include "Sprite.h"
+#include "Particle.h"
 #include "../InputManager/InputManager.h"
 #include "../ObjectManager/ObjectManager.h"
+#include "../Utilities/Math/MathUtils.h"
 #include "../StateManager/GameStateManager/GameStateManager.h"
 
 /******************************************************************************/
@@ -31,8 +33,7 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 Scene::Scene(GameStateManager* gsm)
 : m_width(0), m_height(0), m_zNear(0),
 m_zFar(0), m_fovy(0), aspectRatio(0), m_radius(0),
-m_camera(vec4()), m_bgColor(vec4(0,0,0,0)),
-shader_index(0)
+m_camera(vec4()), m_bgColor(vec4(0,0,0,0))
 {
 	m_GSM = gsm;
 	m_DrawList.clear();
@@ -65,14 +66,17 @@ void Scene::Init(const ObjectList& objList)
 	aspectRatio = static_cast<float>(m_width) / static_cast<float>(m_height);
 	m_camera = vec4(0, 0, 80, 0);
 
-	// Set font
-	SetFont("Resource/Font/SDMiSaeng.ttf");
-
 	// Init every sprites
 	for (auto it = objList.begin(); it != objList.end(); ++it)
 	{
 		if (it->second->GetObjectType() == SPRITE)
-			it->second->GetTexture()->LoadTexture("Resource/Texture/rect.png");
+		{
+			if (it->second->GetSpriteShape() == RECTANGLE)
+				it->second->GetTexture()->LoadTexture("Resource/Texture/rect.png");
+
+			else
+				it->second->GetTexture()->LoadTexture("Resource/Texture/circle.png");
+		}
 	}
 
 	// Sort Sprites by projection type and z Order
@@ -88,41 +92,13 @@ void Scene::Init(const ObjectList& objList)
 /******************************************************************************/
 void Scene::DrawSprites(Sprite* sprite)
 {
+	glBufferData(GL_ARRAY_BUFFER, sizeof(m_vertex_buffer_data), m_vertex_buffer_data, GL_STATIC_DRAW);
+
 	// Bind our texture in Texture Unit 0
-	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, sprite->GetTexture()->GetTexId());
-
-	// Set our "myTextureSampler" sampler to user Texture Unit 0
-	glUniform1i(m_texId, 0);
-
-	//first attribute buffer : vertices
-	glEnableVertexAttribArray(0);
-	glBindBuffer(GL_ARRAY_BUFFER, m_GSM->GetGLManager()->GetVertexBuffer());
-	glVertexAttribPointer(
-		0,						// must be match the layout in the shader
-		3,						// size : X+Y+Z => 3
-		GL_FLOAT,				// type
-		GL_FALSE,				// normalized
-		5 * sizeof(GLfloat),	// stride
-		(GLvoid*)0				// array buffer offset
-		);
-
-	// 2nd attribute buffer : UVs
-	glEnableVertexAttribArray(1);
-	glBindBuffer(GL_ARRAY_BUFFER, m_GSM->GetGLManager()->GetVertexBuffer());
-	glVertexAttribPointer(
-		1,								// attribute. No particular reason for 1, but must match the layout in the shader.
-		2,								// size : U+V => 2
-		GL_FLOAT,						// type
-		GL_TRUE,						// normalized?
-		5 * sizeof(GLfloat),			// stride
-		(GLvoid*)(3 * sizeof(GLfloat))	// array buffer offset
-		);
 
 	// Draw the triangle
 	glDrawArrays(GL_QUADS, 0, 4);
-	glDisableVertexAttribArray(0);
-	glDisableVertexAttribArray(1);
 }
 
 /******************************************************************************/
@@ -140,40 +116,27 @@ void Scene::DrawTexts(Text* text)
 	std::wstring::const_iterator c;
 	for (c = text->GetText().begin(); c != text->GetText().end(); ++c)
 	{
-		Character ch = m_chars[*c];
+		Character ch = m_GSM->GetGLManager()->GetCharacters()[*c];
 		GLfloat xpos = new_x + ch.Bearing.x * text->GetScale().x;
 		GLfloat ypos = text->GetPosition().y - (ch.Size.y - ch.Bearing.y) * text->GetScale().y;
+		GLfloat zpos = text->GetPosition().z;
 
 		GLfloat w = ch.Size.x * text->GetScale().x;
 		GLfloat h = ch.Size.y * text->GetScale().y;
 
 		//Update vbo
-		GLfloat vertices[6][4] = {
-			{ xpos, ypos + h, 0.0, 0.0 },
-			{ xpos, ypos, 0.0, 1.0 },
-			{ xpos + w, ypos, 1.0, 1.0 },
-
-			{ xpos, ypos + h, 0.0, 0.0 },
-			{ xpos + w, ypos, 1.0, 1.0 },
-			{ xpos + w, ypos + h, 1.0, 0.0 }
+		GLfloat vertices[4][5] = {
+			{ xpos, ypos + h, zpos, 0.0, 0.0 },
+			{ xpos, ypos, zpos, 0.0, 1.0 },
+			{ xpos + w, ypos, zpos, 1.0, 1.0 },
+			{ xpos + w, ypos + h, zpos, 1.0, 0.0 }
 		};
 
-		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, ch.TextureID);
-
-		glUniform1i(m_texId, 0);
-
-		glEnableVertexAttribArray(0);
-		glBindBuffer(GL_ARRAY_BUFFER, m_GSM->GetGLManager()->GetVertexBuffer());
-		glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat), 0);
-		glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices);
-		//Render quad
-		glDrawArrays(GL_TRIANGLES, 0, 6);
-		// advance cursor for next glyph
+		//glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices);
+		glDrawArrays(GL_QUADS, 0, 4);
 		new_x += (ch.Advance >> 6) * text->GetScale().x;
-		//Bit shift	
 	}
-	glDisableVertexAttribArray(0);
 }
 
 /******************************************************************************/
@@ -185,6 +148,8 @@ void Scene::DrawTexts(Text* text)
 /******************************************************************************/
 void Scene::DrawParticle(Particle* particle)
 {
+	UNREFERENCED_PARAMETER(particle);
+
 	//vec3 v(0, 0);
 	//float velocity, theta, phi;
 	//GLfloat* data = new GLfloat[nParticles * 3];
@@ -234,38 +199,27 @@ void Scene::Update(const ObjectList& objList)
 
 	for (auto it = m_DrawList.begin(); it != m_DrawList.end(); ++it)
 	{
-		if ((*it)->GetObjectType() == SPRITE) {
-			shader_index = 0;
-			glBufferData(GL_ARRAY_BUFFER, sizeof(m_vertex_buffer_data), m_vertex_buffer_data, GL_STATIC_DRAW);	
-		}
-
-		else if ((*it)->GetObjectType() == TEXT){
-			shader_index = 1;
-			glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat)* 6 * 4, NULL, GL_STATIC_DRAW);	
-		}
-
-		// Change shader and tex_id
-		m_texId = glGetUniformLocation(m_GSM->GetGLManager()->GetShader(shader_index).m_programID, "Texture");
-		glUseProgram(m_GSM->GetGLManager()->GetShader(shader_index).m_programID);
-
 		//Update pipeline
 		Pipeline((*it));
 
-		//Initialize matrix
-		m_matrixID = glGetUniformLocation(m_GSM->GetGLManager()->GetShader(shader_index).m_programID, "MVP");
-
-		//Implement Matrix
+		//Initialize, and implement matrix
+		m_matrixID = glGetUniformLocation(m_GSM->GetGLManager()->GetShader().m_programID, "MVP");
 		glUniformMatrix4fv(m_matrixID, 1, GL_FALSE, &m_mvp.m_member[0][0]);
+
+		//Initialize, and implement UV
+		m_uv = glGetUniformLocation(m_GSM->GetGLManager()->GetShader().m_programID, "Animation");
+		glUniformMatrix4fv(m_uv, 1, GL_FALSE, &m_animation.m_member[0][0]);
 
 		//Coloring
 		vec4 sptColor = ((*it)->GetColor());
-		GLuint color = glGetUniformLocation(m_GSM->GetGLManager()->GetShader(shader_index).m_programID, "Color");
+		GLuint color = glGetUniformLocation(m_GSM->GetGLManager()->GetShader().m_programID, "Color");
 		glUniform4f(color, sptColor.x, sptColor.y, sptColor.z, sptColor.w);
 
-		GLuint shape = glGetUniformLocation(m_GSM->GetGLManager()->GetShader(shader_index).m_programID, "Shape");
-		glUniform1d(shape, (*it)->GetSpriteShape());
+		//Type
+		GLuint type = glGetUniformLocation(m_GSM->GetGLManager()->GetShader().m_programID, "Type");
+		glUniform1d(type, (*it)->GetObjectType());
 
-		//More high quality?
+		//Todo: high quality?
 		//glUniformMatrix4fv();
 
 		// Draw Sprites
@@ -273,8 +227,12 @@ void Scene::Update(const ObjectList& objList)
 			DrawSprites(*it);
 
 		// Draw Texts 
-		if ((*it)->GetObjectType() == TEXT) 
+		else if ((*it)->GetObjectType() == TEXT) 
 			DrawTexts(static_cast<Text*>(*it));
+
+		// Draw Particles
+		else if ((*it)->GetObjectType() == PARTICLE)
+			DrawParticle(static_cast<Particle*>(*it));
 	}
 
 	//std::cout <<  "\n";
@@ -330,6 +288,14 @@ void Scene::Pipeline(const Sprite* sprite)
 	//calculate fined final matrix
 	m_mvp = projection.Transpose() * camera.Transpose() * model.Transpose();
 	m_mvp = m_mvp.Transpose();
+
+	// Animation pipeline
+	mat44 animation;
+	animation.SetIdentity();
+	animation = animation * mat44::Scale(vec3(1.f, 1.f));
+	animation = animation * mat44::Translate(vec3(0.0, 0.f));
+
+	m_animation = animation;
 }
 
 /******************************************************************************/
@@ -470,84 +436,6 @@ void Scene::DeleteSprite(const int id)
 
 	// Sort Sprites by projection type and z Order
 	ReorderSprites();
-}
-
-/******************************************************************************/
-/*!
-\brief - Initialize font from directory
-
-\param fontDir - font's directory
-*/
-/******************************************************************************/
-void Scene::SetFont(const char* fontDir)
-{
-	// FreeType
-	FT_Library ft;
-	// All functions return a value different than 0 whenever an error occurred
-	if (FT_Init_FreeType(&ft))
-		std::cout << "ERROR::FREETYPE: Could not init FreeType Library" << std::endl;
-
-	// Load font as face
-	FT_Face face;
-	if (FT_New_Face(ft, fontDir, 0, &face))
-		std::cout << "ERROR::FREETYPE: Failed to load font" << std::endl;
-
-	// Set size to load glyphs as
-	FT_Set_Pixel_Sizes(face, 0, 48);
-
-	// Disable byte-alignment restriction
-	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-
-	//std::for_each(m_DrawList.begin(), m_DrawList.end(),
-	//	[&](DrawList::iterator it)
-	//{
-	
-	// Load first 128 characters of ASCII set
-	for (GLubyte c = 0; c < 128; c++)
-	{
-		// Load character glyph 
-		if (FT_Load_Char(face, c, FT_LOAD_RENDER))
-		{
-			std::cout << "ERROR::FREETYTPE: Failed to load Glyph" << std::endl;
-			continue;
-		}
-		// Generate texture
-		GLuint texture;
-		glGenTextures(1, &texture);
-		glBindTexture(GL_TEXTURE_2D, texture);
-		glTexImage2D(
-			GL_TEXTURE_2D,
-			0,
-			GL_RED,
-			face->glyph->bitmap.width,
-			face->glyph->bitmap.rows,
-			0,
-			GL_RED,
-			GL_UNSIGNED_BYTE,
-			face->glyph->bitmap.buffer
-			);
-		// Set texture options
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		// Now store character for later use
-		Character character = {
-			texture,
-			vec2(static_cast<float>(face->glyph->bitmap.width), static_cast<float>(face->glyph->bitmap.rows)),
-			vec2(static_cast<float>(face->glyph->bitmap_left), static_cast<float>(face->glyph->bitmap_top)),
-			face->glyph->advance.x
-		};
-		m_chars.insert(std::pair<wchar_t, Character>(c, character));
-	}
-
-	//std::cout <<  "\n";
-	//}); //Lambda loop expression
-
-	glBindTexture(GL_TEXTURE_2D, 0);
-	// Destroy FreeType once we're finished
-	FT_Done_Face(face);
-	FT_Done_FreeType(ft);
 }
 
 /******************************************************************************/

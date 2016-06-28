@@ -67,10 +67,17 @@ public:
 	void SetProjectionType(Projt projection);
 	Projt GetProjectionType(void) const;
 
+	// Animation functions
+	void SetAnimation(int, float);
+	void FixAnimation(int);
+	float GetAnimationSpeed(void) const;
+	int GetAnimationFrame(void) const;
+
 private:
 
 	// Drawing Info
 	// Math info
+	vec2 m_uv;
 	vec3 m_position;
 	vec3 m_scale;
 	vec4 m_color;

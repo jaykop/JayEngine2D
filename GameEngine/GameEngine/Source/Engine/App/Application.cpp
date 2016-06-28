@@ -83,6 +83,9 @@ bool Application::DataLoaded(void)
 	m_SM->Load("Resource/Sound/arrow_x.wav", SE_1);
 	m_SM->Load("Resource/Sound/drum_roll_y.wav", SE_2);
 
+	// Load font
+	m_GLM->SetFont("Resource/Font/SDMiSaeng.ttf");
+
 	// Load game logics
 
 	return true;

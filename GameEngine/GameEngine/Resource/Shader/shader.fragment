@@ -6,24 +6,17 @@ in vec2 fragTexCoord;
 
 //Texture ID
 uniform sampler2D Texture;
-uniform bool Shape;
+uniform bool Type;
 
 // Ouput data
 out vec4 finalColor;
 
 void main()
 {
-	if (Shape == false)
-	{
-		//d is the distance form the current fragment to the center of the circle
-		float l = length(fragTexCoord - vec2(0.0, 0.0));
-	
-		// dscard if the distance is bigger than radius, otherwise draw the pixle
-		if (l > 1) discard;
-	}
-	
-	// Output color
-	 vec2 newTexCoord = 0.5 * fragTexCoord + vec2(0.5, 0.5);
-	 finalColor = texture(Texture, newTexCoord) * fragmentColor;
 
+	if (Type == false)
+		finalColor = fragmentColor * texture(Texture, fragTexCoord);
+
+	else
+		finalColor = fragmentColor * texture(Texture, fragTexCoord).r;
 }

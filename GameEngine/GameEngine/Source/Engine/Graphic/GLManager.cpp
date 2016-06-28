@@ -201,6 +201,7 @@ void GLManager::OpenGLInit(HWND& window, int width, int height)
 	}
 
 	Resize(width, height);
+	glActiveTexture(GL_TEXTURE0);
 
 	//The VAO
 	GLuint VertexArrayID;
@@ -212,13 +213,39 @@ void GLManager::OpenGLInit(HWND& window, int width, int height)
 	glBindBuffer(GL_ARRAY_BUFFER, m_vertexBuffer);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(m_vertex_buffer_data), m_vertex_buffer_data, GL_STATIC_DRAW);
 
+	//first attribute buffer : vertices
+	glEnableVertexAttribArray(0);
+	glBindBuffer(GL_ARRAY_BUFFER, m_vertexBuffer);
+	glVertexAttribPointer(
+		0,						// must be match the layout in the shader
+		3,						// size : X+Y+Z => 3
+		GL_FLOAT,				// type
+		GL_FALSE,				// normalized
+		5 * sizeof(GLfloat),	// stride
+		(GLvoid*)0				// array buffer offset
+		);
+
+	// 2nd attribute buffer : UVs
+	glEnableVertexAttribArray(1);
+	glBindBuffer(GL_ARRAY_BUFFER, m_vertexBuffer);
+	glVertexAttribPointer(
+		1,								// attribute. No particular reason for 1, but must match the layout in the shader.
+		2,								// size : U+V => 2
+		GL_FLOAT,						// type
+		GL_TRUE,						// normalized?
+		5 * sizeof(GLfloat),			// stride
+		(GLvoid*)(3 * sizeof(GLfloat))	// array buffer offset
+		);
+
 	//Call shader
-	m_shader[0].LoadShaders("Resource/Shader/shader.vertex", "Resource/Shader/shader.fragment");
-	m_shader[1].LoadShaders("Resource/Shader/text.vertex", "Resource/Shader/text.fragment");
+	m_shader.LoadShaders("Resource/Shader/shader.vertex", "Resource/Shader/shader.fragment");
 
 	//Use shader
-	glUseProgram(m_shader[0].m_programID);
-	//glUseProgram(m_shader[1].m_programID);
+	glUseProgram(m_shader.m_programID);
+
+	// Set "Texture" sampler to user Texture Unit 0
+	m_texId = glGetUniformLocation(m_shader.m_programID, "Texture");
+	glUniform1i(m_texId, 0);
 
 }
 
@@ -256,9 +283,9 @@ ProjectionInfo GLManager::GetProjectionInfo(void) const
 
 */
 /******************************************************************************/
-Shader GLManager::GetShader(const int id) const
+Shader GLManager::GetShader(void) const
 {
-	return m_shader[id];
+	return m_shader;
 }
 
 /******************************************************************************/
@@ -298,4 +325,94 @@ GLuint GLManager::GetVertexBuffer(void) const
 GLuint GLManager::GetVertexAttrib(void) const
 {
 	return m_vertexAttrib;
+}
+
+/******************************************************************************/
+/*!
+\brief - Initialize font from directory
+
+\param fontDir - font's directory
+*/
+/******************************************************************************/
+void GLManager::SetFont(const char* fontDir)
+{
+	// FreeType
+	FT_Library ft;
+	// All functions return a value different than 0 whenever an error occurred
+	if (FT_Init_FreeType(&ft))
+		std::cout << "ERROR::FREETYPE: Could not init FreeType Library" << std::endl;
+
+	// Load font as face
+	FT_Face face;
+	if (FT_New_Face(ft, fontDir, 0, &face))
+		std::cout << "ERROR::FREETYPE: Failed to load font" << std::endl;
+
+	// Set size to load glyphs as
+	FT_Set_Pixel_Sizes(face, 0, 48);
+
+	// Disable byte-alignment restriction
+	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+
+	//std::for_each(m_DrawList.begin(), m_DrawList.end(),
+	//	[&](DrawList::iterator it)
+	//{
+
+	// Load first 128 characters of ASCII set
+	for (GLubyte c = 0; c < 128; c++)
+	{
+		// Load character glyph 
+		if (FT_Load_Char(face, c, FT_LOAD_RENDER))
+		{
+			std::cout << "ERROR::FREETYTPE: Failed to load Glyph" << std::endl;
+			continue;
+		}
+		// Generate texture
+		GLuint texture;
+		glGenTextures(1, &texture);
+		glBindTexture(GL_TEXTURE_2D, texture);
+		glTexImage2D(
+			GL_TEXTURE_2D,
+			0,
+			GL_RED,
+			face->glyph->bitmap.width,
+			face->glyph->bitmap.rows,
+			0,
+			GL_RED,
+			GL_UNSIGNED_BYTE,
+			face->glyph->bitmap.buffer
+			);
+		// Set texture options
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		// Now store character for later use
+		Character character = {
+			texture,
+			vec2(static_cast<float>(face->glyph->bitmap.width), static_cast<float>(face->glyph->bitmap.rows)),
+			vec2(static_cast<float>(face->glyph->bitmap_left), static_cast<float>(face->glyph->bitmap_top)),
+			face->glyph->advance.x
+		};
+		m_chars.insert(std::pair<wchar_t, Character>(c, character));
+	}
+
+	//std::cout <<  "\n";
+	//}); //Lambda loop expression
+
+	glBindTexture(GL_TEXTURE_2D, 0);
+	// Destroy FreeType once we're finished
+	FT_Done_Face(face);
+	FT_Done_FreeType(ft);
+}
+
+/******************************************************************************/
+/*!
+\brief - Get chracters
+
+\param m_chars - Ascii storage
+*/
+/******************************************************************************/
+Characters GLManager::GetCharacters(void) const
+{
+	return m_chars;
 }
