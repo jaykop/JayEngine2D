@@ -26,10 +26,10 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 */
 /******************************************************************************/
 Sprite::Sprite(const int id, Type type, ObjectManager* obm)
-:m_position(vec3(0.f, 0.f, 0.f)), m_scale(vec3(5.f, 5.f, 0.f)), 
+:m_texture(0), ani_frame(1), ani_speed(0), m_curScene(0),
 m_degree(0), m_color(vec4(1.f, 1.f, 1.f, 1.f)),
-m_HasBody(false), m_body(0),
-m_shape(RECTANGLE), m_prjt(PERSPECTIVE), m_texture(0)
+m_HasBody(false), m_body(0), m_prjt(PERSPECTIVE), ani_play(false),
+m_position(vec3(0.f, 0.f, 0.f)), m_scale(vec3(5.f, 5.f, 0.f))
 {
 	SetID(id);
 	SetObjectType(type);
@@ -203,30 +203,6 @@ bool Sprite::HasRigidBody(void) const
 
 /******************************************************************************/
 /*!
-\brief - Set Sprite;s shape
-
-\param shape - sprite's shape
-*/
-/******************************************************************************/
-void Sprite::SetSpriteShape(Shape shape)
-{
-	m_shape = shape;
-}
-
-/******************************************************************************/
-/*!
-\brief - Get Sprite;s shape
-
-\return m_shape - sprite's shape
-*/
-/******************************************************************************/
-Shape Sprite::GetSpriteShape(void) const
-{
-	return m_shape;
-}
-
-/******************************************************************************/
-/*!
 \brief - Set Sprite;s Texture
 
 \param texture - sprite's texture
@@ -271,4 +247,145 @@ void Sprite::SetProjectionType(Projt projection)
 Projt Sprite::GetProjectionType(void) const
 {
 	return m_prjt;
+}
+
+/******************************************************************************/
+/*!
+\brief - Set animaton information
+
+\param frame - the number of frame to be animated
+\param speed - animation's speed
+*/
+/******************************************************************************/
+void Sprite::SetAnimation(int frame, float speed)
+{
+	if (frame)
+	{
+		ani_frame = 1.f / frame;
+		m_curScene = 0;
+	}
+	ani_speed = 1 / speed;
+	ani_play = true;
+}
+
+/******************************************************************************/
+/*!
+\brief - Fix aniamtion
+
+\param frame_number - frame number to be fixed
+*/
+/******************************************************************************/
+void Sprite::FixAnimation(int frame_number)
+{
+	ani_speed = 0;
+	ani_play = false;
+	m_curScene = ani_frame * frame_number;
+}
+
+/******************************************************************************/
+/*!
+\brief - Get animation's speed
+
+\return ani_speed - animation's speed
+*/
+/******************************************************************************/
+float Sprite::GetAnimationSpeed(void) const
+{
+	return 1 / ani_speed;
+}
+
+/******************************************************************************/
+/*!
+\brief - Get the number of frames
+
+\return ani_frame - the divided frames
+*/
+/******************************************************************************/
+float Sprite::GetDividedFrame(void) const
+{
+	return ani_frame;
+}
+
+/******************************************************************************/
+/*!
+\brief - Get the number of frames
+
+\return ani_frame - the number of frame to be animated
+*/
+/******************************************************************************/
+int Sprite::GetAnimationFrame(void) const
+{
+	return static_cast<int>(1 / ani_frame);
+}
+
+/******************************************************************************/
+/*!
+\brief - Get current animation scene 
+
+\return m_scene - current animation scene 
+*/
+/******************************************************************************/
+float Sprite::GetCurrentScene(void) const
+{
+	return m_curScene;
+}
+
+/******************************************************************************/
+/*!
+\brief - Set curremt scene
+
+\param currnet - frame to be current
+*/
+/******************************************************************************/
+void Sprite::SetCurrentScene(float currnet)	
+{
+	m_curScene = currnet;
+}
+
+/******************************************************************************/
+/*!
+\brief - Get the number of frames
+
+\return ani_frame - the number of frame to be animated
+*/
+/******************************************************************************/
+Timer& Sprite::GetTimer(void)
+{
+	return m_timer;
+}
+
+/******************************************************************************/
+/*!
+\brief - Get the divided speed
+
+\return ani_speed - the divided speed
+*/
+/******************************************************************************/
+float Sprite::GetDividedSpeed(void) const
+{
+	return ani_speed;
+}
+
+/******************************************************************************/
+/*!
+\brief - Set play toggle
+
+\return play - tplay toggle
+*/
+/******************************************************************************/
+void Sprite::PlayAnimation(bool play)
+{
+	ani_play = play;
+}
+
+/******************************************************************************/
+/*!
+\brief - Get play toggle
+
+\return ani_play - play toggle
+*/
+/******************************************************************************/
+bool Sprite::GetPlayToggle(void) const
+{
+	return ani_play;
 }

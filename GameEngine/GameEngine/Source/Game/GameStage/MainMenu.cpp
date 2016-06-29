@@ -48,7 +48,8 @@ void MenuStage::Init(GameData& gd)
 
 	//Init basic trunks
 	m_ObjM.BindGameSystem(m_GSM);
-	
+	m_ObjM.InitGameSystem();
+
 	//Set sprites
 	m_ObjM.AddObject(0, SPRITE);
 	m_ObjM.AddObject(1, SPRITE);
@@ -65,7 +66,6 @@ void MenuStage::Init(GameData& gd)
 	//m_ObjM.GetSprite(1)->SetRotation(Random::GetInstance().GetRandomFloat(0, 360));
 	m_ObjM.GetSprite(0)->SetScale(vec3(5, 5));
 	m_ObjM.GetSprite(1)->SetScale(vec3(5, 5));
-	m_ObjM.GetSprite(1)->SetSpriteShape(CIRCLE);
 
 	//m_ObjM.GetSprite(0)->SetSpriteShape(CIRCLE);
 	//m_ObjM.GetSprite(1)->SetSpriteShape(CIRCLE);
@@ -111,8 +111,11 @@ void MenuStage::Init(GameData& gd)
 	m_ObjM.GetSprite(4)->GetRigidBody()->ActivateMove(false);
 	m_ObjM.GetSprite(5)->GetRigidBody()->ActivateMove(false);
 
+	m_ObjM.GetSprite(0)->SetAnimation(6, 6);
+	m_ObjM.GetSprite(0)->GetTexture()->LoadTexture("Resource/Texture/Phantom.png");
+
 	m_ObjM.GetGameScene()->SetBackgroundColor(vec4(0, 0, 0, 1));
-	m_ObjM.InitGameSystem();
+	
 }
 
 void MenuStage::Update(GameData& gd)
@@ -122,6 +125,8 @@ void MenuStage::Update(GameData& gd)
 
 	BasicControl();
 	SampleAnimation();
+
+	m_ObjM.GetSprite(0)->FixAnimation(0);
 
 	//Update basic trunks
 	m_ObjM.UpdateGameSystem();

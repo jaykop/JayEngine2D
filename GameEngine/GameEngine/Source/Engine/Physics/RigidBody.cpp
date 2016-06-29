@@ -23,7 +23,7 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 RigidBody::RigidBody()
 :m_move(true), m_collider(true), m_isCollided(false),
 m_speed(vec3()), m_velocity(vec3()), m_lastPos(vec3()),
-m_direction(0), m_scale(0), m_acceleration(0), m_friction(0)
+m_direction(0), m_scale(0), m_acceleration(0), m_friction(0), m_shape(RECTANGLE)
 {}
 
 /******************************************************************************/
@@ -298,4 +298,28 @@ void RigidBody::SetFriction(float friction)
 float RigidBody::GetFriction(void) const
 {
 	return m_friction;
+}
+
+/******************************************************************************/
+/*!
+\brief - Set body's shape
+
+\param shape - body's shape
+*/
+/******************************************************************************/
+void RigidBody::SetShape(Shape shape)
+{
+	m_shape = shape;
+}
+
+/******************************************************************************/
+/*!
+\brief - Get body's shape
+
+\return m_shape - body's shape
+*/
+/******************************************************************************/
+Shape RigidBody::GetShape(void) const
+{
+	return m_shape;
 }

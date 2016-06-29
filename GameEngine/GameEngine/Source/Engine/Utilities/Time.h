@@ -15,13 +15,14 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 #define _TIMER_H_
 
 #include <ctime>
+#include <iostream>
 
 class Timer
 {
 private:
 
 	//! begining time
-	double m_begTime;
+	float m_begTime;
 
 public:
 
@@ -35,7 +36,7 @@ public:
 	/******************************************************************************/
 	void StartTime(void)
 	{
-		m_begTime = clock();
+		m_begTime = static_cast<float>(clock());
 	}
 
 	/******************************************************************************/
@@ -43,9 +44,9 @@ public:
 	\brief - Get spent time from StartTime() moment
 	*/
 	/******************************************************************************/
-	double GetElapsedTime(void) const
+	float GetElapsedTime(void) const
 	{
-		return (double(clock()) - m_begTime) / (CLOCKS_PER_SEC);
+		return (static_cast<float>(clock()) - m_begTime) / (CLOCKS_PER_SEC);
 	}
 
 	/******************************************************************************/

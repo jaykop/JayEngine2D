@@ -18,6 +18,9 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 
 class Sprite;
 
+//! Rigidbody' shape
+enum Shape { CIRCLE, RECTANGLE };
+
 //! class RigidBody
 class RigidBody{
 
@@ -49,6 +52,10 @@ public:
 	//Todo: What would I do???
 	void SetAcceleration(float acceleration);
 	float GetAcceleration(void) const;
+
+	// Body's shape type
+	void SetShape(Shape type);
+	Shape GetShape(void) const;
 
 	//Todo: do with mass
 	// void SetMass(float mass);
@@ -83,6 +90,8 @@ private:
 	bool m_collider;
 	bool m_move;
 	bool m_isCollided;
+
+	Shape m_shape;
 };
 
 #endif // _RIGIDBODY_H_

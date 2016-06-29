@@ -19,11 +19,6 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 #include <hash_map>
 #include "../Graphic/Texture.h"
 
-//Todo: Should I use this or not?
-//typedef Vector3<GLfloat> GLvec3;
-//typedef Vector4<GLfloat> GLvec4;
-//typedef Matrix4x4<GLfloat> GLmat44;
-
 class Text;
 class Sprite;
 class Particle;
@@ -57,7 +52,8 @@ private:
 
 	// Private functions
 
-	void Pipeline(const Sprite* sprite);
+	// Manage transform and animation info
+	void Pipeline(Sprite* sprite);
 
 	// Reorder sprites by z orders
 	void ReorderSprites(void);

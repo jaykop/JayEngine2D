@@ -54,6 +54,8 @@ Scene::~Scene(void)
 /******************************************************************************/
 void Scene::Init(const ObjectList& objList)
 {
+	UNREFERENCED_PARAMETER(objList);
+
 	//Get projection information
 	ProjectionInfo temp = m_GSM->GetGLManager()->GetProjectionInfo();
 
@@ -67,20 +69,12 @@ void Scene::Init(const ObjectList& objList)
 	m_camera = vec4(0, 0, 80, 0);
 
 	// Init every sprites
-	for (auto it = objList.begin(); it != objList.end(); ++it)
-	{
-		if (it->second->GetObjectType() == SPRITE)
-		{
-			if (it->second->GetSpriteShape() == RECTANGLE)
-				it->second->GetTexture()->LoadTexture("Resource/Texture/rect.png");
-
-			else
-				it->second->GetTexture()->LoadTexture("Resource/Texture/circle.png");
-		}
-	}
+	//for (auto it = objList.begin(); it != objList.end(); ++it)
+		//if (it->second->GetObjectType() == SPRITE) 
+			//it->second->GetTexture()->LoadTexture("Resource/Texture/rect.png");
 
 	// Sort Sprites by projection type and z Order
-	ReorderSprites();
+	//ReorderSprites();
 }
 
 /******************************************************************************/
@@ -133,7 +127,7 @@ void Scene::DrawTexts(Text* text)
 		};
 
 		glBindTexture(GL_TEXTURE_2D, ch.TextureID);
-		//glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices);
+		glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices);
 		glDrawArrays(GL_QUADS, 0, 4);
 		new_x += (ch.Advance >> 6) * text->GetScale().x;
 	}
@@ -193,8 +187,7 @@ void Scene::Update(const ObjectList& objList)
 	GetOrthoPosition();
 
 	//Todo: Lambda loop expression
-	//std::for_each(m_DrawList.begin(), m_DrawList.end(),
-	//	[&](DrawList::iterator it)
+	//std::for_each(m_DrawList.begin(), m_DrawList.end(), [&](DrawList::iterator& it)
 	//{
 
 	for (auto it = m_DrawList.begin(); it != m_DrawList.end(); ++it)
@@ -259,7 +252,7 @@ void Scene::Shutdown(const ObjectList& objList)
 \param sprite - sprite to be drawed
 */
 /******************************************************************************/
-void Scene::Pipeline(const Sprite* sprite)
+void Scene::Pipeline(Sprite* sprite)
 {
 	//Init model matrix
 	mat44 model;
@@ -289,13 +282,30 @@ void Scene::Pipeline(const Sprite* sprite)
 	m_mvp = projection.Transpose() * camera.Transpose() * model.Transpose();
 	m_mvp = m_mvp.Transpose();
 
+	// Refresh the animation scene
+	if (sprite->GetPlayToggle())
+	{
+		if (sprite->GetDividedSpeed() <= sprite->GetTimer().GetElapsedTime())
+		{
+			// If current scene is over, refresh
+			if (sprite->GetCurrentScene() + sprite->GetDividedFrame() >= 1)
+				sprite->SetCurrentScene(0);
+
+			else
+				sprite->SetCurrentScene(sprite->GetCurrentScene() + sprite->GetDividedFrame());
+
+			sprite->GetTimer().StartTime();
+		}
+	}
+
 	// Animation pipeline
 	mat44 animation;
 	animation.SetIdentity();
-	animation = animation * mat44::Scale(vec3(1.f, 1.f));
-	animation = animation * mat44::Translate(vec3(0.0, 0.f));
+	animation = animation * mat44::Scale(vec3(sprite->GetDividedFrame(), 1.f));
+	animation = animation * mat44::Translate(vec3(sprite->GetCurrentScene(), 0.f));
 
 	m_animation = animation;
+
 }
 
 /******************************************************************************/

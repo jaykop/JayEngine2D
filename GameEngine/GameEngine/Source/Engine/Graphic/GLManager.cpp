@@ -353,10 +353,6 @@ void GLManager::SetFont(const char* fontDir)
 	// Disable byte-alignment restriction
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 
-	//std::for_each(m_DrawList.begin(), m_DrawList.end(),
-	//	[&](DrawList::iterator it)
-	//{
-
 	// Load first 128 characters of ASCII set
 	for (GLubyte c = 0; c < 128; c++)
 	{
@@ -396,10 +392,8 @@ void GLManager::SetFont(const char* fontDir)
 		m_chars.insert(std::pair<wchar_t, Character>(c, character));
 	}
 
-	//std::cout <<  "\n";
-	//}); //Lambda loop expression
-
 	glBindTexture(GL_TEXTURE_2D, 0);
+
 	// Destroy FreeType once we're finished
 	FT_Done_Face(face);
 	FT_Done_FreeType(ft);

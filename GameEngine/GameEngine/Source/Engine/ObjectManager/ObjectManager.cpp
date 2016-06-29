@@ -53,7 +53,9 @@ void ObjectManager::AddObject(const int SpriteID, Type type)
 	{
 		Sprite* new_sprite = new Sprite(SpriteID, type, this);
 
+		// Set basic texture
 		new_sprite->SetTexture(new Texture);
+		new_sprite->GetTexture()->LoadTexture("Resource/Texture/rect.png");
 
 		//Push it into the list
 		m_ObjectList.insert(std::hash_map<int, Sprite*>::value_type(
