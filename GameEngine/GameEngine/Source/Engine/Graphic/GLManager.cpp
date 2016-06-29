@@ -243,9 +243,14 @@ void GLManager::OpenGLInit(HWND& window, int width, int height)
 	//Use shader
 	glUseProgram(m_shader.m_programID);
 
+	m_uniform[TRANSFORM] = glGetUniformLocation(m_shader.m_programID, "MVP");	//Trasnform Matrix
+	m_uniform[UV] = glGetUniformLocation(m_shader.m_programID, "Animation");	//UV
+	m_uniform[COLOR] = glGetUniformLocation(m_shader.m_programID, "Color");		//Coloring
+	m_uniform[TYPE] = glGetUniformLocation(m_shader.m_programID, "Type");		//Type
+	
 	// Set "Texture" sampler to user Texture Unit 0
-	m_texId = glGetUniformLocation(m_shader.m_programID, "Texture");
-	glUniform1i(m_texId, 0);
+	m_uniform[TEXTURE] = glGetUniformLocation(m_shader.m_programID, "Texture");
+	glUniform1i(m_uniform[TEXTURE], 0);
 
 }
 
@@ -290,15 +295,15 @@ Shader GLManager::GetShader(void) const
 
 /******************************************************************************/
 /*!
-\brief - Get matrix's ID
+\brief - Get m_uniform's index
 
-\return m_matrixId
+\return m_uniform
 
 */
 /******************************************************************************/
-GLuint GLManager::GetMatrixID(void) const
+GLuint GLManager::GetUnifrom(UniformType type) const
 {
-	return m_matrixId;
+	return m_uniform[type];
 }
 
 /******************************************************************************/

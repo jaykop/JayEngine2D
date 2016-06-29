@@ -194,23 +194,12 @@ void Scene::Update(const ObjectList& objList)
 	{
 		//Update pipeline
 		Pipeline((*it));
-
-		//Initialize, and implement matrix
-		m_matrixID = glGetUniformLocation(m_GSM->GetGLManager()->GetShader().m_programID, "MVP");
-		glUniformMatrix4fv(m_matrixID, 1, GL_FALSE, &m_mvp.m_member[0][0]);
-
-		//Initialize, and implement UV
-		m_uv = glGetUniformLocation(m_GSM->GetGLManager()->GetShader().m_programID, "Animation");
-		glUniformMatrix4fv(m_uv, 1, GL_FALSE, &m_animation.m_member[0][0]);
-
-		//Coloring
 		vec4 sptColor = ((*it)->GetColor());
-		GLuint color = glGetUniformLocation(m_GSM->GetGLManager()->GetShader().m_programID, "Color");
-		glUniform4f(color, sptColor.x, sptColor.y, sptColor.z, sptColor.w);
 
-		//Type
-		GLuint type = glGetUniformLocation(m_GSM->GetGLManager()->GetShader().m_programID, "Type");
-		glUniform1d(type, (*it)->GetObjectType());
+		glUniformMatrix4fv(m_GSM->GetGLManager()->GetUnifrom(TRANSFORM), 1, GL_FALSE, &m_mvp.m_member[0][0]);
+		glUniformMatrix4fv(m_GSM->GetGLManager()->GetUnifrom(UV), 1, GL_FALSE, &m_animation.m_member[0][0]);
+		glUniform4f(m_GSM->GetGLManager()->GetUnifrom(COLOR), sptColor.x, sptColor.y, sptColor.z, sptColor.w);
+		glUniform1d(m_GSM->GetGLManager()->GetUnifrom(TYPE), (*it)->GetObjectType());
 
 		//Todo: high quality?
 		//glUniformMatrix4fv();

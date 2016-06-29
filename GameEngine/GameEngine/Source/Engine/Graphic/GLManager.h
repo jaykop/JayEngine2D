@@ -32,6 +32,11 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 #include "Shader.hpp"
 #include "../Utilities/Math/MathUtils.h"
 
+class Shader;
+
+//! Uniform type
+enum UniformType{TEXTURE, TRANSFORM, UV, COLOR, TYPE, UNIFORM_END};
+
 //! vectext buffer information
 static const GLfloat m_vertex_buffer_data[] =
 {
@@ -41,8 +46,6 @@ static const GLfloat m_vertex_buffer_data[] =
 	  .5f,	  .5f,	  0.f,	  1.f,	  1.f,	 
 	  .5f,	 -.5f,	  0.f,	  1.f,	  0.f
 };
-
-class Shader;
 
 //! projection info to use in scene class
 struct ProjectionInfo
@@ -87,7 +90,7 @@ public:
 	//Gettor for GL info
 	HDC  GetHDC(void) const;
 	Shader GetShader(void) const;
-	GLuint GetMatrixID(void) const;
+	GLuint GetUnifrom(UniformType type) const;
 	GLuint GetVertexBuffer(void) const;
 	GLuint GetVertexAttrib(void) const;
 	Characters GetCharacters(void) const;
@@ -109,8 +112,7 @@ private:
 
 	// Scene info
 	Shader m_shader;
-	GLuint m_texId;
-	GLuint m_matrixId;
+	GLuint m_uniform[UNIFORM_END];
 	GLuint m_vertexBuffer;
 	GLuint m_vertexAttrib;
 	ProjectionInfo m_info;

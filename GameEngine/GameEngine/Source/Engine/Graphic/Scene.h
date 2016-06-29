@@ -68,13 +68,9 @@ private:
 	void GetOrthoPosition(void);
 
 	// Math(by sprites) info
-	mat44 m_mvp;
-	GLuint m_matrixID;
-	
+	mat44 m_mvp;	
 	vec4  m_camera;
 	vec4  m_bgColor;
-
-	GLuint m_uv;
 	mat44 m_animation;
 	
 	// Screen info

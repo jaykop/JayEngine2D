@@ -15,7 +15,6 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 #define _TIMER_H_
 
 #include <ctime>
-#include <iostream>
 
 class Timer
 {
