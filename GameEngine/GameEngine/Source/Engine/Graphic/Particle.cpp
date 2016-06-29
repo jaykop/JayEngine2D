@@ -29,7 +29,7 @@ Particle::~Particle()
 
 Emitter::Emitter()
 {
-
+	// m_texture->LoadTexture("Resource/Texture/particle.png");
 }
 
 Emitter::~Emitter()

@@ -177,7 +177,7 @@ Application::Application(const InitData& initData)
 
 	/******************** Set Open GL ********************/ 
 	m_GLM = new GLManager;
-	m_GLM->OpenGLInit(m_window, m_scrSize.width, m_scrSize.height);
+	m_GLM->InitGL(m_window, m_scrSize.width, m_scrSize.height);
 	/*****************************************************/
 
 	//Make sure window is showing and messages have been sent

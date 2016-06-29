@@ -120,9 +120,11 @@ void GLManager::SetGLFormat(void)
 /******************************************************************************/
 /*!
 \brief - Check if gl is either not properly loaded or not
+\param window - window handle
+\return bool
 */
 /******************************************************************************/
-void GLManager::CheckGL(HWND& window)
+bool GLManager::CheckGL(HWND& window)
 {
 	//Get wnd DC
 	m_hdc = GetDC(window);
@@ -155,24 +157,15 @@ void GLManager::CheckGL(HWND& window)
 
 		SysShutdown();
 	}
-}
 
-/******************************************************************************/
-/*!
-\brief - Initialize GL information
-
-\return true
-*/
-/******************************************************************************/
-bool GLManager::InitGL(void)
-{
-	//InitGL
+	//Init GL info
 	glShadeModel(GL_SMOOTH);
 	glShadeModel(GL_LINE_SMOOTH_HINT);
 	glClearColor(1.f, 1.f, 1.f, 1.f);
 	glClearDepth(1.0f);
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_BLEND);
+	glEnable(GL_NICEST);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glDepthFunc(GL_LEQUAL);
 
@@ -181,15 +174,13 @@ bool GLManager::InitGL(void)
 
 /******************************************************************************/
 /*!
-\brief - Initialize GLEW information
+\brief - Initialize GL and GLEW information
 */
 /******************************************************************************/
-void GLManager::OpenGLInit(HWND& window, int width, int height)
+void GLManager::InitGL(HWND& window, int width, int height)
 {
-	CheckGL(window);
-
 	//InitGL
-	if (InitGL())
+	if (CheckGL(window))
 	{
 		glewExperimental = GL_TRUE;
 		GLenum err = glewInit();

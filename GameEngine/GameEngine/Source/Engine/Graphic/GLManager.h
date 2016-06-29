@@ -79,12 +79,11 @@ public:
 	void SetGLFormat(void);
 	
 	//Init GL info
-	bool InitGL(void);
+	bool CheckGL(HWND& window);
 	void Resize(int width, int height);
+	void InitGL(HWND& window, int width, int height);
 	
-	void CheckGL(HWND& window);
-	void OpenGLInit(HWND& window, int width, int height);
-	
+	// Set font
 	void SetFont(const char* fontDir);
 
 	//Gettor for GL info
