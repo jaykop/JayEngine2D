@@ -19,7 +19,6 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 #include "Particle.h"
 #include "../InputManager/InputManager.h"
 #include "../ObjectManager/ObjectManager.h"
-#include "../Utilities/Math/MathUtils.h"
 #include "../StateManager/GameStateManager/GameStateManager.h"
 
 /******************************************************************************/
@@ -149,7 +148,24 @@ void Scene::DrawParticle(Emitter* emitter)
 	glBufferData(GL_ARRAY_BUFFER, sizeof(m_vertex_buffer_data), m_vertex_buffer_data, GL_STATIC_DRAW);
 	glBindTexture(GL_TEXTURE_2D, emitter->GetTexture()->GetTexId());
 
-	//for (int i = 0; i < )
+	float delta = 0.169f;
+	int ParticlesCount = 0;
+
+	// Simulate all particles
+	for (int i = 0; i < emitter->GetNumOfParticle(); ++i)
+	{
+		Particle& particle = emitter->GetParticle(i);
+		if (particle.life > 0.f)
+		{
+			particle.life -= delta;	//Decrease life
+			particle.speed += vec3(0.0f, -9.8f);
+			particle.SetPosition(particle.GetPosition() + particle.speed);
+			m_vertex_buffer_data[4 * ParticlesCount];
+			m_vertex_buffer_data[4 * ParticlesCount + 1];
+			m_vertex_buffer_data[4 * ParticlesCount + 2];
+		}
+	}
+
 	//vec3 v(0, 0);
 	//float velocity, theta, phi;
 	//GLfloat* data = new GLfloat[nParticles * 3];

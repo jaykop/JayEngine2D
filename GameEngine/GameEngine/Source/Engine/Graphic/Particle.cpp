@@ -28,6 +28,7 @@ Particle::~Particle()
 }
 
 Emitter::Emitter()
+: m_MaxParticles(1000)
 {
 	// m_texture->LoadTexture("Resource/Texture/particle.png");
 }
@@ -57,4 +58,19 @@ int Emitter::FindUnusedParticle(void)
 void Emitter::SortParticles(void)
 {
 	//std::sort(&ParticlesContainer[0], &ParticlesContainer[1000]);
+}
+
+int Emitter::GetNumOfParticle(void) const
+{
+	return m_MaxParticles;
+}
+
+void Emitter::SetNumOfParticle(int numOfParticle)
+{
+	m_MaxParticles = numOfParticle;
+}
+
+Particle& Emitter::GetParticle(const int index)
+{
+	return ParticlesContainer[index];
 }

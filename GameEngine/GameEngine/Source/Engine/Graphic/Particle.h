@@ -25,7 +25,7 @@ public:
 	virtual ~Particle(void);
 
 	float life;
-	float speed;
+	vec3 speed;
 
 private:
 
@@ -46,6 +46,10 @@ public:
 	int GetNumOfParticle(void) const;
 	void SetNumOfParticle(int numOfParticle);
 
+	Particle& GetParticle(const int index);
+
+	//Particle& operator[](const int index){ return ParticlesContainer[index]; }
+	
 private:
 
 	int m_MaxParticles;
