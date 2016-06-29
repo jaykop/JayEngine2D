@@ -191,6 +191,7 @@ void GLManager::InitGL(HWND& window, int width, int height)
 		}
 	}
 
+	// Init app's size
 	Resize(width, height);
 	glActiveTexture(GL_TEXTURE0);
 

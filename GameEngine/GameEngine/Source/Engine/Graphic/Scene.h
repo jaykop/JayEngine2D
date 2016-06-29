@@ -21,7 +21,7 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 
 class Text;
 class Sprite;
-class Particle;
+class Emitter;
 class ObjectManager;
 class GameStateManager;
 
@@ -61,7 +61,7 @@ private:
 	// Draw sprites
 	void DrawTexts(Text* text);
 	void DrawSprites(Sprite* sprite);
-	void DrawParticle(Particle* particle);
+	void DrawParticle(Emitter* emitter);
 
 	// Set mouse position
 	void GetPerspPosition(void);

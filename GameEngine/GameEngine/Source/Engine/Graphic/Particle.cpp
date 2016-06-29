@@ -37,7 +37,7 @@ Emitter::~Emitter()
 
 }
 
-int Emitter::FindUsedParticle(void)
+int Emitter::FindUnusedParticle(void)
 {
 	for (int i = LastUsedParticle; i < 1000; ++i)
 	if (ParticlesContainer[i].life < 0){

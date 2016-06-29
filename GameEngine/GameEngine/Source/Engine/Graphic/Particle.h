@@ -40,8 +40,11 @@ public:
 	Emitter(void);
 	~Emitter(void);
 
-	int FindUsedParticle(void);
+	int FindUnusedParticle(void);
 	void SortParticles(void);
+
+	int GetNumOfParticle(void) const;
+	void SetNumOfParticle(int numOfParticle);
 
 private:
 

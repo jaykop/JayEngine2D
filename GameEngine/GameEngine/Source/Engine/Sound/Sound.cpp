@@ -15,6 +15,12 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 #include "Sound.h"
 #include "../StateManager/GameStateManager/GameStateManager.h"
 
+/******************************************************************************/
+/*!
+\brief - Sound Constructor
+\param gsm - pointer to gamestate manager
+*/
+/******************************************************************************/
 Sound::Sound(GameStateManager* gsm)
 : m_GSM(gsm), m_SM(gsm->GetSoundManager()),
 m_system(gsm->GetSoundManager()->GetSystem()),
@@ -32,71 +38,149 @@ m_BGMVolume(.5f), m_SEVolume(.5f), m_MasterVolume(.5f)
 	}
 }
 
+/******************************************************************************/
+/*!
+\brief - Sound Destructor
+*/
+/******************************************************************************/
 Sound::~Sound(void)
 {}
 
+/******************************************************************************/
+/*!
+\brief - Initialize Sound 
+*/
+/******************************************************************************/
 void Sound::Init(void)
 {
 
 }
 
+/******************************************************************************/
+/*!
+\brief - Update Sound
+*/
+/******************************************************************************/
 void Sound::Update(void)
 {
 	m_GSM->GetSoundManager()->GetSystem()->update();
 }
 
+/******************************************************************************/
+/*!
+\brief - Shutdown Sound
+*/
+/******************************************************************************/
 void Sound::Shutdown(void)
 {
 
 }
 
+/******************************************************************************/
+/*!
+\brief - Play background Sound
+\param sound - sound type
+*/
+/******************************************************************************/
 void Sound::PlayBGM(SoundData sound)
 {
 	if (m_BGMToggle)
 		m_system->playSound(FMOD_CHANNEL_FREE, m_sound[sound], false, &m_channel[BGM]);
 }
 
+/******************************************************************************/
+/*!
+\brief - Stop background Sound
+*/
+/******************************************************************************/
 void Sound::StopBGM(void)
 {
 	m_channel[BGM]->stop();
 }
 
+/******************************************************************************/
+/*!
+\brief - Pause background Sound
+\param sound - sound type
+*/
+/******************************************************************************/
 void Sound::PauseBGM(bool boolean)
 {
 	m_channel[BGM]->setPaused(boolean);
 }
 
+/******************************************************************************/
+/*!
+\brief - Play Sound effect
+\param sound - sound type
+*/
+/******************************************************************************/
 void Sound::PlaySE(SoundData sound)
 {
 	if (m_SEToggle)
 		m_system->playSound(FMOD_CHANNEL_FREE, m_sound[sound], false, &m_channel[SE]);
 }
 
+/******************************************************************************/
+/*!
+\brief - Stop Sound effect
+*/
+/******************************************************************************/
 void Sound::StopSE(void)
 {
 	m_channel[SE]->stop();
 }
 
+/******************************************************************************/
+/*!
+\brief - Pause Sound effect
+\param sound - sound type
+*/
+/******************************************************************************/
 void Sound::PauseSE(bool boolean)
 {
 	m_channel[SE]->setPaused(boolean);
 }
 
-bool Sound::GSetSEMuteToggle(void) const
+/******************************************************************************/
+/*!
+\brief - Get sound effect Mute Toggle
+\return m_SEToggle
+*/
+/******************************************************************************/
+bool Sound::GetSEMuteToggle(void) const
 {
 	return m_SEToggle;
 }
 
+/******************************************************************************/
+/*!
+\brief - Get BGM Mute Toggle
+\return m_BGMToggle
+*/
+/******************************************************************************/
 bool Sound::GetBGMMuteToggle(void) const
 {
 	return m_BGMToggle;
 }
 
+/******************************************************************************/
+/*!
+\brief - Get Master Mute Toggle
+\return m_MasterToggle
+*/
+/******************************************************************************/
 bool Sound::GetMasterMuteToggle(void) const
 {
 	return m_MasterToggle;
 }
 
+/******************************************************************************/
+/*!
+\brief - Set sound effect Mute Toggle
+\param toggle - sound toggle
+*/
+/******************************************************************************/
 void Sound::SetSEMuteToggle(bool toggle)
 {
 	// Set mute toggle
@@ -111,6 +195,12 @@ void Sound::SetSEMuteToggle(bool toggle)
 		m_MasterToggle = toggle;
 }
 
+/******************************************************************************/
+/*!
+\brief - Set background music Mute Toggle
+\param toggle - sound toggle
+*/
+/******************************************************************************/
 void Sound::SetBGMMuteToggle(bool toggle)
 {
 	// Set mute toggle
@@ -125,6 +215,12 @@ void Sound::SetBGMMuteToggle(bool toggle)
 		m_MasterToggle = toggle;
 }
 
+/******************************************************************************/
+/*!
+\brief - Set Master Mute Toggle
+\param toggle - sound toggle
+*/
+/******************************************************************************/
 void Sound::SetMasterMuteToggle(bool toggle)
 {
 	// Set all toggles
@@ -137,21 +233,45 @@ void Sound::SetMasterMuteToggle(bool toggle)
 	m_channel[SE]->setPaused(!m_SEToggle);
 }
 
+/******************************************************************************/
+/*!
+\brief - Get sound effect Volume
+\return m_SEVolume
+*/
+/******************************************************************************/
 float Sound::GetSEVolume(void) const
 {
 	return m_SEVolume;
 }
 
+/******************************************************************************/
+/*!
+\brief - Get background music Volume
+\return m_BGMVolume
+*/
+/******************************************************************************/
 float Sound::GetBGMVolume(void) const
 {
 	return m_BGMVolume;
 }
 
+/******************************************************************************/
+/*!
+\brief - Get Master Volume 
+\return m_MasterVolume 
+*/
+/******************************************************************************/
 float Sound::GetMasterVolume(void) const
 {
 	return m_MasterVolume;
 }
 
+/******************************************************************************/
+/*!
+\brief - Set sound effect Volume
+\param volume - sound volume
+*/
+/******************************************************************************/
 void Sound::SetSEVolume(float volume)
 {
 	// Control the range of volume
@@ -167,6 +287,12 @@ void Sound::SetSEVolume(float volume)
 	m_channel[SE]->setPaused(false);
 }
 
+/******************************************************************************/
+/*!
+\brief - Set background music Volume
+\param volume - sound volume
+*/
+/******************************************************************************/
 void Sound::SetBGMVolume(float volume)
 {
 	// Control the range of volume
@@ -182,6 +308,12 @@ void Sound::SetBGMVolume(float volume)
 	m_channel[BGM]->setPaused(false);
 }
 
+/******************************************************************************/
+/*!
+\brief - Set Master Volume
+\param volume - sound volume
+*/
+/******************************************************************************/
 void Sound::SetMasterVolume(float volume)
 {
 	// Control the range of volume

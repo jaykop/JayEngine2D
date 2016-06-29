@@ -86,6 +86,7 @@ void Scene::Init(const ObjectList& objList)
 /******************************************************************************/
 void Scene::DrawSprites(Sprite* sprite)
 {
+	//Refresh the buffer data
 	glBufferData(GL_ARRAY_BUFFER, sizeof(m_vertex_buffer_data), m_vertex_buffer_data, GL_STATIC_DRAW);
 
 	// Bind our texture in Texture Unit 0
@@ -140,10 +141,15 @@ void Scene::DrawTexts(Text* text)
 \param particle - particle to be drawn
 */
 /******************************************************************************/
-void Scene::DrawParticle(Particle* particle)
+void Scene::DrawParticle(Emitter* emitter)
 {
-	UNREFERENCED_PARAMETER(particle);
+	UNREFERENCED_PARAMETER(emitter);
 
+	//Refresh the buffer data
+	glBufferData(GL_ARRAY_BUFFER, sizeof(m_vertex_buffer_data), m_vertex_buffer_data, GL_STATIC_DRAW);
+	glBindTexture(GL_TEXTURE_2D, emitter->GetTexture()->GetTexId());
+
+	//for (int i = 0; i < )
 	//vec3 v(0, 0);
 	//float velocity, theta, phi;
 	//GLfloat* data = new GLfloat[nParticles * 3];
@@ -168,6 +174,8 @@ void Scene::DrawParticle(Particle* particle)
 	//	glBindBuffer(GL_ARRAY_BUFFER. initVel);
 	//	glBufferSubData(GL_ARRAY_BUFFER, 0, nParticles * 3 * sizeof(GLfloat), data);
 	//}
+
+	glDrawArrays(GL_QUADS, 0, 4);
 }
 
 /******************************************************************************/
@@ -214,7 +222,7 @@ void Scene::Update(const ObjectList& objList)
 
 		// Draw Particles
 		else if ((*it)->GetObjectType() == PARTICLE)
-			DrawParticle(static_cast<Particle*>(*it));
+			DrawParticle(static_cast<Emitter*>(*it));
 	}
 
 	//std::cout <<  "\n";

@@ -15,13 +15,13 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 #include "SoundManager.h"
 
 enum ChannleType{BGM, SE, TYPE_END};
-
 class GameStateManager;
 
 class Sound{
 
 public:
 
+	// Basic function
 	Sound(GameStateManager* gsm);
 	~Sound(void);
 
@@ -29,6 +29,7 @@ public:
 	void Update(void);
 	void Shutdown(void);
 
+	// play, pause, stop
 	void PlayBGM(SoundData sound);
 	void StopBGM(void);
 	void PauseBGM(bool boolean);
@@ -37,7 +38,8 @@ public:
 	void StopSE(void);
 	void PauseSE(bool boolean);
 
-	bool GSetSEMuteToggle(void) const;
+	//Manage mute toggle
+	bool GetSEMuteToggle(void) const;
 	bool GetBGMMuteToggle(void) const;
 	bool GetMasterMuteToggle(void) const;
 
@@ -45,6 +47,7 @@ public:
 	void SetBGMMuteToggle(bool toggle);
 	void SetMasterMuteToggle(bool toggle);
 	
+	//Manager volume
 	float GetSEVolume(void) const;
 	float GetBGMVolume(void) const;
 	float GetMasterVolume(void) const;
