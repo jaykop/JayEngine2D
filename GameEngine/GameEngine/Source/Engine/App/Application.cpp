@@ -105,11 +105,6 @@ Application::Application(const InitData& initData)
 	//ONLY CALSS ONCE;
 	DEBUG_CALL_CHECK();
 
-	/******************** Init sound system; FMOD ********************/
-	m_SM = new SoundManager;
-	m_SM->Init();
-	/*****************************************************************/
-
 	//Code data form initData
 	m_instance = initData.instance;
 	m_scrSize.width = initData.scrSize.width;
@@ -175,9 +170,14 @@ Application::Application(const InitData& initData)
 		this					//Lparm This will be available in WM_CREATE
 		);
 
+	/******************** Set sound system; FMOD ********************/
+	m_SM = new SoundManager;
+	m_SM->InitFMOD(this);
+	/*****************************************************************/
+
 	/******************** Set Open GL ********************/ 
 	m_GLM = new GLManager;
-	m_GLM->InitGL(m_window, m_scrSize.width, m_scrSize.height);
+	m_GLM->InitGL(this, m_window, m_scrSize.width, m_scrSize.height);
 	/*****************************************************/
 
 	//Make sure window is showing and messages have been sent

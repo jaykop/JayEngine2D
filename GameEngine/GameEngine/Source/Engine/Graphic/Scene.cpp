@@ -160,9 +160,7 @@ void Scene::DrawParticle(Emitter* emitter)
 			particle.life -= delta;	//Decrease life
 			particle.speed += vec3(0.0f, -9.8f);
 			particle.SetPosition(particle.GetPosition() + particle.speed);
-			m_vertex_buffer_data[4 * ParticlesCount];
-			m_vertex_buffer_data[4 * ParticlesCount + 1];
-			m_vertex_buffer_data[4 * ParticlesCount + 2];
+
 		}
 	}
 

@@ -21,6 +21,7 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 
 //using namespace FMOD;
 
+class Application;
 enum SoundData{BG, END, SE_1, SE_2, SOUND_END};
 
 class SoundManager
@@ -31,10 +32,10 @@ public:
 	SoundManager(void);
 	~SoundManager(void);
 
-	void Init(void);
+	void InitFMOD(Application* pApp);
 	void Load(const char* SoundDir, SoundData sound);
 
-	void ErrorCheck(FMOD_RESULT result);
+	void ErrorCheck(Application* pApp, FMOD_RESULT result);
 
 	FMOD::System*	GetSystem(void);
 	FMOD::Sound*	GetSound(const SoundData soundData);

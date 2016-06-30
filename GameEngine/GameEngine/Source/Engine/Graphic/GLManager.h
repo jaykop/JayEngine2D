@@ -33,6 +33,7 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 #include "../Utilities/Math/MathUtils.h"
 
 class Shader;
+class Application;
 
 //! Uniform type
 enum UniformType{TEXTURE, TRANSFORM, UV, COLOR, TYPE, UNIFORM_END};
@@ -79,9 +80,9 @@ public:
 	void SetGLFormat(void);
 	
 	//Init GL info
-	bool CheckGL(HWND& window);
 	void Resize(int width, int height);
-	void InitGL(HWND& window, int width, int height);
+	bool CheckGL(Application* pApp, HWND& window);
+	void InitGL(Application* pApp, HWND& window, int width, int height);
 	
 	// Set font
 	void SetFont(const char* fontDir);

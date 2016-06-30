@@ -124,7 +124,7 @@ void GLManager::SetGLFormat(void)
 \return bool
 */
 /******************************************************************************/
-bool GLManager::CheckGL(HWND& window)
+bool GLManager::CheckGL(Application* pApp, HWND& window)
 {
 	//Get wnd DC
 	m_hdc = GetDC(window);
@@ -134,6 +134,7 @@ bool GLManager::CheckGL(HWND& window)
 			L"Device Context Error", MB_OK);
 
 		SysShutdown();
+		pApp->Quit();
 	}
 
 	//Select pixel format desc
@@ -147,6 +148,7 @@ bool GLManager::CheckGL(HWND& window)
 			L"OpenGL Rendering Context Error", MB_OK);
 
 		SysShutdown();
+		pApp->Quit();
 	}
 
 	//Make the OpenGL Rendering context current rc
@@ -156,6 +158,7 @@ bool GLManager::CheckGL(HWND& window)
 			L"OpenGL Rendering Context Error", MB_OK);
 
 		SysShutdown();
+		pApp->Quit();
 	}
 
 	//Init GL info
@@ -165,10 +168,15 @@ bool GLManager::CheckGL(HWND& window)
 	glClearDepth(1.0f);
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_BLEND);
-	glEnable(GL_NICEST);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	//glEnable(GL_POINT_SMOOTH);
+	//glEnable(GL_LINE_SMOOTH);
+	//glEnable(GL_POLYGON_SMOOTH);
+	//glHint(GL_POINT_SMOOTH_HINT, GL_NICEST);
+	//glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
+	//glHint(GL_POLYGON_SMOOTH_HINT, GL_NICEST);
 	glDepthFunc(GL_LEQUAL);
-
+	
 	return true;
 }
 
@@ -177,10 +185,10 @@ bool GLManager::CheckGL(HWND& window)
 \brief - Initialize GL and GLEW information
 */
 /******************************************************************************/
-void GLManager::InitGL(HWND& window, int width, int height)
+void GLManager::InitGL(Application* pApp, HWND& window, int width, int height)
 {
 	//InitGL
-	if (CheckGL(window))
+	if (CheckGL(pApp, window))
 	{
 		glewExperimental = GL_TRUE;
 		GLenum err = glewInit();
@@ -188,62 +196,66 @@ void GLManager::InitGL(HWND& window, int width, int height)
 		{
 			MessageBox(window, L"Failed to initialize GLEW",
 				L"OpenGL GLEW Error", MB_OK);
+
+			pApp->Quit();
+		}
+
+		else
+		{
+			// Init app's size
+			Resize(width, height);
+			glActiveTexture(GL_TEXTURE0);
+
+			//The VAO
+			GLuint VertexArrayID;
+			glGenVertexArrays(1, &VertexArrayID);
+			glBindVertexArray(VertexArrayID);
+
+			//This will be our vertex buffer
+			glGenBuffers(1, &m_vertexBuffer);
+			glBindBuffer(GL_ARRAY_BUFFER, m_vertexBuffer);
+			glBufferData(GL_ARRAY_BUFFER, sizeof(m_vertex_buffer_data), m_vertex_buffer_data, GL_STATIC_DRAW);
+
+			//first attribute buffer : vertices
+			glEnableVertexAttribArray(0);
+			glBindBuffer(GL_ARRAY_BUFFER, m_vertexBuffer);
+			glVertexAttribPointer(
+				0,						// must be match the layout in the shader
+				3,						// size : X+Y+Z => 3
+				GL_FLOAT,				// type
+				GL_FALSE,				// normalized
+				5 * sizeof(GLfloat),	// stride
+				(GLvoid*)0				// array buffer offset
+				);
+
+			// 2nd attribute buffer : UVs
+			glEnableVertexAttribArray(1);
+			glBindBuffer(GL_ARRAY_BUFFER, m_vertexBuffer);
+			glVertexAttribPointer(
+				1,								// attribute. No particular reason for 1, but must match the layout in the shader.
+				2,								// size : U+V => 2
+				GL_FLOAT,						// type
+				GL_TRUE,						// normalized?
+				5 * sizeof(GLfloat),			// stride
+				(GLvoid*)(3 * sizeof(GLfloat))	// array buffer offset
+				);
+
+			//Call shader
+			m_shader.LoadShaders("Resource/Shader/shader.vertex", "Resource/Shader/shader.fragment");
+
+			//Use shader
+			glUseProgram(m_shader.m_programID);
+
+			m_uniform[TRANSFORM] = glGetUniformLocation(m_shader.m_programID, "MVP");	//Trasnform Matrix
+			m_uniform[UV] = glGetUniformLocation(m_shader.m_programID, "Animation");	//UV
+			m_uniform[COLOR] = glGetUniformLocation(m_shader.m_programID, "Color");		//Coloring
+			m_uniform[TYPE] = glGetUniformLocation(m_shader.m_programID, "Type");		//Type
+
+			// Set "Texture" sampler to user Texture Unit 0
+			m_uniform[TEXTURE] = glGetUniformLocation(m_shader.m_programID, "Texture");
+			glUniform1i(m_uniform[TEXTURE], 0);
 		}
 	}
-
-	// Init app's size
-	Resize(width, height);
-	glActiveTexture(GL_TEXTURE0);
-
-	//The VAO
-	GLuint VertexArrayID;
-	glGenVertexArrays(1, &VertexArrayID);
-	glBindVertexArray(VertexArrayID);
-
-	//This will be our vertex buffer
-	glGenBuffers(1, &m_vertexBuffer);
-	glBindBuffer(GL_ARRAY_BUFFER, m_vertexBuffer);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(m_vertex_buffer_data), m_vertex_buffer_data, GL_STATIC_DRAW);
-
-	//first attribute buffer : vertices
-	glEnableVertexAttribArray(0);
-	glBindBuffer(GL_ARRAY_BUFFER, m_vertexBuffer);
-	glVertexAttribPointer(
-		0,						// must be match the layout in the shader
-		3,						// size : X+Y+Z => 3
-		GL_FLOAT,				// type
-		GL_FALSE,				// normalized
-		5 * sizeof(GLfloat),	// stride
-		(GLvoid*)0				// array buffer offset
-		);
-
-	// 2nd attribute buffer : UVs
-	glEnableVertexAttribArray(1);
-	glBindBuffer(GL_ARRAY_BUFFER, m_vertexBuffer);
-	glVertexAttribPointer(
-		1,								// attribute. No particular reason for 1, but must match the layout in the shader.
-		2,								// size : U+V => 2
-		GL_FLOAT,						// type
-		GL_TRUE,						// normalized?
-		5 * sizeof(GLfloat),			// stride
-		(GLvoid*)(3 * sizeof(GLfloat))	// array buffer offset
-		);
-
-	//Call shader
-	m_shader.LoadShaders("Resource/Shader/shader.vertex", "Resource/Shader/shader.fragment");
-
-	//Use shader
-	glUseProgram(m_shader.m_programID);
-
-	m_uniform[TRANSFORM] = glGetUniformLocation(m_shader.m_programID, "MVP");	//Trasnform Matrix
-	m_uniform[UV] = glGetUniformLocation(m_shader.m_programID, "Animation");	//UV
-	m_uniform[COLOR] = glGetUniformLocation(m_shader.m_programID, "Color");		//Coloring
-	m_uniform[TYPE] = glGetUniformLocation(m_shader.m_programID, "Type");		//Type
-	
-	// Set "Texture" sampler to user Texture Unit 0
-	m_uniform[TEXTURE] = glGetUniformLocation(m_shader.m_programID, "Texture");
-	glUniform1i(m_uniform[TEXTURE], 0);
-
 }
 
 /******************************************************************************/

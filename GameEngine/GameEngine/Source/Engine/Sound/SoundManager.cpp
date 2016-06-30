@@ -13,6 +13,7 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 /******************************************************************************/
 
 #include "SoundManager.h"
+#include "../App/Application.h"
 #include "../Utilities/Debug/Debug.h"
 
 /******************************************************************************/
@@ -43,12 +44,14 @@ SoundManager::~SoundManager(void)
 /******************************************************************************/
 /*!
 \brief - Initialize SoundManager
+\param pApp - pointer to application
 */
 /******************************************************************************/
-void SoundManager::Init()
+void SoundManager::InitFMOD(Application* pApp)
 {
 	FMOD::System_Create(&m_system);
-	m_system->init(SOUND_END, FMOD_INIT_NORMAL, 0);
+	FMOD_RESULT result = m_system->init(SOUND_END, FMOD_INIT_NORMAL, 0);
+	ErrorCheck(pApp, result);
 }
 
 /******************************************************************************/
@@ -67,13 +70,17 @@ void SoundManager::Load(const char* SoundDir, SoundData sound)
 /*!
 \brief - Check sound's error
 \param result - function's result
+\param pApp - pointer to application
 */
 /******************************************************************************/
-void SoundManager::ErrorCheck(FMOD_RESULT result)
+void SoundManager::ErrorCheck(Application* pApp, FMOD_RESULT result)
 {
 	if (result != FMOD_OK)
+	{
 		MessageBox(NULL, L"Failed to init basic sound system.",
 			L"FMOD Error", MB_OK);
+		pApp->Quit();
+	}
 }
 
 /******************************************************************************/
