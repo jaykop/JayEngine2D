@@ -171,13 +171,15 @@ Application::Application(const InitData& initData)
 		);
 
 	/******************** Set sound system; FMOD ********************/
+
 	m_SM = new SoundManager;
 	m_SM->InitFMOD(this);
-	/*****************************************************************/
 
 	/******************** Set Open GL ********************/ 
+
 	m_GLM = new GLManager;
 	m_GLM->InitGL(this, m_window, m_scrSize.width, m_scrSize.height);
+
 	/*****************************************************/
 
 	//Make sure window is showing and messages have been sent

@@ -58,6 +58,7 @@ void MenuStage::Init(GameData& gd)
 	m_ObjM.AddObject(4, SPRITE);
 	m_ObjM.AddObject(5, SPRITE);
 	m_ObjM.AddObject(10, TEXT);
+	m_ObjM.AddObject(12, PARTICLE);
 
 	//Set positions
 	m_ObjM.GetSprite(0)->SetPosition(vec3(10, 10, 1.05f));
@@ -113,7 +114,7 @@ void MenuStage::Init(GameData& gd)
 
 	m_ObjM.GetSprite(0)->SetAnimation(6, 6);
 	m_ObjM.GetSprite(0)->GetTexture()->LoadTexture("Resource/Texture/Phantom.png");
-
+	m_ObjM.GetEmitter(12)->GetTexture()->LoadTexture("Resource/Texture/particle.png");
 	m_ObjM.GetGameScene()->SetBackgroundColor(vec4(0, 0, 0, 1));
 	
 }
@@ -126,7 +127,7 @@ void MenuStage::Update(GameData& gd)
 	BasicControl();
 	SampleAnimation();
 
-	m_ObjM.GetSprite(0)->FixAnimation(0);
+	//m_ObjM.GetSprite(0)->FixAnimation(0);
 
 	//Update basic trunks
 	m_ObjM.UpdateGameSystem();

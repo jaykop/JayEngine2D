@@ -15,30 +15,35 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 #ifndef _PARTICLE_H_
 #define _PARTICLE_H_
 
+#include <vector>
+#include <algorithm>
 #include "Sprite.h"
 
+class Emitter;
 class Particle : public Sprite
 {
 public:
 
-	Particle(void);
+	Particle(Emitter* parent = 0, int index = 0);
 	virtual ~Particle(void);
-
-	float life;
-	vec3 speed;
+	float m_life;
+	int m_index;
+	vec3 m_speed;
 
 private:
 
+	Emitter* m_parent;
 };
 
+typedef std::vector<Particle> ParticleList;
 
 class Emitter : public Sprite
 {
 
 public:
 
-	Emitter(void);
-	~Emitter(void);
+	Emitter(const int id = 0, Type type = PARTICLE, ObjectManager* obm = 0);
+	virtual ~Emitter(void);
 
 	int FindUnusedParticle(void);
 	void SortParticles(void);
@@ -46,15 +51,13 @@ public:
 	int GetNumOfParticle(void) const;
 	void SetNumOfParticle(int numOfParticle);
 
-	Particle& GetParticle(const int index);
+	ParticleList& GetParticleContainer(void);
 
-	//Particle& operator[](const int index){ return ParticlesContainer[index]; }
-	
 private:
 
 	int m_MaxParticles;
 	int LastUsedParticle;
-	Particle ParticlesContainer[1000];
+	ParticleList ParticlesContainer;
 	
 };
 

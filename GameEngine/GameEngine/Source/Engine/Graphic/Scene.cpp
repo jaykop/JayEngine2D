@@ -144,25 +144,38 @@ void Scene::DrawParticle(Emitter* emitter)
 {
 	UNREFERENCED_PARAMETER(emitter);
 
-	//Refresh the buffer data
-	glBufferData(GL_ARRAY_BUFFER, sizeof(m_vertex_buffer_data), m_vertex_buffer_data, GL_STATIC_DRAW);
-	glBindTexture(GL_TEXTURE_2D, emitter->GetTexture()->GetTexId());
-
 	float delta = 0.169f;
 	int ParticlesCount = 0;
 
 	// Simulate all particles
-	for (int i = 0; i < emitter->GetNumOfParticle(); ++i)
+	for (auto it = emitter->GetParticleContainer().begin();
+		it != emitter->GetParticleContainer().end(); ++it)
 	{
-		Particle& particle = emitter->GetParticle(i);
-		if (particle.life > 0.f)
+		Particle particle = *it;
+		if (particle.m_life > 0.f)
 		{
-			particle.life -= delta;	//Decrease life
-			particle.speed += vec3(0.0f, -9.8f);
-			particle.SetPosition(particle.GetPosition() + particle.speed);
-
+			particle.m_life -= delta;	//Decrease life
+			particle.m_speed += vec3(0.0f, -9.8f);
+			particle.SetPosition(particle.GetPosition() + particle.m_speed);
 		}
+
+		++ParticlesCount;
 	}
+
+	//Refresh the buffer data
+
+	// Draw the particules !
+	// This draws many times a small triangle_strip (which looks like a quad).
+	// This is equivalent to :
+	// for(i in ParticlesCount) : glDrawArrays(GL_TRIANGLE_STRIP, 0, 4), 
+	// but faster.
+	glBufferSubData(GL_ARRAY_BUFFER, 0, ParticlesCount * sizeof(GLfloat)* 4, m_vertex_buffer_data);
+	glBindTexture(GL_TEXTURE_2D, emitter->GetTexture()->GetTexId());
+
+	glVertexAttribDivisor(0, 0); // particles vertices : always reuse the same 4 vertices -> 0
+	glVertexAttribDivisor(1, 1); // positions : one per quad (its center)                 -> 1
+	//glDrawArrays(GL_QUADS, 0, 4);
+	glDrawArraysInstanced(GL_TRIANGLE_STRIP, 0, 4, ParticlesCount);
 
 	//vec3 v(0, 0);
 	//float velocity, theta, phi;
@@ -189,7 +202,7 @@ void Scene::DrawParticle(Emitter* emitter)
 	//	glBufferSubData(GL_ARRAY_BUFFER, 0, nParticles * 3 * sizeof(GLfloat), data);
 	//}
 
-	glDrawArrays(GL_QUADS, 0, 4);
+	
 }
 
 /******************************************************************************/
@@ -226,17 +239,19 @@ void Scene::Update(const ObjectList& objList)
 		//Todo: high quality?
 		//glUniformMatrix4fv();
 
-		// Draw Sprites
-		if ((*it)->GetObjectType() == SPRITE)
-			DrawSprites(*it);
-
-		// Draw Texts 
-		else if ((*it)->GetObjectType() == TEXT) 
-			DrawTexts(static_cast<Text*>(*it));
 
 		// Draw Particles
-		else if ((*it)->GetObjectType() == PARTICLE)
+		if ((*it)->GetObjectType() == PARTICLE)
 			DrawParticle(static_cast<Emitter*>(*it));
+
+		// Draw Texts 
+		else if ((*it)->GetObjectType() == TEXT)
+			DrawTexts(static_cast<Text*>(*it));
+
+		// Draw Sprites
+		else if ((*it)->GetObjectType() == SPRITE)
+			DrawSprites(*it);
+
 	}
 
 	//std::cout <<  "\n";
@@ -450,7 +465,6 @@ void Scene::DeleteSprite(const int id)
 		{
 			// Delete it
 			m_DrawList.erase(it);
-			// m_OrderList.erase(it++); 
 			break;
 		}
 	}

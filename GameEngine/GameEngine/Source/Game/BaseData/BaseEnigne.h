@@ -17,6 +17,7 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 
 #include "../../Engine/App/Application.h"
 #include "../../Engine/Graphic/Sprite.h"
+#include "../../Engine/Graphic/Particle.h"
 #include "../../Engine/Graphic/Scene.h"
 #include "../../Engine/Physics/World.h"
 #include "../../Engine/Physics/RigidBody.h"

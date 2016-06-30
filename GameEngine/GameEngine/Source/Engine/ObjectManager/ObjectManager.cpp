@@ -16,6 +16,7 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 #include "ObjectManager.h"
 #include "../Logic/Logic.h"
 #include "../Sound/Sound.h"
+#include "../Graphic/Particle.h"
 #include "../Graphic/Scene.h"
 #include "../Physics/World.h"
 #include "../StateManager/GameStateManager/GameStateManager.h"
@@ -64,6 +65,21 @@ void ObjectManager::AddObject(const int SpriteID, Type type)
 		scenePtr->AddSprite(new_sprite);
 	}
 
+	if (type == PARTICLE)
+	{
+		Emitter* new_sprite = new Emitter(SpriteID, type, this);
+
+		// Set basic texture
+		new_sprite->SetTexture(new Texture);
+		new_sprite->GetTexture()->LoadTexture("Resource/Texture/particle.png");
+
+		//Push it into the list
+		m_ObjectList.insert(std::hash_map<int, Sprite*>::value_type(
+			SpriteID, new_sprite));
+
+		scenePtr->AddSprite(new_sprite);
+	}
+
 	else if (type == TEXT)
 	{
 		Text* new_sprite = new Text(SpriteID, type, this);
@@ -91,7 +107,17 @@ void ObjectManager::RemoveObject(const int id)
 	scenePtr->DeleteSprite(id);
 
 	//Delete it
-	delete m_ObjectList.find(id)->second;
+	
+	auto fount = m_ObjectList.find(id)->second;
+	
+	if (fount->GetObjectType() == SPRITE)
+		delete m_ObjectList.find(id)->second;
+
+	else if (fount->GetObjectType() == TEXT)
+		delete static_cast<Text*>(fount);
+
+	else if (fount->GetObjectType() == PARTICLE)
+		delete static_cast<Emitter*>(fount);
 
 	m_ObjectList.erase(id);
 
@@ -134,6 +160,23 @@ Text* ObjectManager::GetText(const int id)
 
 /******************************************************************************/
 /*!
+\brief - Get Emitter
+
+\param SpriteID - sprite's id
+*/
+/******************************************************************************/
+Emitter* ObjectManager::GetEmitter(const int id)
+{
+	// return the found one
+	auto it = m_ObjectList.find(id)->second;
+	if (it->GetObjectType() == PARTICLE)
+		return static_cast<Emitter*>(it);
+	else
+		return 0;
+}
+
+/******************************************************************************/
+/*!
 \brief - Check if list has the obhect or not
 
 \param SpriteID - sprite's id
@@ -159,9 +202,9 @@ bool ObjectManager::HasObject(const int id)
 void ObjectManager::ClearObjectList(void)
 {
 	//Remove the all objects in the lsit
-	for (auto it = m_ObjectList.begin(); it != m_ObjectList.end(); ++it)
-		delete (it->second);				//Delete all it
-
+	for (auto it = m_ObjectList.begin(); it != m_ObjectList.end(); )
+		RemoveObject((it++)->second->GetID());
+	
 	m_ObjectList.clear();
 
 	number_of_Obj = 0;

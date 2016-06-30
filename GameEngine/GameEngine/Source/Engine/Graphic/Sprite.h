@@ -15,7 +15,6 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 #ifndef _SPRITE_H_
 #define _SPRITE_H_
 
-#include <map>
 #include "Texture.h"
 #include "../Utilities/Time.h"
 #include "../ObjectManager/Object/Object.h"

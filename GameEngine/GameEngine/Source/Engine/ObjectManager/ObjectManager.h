@@ -14,7 +14,6 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 #ifndef _OBJECTMANAGER_H_
 #define _OBJECTMANAGER_H_
 
-#include <hash_map>
 #include <vector>
 #include "../Graphic/Text.h"
 
@@ -23,6 +22,7 @@ class Logic;
 class Scene;
 class World;
 class Sprite;
+class Emitter;
 class GameStateManager;
 
 //! type definition for the list
@@ -42,6 +42,7 @@ public:
 	void AddObject(const int SpriteID, Type type);
 	Sprite* GetSprite(const int id);
 	Text* GetText(const int id);
+	Emitter* GetEmitter(const int id);
 	bool HasObject(const int id);
 	void RemoveObject(const int id);
 	

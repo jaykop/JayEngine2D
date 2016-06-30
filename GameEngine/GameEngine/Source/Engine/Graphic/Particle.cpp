@@ -12,44 +12,48 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 */
 /******************************************************************************/
 
-#include <vector>
-#include <algorithm>
-
+#include "Texture.h"
 #include "Particle.h"
+#include "../Physics//RigidBody.h"
 
-Particle::Particle()
+Particle::Particle(Emitter* parent, int index)
+:m_parent(parent), m_index(index), m_speed(vec3())
 {
-
 }
 
-Particle::~Particle()
+Particle::~Particle(void)
 {
-
+	m_parent = 0;
 }
 
-Emitter::Emitter()
-: m_MaxParticles(1000)
+Emitter::Emitter(const int id, Type type, ObjectManager* obm)
+: m_MaxParticles(1), LastUsedParticle(0)
 {
-	// m_texture->LoadTexture("Resource/Texture/particle.png");
+	SetID(id);
+	SetObjectType(type);
+	SetObjectManager(obm);
+
+	for (int index = 0; index < m_MaxParticles; ++index)
+		ParticlesContainer.push_back(Particle(this, index));
 }
 
 Emitter::~Emitter()
 {
-
+	ParticlesContainer.clear();
 }
 
 int Emitter::FindUnusedParticle(void)
 {
-	for (int i = LastUsedParticle; i < 1000; ++i)
-	if (ParticlesContainer[i].life < 0){
-		LastUsedParticle = i;
-		return i;
+	for (auto it = ParticlesContainer.begin(); it != ParticlesContainer.end(); ++it)
+		if ((*it).m_life < 0){
+			LastUsedParticle = (*it).m_index;
+			return (*it).m_index;
 	}
 
-	for (int i = 0; i < 1000; ++i)
-	if (ParticlesContainer[i].life < 0){
-		LastUsedParticle = i;
-		return i;
+	for (auto it = ParticlesContainer.begin(); it != ParticlesContainer.end();)
+	if ((*it).m_life < 0){
+		LastUsedParticle = (*it).m_index;
+		return (*it).m_index;
 	}
 
 	return 0;
@@ -70,7 +74,7 @@ void Emitter::SetNumOfParticle(int numOfParticle)
 	m_MaxParticles = numOfParticle;
 }
 
-Particle& Emitter::GetParticle(const int index)
+ParticleList& Emitter::GetParticleContainer(void)
 {
-	return ParticlesContainer[index];
+	return ParticlesContainer;
 }
