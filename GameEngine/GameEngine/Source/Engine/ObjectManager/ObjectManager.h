@@ -45,7 +45,8 @@ public:
 	Emitter* GetEmitter(const int id);
 	bool HasObject(const int id);
 	void RemoveObject(const int id);
-	
+	void MakeClone(const int id, const int clone_id, int quantity);
+
 	// Manage list
 	const ObjectList& GetList(void) const;
 	void ClearObjectList(void);

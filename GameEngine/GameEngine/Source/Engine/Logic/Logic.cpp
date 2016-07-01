@@ -23,7 +23,18 @@ Logic::~Logic(void)
 
 void Logic::Init(const ObjectList& objList)
 {
-	UNREFERENCED_PARAMETER(objList);
+	// TODO: When tere are load and unload function in stage,
+	// Use this code
+
+	//for (auto it_1 = objList.begin(); it_1 != objList.end(); ++it_1)
+	//{
+	//	// Get sprite's logic list
+	//	auto new_list = it_1->second->GetLogicList();
+
+	//	// Update sprite's logic
+	//	for (auto it_2 = new_list.begin(); it_2 != new_list.end(); ++it_2)
+	//		it_2->second->Init();
+	//}
 }
 
 void Logic::Update(const ObjectList& objList)
@@ -42,5 +53,13 @@ void Logic::Update(const ObjectList& objList)
 
 void Logic::Shutdown(const ObjectList& objList)
 {
-	UNREFERENCED_PARAMETER(objList);
+	for (auto it_1 = objList.begin(); it_1 != objList.end(); ++it_1)
+	{
+		// Get sprite's logic list
+		auto new_list = it_1->second->GetLogicList();
+
+		// Update sprite's logic
+		for (auto it_2 = new_list.begin(); it_2 != new_list.end(); ++it_2)
+			it_2->second->Shutdown();
+	}
 }

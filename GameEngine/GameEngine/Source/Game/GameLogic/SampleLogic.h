@@ -23,6 +23,8 @@ private:
 	ObjectManager* m_OBM;
 	GameStateManager* m_GSM;
 
+	int* test;
+
 };
 
 #endif // _SAMPLELOGIC_H_

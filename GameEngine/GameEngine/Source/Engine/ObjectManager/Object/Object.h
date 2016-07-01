@@ -72,10 +72,8 @@ public:
 	{
 		LogicList::iterator found = m_logicList.find(typeid(Type).name());
 		if (found != m_logicList.end())
-		{
-			found->second->Shutdown();
 			delete found->second;
-		}
+		
 		m_logicList.erase(found);
 	}
 

@@ -104,7 +104,8 @@ void ObjectManager::AddObject(const int SpriteID, Type type)
 void ObjectManager::RemoveObject(const int id)
 {
 	//If there is id that client to find,
-	scenePtr->DeleteSprite(id);
+	if (scenePtr)
+		scenePtr->DeleteSprite(id);
 
 	//Delete it
 	
@@ -192,6 +193,20 @@ bool ObjectManager::HasObject(const int id)
 			return true;
 
 	return false;
+}
+
+/******************************************************************************/
+/*!
+\brief - Make sprite's clone
+
+\param id - sprite's id
+\param quantity - quantity of clone
+*/
+/******************************************************************************/
+void ObjectManager::MakeClone(const int id, const int clone_id, int quantity = 1)
+{
+	for (int i = 1; i <= quantity; ++i)
+		AddObject(clone_id, GetSprite(id)->GetObjectType());
 }
 
 /******************************************************************************/

@@ -121,7 +121,6 @@ void Object::ClearLogicList(void)
 void Object::AddLogic(GameLogic* logic)
 {
 	// Add logic to the object's logic list
-	logic->Init();
 	m_logicList[typeid(*logic).name()] = logic;
 }
 

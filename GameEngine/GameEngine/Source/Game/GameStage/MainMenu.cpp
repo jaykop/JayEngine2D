@@ -119,10 +119,7 @@ void MenuStage::Init(GameData& gd)
 	m_ObjM.GetGameScene()->SetBackgroundColor(vec4(0, 0, 0, 1));
 	
 	m_ObjM.GetSprite(0)->AddLogic(new SampleLogic(m_ObjM.GetSprite(0)));
-	//std::cout << m_ObjM.GetSprite(0)->HasLogic<SampleLogic>() << "\n";
-	//m_ObjM.GetSprite(0)->DeleteLogic<SampleLogic>();
-	//std::cout << m_ObjM.GetSprite(0)->HasLogic<SampleLogic>() << "\n";
-
+	m_ObjM.GetSprite(0)->GetLogic<SampleLogic>()->Init();
 }
 
 void MenuStage::Update(GameData& gd)
@@ -133,8 +130,6 @@ void MenuStage::Update(GameData& gd)
 	BasicControl();
 	SampleAnimation();
 
-	//m_ObjM.GetSprite(0)->FixAnimation(0);
-
 	//Update basic trunks
 	m_ObjM.UpdateGameSystem();
 }
@@ -144,8 +139,8 @@ void MenuStage::Shutdown()
 	std::cout << "MenuStage::Shutdown\n";
 
 	//Cleare all Objects of the list
-	m_ObjM.ClearObjectList();
 	m_ObjM.ShutdownGameSystem();
+	m_ObjM.ClearObjectList();
 }
 
 void MenuStage::BasicControl(void)
