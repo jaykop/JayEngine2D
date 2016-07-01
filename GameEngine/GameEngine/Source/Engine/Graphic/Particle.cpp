@@ -32,7 +32,7 @@ Emitter::Emitter(const int id, Type type, ObjectManager* obm)
 	SetID(id);
 	SetObjectType(type);
 	SetObjectManager(obm);
-
+	
 	for (int index = 0; index < m_MaxParticles; ++index)
 		ParticlesContainer.push_back(Particle(this, index));
 }

@@ -203,7 +203,7 @@ bool ObjectManager::HasObject(const int id)
 \param quantity - quantity of clone
 */
 /******************************************************************************/
-void ObjectManager::MakeClone(const int id, const int clone_id, int quantity = 1)
+void ObjectManager::MakeClone(const int id, const int clone_id, int quantity)
 {
 	for (int i = 1; i <= quantity; ++i)
 		AddObject(clone_id, GetSprite(id)->GetObjectType());

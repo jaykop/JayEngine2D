@@ -118,8 +118,13 @@ void MenuStage::Init(GameData& gd)
 	m_ObjM.GetEmitter(12)->GetTexture()->LoadTexture("Resource/Texture/particle.png");
 	m_ObjM.GetGameScene()->SetBackgroundColor(vec4(0, 0, 0, 1));
 	
-	m_ObjM.GetSprite(0)->AddLogic(new SampleLogic(m_ObjM.GetSprite(0)));
+	// Clone and logic test code
+	/*m_ObjM.GetSprite(0)->AddLogic(new SampleLogic(m_ObjM.GetSprite(0)));
 	m_ObjM.GetSprite(0)->GetLogic<SampleLogic>()->Init();
+
+	m_ObjM.MakeClone(0, 7);
+	m_ObjM.GetSprite(7)->SetPosition(vec3(10, -10));*/
+
 }
 
 void MenuStage::Update(GameData& gd)
