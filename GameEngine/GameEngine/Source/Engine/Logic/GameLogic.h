@@ -1,14 +1,18 @@
 #ifndef _GAMELOGIC_H_
 #define _GAMELOGIC_H_
 
-class Object;
+#include "../ObjectManager/Object/Object.h"
+#include "../ObjectManager/ObjectManager.h"
+
+class GameStateManager;
 class GameLogic
 {
 public:
 
-	GameLogic(Object* owner) {
-		m_pOwner = owner;
-	};
+	GameLogic(Object* owner = 0)
+		:m_pOwner(owner), m_OBM(0), 
+		m_GSM(0) {};
+
 	virtual ~GameLogic(void) {};
 
 	virtual void Init(void) = 0;
@@ -18,7 +22,8 @@ public:
 private:
 
 	Object* m_pOwner;
-
+	ObjectManager* m_OBM;
+	GameStateManager* m_GSM;
 };
 
 #endif // _GAMELOGIC_H_

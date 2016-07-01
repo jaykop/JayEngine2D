@@ -63,6 +63,7 @@ public:
 	Sound* GetGameSound(void) const;
 
 	const ObjectList& GetObjectList(void) const;
+	GameStateManager* GetGSM(void);
 
 private:
 	
@@ -77,6 +78,9 @@ private:
 	World* worldPtr;
 	Logic* logicPtr;
 	Sound* soundPtr;
+
+	// Pointer to GameStateManager
+	GameStateManager* m_GSM;
 };
 
 #endif //_OBJECTMANAGER_H_

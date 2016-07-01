@@ -19,7 +19,7 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 #include "../../Utilities/Math/MathUtils.h"
 
 //! Object type
-enum Type { SPRITE, TEXT, PARTICLE, AUDIO };
+enum Type { SPRITE, TEXT, PARTICLE };
 
 class GameLogic;
 class ObjectManager;
@@ -50,7 +50,7 @@ public:
 	template <class Type>
 	bool HasLogic(void)
 	{
-		Logic::iterator found = m_logicList.found(typeid(Type).name());
+		LogicList::iterator found = m_logicList.find(typeid(Type).name());
 		if (found != m_logicList.end())
 			return true;
 
@@ -60,7 +60,7 @@ public:
 	template <class Type>
 	Type* GetLogic(void)
 	{
-		Logic::iterator found = m_logicList.find(typeid(Type).name());
+		LogicList::iterator found = m_logicList.find(typeid(Type).name());
 		if (found != m_logicList.end())
 			return static_cast<Type*>(found->second);
 
@@ -72,11 +72,18 @@ public:
 	{
 		LogicList::iterator found = m_logicList.find(typeid(Type).name());
 		if (found != m_logicList.end())
+		{
+			found->second->Shutdown();
 			delete found->second;
+		}
 		m_logicList.erase(found);
 	}
 
+	ObjectManager* GetOBM(void);
+
 protected:
+
+	//! Just for derived classes
 	void SetObjectManager(ObjectManager* obm);
 
 private:

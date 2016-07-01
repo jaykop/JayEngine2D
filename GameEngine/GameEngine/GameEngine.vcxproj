@@ -130,6 +130,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="Source\Engine\WinMain.cpp" />
+    <ClCompile Include="Source\Game\GameLogic\SampleLogic.cpp" />
     <ClCompile Include="Source\Game\GameStage\GameOver.cpp" />
     <ClCompile Include="Source\Game\GameStage\LV1.cpp" />
     <ClCompile Include="Source\Game\GameStage\LV2.cpp" />
@@ -171,6 +172,7 @@
     </ClInclude>
     <ClInclude Include="Source\Engine\Utilities\Random.h" />
     <ClInclude Include="Source\Game\BaseData\GameData.h" />
+    <ClInclude Include="Source\Game\BaseData\LoadLogics.h" />
     <ClInclude Include="Source\Game\BaseData\LoadStages.h" />
     <ClInclude Include="Source\Engine\Utilities\Math\Matrix\Matrix4x4.h" />
     <ClInclude Include="Source\Engine\Graphic\Shader.hpp" />
@@ -181,6 +183,8 @@
     <ClInclude Include="Source\Game\BaseData\BaseStage.h" />
     <ClInclude Include="Source\Engine\Utilities\Math\Vector\Vector4.h" />
     <ClInclude Include="Source\Engine\Utilities\Time.h" />
+    <ClInclude Include="Source\Game\GameLogic\SampleLogic.h" />
+    <ClInclude Include="Source\Game\GameLogic\SampleLogicBuilder.h" />
     <ClInclude Include="Source\Game\GameStage\GameOverBuilder.h" />
     <ClInclude Include="Source\Game\GameStage\GameOver.h" />
     <ClInclude Include="Source\Game\GameStage\LV1.h" />

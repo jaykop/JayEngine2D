@@ -240,18 +240,17 @@ void Scene::Update(const ObjectList& objList)
 		//glUniformMatrix4fv();
 
 
-		// Draw Particles
-		if ((*it)->GetObjectType() == PARTICLE)
-			DrawParticle(static_cast<Emitter*>(*it));
-
+		// Draw Sprites
+		if ((*it)->GetObjectType() == SPRITE)
+			DrawSprites(*it);
+		
 		// Draw Texts 
 		else if ((*it)->GetObjectType() == TEXT)
 			DrawTexts(static_cast<Text*>(*it));
 
-		// Draw Sprites
-		else if ((*it)->GetObjectType() == SPRITE)
-			DrawSprites(*it);
-
+		//// Draw Particles
+		//else if ((*it)->GetObjectType() == PARTICLE)
+		//	DrawParticle(static_cast<Emitter*>(*it));
 	}
 
 	//std::cout <<  "\n";

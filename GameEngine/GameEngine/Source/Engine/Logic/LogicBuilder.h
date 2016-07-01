@@ -16,9 +16,8 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 #define _LOGICBUILDER_H_
 
 #include "GameLogic.h"
-#include "../ObjectManager/Object/Object.h"
 
-class GameStateManager;
+class Object;
 
 //! Logic builder
 class LogicBuilder{
@@ -26,7 +25,7 @@ class LogicBuilder{
 public:
 
 	virtual ~LogicBuilder(void) {};
-	virtual GameLogic* BuildLogic(GameStateManager* obm) = 0;
+	virtual GameLogic* BuildLogic(Object* GSM) = 0;
 
 private:
 

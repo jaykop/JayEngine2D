@@ -17,9 +17,9 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 
 #include <map>
 
+class Object;
 class GameLogic;
 class LogicBuilder;
-class GameStateManager;
 
 class LogicFactory
 {
@@ -27,15 +27,14 @@ class LogicFactory
 public:
 
 	~LogicFactory(void);
-	void AddBuilder(GameLogic* logic, LogicBuilder* pBuilder);
-	void DeleteBuilder(GameLogic* logic);
-	void Clear(void);
+	void AddBuilder(const char* logic, LogicBuilder* pBuilder);
+	void DeleteAllBuilders(void);
 
-	GameLogic* CreateLogic(GameLogic* logic, GameStateManager* GSM);
+	GameLogic* CreateLogic(const char* logic, Object *owner);
 
 private:
 
-	std::map <GameLogic*, LogicBuilder*> m_builderMap;
+	std::map <const char*, LogicBuilder*> m_builderMap;
 
 };
 

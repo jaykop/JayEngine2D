@@ -52,7 +52,7 @@ void GameStateManager::Init(Application* pApp)
 	m_isRestarting = false;
 
 	m_current = m_next = m_1stStage;
-	m_paused = m_factory.CreateStage(ST_PAUSE, this);	// Pre-assigned
+	m_paused = m_stFactory.CreateStage(ST_PAUSE, this);	// Pre-assigned
 
 }
 /******************************************************************************/
@@ -214,7 +214,7 @@ void GameStateManager::ChangeGameState(void)
 	m_pStage = 0;
 
 	//dynamically allocate a new stage based on the current state (use a swtich)
-	m_pStage = m_factory.CreateStage(m_current, this);
+	m_pStage = m_stFactory.CreateStage(m_current, this);
 
 	// This is to prevent crash
 	if(!m_StageStack.empty()) m_StageStack.pop();
@@ -249,7 +249,7 @@ void ProccessMessages(void)
 /******************************************************************************/
 void GameStateManager::AddStage(StageType stage, StageBuilder* pBuilder)
 {
-	m_factory.AddBuilder(stage, pBuilder);
+	m_stFactory.AddBuilder(stage, pBuilder);
 }
 
 /******************************************************************************/
@@ -394,4 +394,29 @@ GLManager* GameStateManager::GetGLManager(void)
 SoundManager* GameStateManager::GetSoundManager(void)
 {
 	return m_pApp->GetSManager();
+}
+
+/******************************************************************************/
+/*!
+\brief - Add logic builder
+
+\param pBuilder - pointer to builder
+*/
+/******************************************************************************/
+void GameStateManager::AddLogic(const char* logic, LogicBuilder* pBuilder)
+{
+	// Add logic to the object's logic list
+	m_logicFactory.AddBuilder(logic, pBuilder);
+}
+
+/******************************************************************************/
+/*!
+\brief - Get logicFactory
+
+\param m_logicFactory - m_logicFactory's address
+*/
+/******************************************************************************/
+LogicFactory* GameStateManager::GetLogicFactory(void)
+{
+	return &m_logicFactory;
 }

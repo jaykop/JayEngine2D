@@ -16,6 +16,7 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 #include "../Utilities/Debug/Debug.h"
 #include "../InputManager/InputManager.h"
 #include "../../Game/BaseData/LoadStages.h"
+// #include "../../Game/BaseData/LoadLogics.h"
 
 namespace
 {
@@ -79,14 +80,15 @@ bool Application::DataLoaded(void)
 
 	m_GSM.SetFirstStage(ST_MENU);
 
+	// Load game logics
+	// m_GSM.AddLogic("SampleLogic", new SampleLogicBuilder);
+
 	// Load sound resources
 	m_SM->Load("Resource/Sound/arrow_x.wav", SE_1);
 	m_SM->Load("Resource/Sound/drum_roll_y.wav", SE_2);
 
 	// Load font
 	m_GLM->SetFont("Resource/Font/SDMiSaeng.ttf");
-
-	// Load game logics
 
 	return true;
 }

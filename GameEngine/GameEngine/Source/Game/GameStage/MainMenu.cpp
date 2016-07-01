@@ -14,6 +14,7 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 
 #include "MainMenu.h"
 #include "../BaseData/BaseEnigne.h"
+#include "../GameLogic/SampleLogic.h"
 
 /******************************************************************************/
 /*!
@@ -117,6 +118,11 @@ void MenuStage::Init(GameData& gd)
 	m_ObjM.GetEmitter(12)->GetTexture()->LoadTexture("Resource/Texture/particle.png");
 	m_ObjM.GetGameScene()->SetBackgroundColor(vec4(0, 0, 0, 1));
 	
+	m_ObjM.GetSprite(0)->AddLogic(new SampleLogic(m_ObjM.GetSprite(0)));
+	//std::cout << m_ObjM.GetSprite(0)->HasLogic<SampleLogic>() << "\n";
+	//m_ObjM.GetSprite(0)->DeleteLogic<SampleLogic>();
+	//std::cout << m_ObjM.GetSprite(0)->HasLogic<SampleLogic>() << "\n";
+
 }
 
 void MenuStage::Update(GameData& gd)

@@ -27,7 +27,8 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 */
 /******************************************************************************/
 ObjectManager::ObjectManager(void)
-:number_of_Obj(0)
+:number_of_Obj(0), m_GSM(0),
+scenePtr(0), worldPtr(0), logicPtr(0), soundPtr(0)
 {}
 
 /******************************************************************************/
@@ -48,7 +49,6 @@ ObjectManager::~ObjectManager(void)
 /******************************************************************************/
 void ObjectManager::AddObject(const int SpriteID, Type type)
 {
-
 	//Make new sprite
 	if (type == SPRITE)
 	{
@@ -232,9 +232,11 @@ const ObjectList& ObjectManager::GetObjectList(void) const
 /******************************************************************************/
 void ObjectManager::BindGameSystem(GameStateManager* gsm)
 {
-	soundPtr = new Sound(gsm);
+	m_GSM = gsm;
+
+	soundPtr = new Sound(m_GSM);
 	worldPtr = new World();
-	scenePtr = new Scene(gsm);
+	scenePtr = new Scene(m_GSM);
 	logicPtr = new Logic();
 }
 
@@ -337,4 +339,16 @@ Sound* ObjectManager::GetGameSound(void) const
 Logic* ObjectManager::GetGameLogic(void) const
 {
 	return logicPtr;
+}
+
+/******************************************************************************/
+/*!
+\brief - Get pointer to m_GSM
+
+\return m_GSM
+*/
+/******************************************************************************/
+GameStateManager* ObjectManager::GetGSM(void)
+{
+	return m_GSM;
 }

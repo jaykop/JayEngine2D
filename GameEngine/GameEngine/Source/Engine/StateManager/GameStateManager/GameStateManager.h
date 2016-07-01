@@ -16,15 +16,16 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 
 #include <stack>
 #include <windows.h>
+#include "../../Logic/LogicFactory.h"
 #include "../StageFactory/StageFactory.h"
 
 using namespace Resolution;
 
 //! forward declaration
-class Stage;
 class GLManager;
 class Application;
 class StageBuilder;
+class LogicBuilder;
 class SoundManager;
 
 //! Stage stack information
@@ -69,6 +70,7 @@ public:
 	StageType GetCurrentStage(void) const;
 	void SetFirstStage(StageType first);
 	void AddStage(StageType stage, StageBuilder* pBuilder);
+	void AddLogic(const char* logic, LogicBuilder* pBuilder);
 
 	//! Manage resolution
 	ScreenSize GetResolution(void) const;
@@ -82,6 +84,9 @@ public:
 	Application* GetAppPtr(void);
 	GLManager* GetGLManager(void);
 	SoundManager* GetSoundManager(void);
+
+	//! Factory gettor
+	LogicFactory* GetLogicFactory(void);
 
 private:
 
@@ -99,9 +104,10 @@ private:
 	StageType	m_current;  //!< The current stage to update
 	StageType   m_1stStage;	//!< The 1st stage of this application
 
-	GameData	 m_gameData;//!< Game data to be used
-	StageFactory m_factory;	//!< Factory that makes new stages
-	Application* m_pApp;	//!< pointer to the application
+	GameData	 m_gameData;		//!< Game data to be used
+	StageFactory m_stFactory;		//!< Factory that makes new stages
+	LogicFactory m_logicFactory;	//!< Factory that makes new logic
+	Application* m_pApp;			//!< pointer to the application
 
 	std::stack<StageInfo> m_StageStack;
 };

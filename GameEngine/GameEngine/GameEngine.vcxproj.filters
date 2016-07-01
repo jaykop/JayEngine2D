@@ -114,6 +114,9 @@
     <ClCompile Include="Source\Engine\Graphic\Particle.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Game\GameLogic\SampleLogic.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -264,6 +267,15 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Source\Engine\Graphic\Particle.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\GameLogic\SampleLogicBuilder.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\GameLogic\SampleLogic.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\BaseData\LoadLogics.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

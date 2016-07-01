@@ -23,7 +23,7 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 /******************************************************************************/
 LogicFactory::~LogicFactory(void)
 {
-	Clear();
+	DeleteAllBuilders();
 }
 
 /******************************************************************************/
@@ -35,13 +35,13 @@ LogicFactory::~LogicFactory(void)
 
 */
 /******************************************************************************/
-void LogicFactory::AddBuilder(GameLogic* logic, LogicBuilder* pBuilder)
+void LogicFactory::AddBuilder(const char* logic, LogicBuilder* pBuilder)
 {
 	//Find if there is existing stage 
 	auto found = m_builderMap.find(logic);
 
 	//If there is, assert
-	DEBUG_ASSERT(found == m_builderMap.end(), "Error: Stage Duplication!");
+	DEBUG_ASSERT(found == m_builderMap.end(), "Error: Logic Duplication!");
 
 	//Unless, make new builder
 	m_builderMap.insert(std::make_pair(logic, pBuilder));
@@ -49,32 +49,10 @@ void LogicFactory::AddBuilder(GameLogic* logic, LogicBuilder* pBuilder)
 
 /******************************************************************************/
 /*!
-\brief - Delete Builder
-
-\param stage - stage to delete
-
-*/
-/******************************************************************************/
-void LogicFactory::DeleteBuilder(GameLogic* logic)
-{
-	//I do not understand why we need this
-
-	//Find if there is existing stage 
-	auto found = m_builderMap.find(logic);
-
-	//If there is not, assert
-	DEBUG_ASSERT(found != m_builderMap.end(), "Error: Not Existing Stage!");
-
-	//if there is, erase
-	m_builderMap.erase(logic);
-}
-
-/******************************************************************************/
-/*!
 \brief - Clear the builder map
 */
 /******************************************************************************/
-void LogicFactory::Clear()
+void LogicFactory::DeleteAllBuilders(void)
 {
 	for (auto it = m_builderMap.begin(); it != m_builderMap.end(); ++it)
 		delete it->second;
@@ -91,14 +69,14 @@ void LogicFactory::Clear()
 
 */
 /******************************************************************************/
-GameLogic* LogicFactory::CreateLogic(GameLogic* logic, GameStateManager* GSM)
+GameLogic* LogicFactory::CreateLogic(const char* logic, Object* owner)
 {
 	//Find if there is existing stage 
 	auto found = m_builderMap.find(logic);
 
 	//If there is not, assert
-	DEBUG_ASSERT(found != m_builderMap.end(), "Error: Not Existing Stage!");
+	DEBUG_ASSERT(found != m_builderMap.end(), "Error: Existing Logic!");
 
 	//if there is, erase
-	return found->second->BuildLogic(GSM);
+	return found->second->BuildLogic(owner);
 }
