@@ -19,7 +19,7 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 class Sprite;
 
 //! Rigidbody' shape
-enum Shape { CIRCLE, RECTANGLE };
+enum Shape { BALL, BOX };
 
 //! class RigidBody
 class RigidBody{

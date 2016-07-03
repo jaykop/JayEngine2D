@@ -82,7 +82,14 @@ private:
 
 	//! Collision functions
 	bool CollisionIntersect(Sprite* spt1, Sprite* spt2);
+	bool IntersectBallToBall(Sprite* spt1, Sprite* spt2);
+	bool IntersectBoxToBall(Sprite* spt1, Sprite* spt2);
+	bool IntersectBoxToBox(Sprite* spt1, Sprite* spt2);
+
 	void CollisionResponse(Sprite* spt1, Sprite* spt2);
+	void ResponseBallToBall(Sprite* spt1, Sprite* spt2);
+	void ResponseBoxToBall(Sprite* spt1, Sprite* spt2);
+	void ResponseBoxToBox(Sprite* spt1, Sprite* spt2);
 	void CollisionRelation(Sprite* spt1, Sprite* spt2, bool coliided);
 	void CollisionPipeline();
 

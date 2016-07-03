@@ -23,7 +23,7 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 RigidBody::RigidBody()
 :m_move(true), m_collider(true), m_isCollided(false),
 m_speed(vec3()), m_velocity(vec3()), m_lastPos(vec3()),
-m_direction(0), m_scale(0), m_acceleration(0), m_friction(0), m_shape(RECTANGLE)
+m_direction(0), m_scale(0), m_acceleration(0), m_friction(0), m_shape(BOX)
 {}
 
 /******************************************************************************/

@@ -190,7 +190,7 @@ namespace Math
 	\brief - Calculate the distance of two vector(point).
 	\param line1 - 1st point(vector)
 	\param line2 - 2nd point(vector)
-	\return float
+	\return distance
 	*/
 	/******************************************************************************/
 	float DistanceOf2Points(const vec3& a, const vec3& b)
@@ -204,12 +204,81 @@ namespace Math
 	\brief - Calculate the distance of two point.
 	\param line1 - 1st point
 	\param line2 - 2nd point
-	\return float
+	\return distance
 	*/
 	/******************************************************************************/
 	float DistanceOf2Points(const Pointf& a, const Pointf& b)
 	{
 		vec3 square((b.x - a.x) * (b.x - a.x), (b.y - a.y) * (b.y - a.y), 0);
 		return sqrt(square.x + square.y);
+	}
+
+	/******************************************************************************/
+	/*!
+	\brief - Calculate the distance of point and segment.
+	\param point
+	\param line_start
+	\param line_end
+	\return distance
+	*/
+	/******************************************************************************/
+	float DistanceOfPointSegment(const vec3& point, const vec3& line_start, const vec3& line_end)
+	{
+		// segment is nit a segment; a point
+		float length = DistanceOf2Points(line_start, line_end);
+		if (!length)
+			return DistanceOf2Points(line_start, point);
+
+		// Unless...
+		float projection = ((point.x - line_start.x) * (line_end.x - line_start.x) + 
+			(point.y - line_start.y) * (line_end.y - line_start.y)) / length;
+
+		//
+		//	1st case		2nd case		3rd case
+		//		*				*				*
+		//		   A						 B
+		//			=========================
+		
+		// 1st case
+		if (projection < 0) return DistanceOf2Points(line_start, point);
+		// 3rd case
+		else if (projection > length) return DistanceOf2Points(line_end, point);
+		// 2nd case
+		else return abs((point.y - line_start.y) * (line_end.x - line_start.x)
+			- (point.x - line_start.x) * (line_end.y - line_start.y)) / length;
+	}
+	
+	/******************************************************************************/
+	/*!
+	\brief - Calculate the distance of point and segment.
+	\param point
+	\param line
+	\return distance
+	*/
+	/******************************************************************************/
+	float DistanceOfPointSegment(const Pointf& point, const Linef& line)
+	{
+		// segment is nit a segment; a point
+		float length = DistanceOf2Points(line.p1, line.p2);
+		if (!length)
+			return DistanceOf2Points(line.p1, point);
+
+		// Unless...
+		float projection = ((point.x - line.p1.x) * (line.p2.x - line.p1.x) +
+			(point.y - line.p1.y) * (line.p2.y - line.p1.y)) / length;
+
+		//
+		//	1st case		2nd case		3rd case
+		//		*				*				*
+		//		   A						 B
+		//			=========================
+
+		// 1st case
+		if (projection < 0) return DistanceOf2Points(line.p1, point);
+		// 3rd case
+		else if (projection > length) return DistanceOf2Points(line.p2, point);
+		// 2nd case
+		else return abs((point.x - line.p1.x) * (line.p2.y - line.p1.y) +
+			(point.y - line.p1.y) * (line.p2.x - line.p1.x)) / length;
 	}
 }

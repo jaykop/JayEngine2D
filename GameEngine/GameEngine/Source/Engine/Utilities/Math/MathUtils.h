@@ -22,6 +22,7 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 #include "Vector/Vector4.h"
 
 //! Math Deifnitions
+#define ROUNDING(x, dig)    ( floor((x) * pow(float(10), dig) + 0.5f) / pow(float(10), dig) )
 #define PI 3.1415926535897932F
 #define RADIAN 0.01745329251994329576923690768489F
 #define RADIAN_DEGREE 57.2958F
@@ -74,6 +75,9 @@ namespace Math
 
 	float DistanceOf2Points(const vec3& a, const vec3& b);
 	float DistanceOf2Points(const Pointf& a, const Pointf& b);
+
+	float DistanceOfPointSegment(const vec3& point, const vec3& line_start, const vec3& line_end);
+	float DistanceOfPointSegment(const Pointf& point, const Linef& line);
 }
 
 #endif //_MATHUTILS_H_

@@ -54,77 +54,42 @@ void MenuStage::Init(GameData& gd)
 	//Set sprites
 	m_ObjM.AddObject(0, SPRITE);
 	m_ObjM.AddObject(1, SPRITE);
-	m_ObjM.AddObject(2, SPRITE);
-	m_ObjM.AddObject(3, SPRITE);
-	m_ObjM.AddObject(4, SPRITE);
-	m_ObjM.AddObject(5, SPRITE);
-	m_ObjM.AddObject(10, TEXT);
-	m_ObjM.AddObject(12, PARTICLE);
 
 	//Set positions
-	m_ObjM.GetSprite(0)->SetPosition(vec3(10, 10, 1.05f));
-	m_ObjM.GetSprite(1)->SetPosition(vec3(-10, -10, 1.1f));
-	m_ObjM.GetSprite(0)->SetRotation(Random::GetInstance().GetRandomFloat(0, 360));
-	m_ObjM.GetSprite(1)->SetRotation(Random::GetInstance().GetRandomFloat(0, 360));
+	m_ObjM.GetSprite(0)->SetPosition(vec3(-10, 10.f, 1.05f));
+	m_ObjM.GetSprite(1)->SetPosition(vec3(-10, 0, 1.05f));
 	m_ObjM.GetSprite(0)->SetScale(vec3(5, 5));
-	m_ObjM.GetSprite(1)->SetScale(vec3(5, 5));
-
-	//m_ObjM.GetSprite(0)->SetSpriteShape(CIRCLE);
-	//m_ObjM.GetSprite(1)->SetSpriteShape(CIRCLE);
-	m_ObjM.GetText(10)->SetText(L"sdfghj¡¿ ¨ª ¨­ ©¬ ©¡ ©£ ¡À ©ª ©­?");
-	m_ObjM.GetText(10)->SetColor(vec4(1, 1, 1, 1));
-	//m_ObjM.GetSprite(10)->SetPosition(vec3(0, 0, 0));
-
-	m_ObjM.GetSprite(2)->SetPosition(vec3(20, 0, .5f));
-	m_ObjM.GetSprite(3)->SetPosition(vec3(-20, 0, 1.f));
-	m_ObjM.GetSprite(4)->SetPosition(vec3(0, -20 ,.1f));
-	m_ObjM.GetSprite(5)->SetPosition(vec3(0, 20, .7f));
-
-	m_ObjM.GetSprite(2)->SetScale(vec3(1, 300));
-	m_ObjM.GetSprite(3)->SetScale(vec3(1, 300));
-	m_ObjM.GetSprite(4)->SetScale(vec3(300, 1));
-	m_ObjM.GetSprite(5)->SetScale(vec3(300, 1));
+	m_ObjM.GetSprite(1)->SetScale(vec3(50, 5));
 
 	//Set colors
 	m_ObjM.GetSprite(0)->SetColor(vec4(1, 1, 1, 1));
 	m_ObjM.GetSprite(1)->SetColor(vec4(0, 1, 1, 1));
 
-	m_ObjM.GetSprite(2)->SetColor(vec4(0, 0, 1, 1));
-	m_ObjM.GetSprite(3)->SetColor(vec4(1, 1, 0, 1));
-	m_ObjM.GetSprite(4)->SetColor(vec4(1, 0, 0, 1));
-	m_ObjM.GetSprite(5)->SetColor(vec4(0, 1, 0, 1));
-
 	//Bind rigid body
 	m_ObjM.GetSprite(0)->BindRigidBody();
 	m_ObjM.GetSprite(1)->BindRigidBody();
 
-	m_ObjM.GetSprite(2)->BindRigidBody();
-	m_ObjM.GetSprite(3)->BindRigidBody();
-	m_ObjM.GetSprite(4)->BindRigidBody();
-	m_ObjM.GetSprite(5)->BindRigidBody();
-
 	m_ObjM.GetSprite(0)->GetRigidBody()->SetFriction(.0005f);
 	m_ObjM.GetSprite(0)->GetRigidBody()->SetScale(vec3(5.f, 5.f));
 	m_ObjM.GetSprite(1)->GetRigidBody()->SetFriction(.0005f);
-	m_ObjM.GetSprite(1)->GetRigidBody()->SetScale(vec3(5.f, 5.f));
+	m_ObjM.GetSprite(1)->GetRigidBody()->SetScale(vec3(50.f, 5.f));
 
-	m_ObjM.GetSprite(2)->GetRigidBody()->ActivateMove(false);
-	m_ObjM.GetSprite(3)->GetRigidBody()->ActivateMove(false);
-	m_ObjM.GetSprite(4)->GetRigidBody()->ActivateMove(false);
-	m_ObjM.GetSprite(5)->GetRigidBody()->ActivateMove(false);
+	m_ObjM.GetSprite(0)->GetTexture()->LoadTexture("Resource/Texture/circle.png");
+	// m_ObjM.GetSprite(1)->GetTexture()->LoadTexture("Resource/Texture/circle.png");
+	m_ObjM.GetSprite(0)->GetRigidBody()->SetShape(BALL);
+	m_ObjM.GetSprite(1)->GetRigidBody()->SetShape(BOX);
+	//m_ObjM.GetSprite(1)->GetRigidBody()->ActivateMove(false);
 
-	m_ObjM.GetSprite(0)->SetAnimation(6, 6);
-	m_ObjM.GetSprite(0)->GetTexture()->LoadTexture("Resource/Texture/Phantom.png");
-	m_ObjM.GetEmitter(12)->GetTexture()->LoadTexture("Resource/Texture/particle.png");
 	m_ObjM.GetGameScene()->SetBackgroundColor(vec4(0, 0, 0, 1));
-	
-	// Clone and logic test code
-	/*m_ObjM.GetSprite(0)->AddLogic(new SampleLogic(m_ObjM.GetSprite(0)));
-	m_ObjM.GetSprite(0)->GetLogic<SampleLogic>()->Init();
 
-	m_ObjM.MakeClone(0, 7);
-	m_ObjM.GetSprite(7)->SetPosition(vec3(10, -10));*/
+	// math function checker
+	std::cout << Math::DistanceOfPointSegment(vec3(-2,1), vec3(-1, 0), vec3(1, 0)) << "\n";
 
+	vec3 a(0, -1);
+	vec3 b(-1, -1);
+	vec3 c(1, -1);
+
+	std::cout << a.Reflection((b - c).Rotation(90)) << "\n";
 }
 
 void MenuStage::Update(GameData& gd)
@@ -170,12 +135,6 @@ void MenuStage::BasicControl(void)
 
 	if (InputManager::GetInstance().KeyTriggered(KEY_P))
 		m_GSM->Pause();
-
-	else if (InputManager::GetInstance().KeyTriggered(KEY_TAB))
-	{
-		m_ObjM.GetSprite(0)->GetTexture()->LoadTexture("Resource/Texture/Phantom.png");
-		m_ObjM.GetSprite(1)->GetTexture()->LoadTexture("Resource/Texture/Phantom.png");
-	}
 }
 
 void MenuStage::SampleAnimation(void)
@@ -195,8 +154,8 @@ void MenuStage::SampleAnimation(void)
 
 	if (InputManager::GetInstance().KeyTriggered(KEY_ENTER))
 	{
-		m_ObjM.GetSprite(0)->GetRigidBody()->SetForce(Random::GetInstance().GetRandomVector(-1.f, 1.f));
-		m_ObjM.GetSprite(1)->GetRigidBody()->SetForce(Random::GetInstance().GetRandomVector(-1.f, 1.f));
+		m_ObjM.GetSprite(0)->GetRigidBody()->SetForce(vec3(Random::GetInstance().GetRandomFloat(-2.f, 2.f), -1));
+	//	m_ObjM.GetSprite(1)->GetRigidBody()->SetForce(Random::GetInstance().GetRandomVector(-1.f, 1.f));
 	}
 
 	if (InputManager::GetInstance().KeyTriggered(KEY_SPACE))

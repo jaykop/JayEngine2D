@@ -230,9 +230,29 @@ void World::LineProjection(Vertices& vert, vec3& point, float &min, float &max)
 /******************************************************************************/
 bool World::CollisionIntersect(Sprite* spt1, Sprite* spt2)
 {
+	if (spt1->GetRigidBody()->GetShape() == BALL &&
+		spt2->GetRigidBody()->GetShape() == BALL)
+		return IntersectBallToBall(spt1, spt2);
+
+	else if (spt1->GetRigidBody()->GetShape() == BOX && 
+		spt2->GetRigidBody()->GetShape() == BOX)
+		return IntersectBoxToBox(spt1, spt2);
+
+	else
+	{
+		if (spt1->GetRigidBody()->GetShape() == BOX &&
+			spt2->GetRigidBody()->GetShape() == BALL)
+			return IntersectBoxToBall(spt1, spt2);
+
+		else  return IntersectBoxToBall(spt2, spt1);
+	}
+}
+
+bool World::IntersectBoxToBox(Sprite* box1, Sprite* box2)
+{
 	//Get rectangle;s vertices
-	body1 = GetVertices(spt1);
-	body2 = GetVertices(spt2);
+	body1 = GetVertices(box1);
+	body2 = GetVertices(box2);
 
 	//Refresh the mins and maxs
 	body1_min = 0, body1_max = 0;
@@ -277,6 +297,67 @@ bool World::CollisionIntersect(Sprite* spt1, Sprite* spt2)
 	return true;
 }
 
+bool World::IntersectBallToBall(Sprite* ball1, Sprite* ball2)
+{
+	// Get the distance of 2 circles' position
+	float distance = 2 * Math::DistanceOf2Points(ball1->GetPosition(), ball2->GetPosition());
+
+	// Check if they are overlapped or not
+	if (distance < ball1->GetRigidBody()->GetScale().x + ball2->GetRigidBody()->GetScale().x)
+		return true;
+
+	return false;
+}
+
+bool World::IntersectBoxToBall(Sprite* box, Sprite* ball)
+{
+	// Init distance
+	float distance = 0;
+	int collided_line = 0;
+
+	//Get rectangle;s vertices
+	body1 = GetVertices(box);
+
+	// Check collision each edges and centre of ball + radius
+	for (int index = 0; index < 4; ++index)
+	{
+		if (index == 3)
+			distance = Math::DistanceOfPointSegment(ball->GetPosition(), body1[index], body1[0]);
+
+		else
+			distance = Math::DistanceOfPointSegment(ball->GetPosition(), body1[index], body1[index + 1]);
+	
+		// If it is, collided
+		if (distance < ball->GetScale().x / 2)
+		{
+			++collided_line;
+			if (index == 3)
+			{
+				collided_edge[0] = body1[3];
+				collided_edge[1] = body1[0];
+			}
+
+			else
+			{
+				collided_edge[0] = body1[index];
+				collided_edge[1] = body1[index + 1];
+			}
+		}
+	}
+
+	if (collided_line)
+	{
+		//if (collided_line == 1)
+			return true;
+
+		//else
+			
+	}
+
+	// If not, not collided
+	return false;
+}
+
 /******************************************************************************/
 /*!
 \brief - Do Collision Response
@@ -288,28 +369,84 @@ bool World::CollisionIntersect(Sprite* spt1, Sprite* spt2)
 /******************************************************************************/
 void World::CollisionResponse(Sprite* spt1, Sprite* spt2)
 {	
+	if (spt1->GetRigidBody()->GetShape() == BALL &&
+		spt2->GetRigidBody()->GetShape() == BALL)
+		return ResponseBallToBall(spt1, spt2);
+
+	else if (spt1->GetRigidBody()->GetShape() == BOX &&
+		spt2->GetRigidBody()->GetShape() == BOX)
+		return ResponseBoxToBox(spt1, spt2);
+
+	else
+	{
+		if (spt1->GetRigidBody()->GetShape() == BOX &&
+			spt2->GetRigidBody()->GetShape() == BALL)
+			return ResponseBoxToBall(spt1, spt2);
+
+		else  return ResponseBoxToBall(spt2, spt1);
+	}
+}
+
+void World::ResponseBallToBall(Sprite* ball1, Sprite* ball2)
+{			
+	vec3 new_vel = -ball1->GetRigidBody()->GetVelocity();					// Calculate new velocity
+	ball1->GetRigidBody()->SetVelocity(new_vel);								// Set new velocity
+	ball1->GetRigidBody()->SetSpeed(ball1->GetRigidBody()->GetSpeed() / 2);	// Reduce the speed(force)
+	ball1->SetPosition(ball1->GetRigidBody()->GetLastPosition());				// Move to the uncollided last position
+
+	// If 2nd sprite is movable, add half force of 1st sprite
+	if (ball2->GetRigidBody()->GetMoveToggle())
+	{
+		ball2->GetRigidBody()->SetVelocity(-new_vel);						// Set new velocity
+		ball2->GetRigidBody()->SetSpeed(ball2->GetRigidBody()->GetSpeed()		// Reduce the speed(force)
+				+ ball1->GetRigidBody()->GetSpeed() / 2);						
+		ball2->SetPosition(ball2->GetRigidBody()->GetLastPosition());			// Move to the uncollided last position
+	}
+}
+
+void World::ResponseBoxToBox(Sprite* box1, Sprite* box2)
+{
 	// Todo: Temporary function!
 	// Need to be fixed!!!
 
-	//vec3 new_vel = spt1->GetRigidBody()->GetVelocity().Reflection(
-	//GetCollidedLine(spt1, spt2).Rotation(90).Normalize());				// Calculate new velocity
-	vec3 new_vel = -spt1->GetRigidBody()->GetVelocity();
-	spt1->GetRigidBody()->SetVelocity(new_vel);								// Set new velocity
-	spt1->GetRigidBody()->SetSpeed(spt1->GetRigidBody()->GetSpeed() / 2);	// Reduce the speed(force)
-	spt1->SetPosition(spt1->GetRigidBody()->GetLastPosition());				// Move to the uncollided last position
-	//BodyPipeline(spt1);
+	//vec3 new_vel = box1->GetRigidBody()->GetVelocity().Reflection(
+	//GetCollidedLine(box1, box2).Rotation(90).Normalize());				// Calculate new velocity
+	vec3 new_vel = -box1->GetRigidBody()->GetVelocity();
+	box1->GetRigidBody()->SetVelocity(new_vel);								// Set new velocity
+	box1->GetRigidBody()->SetSpeed(box1->GetRigidBody()->GetSpeed() / 2);	// Reduce the speed(force)
+	box1->SetPosition(box1->GetRigidBody()->GetLastPosition());				// Move to the uncollided last position
+	//BodyPipeline(box1);
 
 	// If 2nd sprite is movable, add half force of 1st sprite
-	if (spt2->GetRigidBody()->GetMoveToggle())
+	if (box2->GetRigidBody()->GetMoveToggle())
 	{
-	//	//vec3 new_vel2 = spt2->GetRigidBody()->GetVelocity().Reflection(
-	//		//GetCollidedLine(spt2, spt1).Rotation(90).Normalize());			// Calculate new velocity
-	//	spt2->GetRigidBody()->SetVelocity(-new_vel);							// Set new velocity
-	//	spt2->GetRigidBody()->SetSpeed(spt2->GetRigidBody()->GetSpeed() 
-	//		+ spt1->GetRigidBody()->GetSpeed() / 2);							// Reduce the speed(force)
-		spt2->SetPosition(spt2->GetRigidBody()->GetLastPosition());				// Move to the uncollided last position
-	//	//BodyPipeline(spt2);
-	}	
+		//	//vec3 new_vel2 = box2->GetRigidBody()->GetVelocity().Reflection(
+		//		//GetCollidedLine(box2, box1).Rotation(90).Normalize());			// Calculate new velocity
+		//	box2->GetRigidBody()->SetVelocity(-new_vel);							// Set new velocity
+		//	box2->GetRigidBody()->SetSpeed(box2->GetRigidBody()->GetSpeed() 
+		//		+ box1->GetRigidBody()->GetSpeed() / 2);							// Reduce the speed(force)
+		box2->SetPosition(box2->GetRigidBody()->GetLastPosition());				// Move to the uncollided last position
+		//	//BodyPipeline(box2);
+	}
+}
+
+void World::ResponseBoxToBall(Sprite* box, Sprite* ball)
+{
+	// Refresh the box's body info
+	vec3 new_vel1 = -box->GetRigidBody()->GetVelocity();					// Calculate new velocity
+	box->GetRigidBody()->SetVelocity(new_vel1);							// Set new velocity
+	box->GetRigidBody()->SetSpeed(box->GetRigidBody()->GetSpeed() / 2);	// Reduce the speed(force)
+	box->SetPosition(box->GetRigidBody()->GetLastPosition());			// Move to the uncollided last position
+
+	// If the ball is movable, add half force of 1st sprite
+	if (ball->GetRigidBody()->GetMoveToggle())
+	{
+		vec3 new_vel2 = ball->GetRigidBody()->GetVelocity().Reflection((collided_edge[1] - collided_edge[0]).Rotation(90)).Normalize();
+		ball->GetRigidBody()->SetVelocity(new_vel2);						// Set new velocity
+		ball->GetRigidBody()->SetSpeed(ball->GetRigidBody()->GetSpeed()		// Reduce the speed(force)
+			+ box->GetRigidBody()->GetSpeed() / 2);
+		ball->SetPosition(ball->GetRigidBody()->GetLastPosition());			// Move to the uncollided last position
+	}
 }
 
 /******************************************************************************/
