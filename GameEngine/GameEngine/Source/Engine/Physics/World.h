@@ -71,27 +71,23 @@ private:
 
 	//! Collision helper functions
 	Vertices GetVertices(Sprite* spt);
-	vec3 GetCollidedLine(const Sprite* spt1, const Sprite* spt2);
-	Vertices GetOverlappedBox(const Sprite* spt1, const Sprite* spt2);
+	void GetCollidedLine(bool toggle);
 	void LineProjection(Vertices& vert, vec3& point, float &min, float &max);
-	
-	// Todo: RECT - RECT collision,
-	// RECT - CIRCLE collision,
-	// CIRCLE - CIRCLE collision.
-	// Collision response to be polished
 
-	//! Collision functions
+	//! Collision intersection checking functions
 	bool CollisionIntersect(Sprite* spt1, Sprite* spt2);
 	bool IntersectBallToBall(Sprite* spt1, Sprite* spt2);
-	bool IntersectBoxToBall(Sprite* spt1, Sprite* spt2);
+	bool IntersectBoxToBall(Sprite* spt1, Sprite* spt2, bool toggle);
 	bool IntersectBoxToBox(Sprite* spt1, Sprite* spt2);
 
+	//! Collision response functions
 	void CollisionResponse(Sprite* spt1, Sprite* spt2);
 	void ResponseBallToBall(Sprite* spt1, Sprite* spt2);
 	void ResponseBoxToBall(Sprite* spt1, Sprite* spt2);
 	void ResponseBoxToBox(Sprite* spt1, Sprite* spt2);
+
+	//! Collision relation setting function 
 	void CollisionRelation(Sprite* spt1, Sprite* spt2, bool coliided);
-	void CollisionPipeline();
 
 	//! Calculate bodies' motion
 	void BodyPipeline(Sprite* spt);
@@ -104,14 +100,11 @@ private:
 	float body2_min, body2_max;
 	float tx_max, ty_max, tx_min, ty_min;
 
-	vec3 collided_edge[2];	//! body1's 2 edge storage
-	int body1_1stIndex[2];	//! body1's 1st edge index storage
-	int body1_2ndIndex[2];	//! body1's 2nd edge index storage
-	int body2_1stIndex[2];	//! body2's 1st edge index storage
-	int body2_2ndIndex[2];	//! body2's 2nd edge index storage
+	//! bodies edge storage
+	vec3 collided_edge[2];	
 
-	// Todo: Line collision (to be dynamic; list)
-	// Todo: record collision relation between 2 spts
+	//! Toggle thatn control loop order
+	bool loopToggle;
 };
 
 #endif // _WORLD_H_

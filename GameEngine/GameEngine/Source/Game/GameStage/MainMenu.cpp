@@ -74,11 +74,11 @@ void MenuStage::Init(GameData& gd)
 	m_ObjM.GetSprite(1)->GetRigidBody()->SetFriction(.0005f);
 	m_ObjM.GetSprite(1)->GetRigidBody()->SetScale(vec3(50.f, 5.f));
 
-	m_ObjM.GetSprite(0)->GetTexture()->LoadTexture("Resource/Texture/circle.png");
+	//m_ObjM.GetSprite(0)->GetTexture()->LoadTexture("Resource/Texture/circle.png");
 	// m_ObjM.GetSprite(1)->GetTexture()->LoadTexture("Resource/Texture/circle.png");
-	m_ObjM.GetSprite(0)->GetRigidBody()->SetShape(BALL);
+	m_ObjM.GetSprite(0)->GetRigidBody()->SetShape(BOX);
 	m_ObjM.GetSprite(1)->GetRigidBody()->SetShape(BOX);
-	//m_ObjM.GetSprite(1)->GetRigidBody()->ActivateMove(false);
+	m_ObjM.GetSprite(1)->GetRigidBody()->ActivateMove(false);
 
 	m_ObjM.GetGameScene()->SetBackgroundColor(vec4(0, 0, 0, 1));
 
