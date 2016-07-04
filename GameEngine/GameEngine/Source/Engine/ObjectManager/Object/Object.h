@@ -18,9 +18,6 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 #include <hash_map>
 #include "../../Utilities/Math/MathUtils.h"
 
-//! Object type
-enum Type { SPRITE, TEXT, PARTICLE };
-
 class GameLogic;
 class ObjectManager;
 
@@ -30,16 +27,12 @@ class Object {
 
 public:
 
-	Object(const int id = 0, Type type = SPRITE, ObjectManager* obm = 0);
+	Object(const int id = 0, ObjectManager* obm = 0);
 	virtual ~Object();
 
 	// Id functions
 	const int GetID(void) const;
 	void SetID(const int id);
-
-	// Type functions
-	Type GetObjectType(void) const;
-	void SetObjectType(Type type);
 
 	// GameLogic normal function
 	void AddLogic(GameLogic* logic);
@@ -87,7 +80,6 @@ protected:
 private:
 
 	int m_id;				//! Object id
-	Type  m_type;			//! Object type
 	ObjectManager* m_OBM;	//! Pointer to object manager
 	LogicList m_logicList;	//! Logic list;
 };

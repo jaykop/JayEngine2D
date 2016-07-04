@@ -234,22 +234,20 @@ void Scene::Update(const ObjectList& objList)
 		glUniformMatrix4fv(m_GSM->GetGLManager()->GetUnifrom(TRANSFORM), 1, GL_FALSE, &m_mvp.m_member[0][0]);
 		glUniformMatrix4fv(m_GSM->GetGLManager()->GetUnifrom(UV), 1, GL_FALSE, &m_animation.m_member[0][0]);
 		glUniform4f(m_GSM->GetGLManager()->GetUnifrom(COLOR), sptColor.x, sptColor.y, sptColor.z, sptColor.w);
-		glUniform1d(m_GSM->GetGLManager()->GetUnifrom(TYPE), (*it)->GetObjectType());
 
 		//Todo: high quality?
 		//glUniformMatrix4fv();
 
-
 		// Draw Sprites
-		if ((*it)->GetObjectType() == SPRITE)
+		if (strcmp(typeid((*it)).name(), "class Sprite"))
 			DrawSprites(*it);
 		
 		// Draw Texts 
-		else if ((*it)->GetObjectType() == TEXT)
+		else if (strcmp(typeid((*it)).name(), "class Text"))
 			DrawTexts(static_cast<Text*>(*it));
 
 		//// Draw Particles
-		//else if ((*it)->GetObjectType() == PARTICLE)
+		//else if (strcmp(typeid((*it)).name(), "class Emitter"))
 		//	DrawParticle(static_cast<Emitter*>(*it));
 	}
 

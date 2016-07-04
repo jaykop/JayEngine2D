@@ -48,48 +48,38 @@ void MenuStage::Init(GameData& gd)
 	std::cout << "You can control the White box with keyboard arrows!\n";
 
 	//Init basic trunks
-	m_ObjM.BindGameSystem(m_GSM);
-	m_ObjM.InitGameSystem();
+	m_OBM.BindGameSystem(m_GSM);
+	m_OBM.InitGameSystem();
 
 	//Set sprites
-	m_ObjM.AddObject(0, SPRITE);
-	m_ObjM.AddObject(1, SPRITE);
+	m_OBM.AddObject(new Sprite(0, &m_OBM));
+	m_OBM.AddObject(new Sprite(1, &m_OBM));
 
 	//Set positions
-	m_ObjM.GetSprite(0)->SetPosition(vec3(-10, 10.f, 1.05f));
-	m_ObjM.GetSprite(1)->SetPosition(vec3(-10, 0, 1.05f));
-	m_ObjM.GetSprite(0)->SetScale(vec3(5, 5));
-	m_ObjM.GetSprite(1)->SetScale(vec3(50, 5));
+	m_OBM.GetGameObject<Sprite>(0)->SetPosition(vec3(-10, 10.f, 1.05f));
+	m_OBM.GetGameObject<Sprite>(1)->SetPosition(vec3(-10, 0, 1.05f));
+	m_OBM.GetGameObject<Sprite>(0)->SetScale(vec3(5, 5));
+	m_OBM.GetGameObject<Sprite>(1)->SetScale(vec3(50, 5));
 
 	//Set colors
-	m_ObjM.GetSprite(0)->SetColor(vec4(1, 1, 1, 1));
-	m_ObjM.GetSprite(1)->SetColor(vec4(0, 1, 1, 1));
+	m_OBM.GetGameObject<Sprite>(0)->SetColor(vec4(1, 1, 1, 1));
+	m_OBM.GetGameObject<Sprite>(1)->SetColor(vec4(0, 1, 1, 1));
 
 	//Bind rigid body
-	m_ObjM.GetSprite(0)->BindRigidBody();
-	m_ObjM.GetSprite(1)->BindRigidBody();
+	m_OBM.GetGameObject<Sprite>(0)->SetRigidBody(new RigidBody);
+	m_OBM.GetGameObject<Sprite>(1)->SetRigidBody(new RigidBody);
 
-	m_ObjM.GetSprite(0)->GetRigidBody()->SetFriction(.0005f);
-	m_ObjM.GetSprite(0)->GetRigidBody()->SetScale(vec3(5.f, 5.f));
-	m_ObjM.GetSprite(1)->GetRigidBody()->SetFriction(.0005f);
-	m_ObjM.GetSprite(1)->GetRigidBody()->SetScale(vec3(50.f, 5.f));
+	m_OBM.GetGameObject<Sprite>(0)->GetRigidBody()->SetFriction(.0005f);
+	m_OBM.GetGameObject<Sprite>(0)->GetRigidBody()->SetScale(vec3(5.f, 5.f));
+	m_OBM.GetGameObject<Sprite>(1)->GetRigidBody()->SetFriction(.0005f);
+	m_OBM.GetGameObject<Sprite>(1)->GetRigidBody()->SetScale(vec3(50.f, 5.f));
 
-	//m_ObjM.GetSprite(0)->GetTexture()->LoadTexture("Resource/Texture/circle.png");
-	// m_ObjM.GetSprite(1)->GetTexture()->LoadTexture("Resource/Texture/circle.png");
-	m_ObjM.GetSprite(0)->GetRigidBody()->SetShape(BOX);
-	m_ObjM.GetSprite(1)->GetRigidBody()->SetShape(BOX);
-	m_ObjM.GetSprite(1)->GetRigidBody()->ActivateMove(false);
+	m_OBM.GetGameObject<Sprite>(0)->GetRigidBody()->SetShape(BOX);
+	m_OBM.GetGameObject<Sprite>(1)->GetRigidBody()->SetShape(BOX);
+	m_OBM.GetGameObject<Sprite>(1)->GetRigidBody()->ActivateMove(false);
 
-	m_ObjM.GetGameScene()->SetBackgroundColor(vec4(0, 0, 0, 1));
+	m_OBM.GetGameScene()->SetBackgroundColor(vec4(0, 0, 0, 1));
 
-	// math function checker
-	std::cout << Math::DistanceOfPointSegment(vec3(-2,1), vec3(-1, 0), vec3(1, 0)) << "\n";
-
-	vec3 a(0, -1);
-	vec3 b(-1, -1);
-	vec3 c(1, -1);
-
-	std::cout << a.Reflection((b - c).Rotation(90)) << "\n";
 }
 
 void MenuStage::Update(GameData& gd)
@@ -101,7 +91,7 @@ void MenuStage::Update(GameData& gd)
 	SampleAnimation();
 
 	//Update basic trunks
-	m_ObjM.UpdateGameSystem();
+	m_OBM.UpdateGameSystem();
 }
 
 void MenuStage::Shutdown()
@@ -109,8 +99,8 @@ void MenuStage::Shutdown()
 	std::cout << "MenuStage::Shutdown\n";
 
 	//Cleare all Objects of the list
-	m_ObjM.ShutdownGameSystem();
-	m_ObjM.ClearObjectList();
+	m_OBM.ShutdownGameSystem();
+	m_OBM.ClearObjectList();
 }
 
 void MenuStage::BasicControl(void)
@@ -141,28 +131,22 @@ void MenuStage::SampleAnimation(void)
 {
 	//Control White box with keyboard
 	if (InputManager::GetInstance().KeyPressed(KEY_RIGHT))
-		m_ObjM.GetSprite(0)->GetRigidBody()->SetForce(vec3(.5f, 0, 0));
+		m_OBM.GetGameObject<Sprite>(0)->GetRigidBody()->SetForce(vec3(.5f, 0, 0));
 
 	if (InputManager::GetInstance().KeyPressed(KEY_LEFT))
-		m_ObjM.GetSprite(0)->GetRigidBody()->SetForce(vec3(-.5f, 0, 0));
+		m_OBM.GetGameObject<Sprite>(0)->GetRigidBody()->SetForce(vec3(-.5f, 0, 0));
 
 	if (InputManager::GetInstance().KeyPressed(KEY_UP))
-		m_ObjM.GetSprite(0)->GetRigidBody()->SetForce(vec3(0, .5f, 0));
+		m_OBM.GetGameObject<Sprite>(0)->GetRigidBody()->SetForce(vec3(0, .5f, 0));
 
 	if (InputManager::GetInstance().KeyPressed(KEY_DOWN))
-		m_ObjM.GetSprite(0)->GetRigidBody()->SetForce(vec3(0, -.5f, 0));
+		m_OBM.GetGameObject<Sprite>(0)->GetRigidBody()->SetForce(vec3(0, -.5f, 0));
 
 	if (InputManager::GetInstance().KeyTriggered(KEY_ENTER))
-	{
-		m_ObjM.GetSprite(0)->GetRigidBody()->SetForce(vec3(Random::GetInstance().GetRandomFloat(-2.f, 2.f), -1));
-	//	m_ObjM.GetSprite(1)->GetRigidBody()->SetForce(Random::GetInstance().GetRandomVector(-1.f, 1.f));
-	}
+		m_OBM.GetGameObject<Sprite>(0)->GetRigidBody()->SetForce(vec3(Random::GetInstance().GetRandomFloat(-2.f, 2.f), -1));
 
 	if (InputManager::GetInstance().KeyTriggered(KEY_SPACE))
-	{
-		m_ObjM.GetSprite(0)->GetRigidBody()->ClearVelocity();
-		m_ObjM.GetSprite(1)->GetRigidBody()->ClearVelocity();
-	}
+		m_OBM.GetGameObject<Sprite>(0)->GetRigidBody()->ClearVelocity();
 
 	//Show the mouse's position when mouse botton clicked
 	if (InputManager::GetInstance().KeyTriggered(MOUSE_LBUTTON) ||

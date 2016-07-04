@@ -23,7 +23,6 @@
     <ClCompile Include="Source\Engine\Utilities\Debug\Debug.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Engine\Physics\PhyTemp.txt" />
     <ClCompile Include="Source\Engine\Physics\World.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -286,8 +285,5 @@
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="GameEngine.rc" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Source\Engine\Graphic\Temp.txt" />
   </ItemGroup>
 </Project>

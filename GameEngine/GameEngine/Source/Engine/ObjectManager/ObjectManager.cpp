@@ -41,61 +41,6 @@ ObjectManager::~ObjectManager(void)
 
 /******************************************************************************/
 /*!
-\brief - Add Object to the list
-
-\param SpriteID - sprite's id
-\param textureDir - sprite's texture
-*/
-/******************************************************************************/
-void ObjectManager::AddObject(const int SpriteID, Type type)
-{
-	//Make new sprite
-	if (type == SPRITE)
-	{
-		Sprite* new_sprite = new Sprite(SpriteID, type, this);
-
-		// Set basic texture
-		new_sprite->SetTexture(new Texture);
-		new_sprite->GetTexture()->LoadTexture("Resource/Texture/rect.png");
-
-		//Push it into the list
-		m_ObjectList.insert(std::hash_map<int, Sprite*>::value_type(
-			SpriteID, new_sprite));
-
-		scenePtr->AddSprite(new_sprite);
-	}
-
-	if (type == PARTICLE)
-	{
-		Emitter* new_sprite = new Emitter(SpriteID, type, this);
-
-		// Set basic texture
-		new_sprite->SetTexture(new Texture);
-		new_sprite->GetTexture()->LoadTexture("Resource/Texture/particle.png");
-
-		//Push it into the list
-		m_ObjectList.insert(std::hash_map<int, Sprite*>::value_type(
-			SpriteID, new_sprite));
-
-		scenePtr->AddSprite(new_sprite);
-	}
-
-	else if (type == TEXT)
-	{
-		Text* new_sprite = new Text(SpriteID, type, this);
-
-		//Push it into the list
-		m_ObjectList.insert(std::hash_map<int, Sprite*>::value_type(
-			SpriteID, new_sprite));
-
-		scenePtr->AddSprite(new_sprite);
-	}
-	//Change id number and the number of sprites;
-	++number_of_Obj;
-}
-
-/******************************************************************************/
-/*!
 \brief - Delete Object from the list
 
 \param SpriteID - sprite's id
@@ -111,69 +56,18 @@ void ObjectManager::RemoveObject(const int id)
 	
 	auto fount = m_ObjectList.find(id)->second;
 	
-	if (fount->GetObjectType() == SPRITE)
+	if (strcmp(typeid((fount)).name(), "class Sprite"))
 		delete m_ObjectList.find(id)->second;
 
-	else if (fount->GetObjectType() == TEXT)
+	else if (strcmp(typeid((fount)).name(), "class Text"))
 		delete static_cast<Text*>(fount);
 
-	else if (fount->GetObjectType() == PARTICLE)
+	else if (strcmp(typeid((fount)).name(), "class Emitter"))
 		delete static_cast<Emitter*>(fount);
 
 	m_ObjectList.erase(id);
 
 	--number_of_Obj;
-}
-
-/******************************************************************************/
-/*!
-\brief - Get Sprite 
-
-\param SpriteID - sprite's id
-*/
-/******************************************************************************/
-Sprite* ObjectManager::GetSprite(const int id)
-{
-	//return the found one
-	auto it = m_ObjectList.find(id)->second;
-	if (it->GetObjectType() == SPRITE)
-		return it;
-	else
-		return 0;
-}
-
-/******************************************************************************/
-/*!
-\brief - Get Text
-
-\param SpriteID - sprite's id
-*/
-/******************************************************************************/
-Text* ObjectManager::GetText(const int id)
-{
-	// return the found one
-	auto it = m_ObjectList.find(id)->second;
-	if (it->GetObjectType() == TEXT)
-		return static_cast<Text*>(it);
-	else
-		return 0;
-}
-
-/******************************************************************************/
-/*!
-\brief - Get Emitter
-
-\param SpriteID - sprite's id
-*/
-/******************************************************************************/
-Emitter* ObjectManager::GetEmitter(const int id)
-{
-	// return the found one
-	auto it = m_ObjectList.find(id)->second;
-	if (it->GetObjectType() == PARTICLE)
-		return static_cast<Emitter*>(it);
-	else
-		return 0;
 }
 
 /******************************************************************************/
@@ -193,20 +87,6 @@ bool ObjectManager::HasObject(const int id)
 			return true;
 
 	return false;
-}
-
-/******************************************************************************/
-/*!
-\brief - Make sprite's clone
-
-\param id - sprite's id
-\param quantity - quantity of clone
-*/
-/******************************************************************************/
-void ObjectManager::MakeClone(const int id, const int clone_id, int quantity)
-{
-	for (int i = 1; i <= quantity; ++i)
-		AddObject(clone_id, GetSprite(id)->GetObjectType());
 }
 
 /******************************************************************************/

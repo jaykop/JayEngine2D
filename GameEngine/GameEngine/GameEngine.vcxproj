@@ -86,7 +86,9 @@
     <ClCompile Include="Include\LodePNG\lodepng.cpp" />
     <ClCompile Include="Source\Engine\App\Application.cpp" />
     <ClCompile Include="Source\Engine\Graphic\Particle.cpp" />
-    <ClCompile Include="Source\Engine\Logic\LogicFactory.cpp" />
+    <ClCompile Include="Source\Engine\Logic\LogicFactory.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="Source\Engine\ObjectManager\Object\Object.cpp" />
     <ClCompile Include="Source\Engine\Graphic\Text.cpp" />
     <ClCompile Include="Source\Engine\Graphic\Texture.cpp" />
@@ -95,10 +97,6 @@
     <ClCompile Include="Source\Engine\Sound\SoundManager.cpp" />
     <ClCompile Include="Source\Engine\StateManager\StageFactory\StageFactory.cpp" />
     <ClCompile Include="Source\Engine\Utilities\Debug\Debug.cpp" />
-    <ClCompile Include="Source\Engine\Physics\PhyTemp.txt">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
     <ClCompile Include="Source\Engine\Physics\World.cpp" />
     <ClCompile Include="Source\Engine\StateManager\GameStateManager\GameStateManager.cpp" />
     <ClCompile Include="Source\Engine\Graphic\GLManager.cpp" />
@@ -145,8 +143,12 @@
     <ClInclude Include="Source\Engine\App\Application.h" />
     <ClInclude Include="Source\Engine\Graphic\Particle.h" />
     <ClInclude Include="Source\Engine\Logic\GameLogic.h" />
-    <ClInclude Include="Source\Engine\Logic\LogicBuilder.h" />
-    <ClInclude Include="Source\Engine\Logic\LogicFactory.h" />
+    <ClInclude Include="Source\Engine\Logic\LogicBuilder.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Logic\LogicFactory.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="Source\Engine\ObjectManager\Object\Object.h" />
     <ClInclude Include="Source\Engine\Graphic\Text.h" />
     <ClInclude Include="Source\Engine\Graphic\Texture.h" />
@@ -206,11 +208,6 @@
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="GameEngine.rc" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Source\Engine\Graphic\Temp.txt">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-    </None>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

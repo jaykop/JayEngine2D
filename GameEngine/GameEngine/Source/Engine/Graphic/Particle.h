@@ -42,7 +42,7 @@ class Emitter : public Sprite
 
 public:
 
-	Emitter(const int id = 0, Type type = PARTICLE, ObjectManager* obm = 0);
+	Emitter(const int id = 0, ObjectManager* obm = 0);
 	virtual ~Emitter(void);
 
 	int FindUnusedParticle(void);

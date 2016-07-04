@@ -25,14 +25,13 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 
 */
 /******************************************************************************/
-Sprite::Sprite(const int id, Type type, ObjectManager* obm)
+Sprite::Sprite(const int id, ObjectManager* obm)
 :m_texture(0), ani_frame(1), ani_speed(0), m_curScene(0),
 m_degree(0), m_color(vec4(1.f, 1.f, 1.f, 1.f)),
 m_HasBody(false), m_body(0), m_prjt(PERSPECTIVE), ani_play(false),
 m_position(vec3(0.f, 0.f, 0.f)), m_scale(vec3(5.f, 5.f, 0.f))
 {
 	SetID(id);
-	SetObjectType(type);
 	SetObjectManager(obm);
 }
 
@@ -149,14 +148,19 @@ vec4 Sprite::GetColor(void) const
 /******************************************************************************/
 /*!
 \brief - Bind rigid body to sprite
-
+\param new_body
 */
 /******************************************************************************/
-void Sprite::BindRigidBody(void)
+void Sprite::SetRigidBody(RigidBody* new_body)
 {
-	m_body = new RigidBody();
-	m_body->SetScale(m_scale);
-	m_HasBody = true;
+	// If sprite has no body,
+	// bind new body
+	if (!m_HasBody)
+	{
+		m_body = new_body;
+		m_body->SetScale(m_scale);
+		m_HasBody = true;
+	}
 }
 
 /******************************************************************************/

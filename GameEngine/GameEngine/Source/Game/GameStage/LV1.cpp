@@ -18,11 +18,11 @@ void LV1Stage::Init(GameData& gd)
 	std::cout << "Sound testing here.\n";
 
 	//Init basic trunks
-	m_ObjM.BindGameSystem(m_GSM);
+	m_OBM.BindGameSystem(m_GSM);
 
 	// Here objects to be init...
 
-	m_ObjM.InitGameSystem();
+	m_OBM.InitGameSystem();
 }
 
 void LV1Stage::Update(GameData& gd)
@@ -32,7 +32,7 @@ void LV1Stage::Update(GameData& gd)
 
 	static float volume = 0.5f;
 
-	m_ObjM.UpdateGameSystem();
+	m_OBM.UpdateGameSystem();
 
 	if (InputManager::GetInstance().KeyPressed(KEY_ESC))
 		m_GSM->SetQuit(true);
@@ -56,38 +56,38 @@ void LV1Stage::Update(GameData& gd)
 	{
 		volume += 0.1f;
 		if (volume > 1) volume = 1;
-		m_ObjM.GetGameSound()->SetMasterVolume(volume);
+		m_OBM.GetGameSound()->SetMasterVolume(volume);
 	}
 
 	if (InputManager::GetInstance().KeyTriggered(KEY_DOWN))
 	{
 		volume -= 0.1f;
 		if (volume < 0) volume = 0;
-		m_ObjM.GetGameSound()->SetMasterVolume(volume);
+		m_OBM.GetGameSound()->SetMasterVolume(volume);
 	}
 
 	if (InputManager::GetInstance().KeyTriggered(KEY_A))
-		m_ObjM.GetGameSound()->PlayBGM(SE_1);
+		m_OBM.GetGameSound()->PlayBGM(SE_1);
 
 	if (InputManager::GetInstance().KeyTriggered(KEY_S))
-		m_ObjM.GetGameSound()->StopBGM();
+		m_OBM.GetGameSound()->StopBGM();
 
 	if (InputManager::GetInstance().KeyTriggered(KEY_Z))
-		m_ObjM.GetGameSound()->PlaySE(SE_2);
+		m_OBM.GetGameSound()->PlaySE(SE_2);
 
 	if (InputManager::GetInstance().KeyTriggered(KEY_X))
-		m_ObjM.GetGameSound()->StopSE();
+		m_OBM.GetGameSound()->StopSE();
 
 	if (InputManager::GetInstance().KeyTriggered(KEY_SPACE))
-		m_ObjM.GetGameSound()->SetMasterMuteToggle(true);
+		m_OBM.GetGameSound()->SetMasterMuteToggle(true);
 
 	if (InputManager::GetInstance().KeyTriggered(KEY_ENTER))
-		m_ObjM.GetGameSound()->SetMasterMuteToggle(false);
+		m_OBM.GetGameSound()->SetMasterMuteToggle(false);
 
 }
 
 void LV1Stage::Shutdown()
 {
 	std::cout << "Lv1Stage::Shutdown\n";
-	m_ObjM.ShutdownGameSystem();
+	m_OBM.ShutdownGameSystem();
 }

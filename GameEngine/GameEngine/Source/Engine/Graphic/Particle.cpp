@@ -26,11 +26,10 @@ Particle::~Particle(void)
 	m_parent = 0;
 }
 
-Emitter::Emitter(const int id, Type type, ObjectManager* obm)
+Emitter::Emitter(const int id, ObjectManager* obm)
 : m_MaxParticles(1), LastUsedParticle(0)
 {
 	SetID(id);
-	SetObjectType(type);
 	SetObjectManager(obm);
 	
 	for (int index = 0; index < m_MaxParticles; ++index)

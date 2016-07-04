@@ -26,7 +26,7 @@ class Text : public Sprite
 public:
 
 	//! Constructor and destructor
-	Text(const int id = 0, Type type = TEXT, ObjectManager* obm = 0);
+	Text(const int id = 0, ObjectManager* obm = 0);
 	virtual ~Text(void);
 
 	//! Font functions

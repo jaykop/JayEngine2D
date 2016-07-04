@@ -25,8 +25,8 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 \param obm - Pointer to object manager
 */
 /******************************************************************************/
-Object::Object(const int id, Type type, ObjectManager* obm)
-: m_id(id), m_type(type), m_OBM(obm)
+Object::Object(const int id, ObjectManager* obm)
+: m_id(id), m_OBM(obm)
 {}
 
 /******************************************************************************/
@@ -61,30 +61,6 @@ const int Object::GetID(void) const
 void Object::SetID(const int id)
 {
 	m_id = id;
-}
-
-/******************************************************************************/
-/*!
-\brief - Get Object's type
-
-\return m_type - Object's shape
-*/
-/******************************************************************************/
-Type Object::GetObjectType(void) const
-{
-	return m_type;
-}
-
-/******************************************************************************/
-/*!
-\brief - Set Object's type
-
-\param type - Object's type
-*/
-/******************************************************************************/
-void Object::SetObjectType(Type type)
-{
-	m_type = type;
 }
 
 /******************************************************************************/

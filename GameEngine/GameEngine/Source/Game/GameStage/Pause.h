@@ -14,6 +14,6 @@ public:
 private:
 
 	//Obj Manager
-	ObjectManager m_ObjM;
+	ObjectManager m_OBM;
 
 };

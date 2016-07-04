@@ -395,28 +395,3 @@ SoundManager* GameStateManager::GetSoundManager(void)
 {
 	return m_pApp->GetSManager();
 }
-
-/******************************************************************************/
-/*!
-\brief - Add logic builder
-
-\param pBuilder - pointer to builder
-*/
-/******************************************************************************/
-void GameStateManager::AddLogic(const char* logic, LogicBuilder* pBuilder)
-{
-	// Add logic to the object's logic list
-	m_logicFactory.AddBuilder(logic, pBuilder);
-}
-
-/******************************************************************************/
-/*!
-\brief - Get logicFactory
-
-\param m_logicFactory - m_logicFactory's address
-*/
-/******************************************************************************/
-LogicFactory* GameStateManager::GetLogicFactory(void)
-{
-	return &m_logicFactory;
-}

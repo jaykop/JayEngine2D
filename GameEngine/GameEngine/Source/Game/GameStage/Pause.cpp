@@ -21,8 +21,8 @@ void PauseStage::Init(GameData& gd)
 
 	std::cout << "You can control the White box with keyboard arrows!\n";
 	
-	m_ObjM.BindGameSystem(m_GSM);
-	m_ObjM.InitGameSystem();
+	m_OBM.BindGameSystem(m_GSM);
+	m_OBM.InitGameSystem();
 }
 
 void PauseStage::Update(GameData& gd)
@@ -36,11 +36,11 @@ void PauseStage::Update(GameData& gd)
 	if (InputManager::GetInstance().KeyTriggered(KEY_P))
 		m_GSM->Resume();
 
-	m_ObjM.UpdateGameSystem();
+	m_OBM.UpdateGameSystem();
 }
 
 void PauseStage::Shutdown()
 {
 	std::cout << "PauseStage::Shutdown\n";
-	m_ObjM.ShutdownGameSystem();
+	m_OBM.ShutdownGameSystem();
 }

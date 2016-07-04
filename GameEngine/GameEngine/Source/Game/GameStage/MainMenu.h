@@ -20,7 +20,7 @@ public:
 private:
 
 	//Obj Manager
-	ObjectManager m_ObjM;
+	ObjectManager m_OBM;
 };
 
 #endif // _MAINMENUSTAGE_H_

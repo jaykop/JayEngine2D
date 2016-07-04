@@ -39,10 +39,80 @@ public:
 	~ObjectManager();
 
 	// Functions manages objects
-	void AddObject(const int SpriteID, Type type);
-	Sprite* GetSprite(const int id);
-	Text* GetText(const int id);
-	Emitter* GetEmitter(const int id);
+
+	/******************************************************************************/
+	/*!
+	\brief - Add Object to the list
+
+	\param type - new sprite
+	*/
+	/******************************************************************************/
+	template <class Type>
+	void AddObject(Type* type)
+	{
+		//Make new sprite
+		Type* new_sprite = type;
+
+		if (strcmp(typeid(new_sprite).name(), "class Sprite"))
+		{
+			// Set basic texture
+			new_sprite->SetTexture(new Texture);
+			new_sprite->GetTexture()->LoadTexture("Resource/Texture/rect.png");
+		}
+
+		else if (strcmp(typeid(new_sprite).name(), "class Emitter"))
+		{
+			// Set basic texture
+			new_sprite->SetTexture(new Texture);
+			new_sprite->GetTexture()->LoadTexture("Resource/Texture/particle.png");
+		}
+
+		//Push it into the list
+		m_ObjectList.insert(std::hash_map<int, Sprite*>::value_type(
+			new_sprite->GetID(), new_sprite));
+
+		scenePtr->AddSprite(new_sprite);
+
+		//Change id number and the number of sprites;
+		++number_of_Obj;
+	}
+
+	///******************************************************************************/
+	///*!
+	//\brief - Make sprite's clone
+
+	//\param new_sprite - new sprite
+	//\param quantity - quantity of clone
+	//*/
+	///******************************************************************************/
+	//template <class Type>
+	//void MakeClone(Type* new_sprite, Type* existing, int quantity)
+	//{
+	//	for (int i = 1; i <= quantity; ++i)
+	//		AddObject(new_sprite);
+	//}
+
+	/******************************************************************************/
+	/*!
+	\brief - Get Sprite from the obm
+
+	\param SpriteID - sprite's id
+	*/
+	/******************************************************************************/
+	template <class Type>
+	Type* GetGameObject(const int id)
+	{
+		auto found = m_ObjectList.find(id);
+
+		// if found one is in the list,
+		// return it
+		if (found != m_ObjectList.end())
+			return static_cast<Type*>(found->second);
+
+		// if not, return 0
+		return nullptr;
+	}
+
 	bool HasObject(const int id);
 	void RemoveObject(const int id);
 	void MakeClone(const int id, const int clone_id, int quantity = 1);

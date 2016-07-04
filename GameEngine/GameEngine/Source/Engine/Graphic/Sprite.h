@@ -31,7 +31,7 @@ class Sprite : public Object
 public:
 	
 	//Constructor and destructor
-	Sprite(const int id = 0, Type type = SPRITE, ObjectManager* obm = 0);
+	Sprite(const int id = 0, ObjectManager* obm = 0);
 	virtual ~Sprite();
 
 	// Transforming functions
@@ -48,7 +48,7 @@ public:
 	vec4 GetColor(void) const;
 	
 	// Physics setting
-	void BindRigidBody(void);
+	void SetRigidBody(RigidBody* new_body);
 	RigidBody* GetRigidBody(void) const;
 	void RemoveRigidBody(void);
 	bool HasRigidBody(void) const;
