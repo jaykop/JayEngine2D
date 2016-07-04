@@ -14,7 +14,7 @@ public:
 	virtual void Update(GameData& gd);
 	virtual void Shutdown();
 
-	void SampleAnimation(void);
+	void PhysicsTest(void);
 	void BasicControl(void);
 	void SetWallSprites(void);
 	void SetSamllSprites(void);

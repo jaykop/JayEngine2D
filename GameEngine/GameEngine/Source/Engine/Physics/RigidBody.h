@@ -68,11 +68,16 @@ public:
 	void ActivateCollider(bool active);
 	bool GetColliderToggle(void) const;
 
-	void CheckCollided(bool collided);
-	bool IsCollided(void) const;
-
 	void  SetFriction(float friction);
 	float GetFriction(void) const;
+
+	// Manage Collision partner
+	void CheckCollided(bool collided);
+	void SetCollisionWith(Sprite* partner);
+
+	bool IsCollided(void) const;
+	bool IsCollisionWith(Sprite* partner);
+	Sprite* GetCollisionWith(void) const;
 
 private:
 
@@ -90,6 +95,7 @@ private:
 	bool m_collider;
 	bool m_move;
 	bool m_isCollided;
+	Sprite* m_with;
 
 	Shape m_shape;
 };

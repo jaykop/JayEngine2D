@@ -49,7 +49,7 @@ void MenuStage::Init(GameData& gd)
 	m_OBM.BindGameSystem(m_GSM);
 
 	//Set walls and small sprites
-	offset = 20;
+	offset = 1;
 	SetSamllSprites();
 	SetWallSprites();
 
@@ -63,7 +63,7 @@ void MenuStage::Update(GameData& gd)
 	//std::cout << "MenuStage::Update\n";
 
 	BasicControl();
-	SampleAnimation();
+	PhysicsTest();
 
 	//Update basic trunks
 	m_OBM.UpdateGameSystem();
@@ -102,9 +102,8 @@ void MenuStage::BasicControl(void)
 		m_GSM->Pause();
 }
 
-void MenuStage::SampleAnimation(void)
+void MenuStage::PhysicsTest(void)
 {
-
 	if (InputManager::GetInstance().KeyTriggered(KEY_ENTER))
 	for (int index = 0; index < offset; ++index)
 		m_OBM.GetGameObject<Sprite>(index)->GetRigidBody()->SetForce(
@@ -121,6 +120,19 @@ void MenuStage::SampleAnimation(void)
 		std::cout << InputManager::GetInstance().GetRawMousePosition() << "\n";
 		std::cout << InputManager::GetInstance().GetOrthoPosition() << "\n";
 		std::cout << InputManager::GetInstance().GetPerspPosition() << "\n";
+	}
+
+	// Collided with Opponent
+	if (m_OBM.GetGameObject<Sprite>(0)->GetRigidBody()->IsCollided())
+	{
+		std::cout << "Sprite0's colliding?: " << m_OBM.GetGameObject<Sprite>(0)->GetRigidBody()->IsCollided() << "\n";
+		std::cout << "Sprite0's colliding opponent?: " << m_OBM.GetGameObject<Sprite>(0)->GetRigidBody()->GetCollisionWith() << "\n";
+		std::cout << "Sprite0's colliding with Sprite101?(Sprite info): " << m_OBM.GetGameObject<Sprite>(0)->GetRigidBody()->IsCollisionWith(
+			m_OBM.GetGameObject<Sprite>(101)) << "\n";
+
+		std::cout << "Sprite0's colliding with Sprite101?(World info): " << m_OBM.GetGameWorld()->GetCollisionRelation(
+			m_OBM.GetGameObject<Sprite>(0),
+			m_OBM.GetGameObject<Sprite>(101)) << "\n";
 	}
 }
 
@@ -142,6 +154,8 @@ void MenuStage::SetSamllSprites(void)
 			m_OBM.GetGameObject<Sprite>(index)->GetRigidBody()->SetShape(BALL);
 			m_OBM.GetGameObject<Sprite>(index)->GetTexture()->
 				LoadTexture("Resource/Texture/circle.png");
+			m_OBM.GetGameObject<Sprite>(index)->GetRigidBody()->SetScale(
+				m_OBM.GetGameObject<Sprite>(index)->GetScale() * .9f);
 		}
 
 		else
@@ -155,10 +169,10 @@ void MenuStage::SetSamllSprites(void)
 
 			//Bind rigid body
 			m_OBM.GetGameObject<Sprite>(index)->GetRigidBody()->SetShape(BOX);
+			m_OBM.GetGameObject<Sprite>(index)->GetRigidBody()->SetScale(
+				m_OBM.GetGameObject<Sprite>(index)->GetScale());
 		}
 
-		m_OBM.GetGameObject<Sprite>(index)->GetRigidBody()->SetScale(
-			m_OBM.GetGameObject<Sprite>(index)->GetScale());
 		m_OBM.GetGameObject<Sprite>(index)->GetRigidBody()->SetFriction(0.00025f);
 	}
 }

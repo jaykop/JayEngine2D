@@ -323,3 +323,44 @@ Shape RigidBody::GetShape(void) const
 {
 	return m_shape;
 }
+
+/******************************************************************************/
+/*!
+\brief - Set opponent's address
+
+\param partner - opponent's address
+*/
+/******************************************************************************/
+void RigidBody::SetCollisionWith(Sprite* partner)
+{
+	m_with = partner;
+}
+
+/******************************************************************************/
+/*!
+\brief - Check if specific sprite's been collided to 
+
+\param partner - opponent's address
+\return bool
+*/
+/******************************************************************************/
+bool RigidBody::IsCollisionWith(Sprite* partner)
+{
+	// If parameter's address is same to saved m_with
+	if (m_with == partner)
+		return true;
+
+	return false;
+}
+
+/******************************************************************************/
+/*!
+\brief - Get collided one's address
+
+\return m_with - collided one's address
+*/
+/******************************************************************************/
+Sprite* RigidBody::GetCollisionWith(void) const
+{
+	return m_with;
+}

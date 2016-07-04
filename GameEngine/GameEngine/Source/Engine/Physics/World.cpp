@@ -23,9 +23,7 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 */
 /******************************************************************************/
 World::World(void)
-:tx_Toggle(true), ty_Toggle(true),
-body1(Vertices()), body2(Vertices()),
-tx_max(0), ty_max(0), tx_min(0), ty_min(0),
+:body1(Vertices()), body2(Vertices()),
 body1_min(0), body1_max(0), body2_min(0), body2_max(0),
 loopToggle(true)
 {
@@ -48,8 +46,6 @@ World::~World(void)
 void World::Init(const ObjectList& objList)
 {
 	UNREFERENCED_PARAMETER(objList);
-	body1 = body2 = Vertices();
-	body1_min = body1_max = body2_min = body2_max = 0;
 }
 
 /******************************************************************************/
@@ -59,25 +55,32 @@ void World::Init(const ObjectList& objList)
 /******************************************************************************/
 void World::Update(const ObjectList& objList)
 {
-	//Works each bodies' physics
+	// Works each bodies' physics
 	for (auto it1 = objList.begin(); it1 != objList.end(); ++it1)
 	{
 		// 1. If sprite has body and activated body to work.
 		if (it1->second->HasRigidBody() && 
 			it1->second->GetRigidBody()->GetMoveToggle())
 		{
-			//Save last position
+			// Save last position
 			if (!it1->second->GetRigidBody()->IsCollided())
 				it1->second->GetRigidBody()->SetLastPosition(it1->second->GetPosition());
+
 			else
 				it1->second->SetPosition(it1->second->GetPosition());
 
-			//Work basic motion
+			// Work basic motion
 			BodyPipeline(it1->second);
 			
 			// 2. if 2st sprite's colliders to be worked, check colliders
 			if (it1->second->GetRigidBody()->GetColliderToggle())
 			{
+				// Init collision with info
+				it1->second->GetRigidBody()->CheckCollided(false);
+				it1->second->GetRigidBody()->SetCollisionWith(nullptr);
+
+				// Todo: delete this or not
+				auto new_bigin = std::next(it1, 1);
 				for (auto it2 = objList.begin(); it2 != objList.end(); ++it2)
 				{
 					// 3. If both objs are differenct and both bodies has own body, 
@@ -85,18 +88,20 @@ void World::Update(const ObjectList& objList)
 					if (it1 != it2 && it2->second->HasRigidBody() &&
 						it2->second->GetRigidBody()->GetColliderToggle())
 					{					
-						//Save last position
+						// Save last position
 						if (!it2->second->GetRigidBody()->IsCollided())
 							it2->second->GetRigidBody()->SetLastPosition(it2->second->GetPosition());
 
 						// 4. then check the colliders.
-						//Check two sprites' collision status
+						// Check two sprites' collision status
 						bool collisionIntersect = CollisionIntersect(it1->second, it2->second);
-						CollisionRelation(it1->second, it2->second, collisionIntersect);
 						if (collisionIntersect)
 						{
-							// collision response
+							// Collision response
 							CollisionResponse(it1->second, it2->second);
+
+							// Refresh the collision with info
+							CollisionRelation(it1->second, it2->second);
 
 							// Switch toggle
 							loopToggle = !loopToggle;
@@ -549,25 +554,14 @@ void World::ResponseBoxToBall(Sprite* box, Sprite* ball)
 
 */
 /******************************************************************************/
-void World::CollisionRelation(Sprite* spt1, Sprite* spt2, bool coliided)
+void World::CollisionRelation(Sprite* spt1, Sprite* spt2)
 {
 	//Set each sprite's collision status
-	spt1->GetRigidBody()->CheckCollided(coliided);
-	spt2->GetRigidBody()->CheckCollided(coliided);
+	spt1->GetRigidBody()->CheckCollided(true);
+	spt2->GetRigidBody()->CheckCollided(true);
 	
-	// Todo: Get 2 bodies' collision info
-	// write the code here
-
-	//of2Spts.Spt1_id = spt1->GetID();
-	//of2Spts.Spt2_id = spt2->GetID();
-	//of2Spts.collision = coliided;
-
-	//Temporary visual collision checker
-	if (coliided)
-	{
-		spt1->SetColor(spt2->GetColor());
-		spt2->SetColor(spt1->GetColor());
-	}
+	spt1->GetRigidBody()->SetCollisionWith(spt2);
+	spt2->GetRigidBody()->SetCollisionWith(spt1);
 }
 
 /******************************************************************************/
@@ -671,13 +665,18 @@ void World::GetCollidedLine(bool toggle)
 	}
 }
 
-bool World::GetCollisionResponse(Sprite* spt1, Sprite* spt2)
-{
-	// Todo: Get 2 bodies' collision info
-	// write the code here
+/******************************************************************************/
+/*!
+\brief - Get 2 sprites' collision relation
 
-	if (spt1->GetID() == of2Spts.Spt1_id &&
-		spt2->GetID() == of2Spts.Spt2_id)
+\param spt1 - 1st sprite
+\param spt2 - 2nd sprite
+*/
+/******************************************************************************/
+bool World::GetCollisionRelation(Sprite* spt1, Sprite* spt2)
+{
+	if (spt1->GetRigidBody()->GetCollisionWith() == spt2
+		&& spt2->GetRigidBody()->GetCollisionWith() == spt1)
 		return true;
 
 	return false;

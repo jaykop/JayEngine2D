@@ -158,7 +158,7 @@ void Sprite::SetRigidBody(RigidBody* new_body)
 	if (!m_HasBody)
 	{
 		m_body = new_body;
-		m_body->SetScale(m_scale * 0.9f);
+		m_body->SetScale(m_scale);
 		m_HasBody = true;
 	}
 }
