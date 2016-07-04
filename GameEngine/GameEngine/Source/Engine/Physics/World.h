@@ -7,6 +7,7 @@
 
 \description
 Contains World's class member
+
 All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 */
 /******************************************************************************/
@@ -86,6 +87,8 @@ private:
 	//! Helper variables
 	bool loopToggle;			//! Toggle thatn control loop order
 	vec3 collided_edge[2];		//! bodies edge storage
+	vec3 temp_speed[2];			//! bodies' old speed storage
+	vec3 temp_velocity[2];		//! bodies' old velocity
 	Vertices body1, body2;		//! boxes' vertices storage
 	float body1_min, body1_max;	//! projection constants
 	float body2_min, body2_max;	//! projection constants

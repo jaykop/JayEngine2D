@@ -7,6 +7,7 @@
 
 \description
 Contains RigidBody's class and members
+
 All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 */
 /******************************************************************************/
@@ -57,9 +58,8 @@ public:
 	void SetShape(Shape type);
 	Shape GetShape(void) const;
 
-	//Todo: do with mass
-	// void SetMass(float mass);
-	// float GetMass(void) const;
+	void SetMass(float mass);
+	float GetMass(void) const;
 
 	//Manage Body's status
 	void ActivateMove(bool move);
@@ -81,22 +81,25 @@ public:
 
 private:
 
-	//Todo: do with mass
-	//float m_mass;
+	//! Motion float info
+	float m_mass;
 	float m_direction;
 	float m_acceleration;
 	float m_friction;
 
+	//! Motion vector Info
 	vec3 m_lastPos;
 	vec3 m_scale;
 	vec3 m_speed;
 	vec3 m_velocity;
 
+	//! Collision info
 	bool m_collider;
 	bool m_move;
 	bool m_isCollided;
 	Sprite* m_with;
 
+	//! Body's shape(Ball or box)
 	Shape m_shape;
 };
 

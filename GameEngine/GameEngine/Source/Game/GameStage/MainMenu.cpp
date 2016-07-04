@@ -49,7 +49,7 @@ void MenuStage::Init(GameData& gd)
 	m_OBM.BindGameSystem(m_GSM);
 
 	//Set walls and small sprites
-	offset = 1;
+	offset = 10;
 	SetSamllSprites();
 	SetWallSprites();
 
@@ -107,7 +107,7 @@ void MenuStage::PhysicsTest(void)
 	if (InputManager::GetInstance().KeyTriggered(KEY_ENTER))
 	for (int index = 0; index < offset; ++index)
 		m_OBM.GetGameObject<Sprite>(index)->GetRigidBody()->SetForce(
-		vec3(Random::GetInstance().GetRandomFloat(-2.f, 2.f), 1));
+		vec3(Random::GetInstance().GetRandomFloat(-1.f, 1.f), 1));
 
 	if (InputManager::GetInstance().KeyTriggered(KEY_SPACE))
 	for (int index = 0; index < offset; ++index)
@@ -122,18 +122,18 @@ void MenuStage::PhysicsTest(void)
 		std::cout << InputManager::GetInstance().GetPerspPosition() << "\n";
 	}
 
-	// Collided with Opponent
-	if (m_OBM.GetGameObject<Sprite>(0)->GetRigidBody()->IsCollided())
-	{
-		std::cout << "Sprite0's colliding?: " << m_OBM.GetGameObject<Sprite>(0)->GetRigidBody()->IsCollided() << "\n";
-		std::cout << "Sprite0's colliding opponent?: " << m_OBM.GetGameObject<Sprite>(0)->GetRigidBody()->GetCollisionWith() << "\n";
-		std::cout << "Sprite0's colliding with Sprite101?(Sprite info): " << m_OBM.GetGameObject<Sprite>(0)->GetRigidBody()->IsCollisionWith(
-			m_OBM.GetGameObject<Sprite>(101)) << "\n";
+	//// Collided with Opponent
+	//if (m_OBM.GetGameObject<Sprite>(0)->GetRigidBody()->IsCollided())
+	//{
+	//	std::cout << "Sprite0's colliding?: " << m_OBM.GetGameObject<Sprite>(0)->GetRigidBody()->IsCollided() << "\n";
+	//	std::cout << "Sprite0's colliding opponent?: " << m_OBM.GetGameObject<Sprite>(0)->GetRigidBody()->GetCollisionWith() << "\n";
+	//	std::cout << "Sprite0's colliding with Sprite101?(Sprite info): " << m_OBM.GetGameObject<Sprite>(0)->GetRigidBody()->IsCollisionWith(
+	//		m_OBM.GetGameObject<Sprite>(101)) << "\n";
 
-		std::cout << "Sprite0's colliding with Sprite101?(World info): " << m_OBM.GetGameWorld()->GetCollisionRelation(
-			m_OBM.GetGameObject<Sprite>(0),
-			m_OBM.GetGameObject<Sprite>(101)) << "\n";
-	}
+	//	std::cout << "Sprite0's colliding with Sprite101?(World info): " << m_OBM.GetGameWorld()->GetCollisionRelation(
+	//		m_OBM.GetGameObject<Sprite>(0),
+	//		m_OBM.GetGameObject<Sprite>(101)) << "\n";
+	//}
 }
 
 void MenuStage::SetSamllSprites(void)
@@ -144,7 +144,7 @@ void MenuStage::SetSamllSprites(void)
 		m_OBM.AddObject(new Sprite(index, &m_OBM));
 		m_OBM.GetGameObject<Sprite>(index)->SetRigidBody(new RigidBody);
 		m_OBM.GetGameObject<Sprite>(index)->SetPosition(vec3(
-			Random::GetInstance().GetRandomFloat(-30, 30),
+			Random::GetInstance().GetRandomFloat(-50, 50),
 			Random::GetInstance().GetRandomFloat(-30, 30)));
 
 		if (Random::GetInstance().GetRandomInt(1, 2) % 2)
@@ -155,7 +155,7 @@ void MenuStage::SetSamllSprites(void)
 			m_OBM.GetGameObject<Sprite>(index)->GetTexture()->
 				LoadTexture("Resource/Texture/circle.png");
 			m_OBM.GetGameObject<Sprite>(index)->GetRigidBody()->SetScale(
-				m_OBM.GetGameObject<Sprite>(index)->GetScale() * .9f);
+				m_OBM.GetGameObject<Sprite>(index)->GetScale());
 		}
 
 		else
@@ -170,10 +170,13 @@ void MenuStage::SetSamllSprites(void)
 			//Bind rigid body
 			m_OBM.GetGameObject<Sprite>(index)->GetRigidBody()->SetShape(BOX);
 			m_OBM.GetGameObject<Sprite>(index)->GetRigidBody()->SetScale(
-				m_OBM.GetGameObject<Sprite>(index)->GetScale());
+				m_OBM.GetGameObject<Sprite>(index)->GetScale()* .99f);
 		}
 
-		m_OBM.GetGameObject<Sprite>(index)->GetRigidBody()->SetFriction(0.00025f);
+		m_OBM.GetGameObject<Sprite>(index)->GetRigidBody()->SetMass(
+			(m_OBM.GetGameObject<Sprite>(index)->GetScale().x *
+			m_OBM.GetGameObject<Sprite>(index)->GetScale().y) / 2);
+		m_OBM.GetGameObject<Sprite>(index)->GetRigidBody()->SetFriction(0.0005f);
 	}
 }
 
@@ -187,6 +190,10 @@ void MenuStage::SetWallSprites(void)
 		m_OBM.GetGameObject<Sprite>(index)->SetRigidBody(new RigidBody);
 		m_OBM.GetGameObject<Sprite>(index)->GetRigidBody()->SetShape(BOX);
 		m_OBM.GetGameObject<Sprite>(index)->GetRigidBody()->ActivateMove(false);
+
+		m_OBM.GetGameObject<Sprite>(index)->GetRigidBody()->SetMass(
+			(m_OBM.GetGameObject<Sprite>(index)->GetScale().x *
+			m_OBM.GetGameObject<Sprite>(index)->GetScale().y) / 2);
 	}
 
 	//Set positions and scale

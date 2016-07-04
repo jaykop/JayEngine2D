@@ -23,7 +23,8 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 RigidBody::RigidBody()
 :m_move(true), m_collider(true), m_isCollided(false),
 m_speed(vec3()), m_velocity(vec3()), m_lastPos(vec3()),
-m_direction(0), m_scale(0), m_acceleration(0), m_friction(0), m_shape(BOX)
+m_direction(0), m_scale(0), m_acceleration(0), m_friction(0),
+m_shape(BOX), m_mass(1.f)
 {}
 
 /******************************************************************************/
@@ -116,6 +117,12 @@ float RigidBody::GetAcceleration(void) const
 void RigidBody::SetSpeed(const vec3& speed)
 {
 	m_speed = speed;
+
+	if (m_speed.x < 0)
+		m_speed.x = -m_speed.x;
+
+	if (m_speed.y < 0)
+		m_speed.y = -m_speed.y;
 }
 
 /******************************************************************************/
@@ -363,4 +370,32 @@ bool RigidBody::IsCollisionWith(Sprite* partner)
 Sprite* RigidBody::GetCollisionWith(void) const
 {
 	return m_with;
+}
+
+/******************************************************************************/
+/*!
+\brief - Set body's mass
+
+\param mass - body's mass
+*/
+/******************************************************************************/
+void RigidBody::SetMass(float mass)
+{
+	if (mass <= 1.f)
+		m_mass = 1.f;
+	
+	else
+		m_mass = mass;
+}
+
+/******************************************************************************/
+/*!
+\brief - Get body's mass
+
+\return m_mass - body's mass
+*/
+/******************************************************************************/
+float RigidBody::GetMass(void) const
+{
+	return m_mass;
 }
