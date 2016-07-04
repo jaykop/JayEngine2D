@@ -377,17 +377,17 @@ bool World::IntersectBoxToBall(Sprite* box, Sprite* ball, bool toggle)
 	for (int index = 3; index >= 0; --index)
 	{
 		if (index == 3)
-			distance = Math::DistanceOfPointSegment(ball->GetPosition(), body1[0], body1[index]);
+			distance = Math::DistanceOfPointSegment(ball->GetPosition(), body1[3], body1[0]);
 
 		else
-			distance = Math::DistanceOfPointSegment(ball->GetPosition(), body1[index + 1], body1[index]);
+			distance = Math::DistanceOfPointSegment(ball->GetPosition(), body1[index], body1[index + 1]);
 
 		// If it is, collided
 		if (distance < ball->GetScale().x / 2)
 		{
 			// Get collided segment
-			if (index == 0)	collided_edge[0] = body1[0] - body1[3];
-			else collided_edge[0] = body1[index] - body1[index + 1];
+			if (index == 3)	collided_edge[0] = body1[0] - body1[3];
+			else collided_edge[0] = body1[index + 1] - body1[index];
 
 			return true;
 		}
