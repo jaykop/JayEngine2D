@@ -44,42 +44,17 @@ void MenuStage::Init(GameData& gd)
 	std::cout << "MenuStage::Init\n";
 	std::cout << "[Instruction]\nPress P: Pause Stage\nPress 0: Main Menu\n"
 		"Press 1: ST_LV1\nPress 2: ST_LV2\nPress 3: ST_LV3\nPress ESC: Quit the App\n";
-	
-	std::cout << "You can control the White box with keyboard arrows!\n";
 
 	//Init basic trunks
 	m_OBM.BindGameSystem(m_GSM);
-	m_OBM.InitGameSystem();
 
-	//Set sprites
-	m_OBM.AddObject(new Sprite(0, &m_OBM));
-	m_OBM.AddObject(new Sprite(1, &m_OBM));
-
-	//Set positions
-	m_OBM.GetGameObject<Sprite>(0)->SetPosition(vec3(-10, 10.f, 1.05f));
-	m_OBM.GetGameObject<Sprite>(1)->SetPosition(vec3(-10, 0, 1.05f));
-	m_OBM.GetGameObject<Sprite>(0)->SetScale(vec3(5, 5));
-	m_OBM.GetGameObject<Sprite>(1)->SetScale(vec3(50, 5));
-
-	//Set colors
-	m_OBM.GetGameObject<Sprite>(0)->SetColor(vec4(1, 1, 1, 1));
-	m_OBM.GetGameObject<Sprite>(1)->SetColor(vec4(0, 1, 1, 1));
-
-	//Bind rigid body
-	m_OBM.GetGameObject<Sprite>(0)->SetRigidBody(new RigidBody);
-	m_OBM.GetGameObject<Sprite>(1)->SetRigidBody(new RigidBody);
-
-	m_OBM.GetGameObject<Sprite>(0)->GetRigidBody()->SetFriction(.0005f);
-	m_OBM.GetGameObject<Sprite>(0)->GetRigidBody()->SetScale(vec3(5.f, 5.f));
-	m_OBM.GetGameObject<Sprite>(1)->GetRigidBody()->SetFriction(.0005f);
-	m_OBM.GetGameObject<Sprite>(1)->GetRigidBody()->SetScale(vec3(50.f, 5.f));
-
-	m_OBM.GetGameObject<Sprite>(0)->GetRigidBody()->SetShape(BOX);
-	m_OBM.GetGameObject<Sprite>(1)->GetRigidBody()->SetShape(BOX);
-	m_OBM.GetGameObject<Sprite>(1)->GetRigidBody()->ActivateMove(false);
+	//Set walls and small sprites
+	offset = 20;
+	SetSamllSprites();
+	SetWallSprites();
 
 	m_OBM.GetGameScene()->SetBackgroundColor(vec4(0, 0, 0, 1));
-
+	m_OBM.InitGameSystem();
 }
 
 void MenuStage::Update(GameData& gd)
@@ -129,24 +104,15 @@ void MenuStage::BasicControl(void)
 
 void MenuStage::SampleAnimation(void)
 {
-	//Control White box with keyboard
-	if (InputManager::GetInstance().KeyPressed(KEY_RIGHT))
-		m_OBM.GetGameObject<Sprite>(0)->GetRigidBody()->SetForce(vec3(.5f, 0, 0));
-
-	if (InputManager::GetInstance().KeyPressed(KEY_LEFT))
-		m_OBM.GetGameObject<Sprite>(0)->GetRigidBody()->SetForce(vec3(-.5f, 0, 0));
-
-	if (InputManager::GetInstance().KeyPressed(KEY_UP))
-		m_OBM.GetGameObject<Sprite>(0)->GetRigidBody()->SetForce(vec3(0, .5f, 0));
-
-	if (InputManager::GetInstance().KeyPressed(KEY_DOWN))
-		m_OBM.GetGameObject<Sprite>(0)->GetRigidBody()->SetForce(vec3(0, -.5f, 0));
 
 	if (InputManager::GetInstance().KeyTriggered(KEY_ENTER))
-		m_OBM.GetGameObject<Sprite>(0)->GetRigidBody()->SetForce(vec3(Random::GetInstance().GetRandomFloat(-2.f, 2.f), -1));
+	for (int index = 0; index < offset; ++index)
+		m_OBM.GetGameObject<Sprite>(index)->GetRigidBody()->SetForce(
+		vec3(Random::GetInstance().GetRandomFloat(-2.f, 2.f), 1));
 
 	if (InputManager::GetInstance().KeyTriggered(KEY_SPACE))
-		m_OBM.GetGameObject<Sprite>(0)->GetRigidBody()->ClearVelocity();
+	for (int index = 0; index < offset; ++index)
+		m_OBM.GetGameObject<Sprite>(index)->GetRigidBody()->ClearVelocity();
 
 	//Show the mouse's position when mouse botton clicked
 	if (InputManager::GetInstance().KeyTriggered(MOUSE_LBUTTON) ||
@@ -156,4 +122,80 @@ void MenuStage::SampleAnimation(void)
 		std::cout << InputManager::GetInstance().GetOrthoPosition() << "\n";
 		std::cout << InputManager::GetInstance().GetPerspPosition() << "\n";
 	}
+}
+
+void MenuStage::SetSamllSprites(void)
+{
+	for (int index = 0; index < offset; ++index)
+	{
+		// Set sprite's basic info
+		m_OBM.AddObject(new Sprite(index, &m_OBM));
+		m_OBM.GetGameObject<Sprite>(index)->SetRigidBody(new RigidBody);
+		m_OBM.GetGameObject<Sprite>(index)->SetPosition(vec3(
+			Random::GetInstance().GetRandomFloat(-30, 30),
+			Random::GetInstance().GetRandomFloat(-30, 30)));
+
+		if (Random::GetInstance().GetRandomInt(1, 2) % 2)
+		{
+			float radius = Random::GetInstance().GetRandomFloat(1, 10);
+			m_OBM.GetGameObject<Sprite>(index)->SetScale(vec3(radius, radius));
+			m_OBM.GetGameObject<Sprite>(index)->GetRigidBody()->SetShape(BALL);
+			m_OBM.GetGameObject<Sprite>(index)->GetTexture()->
+				LoadTexture("Resource/Texture/circle.png");
+		}
+
+		else
+		{
+			m_OBM.GetGameObject<Sprite>(index)->SetScale(vec3(
+				Random::GetInstance().GetRandomFloat(1, 10),
+				Random::GetInstance().GetRandomFloat(1, 10)));
+
+			m_OBM.GetGameObject<Sprite>(index)->SetRotation(
+				Random::GetInstance().GetRandomFloat(-180, 180));
+
+			//Bind rigid body
+			m_OBM.GetGameObject<Sprite>(index)->GetRigidBody()->SetShape(BOX);
+		}
+
+		m_OBM.GetGameObject<Sprite>(index)->GetRigidBody()->SetScale(
+			m_OBM.GetGameObject<Sprite>(index)->GetScale());
+		m_OBM.GetGameObject<Sprite>(index)->GetRigidBody()->SetFriction(0.00025f);
+	}
+}
+
+void MenuStage::SetWallSprites(void)
+{
+	for (int index = 101; index < 105; ++index)
+	{
+		m_OBM.AddObject(new Sprite(index, &m_OBM));
+
+		//Bind rigid body
+		m_OBM.GetGameObject<Sprite>(index)->SetRigidBody(new RigidBody);
+		m_OBM.GetGameObject<Sprite>(index)->GetRigidBody()->SetShape(BOX);
+		m_OBM.GetGameObject<Sprite>(index)->GetRigidBody()->ActivateMove(false);
+	}
+
+	//Set positions and scale
+	m_OBM.GetGameObject<Sprite>(101)->SetPosition(vec3(-70, 0, 0));
+	m_OBM.GetGameObject<Sprite>(102)->SetPosition(vec3(70, 0, 0));
+	m_OBM.GetGameObject<Sprite>(103)->SetPosition(vec3(0, -40.f, 0));
+	m_OBM.GetGameObject<Sprite>(104)->SetPosition(vec3(0, 40.f, 0));
+
+	// Set sprits's scale
+	m_OBM.GetGameObject<Sprite>(101)->SetScale(vec3(1, 200));
+	m_OBM.GetGameObject<Sprite>(102)->SetScale(vec3(1, 200));
+	m_OBM.GetGameObject<Sprite>(103)->SetScale(vec3(200, 1));
+	m_OBM.GetGameObject<Sprite>(104)->SetScale(vec3(200, 1));
+
+	//Set colors
+	m_OBM.GetGameObject<Sprite>(101)->SetColor(vec4(1, 0, 0, 1));
+	m_OBM.GetGameObject<Sprite>(102)->SetColor(vec4(0, 1, 0, 1));
+	m_OBM.GetGameObject<Sprite>(103)->SetColor(vec4(0, 0, 1, 1));
+	m_OBM.GetGameObject<Sprite>(104)->SetColor(vec4(.5f, .5f, .5f, 1));
+
+	// Set body's scale
+	m_OBM.GetGameObject<Sprite>(101)->GetRigidBody()->SetScale(vec3(1, 200));
+	m_OBM.GetGameObject<Sprite>(102)->GetRigidBody()->SetScale(vec3(1, 200));
+	m_OBM.GetGameObject<Sprite>(103)->GetRigidBody()->SetScale(vec3(200, 1));
+	m_OBM.GetGameObject<Sprite>(104)->GetRigidBody()->SetScale(vec3(200, 1));
 }

@@ -21,8 +21,6 @@ class Sound;
 class Logic;
 class Scene;
 class World;
-class Sprite;
-class Emitter;
 class GameStateManager;
 
 //! type definition for the list
@@ -53,19 +51,7 @@ public:
 		//Make new sprite
 		Type* new_sprite = type;
 
-		if (strcmp(typeid(new_sprite).name(), "class Sprite"))
-		{
-			// Set basic texture
-			new_sprite->SetTexture(new Texture);
-			new_sprite->GetTexture()->LoadTexture("Resource/Texture/rect.png");
-		}
-
-		else if (strcmp(typeid(new_sprite).name(), "class Emitter"))
-		{
-			// Set basic texture
-			new_sprite->SetTexture(new Texture);
-			new_sprite->GetTexture()->LoadTexture("Resource/Texture/particle.png");
-		}
+		static_cast<Sprite*>(new_sprite)->SetTexture(new Texture);
 
 		//Push it into the list
 		m_ObjectList.insert(std::hash_map<int, Sprite*>::value_type(

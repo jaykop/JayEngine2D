@@ -78,8 +78,7 @@ void World::Update(const ObjectList& objList)
 			// 2. if 2st sprite's colliders to be worked, check colliders
 			if (it1->second->GetRigidBody()->GetColliderToggle())
 			{
-				auto next = it1;
-				for (auto it2 = ++next; it2 != objList.end(); ++it2)
+				for (auto it2 = objList.begin(); it2 != objList.end(); ++it2)
 				{
 					// 3. If both objs are differenct and both bodies has own body, 
 					// activated body and collider body,
@@ -452,8 +451,8 @@ void World::ResponseBallToBall(Sprite* ball1, Sprite* ball2)
 		ball2->GetRigidBody()->SetVelocity(-ball1->GetRigidBody()->GetVelocity());	
 
 		// Reduce the speed(force)
-		ball2->GetRigidBody()->SetSpeed(ball2->GetRigidBody()->GetSpeed()		
-				+ ball1->GetRigidBody()->GetSpeed() / 2);
+		ball2->GetRigidBody()->SetSpeed((ball2->GetRigidBody()->GetSpeed()	
+				+ ball1->GetRigidBody()->GetSpeed()) / 2);
 
 		// Move to the uncollided last position
 		ball2->SetPosition(ball2->GetRigidBody()->GetLastPosition());
@@ -493,8 +492,8 @@ void World::ResponseBoxToBox(Sprite* box1, Sprite* box2)
 			box2->GetRigidBody()->GetVelocity());
 
 		// Reduce the speed(force)
-		box2->GetRigidBody()->SetSpeed(box2->GetRigidBody()->GetSpeed() 
-				+ box1->GetRigidBody()->GetSpeed() / 2);
+		box2->GetRigidBody()->SetSpeed((box2->GetRigidBody()->GetSpeed()
+				+ box1->GetRigidBody()->GetSpeed()) / 2);
 
 		// Move to the uncollided last position
 		box2->SetPosition(box2->GetRigidBody()->GetLastPosition());
@@ -532,8 +531,8 @@ void World::ResponseBoxToBall(Sprite* box, Sprite* ball)
 			collided_edge[0].Rotation(90)).Normalize());	
 
 		// Reduce the speed(force)
-		ball->GetRigidBody()->SetSpeed(ball->GetRigidBody()->GetSpeed()
-			+ box->GetRigidBody()->GetSpeed() / 2);
+		ball->GetRigidBody()->SetSpeed((ball->GetRigidBody()->GetSpeed()
+			+ box->GetRigidBody()->GetSpeed()) / 2);
 
 		// Move to the uncollided last position
 		ball->SetPosition(ball->GetRigidBody()->GetLastPosition());

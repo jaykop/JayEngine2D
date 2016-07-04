@@ -95,9 +95,6 @@
     <ClCompile Include="Source\Engine\ObjectManager\Object\Object.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Engine\Logic\LogicFactory.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Engine\StateManager\StageFactory\StageFactory.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -244,16 +241,10 @@
     <ClInclude Include="Source\Engine\Logic\GameLogic.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Engine\Logic\LogicFactory.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Engine\StateManager\StageBuilder.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Source\Engine\StateManager\StageFactory\StageFactory.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Engine\Logic\LogicBuilder.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Source\Engine\Sound\SoundManager.h">

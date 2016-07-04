@@ -27,11 +27,13 @@ public:
 	// Manage texture info
 	void LoadTexture(const char* imagePath);
 	GLuint GetTexId(void) const;
+	bool IsLoaded(void) const;
 
 private:
 
 	//Texture id
 	GLuint m_texID;
+	bool m_loded;
 
 };
 

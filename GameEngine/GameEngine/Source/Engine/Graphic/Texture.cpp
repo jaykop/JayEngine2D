@@ -23,7 +23,7 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 */
 /******************************************************************************/
 Texture::Texture(void)
-:m_texID(0)
+:m_texID(0), m_loded(false)
 {}
 
 /******************************************************************************/
@@ -59,6 +59,8 @@ void Texture::LoadTexture(const char* imagePath)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 
+	m_loded = true;
+
 }
 
 /******************************************************************************/
@@ -72,4 +74,17 @@ void Texture::LoadTexture(const char* imagePath)
 GLuint Texture::GetTexId(void) const
 {
 	return m_texID;
+}
+
+/******************************************************************************/
+/*!
+\brief - Check texture's been loaded
+
+\return m_loded
+
+*/
+/******************************************************************************/
+bool Texture::IsLoaded(void) const
+{
+	return m_loded;
 }

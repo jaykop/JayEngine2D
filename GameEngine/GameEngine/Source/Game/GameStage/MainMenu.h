@@ -16,11 +16,16 @@ public:
 
 	void SampleAnimation(void);
 	void BasicControl(void);
+	void SetWallSprites(void);
+	void SetSamllSprites(void);
 
 private:
 
 	//Obj Manager
 	ObjectManager m_OBM;
+
+	// num of sprites
+	int offset;
 };
 
 #endif // _MAINMENUSTAGE_H_

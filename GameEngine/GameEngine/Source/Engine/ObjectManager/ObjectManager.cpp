@@ -53,17 +53,7 @@ void ObjectManager::RemoveObject(const int id)
 		scenePtr->DeleteSprite(id);
 
 	//Delete it
-	
-	auto fount = m_ObjectList.find(id)->second;
-	
-	if (strcmp(typeid((fount)).name(), "class Sprite"))
-		delete m_ObjectList.find(id)->second;
-
-	else if (strcmp(typeid((fount)).name(), "class Text"))
-		delete static_cast<Text*>(fount);
-
-	else if (strcmp(typeid((fount)).name(), "class Emitter"))
-		delete static_cast<Emitter*>(fount);
+	delete m_ObjectList.find(id)->second;
 
 	m_ObjectList.erase(id);
 

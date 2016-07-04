@@ -53,8 +53,6 @@ Scene::~Scene(void)
 /******************************************************************************/
 void Scene::Init(const ObjectList& objList)
 {
-	UNREFERENCED_PARAMETER(objList);
-
 	//Get projection information
 	ProjectionInfo temp = m_GSM->GetGLManager()->GetProjectionInfo();
 
@@ -68,12 +66,16 @@ void Scene::Init(const ObjectList& objList)
 	m_camera = vec4(0, 0, 80, 0);
 
 	// Init every sprites
-	//for (auto it = objList.begin(); it != objList.end(); ++it)
-		//if (it->second->GetObjectType() == SPRITE) 
-			//it->second->GetTexture()->LoadTexture("Resource/Texture/rect.png");
+	for (auto it = objList.begin(); it != objList.end(); ++it)
+	if (!it->second->GetTexture()->IsLoaded())
+	{
+		// Set basic texture
+		if (strcmp(typeid(it->second).name(), "class Sprite"))
+			it->second->GetTexture()->LoadTexture("Resource/Texture/rect.png");
 
-	// Sort Sprites by projection type and z Order
-	//ReorderSprites();
+		else if (strcmp(typeid(it->second).name(), "class Emitter"))
+			it->second->GetTexture()->LoadTexture("Resource/Texture/particle.png");
+	}
 }
 
 /******************************************************************************/

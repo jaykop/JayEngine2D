@@ -86,9 +86,6 @@
     <ClCompile Include="Include\LodePNG\lodepng.cpp" />
     <ClCompile Include="Source\Engine\App\Application.cpp" />
     <ClCompile Include="Source\Engine\Graphic\Particle.cpp" />
-    <ClCompile Include="Source\Engine\Logic\LogicFactory.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
     <ClCompile Include="Source\Engine\ObjectManager\Object\Object.cpp" />
     <ClCompile Include="Source\Engine\Graphic\Text.cpp" />
     <ClCompile Include="Source\Engine\Graphic\Texture.cpp" />
@@ -143,12 +140,6 @@
     <ClInclude Include="Source\Engine\App\Application.h" />
     <ClInclude Include="Source\Engine\Graphic\Particle.h" />
     <ClInclude Include="Source\Engine\Logic\GameLogic.h" />
-    <ClInclude Include="Source\Engine\Logic\LogicBuilder.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-    </ClInclude>
-    <ClInclude Include="Source\Engine\Logic\LogicFactory.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-    </ClInclude>
     <ClInclude Include="Source\Engine\ObjectManager\Object\Object.h" />
     <ClInclude Include="Source\Engine\Graphic\Text.h" />
     <ClInclude Include="Source\Engine\Graphic\Texture.h" />
