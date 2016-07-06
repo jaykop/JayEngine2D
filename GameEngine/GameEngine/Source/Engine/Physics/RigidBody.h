@@ -17,6 +17,36 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 
 #include "../Utilities/Math/MathUtils.h"
 
+//! For Rectangle sprites
+class Vertices{
+
+public:
+
+	//! Vertices constructor, destructor, operator
+	Vertices(){ vertice[0] = vertice[1] = vertice[2] = vertice[3] = vec3(); }
+	~Vertices(){};
+	vec3& operator[](const int index){ return vertice[index]; }
+
+private:
+	// Four vectices (RECT)
+	vec3 vertice[4];
+};
+
+//! For Rectangle sprites
+class Edges{
+
+public:
+
+	//! Vertices constructor, destructor, operator
+	Edges(){ edges[0] = edges[1] = edges[2] = edges[3] = vec3(); }
+	~Edges(){};
+	vec3& operator[](const int index){ return edges[index]; }
+
+private:
+	// Four vectices (RECT)
+	vec3 edges[4];
+};
+
 class Sprite;
 
 //! Rigidbody' shape
@@ -26,8 +56,10 @@ enum Shape { BALL, BOX };
 class RigidBody{
 
 public:
-	RigidBody();
+	RigidBody(Sprite* owner);
 	~RigidBody();
+
+	Sprite* GetOwnerSprite(void) const;
 
 	//Manage Body' scale 
 	void SetScale(const vec3& scale);
@@ -46,9 +78,6 @@ public:
 	void ClearVelocity(void);
 
 	void SetForce(const vec3& force);
-
-	void SetLastPosition(const vec3& position);
-	vec3 GetLastPosition(void) const;
 
 	//Todo: What would I do???
 	void SetAcceleration(float acceleration);
@@ -78,6 +107,10 @@ public:
 	bool IsCollided(void) const;
 	bool IsCollisionWith(Sprite* partner);
 	Sprite* GetCollisionWith(void) const;
+	
+	// Get vertices and edges
+	Vertices GetVertices(void);
+	Edges GetEdges(void);
 
 private:
 
@@ -98,6 +131,11 @@ private:
 	bool m_move;
 	bool m_isCollided;
 	Sprite* m_with;
+	Edges m_edges;
+	Vertices m_verts;
+
+	//! Sprite owner
+	Sprite* m_owner;
 
 	//! Body's shape(Ball or box)
 	Shape m_shape;

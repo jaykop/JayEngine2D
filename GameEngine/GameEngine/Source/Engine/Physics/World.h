@@ -19,27 +19,12 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 #include "../Utilities/Math/MathUtils.h"
 
 class Sprite;
+class Vertices;
 class RigidBody;
 class ObjectManager;
 
 //! Type definition for list
 typedef std::hash_map<int, Sprite*> ObjectList;
-
-//! For Rectangle sprites
-class Vertices{
-
-public:
-
-	//! Vertices constructor, destructor, operator
-	Vertices(){ vertice[0] = vertice[1] = vertice[2] = vertice[3] = vec3(); }
-	~Vertices(){};
-	vec3& operator[](const int index){ return vertice[index]; }
-
-private:
-
-	// Four vectices (RECT)
-	vec3 vertice[4];
-};
 
 //! class Physics World
 class World
@@ -61,10 +46,15 @@ public:
 
 private:
 
+	//! New Fucntions
+	void new_CalculateInterval(vec3& axis, RigidBody* body, float& min, float&max);
+	bool new_intersect(RigidBody* body1, RigidBody* body2, vec3& mtd);
+	bool new_AxisSeparatePolygons(vec3* axis, int& index, RigidBody* body1, RigidBody* body2);
+	vec3 new_FindMTD(vec3* pushVector, int iNumVectors);
+
 	//! Collision helper functions
-	Vertices GetVertices(Sprite* spt);
-	void GetCollidedLine(bool toggle);
-	void LineProjection(Vertices& vert, vec3& point, float &min, float &max);
+	void GetCollidedLine(Vertices body1, Vertices body2, int number);
+	void LineProjection(Vertices vert, vec3& point, float &min, float &max);
 
 	//! Collision intersection checking functions
 	bool CollisionIntersect(Sprite* spt1, Sprite* spt2);
@@ -89,7 +79,8 @@ private:
 	vec3 collided_edge[2];		//! bodies edge storage
 	vec3 temp_speed[2];			//! bodies' old speed storage
 	vec3 temp_velocity[2];		//! bodies' old velocity
-	Vertices body1, body2;		//! boxes' vertices storage
+	vec3 mtd;
+
 	float body1_min, body1_max;	//! projection constants
 	float body2_min, body2_max;	//! projection constants
 	

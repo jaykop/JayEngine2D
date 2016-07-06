@@ -48,7 +48,7 @@ public:
 	vec4 GetColor(void) const;
 	
 	// Physics setting
-	void SetRigidBody(RigidBody* new_body);
+	void SetRigidBody(void);
 	RigidBody* GetRigidBody(void) const;
 	void RemoveRigidBody(void);
 	bool HasRigidBody(void) const;

@@ -132,10 +132,10 @@ namespace Math
 	\param line2 - 2nd line's staring point(vector)
 	\param line1 - 1st line's ending point(vector)
 	\param line2 - 2nd line's ending point(vector)
-	\return boolVec
+	\return vec3
 	*/
 	/******************************************************************************/
-	boolVec  IntersectPointOf2Lines(
+	vec3  IntersectPointOf2Lines(
 		const vec3& line1_start, const vec3& line1_end,
 		const vec3& line2_start, const vec3& line2_end)
 	{
@@ -151,13 +151,10 @@ namespace Math
 		//Check if they are parallel
 		float D = a1 * b2 - a2 * b1;
 		if (D)
-		{
-			vec3 inter_point{ (b1*c2 - b2*c1) / D, (a2*c1 - a1*c2) / D };
-			return boolVec{ true, inter_point };
-		}
+			return vec3((b1*c2 - b2*c1) / D, (a2*c1 - a1*c2) / D );
 
 		//Invalid return
-		return boolVec{ false, vec3() };
+		return vec3();
 	}
 
 	/******************************************************************************/

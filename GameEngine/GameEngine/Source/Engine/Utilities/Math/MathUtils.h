@@ -51,13 +51,6 @@ namespace Math
 		Pointf p2;
 	};
 
-	//! boolean and vector
-	struct boolVec
-	{
-		bool boolean;
-		vec3 vector;
-	};
-
 	float DegToRad(float degree);
 	float RadToDeg(float radian);
 
@@ -65,7 +58,7 @@ namespace Math
 	Pointf IntersectPointOf2Lines(const Linef& line1, const Linef& line2);
 	bool LineIntersection(const Linef& line1, const Linef& line2);
 
-	boolVec  IntersectPointOf2Lines(
+	vec3  IntersectPointOf2Lines(
 		const vec3& line1_start, const vec3& line1_end,
 		const vec3& line2_start, const vec3& line2_end);
 

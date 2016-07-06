@@ -151,13 +151,13 @@ vec4 Sprite::GetColor(void) const
 \param new_body
 */
 /******************************************************************************/
-void Sprite::SetRigidBody(RigidBody* new_body)
+void Sprite::SetRigidBody(void)
 {
 	// If sprite has no body,
 	// bind new body
 	if (!m_HasBody)
 	{
-		m_body = new_body;
+		m_body = new RigidBody(this);
 		m_body->SetScale(m_scale);
 		m_HasBody = true;
 	}
