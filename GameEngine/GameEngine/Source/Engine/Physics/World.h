@@ -47,10 +47,16 @@ public:
 private:
 
 	//! New Fucntions
+	bool new_FindCollidedPlane(vec3* axis, float* taxis, int index, vec3& nColl, float& tColl);
 	void new_CalculateInterval(vec3& axis, RigidBody* body, float& min, float&max);
 	bool new_intersect(RigidBody* body1, RigidBody* body2, vec3& mtd);
 	bool new_AxisSeparatePolygons(vec3* axis, int& index, RigidBody* body1, RigidBody* body2);
 	vec3 new_FindMTD(vec3* pushVector, int iNumVectors);
+	bool World::new_IntervalIntersect(const Vertices* verts1, const Vertices* verts2,
+		const vec3& axis, const vec3& diff_pos, const vec3& diff_vel, 
+		float& taxis, float tmax);
+	void GetInterval(const Vertices *axVertices, int iNumVertices,
+		const vec3& xAxis, float& min, float& max);
 
 	//! Collision helper functions
 	void GetCollidedLine(Vertices body1, Vertices body2, int number);
@@ -84,6 +90,8 @@ private:
 	float body1_min, body1_max;	//! projection constants
 	float body2_min, body2_max;	//! projection constants
 	
+	float tColl;
+	vec3 nColl;
 };
 
 #endif // _WORLD_H_

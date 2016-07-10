@@ -55,10 +55,6 @@ void MenuStage::Init(GameData& gd)
 	m_OBM.GetGameObject<Sprite>(1)->GetRigidBody()->ActivateMove(false);
 	m_OBM.GetGameScene()->SetBackgroundColor(vec4(0, 0, 0, 1));
 	m_OBM.InitGameSystem();
-
-	vec3 a(0.00001f, 0.0000014f);
-	vec3 b = a.Normalize();
-	std::cout << b << "\n";
 }
 
 void MenuStage::Update(GameData& gd)
