@@ -46,6 +46,9 @@ public:
 
 private:
 
+	void ProcessOverlap(Sprite* box1, Sprite* box2, const vec3& mtd);
+	void  ProcessCollision(Sprite* box1, Sprite* box2, const vec3& n, float t);
+
 	//! New Fucntions
 	bool new_FindCollidedPlane(vec3* axis, float* taxis, int index, vec3& nColl, float& tColl);
 	void new_CalculateInterval(vec3& axis, RigidBody* body, float& min, float&max);
@@ -85,13 +88,11 @@ private:
 	vec3 collided_edge[2];		//! bodies edge storage
 	vec3 temp_speed[2];			//! bodies' old speed storage
 	vec3 temp_velocity[2];		//! bodies' old velocity
-	vec3 mtd;
+	vec3 mtd, n;
+	float t;
 
 	float body1_min, body1_max;	//! projection constants
 	float body2_min, body2_max;	//! projection constants
-	
-	float tColl;
-	vec3 nColl;
 };
 
 #endif // _WORLD_H_

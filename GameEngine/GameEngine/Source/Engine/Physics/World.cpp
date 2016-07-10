@@ -25,9 +25,9 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 /******************************************************************************/
 World::World(void)
 :body1_min(0), body1_max(0), body2_min(0), body2_max(0),
-loopToggle(true)
+loopToggle(true), t(1.f)
 {
-	mtd = vec3();
+	n = mtd = vec3();
 	collided_edge[0] = collided_edge[1] = vec3();
 	temp_speed[0] = temp_speed[1] = vec3();
 	temp_velocity[0] = temp_velocity[1] = vec3();
@@ -49,6 +49,13 @@ World::~World(void)
 void World::Init(const ObjectList& objList)
 {
 	UNREFERENCED_PARAMETER(objList);
+	body1_min = body1_max = body2_min = body2_max = 0;
+	loopToggle = true;
+	t = 1.f;
+	n = mtd = vec3();
+	collided_edge[0] = collided_edge[1] = vec3();
+	temp_speed[0] = temp_speed[1] = vec3();
+	temp_velocity[0] = temp_velocity[1] = vec3();
 }
 
 /******************************************************************************/
@@ -76,7 +83,7 @@ void World::Update(const ObjectList& objList)
 				it1->second->GetRigidBody()->SetCollisionWith(nullptr);
 
 				auto new_begin = std::next(it1,1);
-				for (auto it2 = new_begin; it2 != objList.end(); ++it2)
+				for (auto it2 = objList.begin(); it2 != objList.end(); ++it2)
 				{
 					// 3. If both objs are differenct and both bodies has own body, 
 					// activated body and collider body,
@@ -439,18 +446,17 @@ void World::ResponseBallToBall(Sprite* ball1, Sprite* ball2)
 /******************************************************************************/
 void World::ResponseBoxToBox(Sprite* box1, Sprite* box2)
 {
+	//if (t < 0.0f)
+		//ProcessOverlap(box1, box2, n * -t);
+	
+	//else
+		//ProcessCollision(box1, box2, n, t);
+
 	// Refresh the 1st box's body info
 	// Get coliided lines of the 2 boxes
 	
 	//GetCollidedLine(box1->GetRigidBody()->GetVertices(),
 		//box2->GetRigidBody()->GetVertices(), 0);
-
-	box1->SetPosition(box1->GetPosition() + mtd);
-
-	// Calculate new velocity
-	//box1->GetRigidBody()->SetVelocity(
-	//	box1->GetRigidBody()->GetVelocity().Reflection(
-	//	collided_edge[0].Rotation(90)));	
 
 	//// Save new speed
 	//temp_speed[0] = box1->GetRigidBody()->GetSpeed() *
@@ -460,18 +466,24 @@ void World::ResponseBoxToBox(Sprite* box1, Sprite* box2)
 	// Move to the uncollided last position
 	//box1->SetPosition(box1->GetRigidBody()->GetLastPosition());				
 	
-
 	// If 2nd box is movable, refresh the 2nd box's body info too
 	if (box2->GetRigidBody()->GetMoveToggle())
 	{
 		//GetCollidedLine(box2->GetRigidBody()->GetVertices(),
 			//box1->GetRigidBody()->GetVertices(), 1);
+		box2->SetPosition(box2->GetPosition() - .5f * mtd);
+		box1->SetPosition(box1->GetPosition() + .5f * mtd);
 
 		// Calculate new velocity
-		//box2->GetRigidBody()->SetVelocity(-box1->GetRigidBody()->GetVelocity());
-		////box2->GetRigidBody()->SetVelocity(
-		//	//box2->GetRigidBody()->GetVelocity().Reflection(
-		//	//collided_edge[1].Rotation(90)).Normalize());
+		box1->GetRigidBody()->SetVelocity(
+			box1->GetRigidBody()->GetVelocity().Reflection(
+			collided_edge[0]));
+
+		box2->GetRigidBody()->SetVelocity(-box1->GetRigidBody()->GetVelocity());
+
+		box2->GetRigidBody()->SetVelocity(
+			box2->GetRigidBody()->GetVelocity().Reflection(
+			-collided_edge[0]));
 
 		//// Save new speed
 		//temp_speed[1] = box2->GetRigidBody()->GetSpeed() *
@@ -480,11 +492,21 @@ void World::ResponseBoxToBox(Sprite* box1, Sprite* box2)
 
 		//// Move to the uncollided last position
 		////box2->SetPosition(box2->GetRigidBody()->GetLastPosition());
-		box2->SetPosition(box2->GetPosition() - mtd);
+		//box2->SetPosition(box2->GetPosition() - mtd);
 
 		//// Reset the speed
 		//box2->GetRigidBody()->SetSpeed(temp_speed[1] + temp_speed[0] / box1->GetRigidBody()->GetMass());
 		////BodyPipeline(box2);
+	}
+
+	else
+	{
+		box1->SetPosition(box1->GetPosition() + mtd);
+
+		// Calculate new velocity
+		box1->GetRigidBody()->SetVelocity(
+			box1->GetRigidBody()->GetVelocity().Reflection(
+			collided_edge[0]));
 	}
 
 	// Reset the speed
@@ -642,151 +664,79 @@ bool World::new_intersect(RigidBody* body1, RigidBody* body2, vec3& mtd)
 	Edges body1_edges = body1->GetEdges();
 	Edges body2_edges = body2->GetEdges();
 
-	Vertices body1_verts = body1->GetVertices();
-	Vertices body2_verts = body2->GetVertices();
+	//Vertices body1_verts = body1->GetVertices();
+	//Vertices body2_verts = body2->GetVertices();
 
-	vec3 vec_axis[9];
-	float taxis[9];
+	vec3 vec_axis[8];
+	//float taxis[8];
 	int iNumAxis = 0;
-	float t = 1.f;
-	vec3 n;
 
-	vec3 relPos = body1->GetOwnerSprite()->GetPosition() 
-		- body2->GetOwnerSprite()->GetPosition();
-	vec3 relDis = body1->GetVelocity() - body2->GetVelocity();
+	//vec3 relPos = body1->GetOwnerSprite()->GetPosition() 
+	//	- body2->GetOwnerSprite()->GetPosition();
+	//vec3 relDis = body1->GetVelocity() - body2->GetVelocity();
 
-	vec_axis[iNumAxis] = vec3(-relDis.y, relDis.x);
-	float fVel2 = relDis .DotProduct(relDis);
+	//vec_axis[iNumAxis] = vec3(-relDis.y, relDis.x);
+	//float fVel2 = relDis.DotProduct(relDis);
 
-	if (fVel2 > 0.000001f)
-	{
-		if (!new_IntervalIntersect(&body1_verts, &body2_verts,
-			vec_axis[iNumAxis], relPos, relDis, taxis[iNumAxis], t))
-			return false;
+	//if (fVel2 > 0.000001f)
+	//{
+	//	if (!new_IntervalIntersect(&body1_verts, &body2_verts,
+	//		vec_axis[iNumAxis], relPos, relDis, taxis[iNumAxis], t))
+	//		return false;
 
-		++iNumAxis;
-	}
+	//	++iNumAxis;
+	//}
 
 	for (int i = 0; i < 4; ++i)
 	{
-		vec_axis[iNumAxis] = vec3(-body1_edges[i].y, body1_edges[i].x);
-
-		if (!new_IntervalIntersect(&body1_verts, &body2_verts,
-			vec_axis[iNumAxis], relPos, relDis, taxis[iNumAxis], t))
-			return false;
-		++iNumAxis;
-
 		//vec_axis[iNumAxis] = vec3(-body1_edges[i].y, body1_edges[i].x);
 
-		//if (new_AxisSeparatePolygons(vec_axis, iNumAxis, body1, body2))
+		//if (!new_IntervalIntersect(&body1_verts, &body2_verts,
+		//	vec_axis[iNumAxis], relPos, relDis, taxis[iNumAxis], t))
 		//	return false;
+		//++iNumAxis;
+
+		vec_axis[iNumAxis] = vec3(-body1_edges[i].y, body1_edges[i].x);
+
+		if (new_AxisSeparatePolygons(vec_axis, iNumAxis, body1, body2))
+			return false;
 
 	}
 
 	for (int i = 0; i < 4; ++i)
 	{
-		vec_axis[iNumAxis] = vec3(-body2_edges[i].y, body2_edges[i].x);
-
-		if (!new_IntervalIntersect(&body1_verts, &body2_verts,
-			vec_axis[iNumAxis], relPos, relDis, taxis[iNumAxis], t))
-			return false;
-		++iNumAxis;
-
 		//vec_axis[iNumAxis] = vec3(-body2_edges[i].y, body2_edges[i].x);
 
-		//if (new_AxisSeparatePolygons(vec_axis, iNumAxis, body1, body2))
+		//if (!new_IntervalIntersect(&body1_verts, &body2_verts,
+		//	vec_axis[iNumAxis], relPos, relDis, taxis[iNumAxis], t))
 		//	return false;
+		//++iNumAxis;
+
+		vec_axis[iNumAxis] = vec3(-body2_edges[i].y, body2_edges[i].x);
+
+		if (new_AxisSeparatePolygons(vec_axis, iNumAxis, body1, body2))
+			return false;
 	}
 
 	//Find munumum transition distance
-	//mtd = new_FindMTD(vec_axis, iNumAxis);
+	mtd = new_FindMTD(vec_axis, iNumAxis);
 
-	//vec3 d = body1->GetOwnerSprite()->GetPosition() - body2->GetOwnerSprite()->GetPosition();
-	//if (d.DotProduct(mtd) < 0.f)
-	//	mtd = -mtd;
+	vec3 d = body1->GetOwnerSprite()->GetPosition() - body2->GetOwnerSprite()->GetPosition();
+	if (d.DotProduct(mtd) < 0.f)
+		mtd = -mtd;
 
-	if (!new_FindCollidedPlane(vec_axis, taxis, iNumAxis, n, t))
-		return false;
+	//if (!new_FindCollidedPlane(vec_axis, taxis, iNumAxis, n, t))
+	//	return false;
 
-	// make sure the polygons gets pushed away from each other.
-	if (n.DotProduct(relPos) < 0.0f)
-		n = -n;
+	//// make sure the polygons gets pushed away from each other.
+	//if (n.DotProduct(relPos) < 0.0f)
+	//	n = -n;
 
 	return true;
 }
 
 bool World::new_FindCollidedPlane(vec3* axis, float* taxis, int index, vec3& nColl, float& tColl)
 {
-	//nColl = axis[0];
-	//float min_d2 = axis[0].DotProduct(axis[0]);
-	//for (int i = 1; i < 8; ++i)
-	//{
-	//	float d2 = axis[i].DotProduct(axis[i]);
-	//	if (d2 < min_d2)
-	//	{
-	//		min_d2 = d2;
-	//		nColl = axis[i];
-	//	}
-	//}
-
-	//// Find collision first
-	//int min_i = -1;
-	//tColl = 0.f;
-	//for (int i = 0; i < 8; ++i)
-	//{
-	//	if (taxis[i] > 0.f && 
-	//		taxis[i] > axis[i])
-	//	{
-	//		min_i = i;
-	//		tColl = taxis[i];
-	//		nColl = axis[i];
-	//	}
-	//}
-
-	//std::cout << min_i << "\n";
-
-	//// Found one
-	//if (min_i != -1)
-	//	return true;
-
-	//// If not, find overlapped
-	//min_i = -1;
-	//for (int i = 0; i < 8; ++i)
-	//{
-	//	float n = axis[i].Length();
-	//	taxis[i] /= n;
-
-	//	if (min_i == -1)
-	//	{
-	//		min_i = i;
-	//		tColl = taxis[i];
-	//		nColl = axis[i];
-	//	}
-	//}
-	//if (min_i == -1)
-	//	printf("Error!\n");
-
-
-	////std::cout << min_i << "\n";
-	//return (min_i != -1);
-
-	//// find collision first
-	//int mini = -1;
-	//t = 0.0f;
-	//for (int i = 0; i < iNumAxes; i++)
-	//{
-	//	if (taxis[i] > 0)
-	//	{
-	//		if (taxis[i] > t)
-	//		{
-	//			mini = i;
-	//			t = taxis[i];
-	//			N = xAxis[i];
-	//			N.Normalise();
-	//		}
-	//	}
-	//}
-
 	// find collision first
 	int mini = -1;
 	tColl = 0.0f;
@@ -798,8 +748,7 @@ bool World::new_FindCollidedPlane(vec3* axis, float* taxis, int index, vec3& nCo
 			{
 				mini = i;
 				tColl = taxis[i];
-				nColl = axis[i];
-				nColl.Normalize();
+				nColl = axis[i].Normalize();
 			}
 		}
 	}
@@ -823,6 +772,8 @@ bool World::new_FindCollidedPlane(vec3* axis, float* taxis, int index, vec3& nCo
 		}
 	}
 
+	std::cout << mini << "\n";
+
 	if (mini == -1)
 		printf("Error\n");
 
@@ -836,15 +787,15 @@ bool World::new_IntervalIntersect(const Vertices* verts1, const Vertices* verts2
 	vec3 d_pos = diff_pos;
 	vec3 d_vel = diff_vel;
 
-	float min0, max0;
-	float min1, max1;
-	GetInterval(verts1, 4, taxis, min0, max0);
-	GetInterval(verts2, 4, taxis, min1, max1);
+	float min0 = 0, max0 = 0;
+	float min1 = 0, max1 = 0;
+	GetInterval(verts1, 4, axis, min0, max0);
+	GetInterval(verts2, 4, axis, min1, max1);
 
-	float h = d_pos.DotProduct(axis);
-	min0 += h;
-	max0 += h;
-
+	//float h = d_pos.DotProduct(axis);
+	//min0 += h;
+	//max0 += h;
+		
 	float d0 = min0 - max1; // if overlapped, do < 0
 	float d1 = min1 - max0; // if overlapped, d1 > 0
 
@@ -881,13 +832,63 @@ void World::GetInterval(const Vertices *axVertices, int iNumVertices, const vec3
 {
 	Vertices gotVerts = *axVertices;
 	vec3 gotAxis = xAxis;
-	min = max = gotVerts[0].DotProduct(gotAxis);
+	min = max = gotAxis.DotProduct(gotVerts[0]);
 	for (int i = 1; i < 4; ++i)
 	{
-		float d = gotVerts[i].DotProduct(gotAxis);
+		float d = gotAxis.DotProduct(gotVerts[i]);
 		if (d < min) min = d;
 		else if (d > max) max = d;
 	}
+}
+
+void World::ProcessOverlap(Sprite* box1, Sprite* box2, const vec3& mtd)
+{
+	vec3 N = mtd;
+	//N = N.Normalize();
+
+	if (!box1->GetRigidBody()->GetMoveToggle())
+		box2->SetPosition(box2->GetPosition() - N);
+		
+	else if (!box2->GetRigidBody()->GetMoveToggle())
+		box1->SetPosition(box1->GetPosition() + N);
+	
+	else
+	{
+		box1->SetPosition(box1->GetPosition() + N * 0.5f);
+		box2->SetPosition(box2->GetPosition() - N * 0.5f);
+	}
+
+	//ProcessCollision(box1, box2, N, 0.0f);
+}
+
+void  World::ProcessCollision(Sprite* box1, Sprite* box2, const vec3& N, float t)
+{
+	vec3 D = box1->GetRigidBody()->GetVelocity() 
+		- box2->GetRigidBody()->GetVelocity();
+
+	float n = D.DotProduct(N);
+
+	vec3 Dn = N * n;
+	vec3 Dt = D - Dn;
+
+	if (n > 0.0f) Dn = vec3(0, 0);
+
+	float dt = Dt.DotProduct(Dt);
+
+	float CoF = 0.f;
+
+	if (dt < 0) CoF = 1.01f;
+
+	D = -1.f * Dn - (CoF) * Dt;
+
+	float m0 = 1 / box1->GetRigidBody()->GetMass();
+	float m1 = 1 / box2->GetRigidBody()->GetMass();
+	float m = m0 + m1;
+	float r0 = m0 / m;
+	float r1 = m1 / m;
+
+	//box1->GetRigidBody()->SetVelocity(box1->GetRigidBody()->GetVelocity() + D * r0);
+	//box2->GetRigidBody()->SetVelocity(box2->GetRigidBody()->GetVelocity() - D * r1);
 }
 
 bool World::new_AxisSeparatePolygons(vec3* axis, int& index, RigidBody* body1, RigidBody* body2)
@@ -918,16 +919,22 @@ bool World::new_AxisSeparatePolygons(vec3* axis, int& index, RigidBody* body1, R
 vec3 World::new_FindMTD(vec3* pushVector, int iNumVectors)
 {
 	vec3 mtd = pushVector[0];
+	int min_i = -1;
 	float min_d2 = pushVector[0].DotProduct(pushVector[0]);
 	for (int i = 1; i < iNumVectors; ++i)
 	{
 		float d2 = pushVector[i].DotProduct(pushVector[i]);
-		if (d2 < min_d2)
+		if (d2 <= min_d2)
 		{
+			min_i = i;
 			min_d2 = d2;
 			mtd = pushVector[i];
 		}
 	}
+
+	std::cout << min_i << "\n";
+	if (min_i != -1)
+		collided_edge[0] = pushVector[min_i];
 
 	return mtd;
 }

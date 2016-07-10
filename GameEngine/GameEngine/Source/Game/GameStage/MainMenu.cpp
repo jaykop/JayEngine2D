@@ -49,10 +49,10 @@ void MenuStage::Init(GameData& gd)
 	m_OBM.BindGameSystem(m_GSM);
 
 	//Set walls and small sprites
-	offset = 2;
+	offset = 5;
 	SetSamllSprites();
-	//SetWallSprites();
-	m_OBM.GetGameObject<Sprite>(1)->GetRigidBody()->ActivateMove(false);
+	SetWallSprites();
+
 	m_OBM.GetGameScene()->SetBackgroundColor(vec4(0, 0, 0, 1));
 	m_OBM.InitGameSystem();
 }
@@ -177,8 +177,8 @@ void MenuStage::SetSamllSprites(void)
 				Random::GetInstance().GetRandomFloat(5, 15),
 				Random::GetInstance().GetRandomFloat(5, 15)));
 
-			//m_OBM.GetGameObject<Sprite>(index)->SetRotation(
-			//	Random::GetInstance().GetRandomFloat(-180, 180));
+			m_OBM.GetGameObject<Sprite>(index)->SetRotation(
+				Random::GetInstance().GetRandomFloat(-180, 180));
 
 			//Bind rigid body
 			m_OBM.GetGameObject<Sprite>(index)->GetRigidBody()->SetShape(BOX);
@@ -188,7 +188,7 @@ void MenuStage::SetSamllSprites(void)
 
 		m_OBM.GetGameObject<Sprite>(index)->GetRigidBody()->SetMass(
 			(m_OBM.GetGameObject<Sprite>(index)->GetScale().x *
-			m_OBM.GetGameObject<Sprite>(index)->GetScale().y) / 10);
+			m_OBM.GetGameObject<Sprite>(index)->GetScale().y) / 50);
 		m_OBM.GetGameObject<Sprite>(index)->GetRigidBody()->SetFriction(0.0005f);
 	}
 }
