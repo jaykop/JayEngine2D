@@ -71,6 +71,8 @@ namespace Math
 
 	float DistanceOfPointSegment(const vec3& point, const vec3& line_start, const vec3& line_end);
 	float DistanceOfPointSegment(const Pointf& point, const Linef& line);
+
+
 }
 
 #endif //_MATHUTILS_H_

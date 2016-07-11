@@ -49,10 +49,33 @@ void MenuStage::Init(GameData& gd)
 	m_OBM.BindGameSystem(m_GSM);
 
 	//Set walls and small sprites
-	offset = 5;
+	offset = 2;
 	SetSamllSprites();
-	SetWallSprites();
+	//SetWallSprites();
 
+	//m_OBM.AddObject(new Sprite(0, &m_OBM));
+	//m_OBM.AddObject(new Sprite(1, &m_OBM));
+	//m_OBM.GetGameObject<Sprite>(0)->SetRigidBody();
+	//m_OBM.GetGameObject<Sprite>(1)->SetRigidBody();
+	//m_OBM.GetGameObject<Sprite>(0)->SetPosition(
+	//	vec3(10.f, 0, 0));
+	//m_OBM.GetGameObject<Sprite>(1)->SetPosition(
+	//	vec3(0.f, 0, 0));
+
+	//m_OBM.GetGameObject<Sprite>(0)->SetScale(vec3(10, 10));
+	//m_OBM.GetGameObject<Sprite>(1)->SetScale(vec3(10, 10));
+	//m_OBM.GetGameObject<Sprite>(0)->GetRigidBody()->SetShape(BALL);
+	//m_OBM.GetGameObject<Sprite>(1)->GetRigidBody()->SetShape(BALL);
+	//m_OBM.GetGameObject<Sprite>(0)->GetTexture()->
+	//	LoadTexture("Resource/Texture/circle.png");
+	//m_OBM.GetGameObject<Sprite>(1)->GetTexture()->
+	//	LoadTexture("Resource/Texture/circle.png");
+	//m_OBM.GetGameObject<Sprite>(0)->GetRigidBody()->SetScale(
+	//	m_OBM.GetGameObject<Sprite>(0)->GetScale());
+	//m_OBM.GetGameObject<Sprite>(1)->GetRigidBody()->SetScale(
+	//	m_OBM.GetGameObject<Sprite>(1)->GetScale());
+
+	m_OBM.GetGameObject<Sprite>(1)->GetRigidBody()->ActivateMove(false);
 	m_OBM.GetGameScene()->SetBackgroundColor(vec4(0, 0, 0, 1));
 	m_OBM.InitGameSystem();
 }
@@ -160,30 +183,36 @@ void MenuStage::SetSamllSprites(void)
 			Random::GetInstance().GetRandomFloat(-50, 50),
 			Random::GetInstance().GetRandomFloat(-30, 30)));
 
+		float color_r = Random::GetInstance().GetRandomFloat(0, 1.f);
+		float color_g = Random::GetInstance().GetRandomFloat(0, 1.f);
+		float color_b = Random::GetInstance().GetRandomFloat(0, 1.f);
+		m_OBM.GetGameObject<Sprite>(index)->SetColor(vec4(
+			color_r, color_g, color_b, 1.f));
+
 		//if (Random::GetInstance().GetRandomInt(1, 2) % 2)
 		//{
-		//	float radius = Random::GetInstance().GetRandomFloat(1, 10);
-		//	m_OBM.GetGameObject<Sprite>(index)->SetScale(vec3(radius, radius));
-		//	m_OBM.GetGameObject<Sprite>(index)->GetRigidBody()->SetShape(BALL);
-		//	m_OBM.GetGameObject<Sprite>(index)->GetTexture()->
-		//		LoadTexture("Resource/Texture/circle.png");
-		//	m_OBM.GetGameObject<Sprite>(index)->GetRigidBody()->SetScale(
-		//		m_OBM.GetGameObject<Sprite>(index)->GetScale());
+			float radius = Random::GetInstance().GetRandomFloat(10, 15);
+			m_OBM.GetGameObject<Sprite>(index)->SetScale(vec3(radius, radius));
+			m_OBM.GetGameObject<Sprite>(index)->GetRigidBody()->SetShape(BALL);
+			m_OBM.GetGameObject<Sprite>(index)->GetTexture()->
+				LoadTexture("Resource/Texture/circle.png");
+			m_OBM.GetGameObject<Sprite>(index)->GetRigidBody()->SetScale(
+				m_OBM.GetGameObject<Sprite>(index)->GetScale());
 		//}
 
 		//else
 		//{
-			m_OBM.GetGameObject<Sprite>(index)->SetScale(vec3(
-				Random::GetInstance().GetRandomFloat(5, 15),
-				Random::GetInstance().GetRandomFloat(5, 15)));
+			//m_OBM.GetGameObject<Sprite>(index)->SetScale(vec3(
+			//	Random::GetInstance().GetRandomFloat(5, 15),
+			//	Random::GetInstance().GetRandomFloat(5, 15)));
 
-			m_OBM.GetGameObject<Sprite>(index)->SetRotation(
-				Random::GetInstance().GetRandomFloat(-180, 180));
+			//m_OBM.GetGameObject<Sprite>(index)->SetRotation(
+			//	Random::GetInstance().GetRandomFloat(-180, 180));
 
-			//Bind rigid body
-			m_OBM.GetGameObject<Sprite>(index)->GetRigidBody()->SetShape(BOX);
-			m_OBM.GetGameObject<Sprite>(index)->GetRigidBody()->SetScale(
-				m_OBM.GetGameObject<Sprite>(index)->GetScale()* .99f);
+			////Bind rigid body
+			//m_OBM.GetGameObject<Sprite>(index)->GetRigidBody()->SetShape(BOX);
+			//m_OBM.GetGameObject<Sprite>(index)->GetRigidBody()->SetScale(
+			//	m_OBM.GetGameObject<Sprite>(index)->GetScale()* .99f);
 		//}
 
 		m_OBM.GetGameObject<Sprite>(index)->GetRigidBody()->SetMass(

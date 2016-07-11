@@ -192,8 +192,10 @@ namespace Math
 	/******************************************************************************/
 	float DistanceOf2Points(const vec3& a, const vec3& b)
 	{
-		vec3 square((b.x - a.x) * (b.x - a.x), (b.y - a.y) * (b.y - a.y), 0);
-		return sqrt(square.x + square.y);
+		float x_sqr = (b.x - a.x);
+		float y_sqr = (b.y - a.y);
+
+		return sqrt(x_sqr * x_sqr + y_sqr * y_sqr);
 	}
 
 	/******************************************************************************/
