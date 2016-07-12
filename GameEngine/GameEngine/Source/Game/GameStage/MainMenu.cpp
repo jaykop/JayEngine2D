@@ -50,34 +50,45 @@ void MenuStage::Init(GameData& gd)
 
 	//Set walls and small sprites
 	offset = 2;
-	SetSamllSprites();
+	//SetSamllSprites();
 	//SetWallSprites();
 
-	//m_OBM.AddObject(new Sprite(0, &m_OBM));
-	//m_OBM.AddObject(new Sprite(1, &m_OBM));
-	//m_OBM.GetGameObject<Sprite>(0)->SetRigidBody();
-	//m_OBM.GetGameObject<Sprite>(1)->SetRigidBody();
-	//m_OBM.GetGameObject<Sprite>(0)->SetPosition(
-	//	vec3(10.f, 0, 0));
-	//m_OBM.GetGameObject<Sprite>(1)->SetPosition(
-	//	vec3(0.f, 0, 0));
+	m_OBM.AddObject(new Sprite(0, &m_OBM));
+	m_OBM.AddObject(new Sprite(1, &m_OBM));
+	m_OBM.GetGameObject<Sprite>(0)->SetRigidBody();
+	m_OBM.GetGameObject<Sprite>(1)->SetRigidBody();
+	m_OBM.GetGameObject<Sprite>(0)->SetPosition(
+		vec3(20.f, 0, 0));
+	m_OBM.GetGameObject<Sprite>(1)->SetPosition(
+		vec3(0.f, 0, 0));
 
-	//m_OBM.GetGameObject<Sprite>(0)->SetScale(vec3(10, 10));
-	//m_OBM.GetGameObject<Sprite>(1)->SetScale(vec3(10, 10));
-	//m_OBM.GetGameObject<Sprite>(0)->GetRigidBody()->SetShape(BALL);
+	m_OBM.GetGameObject<Sprite>(0)->SetScale(vec3(10, 10));
+	m_OBM.GetGameObject<Sprite>(1)->SetScale(vec3(15, 15));
+	m_OBM.GetGameObject<Sprite>(0)->GetRigidBody()->SetShape(BALL);
 	//m_OBM.GetGameObject<Sprite>(1)->GetRigidBody()->SetShape(BALL);
-	//m_OBM.GetGameObject<Sprite>(0)->GetTexture()->
-	//	LoadTexture("Resource/Texture/circle.png");
+	m_OBM.GetGameObject<Sprite>(0)->GetTexture()->
+		LoadTexture("Resource/Texture/circle.png");
 	//m_OBM.GetGameObject<Sprite>(1)->GetTexture()->
-	//	LoadTexture("Resource/Texture/circle.png");
-	//m_OBM.GetGameObject<Sprite>(0)->GetRigidBody()->SetScale(
-	//	m_OBM.GetGameObject<Sprite>(0)->GetScale());
-	//m_OBM.GetGameObject<Sprite>(1)->GetRigidBody()->SetScale(
-	//	m_OBM.GetGameObject<Sprite>(1)->GetScale());
+		//LoadTexture("Resource/Texture/circle.png");
+	m_OBM.GetGameObject<Sprite>(0)->GetRigidBody()->SetScale(
+		m_OBM.GetGameObject<Sprite>(0)->GetScale());
+	m_OBM.GetGameObject<Sprite>(1)->GetRigidBody()->SetScale(
+		m_OBM.GetGameObject<Sprite>(1)->GetScale());
+
+	m_OBM.GetGameObject<Sprite>(0)->GetRigidBody()->SetMass(
+		(m_OBM.GetGameObject<Sprite>(0)->GetScale().x *
+		m_OBM.GetGameObject<Sprite>(0)->GetScale().y) / 50);
+
+	m_OBM.GetGameObject<Sprite>(1)->GetRigidBody()->SetMass(
+		(m_OBM.GetGameObject<Sprite>(1)->GetScale().x *
+		m_OBM.GetGameObject<Sprite>(1)->GetScale().y) / 50);
 
 	m_OBM.GetGameObject<Sprite>(1)->GetRigidBody()->ActivateMove(false);
 	m_OBM.GetGameScene()->SetBackgroundColor(vec4(0, 0, 0, 1));
 	m_OBM.InitGameSystem();
+
+	vec3 a(-1, 0);
+	std::cout << a.Reflection(vec3(0, -10)) << "\n";
 }
 
 void MenuStage::Update(GameData& gd)

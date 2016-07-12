@@ -65,6 +65,7 @@ private:
 	void CalculateInterval(vec3& axis, RigidBody* body, float& min, float&max);
 	bool AxisSeparatePolygons(vec3* axis, int& index, RigidBody* body1, RigidBody* body2);
 	vec3 FindMTD(vec3* pushVector, int iNumVectors);
+	vec3 GetClosestPoint(Sprite* box, Sprite* ball);
 
 	//! Collision relation setting function 
 	void CollisionRelation(Sprite* spt1, Sprite* spt2);
