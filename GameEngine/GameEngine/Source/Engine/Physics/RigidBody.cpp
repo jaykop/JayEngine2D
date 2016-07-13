@@ -148,6 +148,7 @@ vec3 RigidBody::GetSpeed(void) const
 void RigidBody::SetVelocity(const vec3& velocity)
 {
 	m_velocity = velocity;
+	m_velocity = m_velocity.Normalize();
 }
 
 /******************************************************************************/
