@@ -262,6 +262,7 @@ void World::CalculateInterval(vec3& axis, RigidBody* body, float& min, float&max
 \param spt1 - get 1st body's verts
 \param spt2 - get 2nd body's verts
 
+\return bool
 */
 /******************************************************************************/
 bool World::CollisionIntersect(Sprite* spt1, Sprite* spt2)
@@ -296,6 +297,7 @@ bool World::CollisionIntersect(Sprite* spt1, Sprite* spt2)
 \param box1 - get 1st body's verts
 \param box2 - get 2nd body's verts
 
+\return bool
 */
 /******************************************************************************/
 bool World::IntersectBoxToBox(Sprite* spt1, Sprite* spt2)
@@ -346,6 +348,7 @@ bool World::IntersectBoxToBox(Sprite* spt1, Sprite* spt2)
 \param ball1 - get 1st body's position and radius
 \param ball2 - get 2nd body's position and radius
 
+\return bool
 */
 /******************************************************************************/
 bool World::IntersectBallToBall(Sprite* ball1, Sprite* ball2)
@@ -369,6 +372,7 @@ bool World::IntersectBallToBall(Sprite* ball1, Sprite* ball2)
 \param box - get 1st body's verts
 \param ball - get 2nd body's position and radius
 
+\return bool
 */
 /******************************************************************************/
 bool World::IntersectBoxToBall(Sprite* box, Sprite* ball)
@@ -382,8 +386,8 @@ bool World::IntersectBoxToBall(Sprite* box, Sprite* ball)
 	vec3 new_xy = relDIs * vec3(cosf(relDeg - Math::DegToRad(box->GetRotation())), sinf(relDeg - Math::DegToRad(box->GetRotation())));
 	vec3 halfSize = box->GetRigidBody()->GetScale() / 2.f;
 
-	if (new_xy.x - radius >= -halfSize.x && new_xy.x + radius <= halfSize.x &&
-		new_xy.y - radius >= -halfSize.y && new_xy.y + radius <= halfSize.y)
+	if (new_xy.x  >= -halfSize.x && new_xy.x  <= halfSize.x &&
+		new_xy.y  >= -halfSize.y && new_xy.y  <= halfSize.y)
 		return true;
 
 	vec3 closest;
@@ -644,8 +648,8 @@ void World::ResponseBoxToBall(Sprite* box, Sprite* ball)
 	
 	// Save new velocities
 	vec3 new_vel[2];
-	new_vel[0] = box->GetRigidBody()->GetVelocity() - n * (iMass_box / iMass);
-	new_vel[1] = ball->GetRigidBody()->GetVelocity() + n * (iMass_ball / iMass);
+	new_vel[0] = box->GetRigidBody()->GetVelocity() - n ;
+	new_vel[1] = ball->GetRigidBody()->GetVelocity() + n ;
 
 	// Save new speed
 	new_speed[0] = box->GetRigidBody()->GetSpeed() *
@@ -671,6 +675,8 @@ void World::ResponseBoxToBall(Sprite* box, Sprite* ball)
 		box->GetRigidBody()->SetSpeed(new_speed[0] + new_speed[1] / ball->GetRigidBody()->GetMass());
 		ball->GetRigidBody()->SetSpeed(new_speed[1] + new_speed[0] / box->GetRigidBody()->GetMass());
 
+		BodyPipeline(box);
+		BodyPipeline(ball);
 	}
 
 	// If only box sprite is movable...
@@ -684,6 +690,8 @@ void World::ResponseBoxToBall(Sprite* box, Sprite* ball)
 
 		// Set new speed
 		box->GetRigidBody()->SetSpeed(new_speed[0] + new_speed[1] / ball->GetRigidBody()->GetMass());
+
+		BodyPipeline(ball);
 	}
 
 	// If only ball sprite is movable...
@@ -697,6 +705,8 @@ void World::ResponseBoxToBall(Sprite* box, Sprite* ball)
 
 		// Set new speed
 		ball->GetRigidBody()->SetSpeed(new_speed[1] + new_speed[0] / box->GetRigidBody()->GetMass());
+
+		BodyPipeline(box);
 	}
 }
 

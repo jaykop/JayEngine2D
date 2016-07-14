@@ -232,7 +232,7 @@ void MenuStage::SetSamllSprites(void)
 			m_OBM.GetGameObject<Sprite>(index)->GetRigidBody()->SetScale(
 				m_OBM.GetGameObject<Sprite>(index)->GetScale());
 
-			m_OBM.GetGameObject<Sprite>(index)->GetRigidBody()->ActivateMove(false);
+			//m_OBM.GetGameObject<Sprite>(index)->GetRigidBody()->ActivateMove(false);
 		}
 
 		m_OBM.GetGameObject<Sprite>(index)->GetRigidBody()->SetMass(
