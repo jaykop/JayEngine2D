@@ -32,6 +32,7 @@ m_HasBody(false), m_body(0), m_prjt(PERSPECTIVE), ani_play(false),
 m_position(vec3(0.f, 0.f, 0.f)), m_scale(vec3(5.f, 5.f, 0.f))
 {
 	SetID(id);
+	SetType(SPRITE);
 	SetObjectManager(obm);
 }
 
@@ -83,6 +84,7 @@ void Sprite::SetScale(const vec3& scale)
 void Sprite::SetRotation(float degree)
 {
 	m_degree = degree;
+	if (degree > 360.f) degree -= 360.f;
 }
 
 /******************************************************************************/

@@ -17,11 +17,12 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 
 Text::Text(const int id, ObjectManager* obm)
 {
-	SetScale(vec3(1.f, 1.f, 1.f));
-	SetColor(vec4(0.f, 0.0f, 0.0f, 1.f));
+	SetID(id);
+	SetType(TEXT);
 	SetObjectManager(obm); 
 	SetProjectionType(ORTHOGONAL);
-	SetID(id);
+	SetScale(vec3(1.f, 1.f, 1.f));
+	SetColor(vec4(0.f, 0.0f, 0.0f, 1.f));	
 }
 
 Text::~Text(void)

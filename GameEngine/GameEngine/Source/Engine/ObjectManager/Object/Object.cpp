@@ -121,3 +121,25 @@ ObjectManager* Object::GetOBM(void)
 {
 	return m_OBM;
 }
+
+/******************************************************************************/
+/*!
+\brief - Set object's type
+\param type
+*/
+/******************************************************************************/
+void Object::SetType(ObjectType type)
+{
+	m_type = type;
+}
+
+/******************************************************************************/
+/*!
+\brief - Get object's type
+\return m_type
+*/
+/******************************************************************************/
+ObjectType Object::GetType(void) const
+{
+	return m_type;
+}

@@ -48,8 +48,14 @@ void MenuStage::Init(GameData& gd)
 	//Init basic trunks
 	m_OBM.BindGameSystem(m_GSM);
 
+	m_OBM.AddObject(new Text(50, &m_OBM));
+	m_OBM.GetGameObject<Text>(50)->SetText(L"Text test...");
+	//m_OBM.GetGameObject<Text>(50)->SetScale(vec3(10, 10));
+	m_OBM.GetGameObject<Text>(50)->SetColor(vec4(1, 1, 1, 1));
+	//m_OBM.GetGameObject<Text>(50)->SetPosition(vec3(0, 0, 0));
+
 	//Set walls and small sprites
-	offset = 10;
+	offset = 2;
 	SetSamllSprites();
 	SetWallSprites();
 
@@ -96,6 +102,7 @@ void MenuStage::Init(GameData& gd)
 	//m_OBM.GetGameObject<Sprite>(1)->GetRigidBody()->ActivateMove(false);
 
 	m_OBM.InitGameSystem();
+	//m_OBM.GetGameScene()->SetBackgroundColor(vec4(1, 1, 1, 1));
 }
 
 void MenuStage::Update(GameData& gd)
@@ -207,7 +214,7 @@ void MenuStage::SetSamllSprites(void)
 		m_OBM.GetGameObject<Sprite>(index)->SetColor(vec4(
 			color_r, color_g, color_b, 1.f));
 
-		if (Random::GetInstance().GetRandomInt(1, 2) % 2)
+		if (!m_OBM.GetGameObject<Sprite>(index)->GetID())
 		{
 			float radius = Random::GetInstance().GetRandomFloat(10, 15);
 			m_OBM.GetGameObject<Sprite>(index)->SetScale(vec3(radius, radius));
@@ -225,7 +232,7 @@ void MenuStage::SetSamllSprites(void)
 				Random::GetInstance().GetRandomFloat(11, 15)));
 
 			m_OBM.GetGameObject<Sprite>(index)->SetRotation(
-				Random::GetInstance().GetRandomFloat(-180, 180));
+				Random::GetInstance().GetRandomFloat(0, 360));
 
 			//Bind rigid body
 			m_OBM.GetGameObject<Sprite>(index)->GetRigidBody()->SetShape(BOX);

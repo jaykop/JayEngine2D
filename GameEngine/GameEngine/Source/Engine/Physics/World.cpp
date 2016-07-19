@@ -74,7 +74,7 @@ void World::Update(const ObjectList& objList)
 				it1->second->GetRigidBody()->SetCollisionWith(nullptr);
 
 				//auto new_begin = std::next(it1,1);
-				for (auto it2 = objList.begin(); it2 != objList.end(); ++it2)
+				for (auto it2 = it1; it2 != objList.end(); ++it2)
 				{
 					// 3. If both objs are differenct and both bodies has own body, 
 					// activated body and collider body,
@@ -284,8 +284,7 @@ bool World::CollisionIntersect(Sprite* spt1, Sprite* spt2)
 			spt2->GetRigidBody()->GetShape() == BALL)
 			return IntersectBoxToBall(spt1, spt2);
 
-		else if (spt1->GetRigidBody()->GetShape() == BALL &&
-			spt2->GetRigidBody()->GetShape() == BOX)
+		else
 			return IntersectBoxToBall(spt2, spt1);
 	}
 }
@@ -377,44 +376,43 @@ bool World::IntersectBallToBall(Sprite* ball1, Sprite* ball2)
 /******************************************************************************/
 bool World::IntersectBoxToBall(Sprite* box, Sprite* ball)
 {
+	// Call this radius
 	float radius = ball->GetRigidBody()->GetScale().x / 2.f;
 
 	vec3 relPos =  ball->GetPosition() - box->GetPosition();
 	float relDIs = sqrt(relPos.x * relPos.x + relPos.y * relPos.y);
-	float relDeg = atan2(relPos.y, relPos.x);
+	float relDeg = atan2(relPos.y, relPos.x) - Math::DegToRad(box->GetRotation());
 
-	vec3 new_xy = relDIs * vec3(cosf(relDeg - Math::DegToRad(box->GetRotation())), sinf(relDeg - Math::DegToRad(box->GetRotation())));
+	vec3 new_xy = vec3(cosf(relDeg), sinf(relDeg)) * relDIs;
 	vec3 halfSize = box->GetRigidBody()->GetScale() / 2.f;
 
-	if (new_xy.x  >= -halfSize.x && new_xy.x  <= halfSize.x &&
-		new_xy.y  >= -halfSize.y && new_xy.y  <= halfSize.y)
+	if (new_xy.x >= -halfSize.x && new_xy.x <= halfSize.x &&
+		new_xy.y >= -halfSize.y && new_xy.y <= halfSize.y)
 		return true;
 
+	// Init closest;
 	vec3 closest;
 
 	// Find the closest point in the X axis
-	if (/*new_xy.x + radius  < -halfSize.x
-		|| */new_xy.x  < -halfSize.x)
+	if (new_xy.x  < -halfSize.x)
 		closest.x = -halfSize.x;
-	else if (/*new_xy.x - radius > halfSize.x
-		|| */new_xy.x > halfSize.x)
+	else if (new_xy.x > halfSize.x)
 		closest.x = halfSize.x;
 	else
 		closest.x = new_xy.x;
 
 	// Find the closest point in the Y axis
-	if (/*new_xy.y + radius < -halfSize.y ||*/
-		new_xy.y < -halfSize.y)
+	if (new_xy.y < -halfSize.y)
 		closest.y = -halfSize.y;
-	else if (/*new_xy.y - radius > halfSize.y ||*/
-		new_xy.y > halfSize.y)
+	else if (new_xy.y > halfSize.y)
 		closest.y = halfSize.y;
 	else
 		closest.y = new_xy.y;
 
 	vec3 dt = new_xy - closest;
 	float distance_sq = dt.DotProduct(dt);
-
+	
+	// 
 	if (distance_sq <= radius * radius)
 	{
 		float dist = sqrt(distance_sq);
@@ -460,10 +458,12 @@ void World::CollisionResponse(Sprite* spt1, Sprite* spt2)
 			spt2->GetRigidBody()->GetShape() == BALL)
 			ResponseBoxToBall(spt1, spt2);
 
-		else if (spt1->GetRigidBody()->GetShape() == BALL&&
-			spt2->GetRigidBody()->GetShape() == BOX)
+		else
 			ResponseBoxToBall(spt2, spt1);
 	}
+
+	// Refresh global mtd
+	mtd = 0;
 }
 
 /******************************************************************************/
@@ -664,8 +664,8 @@ void World::ResponseBoxToBall(Sprite* box, Sprite* ball)
 	if (box->GetRigidBody()->GetMoveToggle() && ball->GetRigidBody()->GetMoveToggle())
 	{
 		// Set sprites' position with mtd
-		box->SetPosition(box->GetPosition() - mtd * .5f/*(iMass_box / iMass) /* relaxation*/);
-		ball->SetPosition(ball->GetPosition() + mtd * .5f/*(iMass_ball / iMass) /* relaxation*/);
+		box->SetPosition(box->GetPosition() - mtd * .5f *(iMass_box / iMass) );
+		ball->SetPosition(ball->GetPosition() + mtd * .5f *(iMass_ball / iMass));
 
 		// Set new velocity
 		box->GetRigidBody()->SetVelocity(new_vel[0]);
@@ -674,39 +674,32 @@ void World::ResponseBoxToBall(Sprite* box, Sprite* ball)
 		// Set new speed
 		box->GetRigidBody()->SetSpeed(new_speed[0] + new_speed[1] / ball->GetRigidBody()->GetMass());
 		ball->GetRigidBody()->SetSpeed(new_speed[1] + new_speed[0] / box->GetRigidBody()->GetMass());
-
-		BodyPipeline(box);
-		BodyPipeline(ball);
 	}
 
 	// If only box sprite is movable...
 	else if (!ball->GetRigidBody()->GetMoveToggle() && box->GetRigidBody()->GetMoveToggle())
 	{
 		// Set sprites' position with mtd
-		box->SetPosition(box->GetPosition() - mtd /*(iMass_box / iMass) * relaxation*/);
+		box->SetPosition(box->GetPosition() - mtd * (iMass_box / iMass));
 
 		// Set new velocity
 		box->GetRigidBody()->SetVelocity(new_vel[0]);
 
 		// Set new speed
 		box->GetRigidBody()->SetSpeed(new_speed[0] + new_speed[1] / ball->GetRigidBody()->GetMass());
-
-		BodyPipeline(ball);
 	}
 
 	// If only ball sprite is movable...
 	else if (!box->GetRigidBody()->GetMoveToggle() && ball->GetRigidBody()->GetMoveToggle())
 	{
 		// Set sprites' position with mtd
-		ball->SetPosition(ball->GetPosition() + mtd /*(iMass_ball / iMass) * relaxation*/);
+		ball->SetPosition(ball->GetPosition() + mtd * (iMass_ball / iMass));
 
 		// Set new velocity
 		ball->GetRigidBody()->SetVelocity(new_vel[1]);
 
 		// Set new speed
 		ball->GetRigidBody()->SetSpeed(new_speed[1] + new_speed[0] / box->GetRigidBody()->GetMass());
-
-		BodyPipeline(box);
 	}
 }
 

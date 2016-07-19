@@ -70,11 +70,12 @@ void Scene::Init(const ObjectList& objList)
 	if (!it->second->GetTexture()->IsLoaded())
 	{
 		// Set basic texture
-		if (strcmp(typeid(it->second).name(), "class Sprite"))
+		if (it->second->GetType() == SPRITE)
 			it->second->GetTexture()->LoadTexture("Resource/Texture/rect.png");
 
-		else if (strcmp(typeid(it->second).name(), "class Emitter"))
+		else if(it->second->GetType() == PARTICLE)
 			it->second->GetTexture()->LoadTexture("Resource/Texture/particle.png");
+
 	}
 }
 
@@ -236,16 +237,17 @@ void Scene::Update(const ObjectList& objList)
 		glUniformMatrix4fv(m_GSM->GetGLManager()->GetUnifrom(TRANSFORM), 1, GL_FALSE, &m_mvp.m_member[0][0]);
 		glUniformMatrix4fv(m_GSM->GetGLManager()->GetUnifrom(UV), 1, GL_FALSE, &m_animation.m_member[0][0]);
 		glUniform4f(m_GSM->GetGLManager()->GetUnifrom(COLOR), sptColor.x, sptColor.y, sptColor.z, sptColor.w);
+		glUniform1d(m_GSM->GetGLManager()->GetUnifrom(TYPE), (*it)->GetType());
 
 		//Todo: high quality?
 		//glUniformMatrix4fv();
 
 		// Draw Sprites
-		if (strcmp(typeid((*it)).name(), "class Sprite"))
+		if ((*it)->GetType() == SPRITE)
 			DrawSprites(*it);
-		
+
 		// Draw Texts 
-		else if (strcmp(typeid((*it)).name(), "class Text"))
+		else if((*it)->GetType() == TEXT)
 			DrawTexts(static_cast<Text*>(*it));
 
 		//// Draw Particles

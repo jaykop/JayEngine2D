@@ -30,6 +30,7 @@ Emitter::Emitter(const int id, ObjectManager* obm)
 : m_MaxParticles(1), LastUsedParticle(0)
 {
 	SetID(id);
+	SetType(PARTICLE);
 	SetObjectManager(obm);
 	
 	for (int index = 0; index < m_MaxParticles; ++index)

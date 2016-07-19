@@ -71,12 +71,12 @@ public:
 	float GetAnimationSpeed(void) const;		// Get the animation speed
 
 	// For developers
-	float GetDividedSpeed(void) const;	// Get divided speed 
-	float GetDividedFrame(void) const;	// Get divided scene 
-	float GetCurrentScene(void) const;	// Get current animation scene 
-	void SetCurrentScene(float currnet);// Set curremt scene
+	float GetDividedSpeed(void) const;		// Get divided speed 
+	float GetDividedFrame(void) const;		// Get divided scene 
+	float GetCurrentScene(void) const;		// Get current animation scene 
+	void SetCurrentScene(float currnet);	// Set curremt scene
 
-	Timer& GetTimer(void);			// Frame timer 
+	Timer& GetTimer(void);	// Frame timer 
 
 private:
 
