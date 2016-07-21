@@ -25,7 +25,7 @@ void main(){
 	// Set texture coordinate
 	vec4 newTexCoord = Animation * vec4(vertTexCoord, 0, 1);
 	
-	if (Type == false)
+	if (Type != false)
 		fragTexCoord = vec2(newTexCoord.x, -newTexCoord.y);
 	
 	else

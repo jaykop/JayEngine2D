@@ -19,23 +19,41 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 #include <algorithm>
 #include "Sprite.h"
 
+#define MaxParticle 100
+
 class Emitter;
 class Particle : public Sprite
 {
 public:
-
 	Particle(Emitter* parent = 0, int index = 0);
 	virtual ~Particle(void);
 	float m_life;
+	float m_dirAngle;
+	float m_slow;
+	vec3 velocity, m_speed;
 	int m_index;
-	vec3 m_speed;
+	Emitter *m_parent;
 
 private:
-
-	Emitter* m_parent;
+	
 };
 
-typedef std::vector<Particle> ParticleList;
+//class Particle : public Sprite
+//{
+//public:
+//
+//	Particle(Emitter* parent = 0, int index = 0);
+//	virtual ~Particle(void);
+//	float m_life;
+//	int m_index;
+//	vec3 m_speed;
+//
+//private:
+//
+//	Emitter* m_parent;
+//};
+//
+//typedef std::vector<Particle> ParticleList;
 
 class Emitter : public Sprite
 {
@@ -50,14 +68,17 @@ public:
 
 	int GetNumOfParticle(void) const;
 	void SetNumOfParticle(int numOfParticle);
+	
+	Particle ParticlesContainer[MaxParticle];
+	int LastUsedParticle;
 
-	ParticleList& GetParticleContainer(void);
+	void PositionUpdate(void);
+
+	//ParticleList& GetParticleContainer(void);
 
 private:
 
-	int m_MaxParticles;
-	int LastUsedParticle;
-	ParticleList ParticlesContainer;
+	//ParticleList ParticlesContainer;
 	
 };
 

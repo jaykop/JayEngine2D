@@ -52,6 +52,8 @@ void MenuStage::Init(GameData& gd)
 	m_OBM.GetGameObject<Text>(50)->SetText(L"Text test...");
 	//m_OBM.GetGameObject<Text>(50)->SetScale(vec3(10, 10));
 	m_OBM.GetGameObject<Text>(50)->SetColor(vec4(1, 1, 1, 1));
+	m_OBM.AddObject(new Emitter(60, &m_OBM));
+	m_OBM.GetGameObject<Emitter>(60)->GetTexture()->LoadTexture("Resource/Texture/particle.png");
 	//m_OBM.GetGameObject<Text>(50)->SetPosition(vec3(0, 0, 0));
 
 	//Set walls and small sprites

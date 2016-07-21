@@ -74,7 +74,7 @@ void World::Update(const ObjectList& objList)
 				it1->second->GetRigidBody()->SetCollisionWith(nullptr);
 
 				//auto new_begin = std::next(it1,1);
-				for (auto it2 = it1; it2 != objList.end(); ++it2)
+				for (auto it2 = objList.begin(); it2 != objList.end(); ++it2)
 				{
 					// 3. If both objs are differenct and both bodies has own body, 
 					// activated body and collider body,

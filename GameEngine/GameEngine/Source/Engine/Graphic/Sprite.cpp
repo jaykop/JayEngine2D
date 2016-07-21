@@ -46,8 +46,9 @@ Sprite::~Sprite(void)
 {
 	if (m_HasBody)
 		delete m_body;
-
-	delete m_texture;
+	
+	if (GetType() != PARTICLE)
+		delete m_texture;
 }
 
 /******************************************************************************/

@@ -17,6 +17,7 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 #include "Text.h"
 #include "Sprite.h"
 #include "Particle.h"
+#include "../Utilities/Random.h"
 #include "../InputManager/InputManager.h"
 #include "../ObjectManager/ObjectManager.h"
 #include "../StateManager/GameStateManager/GameStateManager.h"
@@ -67,15 +68,20 @@ void Scene::Init(const ObjectList& objList)
 
 	// Init every sprites
 	for (auto it = objList.begin(); it != objList.end(); ++it)
-	if (!it->second->GetTexture()->IsLoaded())
 	{
-		// Set basic texture
-		if (it->second->GetType() == SPRITE)
-			it->second->GetTexture()->LoadTexture("Resource/Texture/rect.png");
+		// If sprite has no texture...
+		if (!it->second->GetTexture()->IsLoaded())
+		{
+			// If object is normal sprite,
+			// Set basic texture; box
+			if (it->second->GetType() == SPRITE)
+				it->second->GetTexture()->LoadTexture("Resource/Texture/rect.png");
 
-		else if(it->second->GetType() == PARTICLE)
-			it->second->GetTexture()->LoadTexture("Resource/Texture/particle.png");
-
+			// If object is particle
+			// Set basic texture; basic particle
+			if (it->second->GetType() == PARTICLE)
+				it->second->GetTexture()->LoadTexture("Resource/Texture/particle.png");
+		}
 	}
 }
 
@@ -96,6 +102,93 @@ void Scene::DrawSprites(Sprite* sprite)
 
 	// Draw the triangle
 	glDrawArrays(GL_QUADS, 0, 4);
+}
+
+/******************************************************************************/
+/*!
+\brief - Draw particles
+
+\param particle - particle to be drawn
+*/
+/******************************************************************************/
+void Scene::DrawParticle(Emitter* emitter)
+{
+	// Simulate all particles
+	for (int i = 0;	i != MaxParticle; ++i)
+	{
+		//Update pipeline
+		Pipeline(&(emitter->ParticlesContainer[i]));
+		vec4 sptColor = emitter->ParticlesContainer[i].GetColor();
+
+		glUniformMatrix4fv(m_GSM->GetGLManager()->GetUnifrom(TRANSFORM), 1, GL_FALSE, &m_mvp.m_member[0][0]);
+		glUniformMatrix4fv(m_GSM->GetGLManager()->GetUnifrom(UV), 1, GL_FALSE, &m_animation.m_member[0][0]);
+		glUniform4f(m_GSM->GetGLManager()->GetUnifrom(COLOR), sptColor.x, sptColor.y, sptColor.z, emitter->ParticlesContainer[i].m_life);
+		glUniform1d(m_GSM->GetGLManager()->GetUnifrom(TYPE), emitter->ParticlesContainer[i].GetType());
+
+		//Particle &particle = emitter->ParticlesContainer[i];
+		if (emitter->ParticlesContainer[i].m_life > 0.f)
+		{
+			//emitter->ParticlesContainer[i].m_life -= 0.0000169f;	//Decrease life
+			emitter->SetColor(vec4(
+				emitter->ParticlesContainer[i].GetColor().x, 
+				emitter->ParticlesContainer[i].GetColor().y, 
+				emitter->ParticlesContainer[i].GetColor().z, 
+				emitter->ParticlesContainer[i].m_life));
+			//emitter->ParticlesContainer[i].m_speed += vec3(0.0f, -.098f) * 0.169f * 5.f;
+			
+			vec3 new_speed = emitter->ParticlesContainer[i].m_speed /* + emitter->ParticlesContainer[i].m_slow */ ;
+			vec3 new_force = vec3(new_speed.x * cosf(Math::DegToRad(emitter->ParticlesContainer[i].m_dirAngle)),
+				new_speed.y * sinf(Math::DegToRad(emitter->ParticlesContainer[i].m_dirAngle)), 0);
+
+			//Update position by velocity and direction
+			emitter->ParticlesContainer[i].SetPosition(vec3(
+				emitter->ParticlesContainer[i].GetPosition().x + new_force.x,
+				emitter->ParticlesContainer[i].GetPosition().y + new_force.y,
+				emitter->ParticlesContainer[i].GetPosition().z));
+
+			emitter->ParticlesContainer[i].m_life -= emitter->ParticlesContainer[i].m_slow;
+		}
+
+		else
+		{
+			// Reset the original position
+			emitter->ParticlesContainer[i].SetPosition(emitter->GetPosition());
+
+			// Set new velocity
+			emitter->ParticlesContainer[i].velocity = vec3(
+				Random::GetInstance().GetRandomFloat(-1.f, 1.f),
+				Random::GetInstance().GetRandomFloat(-1.f, 1.f));
+
+			//Update particle's speed and velocity
+			emitter->ParticlesContainer[i].velocity
+				= emitter->ParticlesContainer[i].velocity.Normalize();
+
+			emitter->ParticlesContainer[i].m_dirAngle = Math::RadToDeg(acosf(emitter->ParticlesContainer[i].velocity.DotProduct(vec3(1, 0, 0))));
+
+			//Set directed angle 
+			if (emitter->ParticlesContainer[i].velocity.y < 0)
+				emitter->ParticlesContainer[i].m_dirAngle = (360 - emitter->ParticlesContainer[i].m_dirAngle);
+
+			emitter->ParticlesContainer[i].m_speed = vec3(
+				Random::GetInstance().GetRandomFloat(0.f, 1.f),
+				Random::GetInstance().GetRandomFloat(0.f, 1.f));
+
+			// Reset life
+			emitter->ParticlesContainer[i].m_life = 1.f;
+
+			// Reset vanishing speed
+			emitter->ParticlesContainer[i].m_slow = Random::GetInstance().GetRandomFloat(0.f, 0.169f);
+		}
+
+		//Refresh the buffer data
+		glBufferData(GL_ARRAY_BUFFER, sizeof(m_vertex_buffer_data), m_vertex_buffer_data, GL_STATIC_DRAW);
+
+		// Bind our texture in Texture Unit 0
+		glBindTexture(GL_TEXTURE_2D, emitter->GetTexture()->GetTexId());
+
+		// Draw the triangle
+		glDrawArrays(GL_QUADS, 0, 4);
+	}
 }
 
 /******************************************************************************/
@@ -138,78 +231,6 @@ void Scene::DrawTexts(Text* text)
 
 /******************************************************************************/
 /*!
-\brief - Draw particles
-
-\param particle - particle to be drawn
-*/
-/******************************************************************************/
-void Scene::DrawParticle(Emitter* emitter)
-{
-	UNREFERENCED_PARAMETER(emitter);
-
-	float delta = 0.169f;
-	int ParticlesCount = 0;
-
-	// Simulate all particles
-	for (auto it = emitter->GetParticleContainer().begin();
-		it != emitter->GetParticleContainer().end(); ++it)
-	{
-		Particle particle = *it;
-		if (particle.m_life > 0.f)
-		{
-			particle.m_life -= delta;	//Decrease life
-			particle.m_speed += vec3(0.0f, -9.8f);
-			particle.SetPosition(particle.GetPosition() + particle.m_speed);
-		}
-
-		++ParticlesCount;
-	}
-
-	//Refresh the buffer data
-
-	// Draw the particules !
-	// This draws many times a small triangle_strip (which looks like a quad).
-	// This is equivalent to :
-	// for(i in ParticlesCount) : glDrawArrays(GL_TRIANGLE_STRIP, 0, 4), 
-	// but faster.
-	glBufferSubData(GL_ARRAY_BUFFER, 0, ParticlesCount * sizeof(GLfloat)* 4, m_vertex_buffer_data);
-	glBindTexture(GL_TEXTURE_2D, emitter->GetTexture()->GetTexId());
-
-	glVertexAttribDivisor(0, 0); // particles vertices : always reuse the same 4 vertices -> 0
-	glVertexAttribDivisor(1, 1); // positions : one per quad (its center)                 -> 1
-	//glDrawArrays(GL_QUADS, 0, 4);
-	glDrawArraysInstanced(GL_TRIANGLE_STRIP, 0, 4, ParticlesCount);
-
-	//vec3 v(0, 0);
-	//float velocity, theta, phi;
-	//GLfloat* data = new GLfloat[nParticles * 3];
-	//for (GLuint i = 0; i < nParticles; ++i)
-	//{
-	//	//Piack the direction of the velocity
-	//	theta = ;
-	//	phi = ;
-
-	//	v.x = sinf(theta) * cosf(phi);
-	//	v.y = cosf(theta);
-	//	v.z = sinf(theta) * sinf(phi);
-
-	//	// Scale to set the magnitude of the velocity (speed)
-	//	velocity = ;
-	//	v = v * velocity;
-
-	//	data[3 * i] = v.x;
-	//	data[3 * i + 1] = v.y;
-	//	data[3 * i + 2] = v.z;
-
-	//	glBindBuffer(GL_ARRAY_BUFFER. initVel);
-	//	glBufferSubData(GL_ARRAY_BUFFER, 0, nParticles * 3 * sizeof(GLfloat), data);
-	//}
-
-	
-}
-
-/******************************************************************************/
-/*!
 \brief - Draw Scene
 */
 /******************************************************************************/
@@ -230,29 +251,35 @@ void Scene::Update(const ObjectList& objList)
 
 	for (auto it = m_DrawList.begin(); it != m_DrawList.end(); ++it)
 	{
-		//Update pipeline
-		Pipeline((*it));
-		vec4 sptColor = ((*it)->GetColor());
+		if ((*it)->GetType() != PARTICLE)
+		{
+			//Update pipeline
+			Pipeline((*it));
+			vec4 sptColor = ((*it)->GetColor());
 
-		glUniformMatrix4fv(m_GSM->GetGLManager()->GetUnifrom(TRANSFORM), 1, GL_FALSE, &m_mvp.m_member[0][0]);
-		glUniformMatrix4fv(m_GSM->GetGLManager()->GetUnifrom(UV), 1, GL_FALSE, &m_animation.m_member[0][0]);
-		glUniform4f(m_GSM->GetGLManager()->GetUnifrom(COLOR), sptColor.x, sptColor.y, sptColor.z, sptColor.w);
-		glUniform1d(m_GSM->GetGLManager()->GetUnifrom(TYPE), (*it)->GetType());
+			glUniformMatrix4fv(m_GSM->GetGLManager()->GetUnifrom(TRANSFORM), 1, GL_FALSE, &m_mvp.m_member[0][0]);
+			glUniformMatrix4fv(m_GSM->GetGLManager()->GetUnifrom(UV), 1, GL_FALSE, &m_animation.m_member[0][0]);
+			glUniform4f(m_GSM->GetGLManager()->GetUnifrom(COLOR), sptColor.x, sptColor.y, sptColor.z, sptColor.w);
+			glUniform1d(m_GSM->GetGLManager()->GetUnifrom(TYPE), (*it)->GetType());
 
-		//Todo: high quality?
-		//glUniformMatrix4fv();
+			//Todo: high quality?
+			//glUniformMatrix4fv();
 
-		// Draw Sprites
-		if ((*it)->GetType() == SPRITE)
-			DrawSprites(*it);
+			// Draw Texts 
+			if ((*it)->GetType() == TEXT)
+				DrawTexts(static_cast<Text*>(*it));
 
-		// Draw Texts 
-		else if((*it)->GetType() == TEXT)
-			DrawTexts(static_cast<Text*>(*it));
+			// Draw Sprites
+			else if ((*it)->GetType() == SPRITE)
+				DrawSprites(*it);
 
-		//// Draw Particles
-		//else if (strcmp(typeid((*it)).name(), "class Emitter"))
-		//	DrawParticle(static_cast<Emitter*>(*it));
+		}
+
+		// Draw Particles
+		else 
+		{
+			DrawParticle(static_cast<Emitter*>(*it));
+		}
 	}
 
 	//std::cout <<  "\n";
