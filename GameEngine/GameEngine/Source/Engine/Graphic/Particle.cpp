@@ -19,7 +19,7 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 
 Particle::Particle(Emitter* parent, int index)
 :m_parent(parent), m_index(index), m_life(0.f),
-m_dirAngle(0), velocity(vec3()), m_speed(vec3()),
+m_dirAngle(0), velocity(vec3()), m_speed(0),
 m_slow(0)
 {
 	SetType(PARTICLE);
@@ -34,7 +34,9 @@ Particle::~Particle(void)
 }
 
 Emitter::Emitter(const int id, ObjectManager* obm)
-: m_boundary(1)
+: m_boundary(5.f), m_emitterScl(vec3(1.f,1.f)),
+m_emitterDir(vec3(-1, 1)), m_emitterSpd(0.5f),
+m_emitterMode(NORMAL), m_quantity(0)
 {
 	SetID(id);
 	SetType(PARTICLE);
@@ -84,18 +86,26 @@ ParticleMode Emitter::GetMode(void) const
 // Quantity of particle of emitter
 int Emitter::GetNumOfParticle(void) const
 {
-	return 0;
+	return m_quantity;
 }
 
-void Emitter::SetNumOfParticle(int numOfParticle)
+// speed function
+void Emitter::SetSpeed(float speed)
 {
+	if (speed < 0) speed = -speed;
+	m_emitterSpd = speed;
+}
 
+float Emitter::GetSpeed(void) const
+{
+	return m_emitterSpd;
 }
 
 // direction functions
 void Emitter::SetDirection(const vec3& dir)
 {
 	m_emitterDir = dir;
+	m_emitterDir.Normalize();
 }
 
 vec3 Emitter::GetDirection(void) const
@@ -133,9 +143,10 @@ void Emitter::Render(const int i)
 		ParticlesContainer[i].GetColor().z,
 		ParticlesContainer[i].m_life));
 
-	vec3 new_speed = ParticlesContainer[i].m_speed /* + ParticlesContainer[i].m_slow */;
-	vec3 new_force = vec3(new_speed.x * cosf(Math::DegToRad(ParticlesContainer[i].m_dirAngle)),
-		new_speed.y * sinf(Math::DegToRad(ParticlesContainer[i].m_dirAngle)), 0);
+	vec3 new_force =
+		ParticlesContainer[i].m_speed * vec3(
+		cosf(Math::DegToRad(ParticlesContainer[i].m_dirAngle)),
+		sinf(Math::DegToRad(ParticlesContainer[i].m_dirAngle)), 0);
 
 	//Update position by velocity and direction
 	ParticlesContainer[i].SetPosition(vec3(
@@ -156,23 +167,20 @@ void Emitter::Refresh(const int i)
 		Random::GetInstance().GetRandomFloat(-1.f, 1.f),
 		Random::GetInstance().GetRandomFloat(-1.f, 1.f));
 
-	//Update particle's speed and velocity
+	// Update particle's speed and velocity
 	ParticlesContainer[i].velocity
 		= ParticlesContainer[i].velocity.Normalize();
 
-	ParticlesContainer[i].m_dirAngle = Math::RadToDeg(acosf(ParticlesContainer[i].velocity.DotProduct(vec3(1, 0, 0))));
+	// Set direction angle
+	ParticlesContainer[i].m_dirAngle = Math::RadToDeg(acosf((ParticlesContainer[i].velocity + m_emitterDir).DotProduct(vec3(1, 0, 0))));
 
-	//Set directed angle 
-	if (ParticlesContainer[i].velocity.y < 0)
-		ParticlesContainer[i].m_dirAngle = (360 - ParticlesContainer[i].m_dirAngle);
-
-	ParticlesContainer[i].m_speed = vec3(
-		Random::GetInstance().GetRandomFloat(0.f, 1.f),
-		Random::GetInstance().GetRandomFloat(0.f, 1.f));
+	// Set speed
+	ParticlesContainer[i].m_speed = 
+		Random::GetInstance().GetRandomFloat(0.f, 1.f) * m_emitterSpd;
 
 	// Reset life
 	ParticlesContainer[i].m_life = 1.f;
 
 	// Reset vanishing speed
-	ParticlesContainer[i].m_slow = (m_boundary * Random::GetInstance().GetRandomFloat(0.001f, 0.169f));
+	ParticlesContainer[i].m_slow = (Random::GetInstance().GetRandomFloat(0.169f, 1.f) * ParticlesContainer[i].m_speed) / m_boundary;
 }

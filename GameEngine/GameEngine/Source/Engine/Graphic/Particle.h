@@ -30,11 +30,12 @@ class Particle : public Sprite
 public:
 	Particle(Emitter* parent = 0, int index = 0);
 	virtual ~Particle(void);
+	int m_index;
 	float m_life;
 	float m_dirAngle;
 	float m_slow;
-	vec3 velocity, m_speed;
-	int m_index;
+	float m_speed;
+	vec3 velocity; 
 	Emitter *m_parent;
 
 private:
@@ -60,20 +61,23 @@ public:
 
 	// Quantity of particle of emitter
 	int GetNumOfParticle(void) const;
-	void SetNumOfParticle(int numOfParticle);
 	
 	// direction functions
 	void SetDirection(const vec3& dir);
 	vec3 GetDirection(void) const;
+
+	// speed function
+	void SetSpeed(float speed);
+	float GetSpeed(void) const;
 
 	// boundary functions
 	void SetBoundary(float range);
 	float GetBoundary(void) const;
 
 	// Renderer functions
-	void Update(const int i);
-	void Render(const int i);
-	void Refresh(const int i);
+	void Update(const int index);
+	void Render(const int index);
+	void Refresh(const int index);
 
 	// Particle container
 	Particle ParticlesContainer[MaxParticle];
@@ -83,7 +87,10 @@ public:
 private:
 
 	//ParticleList ParticlesContainer;
+	int m_quantity;
 	float m_boundary;
+	float m_emitterSpd;
+
 	vec3 m_emitterScl;
 	vec3 m_emitterDir;
 	ParticleMode m_emitterMode;
