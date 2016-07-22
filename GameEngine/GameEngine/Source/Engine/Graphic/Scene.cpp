@@ -17,7 +17,6 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 #include "Text.h"
 #include "Sprite.h"
 #include "Particle.h"
-#include "../Utilities/Random.h"
 #include "../InputManager/InputManager.h"
 #include "../ObjectManager/ObjectManager.h"
 #include "../StateManager/GameStateManager/GameStateManager.h"
@@ -125,60 +124,7 @@ void Scene::DrawParticle(Emitter* emitter)
 		glUniform4f(m_GSM->GetGLManager()->GetUnifrom(COLOR), sptColor.x, sptColor.y, sptColor.z, emitter->ParticlesContainer[i].m_life);
 		glUniform1d(m_GSM->GetGLManager()->GetUnifrom(TYPE), emitter->ParticlesContainer[i].GetType());
 
-		//Particle &particle = emitter->ParticlesContainer[i];
-		if (emitter->ParticlesContainer[i].m_life > 0.f)
-		{
-			//emitter->ParticlesContainer[i].m_life -= 0.0000169f;	//Decrease life
-			emitter->SetColor(vec4(
-				emitter->ParticlesContainer[i].GetColor().x, 
-				emitter->ParticlesContainer[i].GetColor().y, 
-				emitter->ParticlesContainer[i].GetColor().z, 
-				emitter->ParticlesContainer[i].m_life));
-			//emitter->ParticlesContainer[i].m_speed += vec3(0.0f, -.098f) * 0.169f * 5.f;
-			
-			vec3 new_speed = emitter->ParticlesContainer[i].m_speed /* + emitter->ParticlesContainer[i].m_slow */ ;
-			vec3 new_force = vec3(new_speed.x * cosf(Math::DegToRad(emitter->ParticlesContainer[i].m_dirAngle)),
-				new_speed.y * sinf(Math::DegToRad(emitter->ParticlesContainer[i].m_dirAngle)), 0);
-
-			//Update position by velocity and direction
-			emitter->ParticlesContainer[i].SetPosition(vec3(
-				emitter->ParticlesContainer[i].GetPosition().x + new_force.x,
-				emitter->ParticlesContainer[i].GetPosition().y + new_force.y,
-				emitter->ParticlesContainer[i].GetPosition().z));
-
-			emitter->ParticlesContainer[i].m_life -= emitter->ParticlesContainer[i].m_slow;
-		}
-
-		else
-		{
-			// Reset the original position
-			emitter->ParticlesContainer[i].SetPosition(emitter->GetPosition());
-
-			// Set new velocity
-			emitter->ParticlesContainer[i].velocity = vec3(
-				Random::GetInstance().GetRandomFloat(-1.f, 1.f),
-				Random::GetInstance().GetRandomFloat(-1.f, 1.f));
-
-			//Update particle's speed and velocity
-			emitter->ParticlesContainer[i].velocity
-				= emitter->ParticlesContainer[i].velocity.Normalize();
-
-			emitter->ParticlesContainer[i].m_dirAngle = Math::RadToDeg(acosf(emitter->ParticlesContainer[i].velocity.DotProduct(vec3(1, 0, 0))));
-
-			//Set directed angle 
-			if (emitter->ParticlesContainer[i].velocity.y < 0)
-				emitter->ParticlesContainer[i].m_dirAngle = (360 - emitter->ParticlesContainer[i].m_dirAngle);
-
-			emitter->ParticlesContainer[i].m_speed = vec3(
-				Random::GetInstance().GetRandomFloat(0.f, 1.f),
-				Random::GetInstance().GetRandomFloat(0.f, 1.f));
-
-			// Reset life
-			emitter->ParticlesContainer[i].m_life = 1.f;
-
-			// Reset vanishing speed
-			emitter->ParticlesContainer[i].m_slow = Random::GetInstance().GetRandomFloat(0.f, 0.169f);
-		}
+		emitter->Update(i);
 
 		//Refresh the buffer data
 		glBufferData(GL_ARRAY_BUFFER, sizeof(m_vertex_buffer_data), m_vertex_buffer_data, GL_STATIC_DRAW);
@@ -277,9 +223,8 @@ void Scene::Update(const ObjectList& objList)
 
 		// Draw Particles
 		else 
-		{
 			DrawParticle(static_cast<Emitter*>(*it));
-		}
+		
 	}
 
 	//std::cout <<  "\n";
