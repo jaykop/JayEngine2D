@@ -93,6 +93,8 @@ void Scene::Init(const ObjectList& objList)
 /******************************************************************************/
 void Scene::DrawSprites(Sprite* sprite)
 {
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
 	//Refresh the buffer data
 	glBufferData(GL_ARRAY_BUFFER, sizeof(m_vertex_buffer_data), m_vertex_buffer_data, GL_STATIC_DRAW);
 
@@ -135,7 +137,7 @@ void Scene::DrawParticle(Emitter* emitter)
 	//	// Draw the triangle
 	//	glDrawArrays(GL_QUADS, 0, 4);
 	//}
-
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE);
 	for (auto it = emitter->GetParticleContainer().begin(); 
 		it != emitter->GetParticleContainer().end(); ++it)
 	{
@@ -170,6 +172,7 @@ void Scene::DrawParticle(Emitter* emitter)
 /******************************************************************************/
 void Scene::DrawTexts(Text* text)
 {
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	GLfloat new_x = static_cast<GLfloat>(text->GetPosition().x);
 
 	// Iterate all character

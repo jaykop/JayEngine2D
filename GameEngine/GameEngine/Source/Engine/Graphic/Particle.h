@@ -54,6 +54,8 @@ public:
 	virtual void SetScale(const vec3& scale);
 	virtual vec3 GetScale(void) const;
 
+	void SetColors(vec3 center, vec3 edge = vec3());
+
 	// Mode functions
 	void SetMode(ParticleMode mode);
 	ParticleMode GetMode(void) const;
@@ -92,6 +94,7 @@ private:
 	vec3 m_emitterScl;
 	vec3 m_emitterDir;
 	ParticleMode m_emitterMode;
+	vec3 m_edgeColor;
 
 };
 

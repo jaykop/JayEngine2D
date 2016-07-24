@@ -40,7 +40,7 @@ m_emitterMode(NORMAL), m_quantity(0)
 	SetID(id);
 	SetType(PARTICLE);
 	SetObjectManager(obm);
-	SetColor(vec4(1.f, 0.0f, 0.0f, 0.f));
+	SetColor(vec4(1.f, 1.0f, 1.0f, 0.f));
 }
 
 Emitter::~Emitter()
@@ -145,12 +145,6 @@ void Emitter::Update(Particle* particle)
 
 void Emitter::Render(Particle* particle)
 {
-	// Set color
-	particle->SetColor(vec4(
-		particle->GetColor().x,
-		particle->GetColor().y,
-		particle->GetColor().z,
-		particle->m_life));
 
 	// Set new force (offset)
 	vec3 new_force = m_emitterSpd * (particle->m_speed + m_emitterDir.Normalize());
@@ -161,8 +155,20 @@ void Emitter::Render(Particle* particle)
 		particle->GetPosition().y + new_force.y,
 		particle->GetPosition().z));
 
+	float new_slow = (particle->m_slow * m_emitterSpd) / m_boundary;
+
 	// Reduce particle's life
-	particle->m_life -= (particle->m_slow * m_emitterSpd) / m_boundary;
+	particle->m_life -= new_slow;
+
+	// Set color
+	//if (m_edgeColor.Length())
+	//{
+	vec3 colorOffset = m_edgeColor - GetColor();
+
+		particle->SetColor(vec4(
+			particle->GetColor() + colorOffset * new_slow * m_boundary,
+			particle->m_life));
+	//}
 }
 
 void Emitter::Refresh(Particle* particle)
@@ -170,14 +176,21 @@ void Emitter::Refresh(Particle* particle)
 	// Reset the original position
 	particle->SetPosition(GetPosition());
 
+	// Reset life
+	particle->m_life = 1.f;
+
+	// Reset color
+	particle->SetColor(vec4(
+		GetColor().x,
+		GetColor().y,
+		GetColor().z,
+		particle->m_life));
+
 	// Set speed
 	particle->m_speed =
 		m_emitterSpd * vec3(
-		Random::GetInstance().GetRandomFloat(-0.169f, 0.169f),
-		Random::GetInstance().GetRandomFloat(-0.169f, 0.169f));
-
-	// Reset life
-	particle->m_life = 1.f;
+		Random::GetInstance().GetRandomFloat(-1.f, 1.f),
+		Random::GetInstance().GetRandomFloat(-1.f, 1.f));
 
 	// Reset vanishing speed
 	particle->m_slow = Random::GetInstance().GetRandomFloat(0.001f, 0.169f);
@@ -186,4 +199,10 @@ void Emitter::Refresh(Particle* particle)
 ParticleList& Emitter::GetParticleContainer(void)
 {
 	return ParticleContainer;
+}
+
+void Emitter::SetColors(vec3 center, vec3 edge)
+{
+	SetColor(center);
+	m_edgeColor = edge;
 }

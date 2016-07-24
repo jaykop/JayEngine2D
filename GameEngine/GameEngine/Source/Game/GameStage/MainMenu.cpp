@@ -57,8 +57,9 @@ void MenuStage::Init(GameData& gd)
 	m_OBM.GetGameObject<Emitter>(60)->SetNumOfParticle(100);
 	m_OBM.GetGameObject<Emitter>(60)->SetScale(vec3(2.5f, 2.5f));
 	m_OBM.GetGameObject<Emitter>(60)->SetDirection(vec3(0.f, 1.f));
-	m_OBM.GetGameObject<Emitter>(60)->SetSpeed(1.f);
-	m_OBM.GetGameObject<Emitter>(60)->SetBoundary(.1f);
+	m_OBM.GetGameObject<Emitter>(60)->SetSpeed(.1f);
+	m_OBM.GetGameObject<Emitter>(60)->SetBoundary(1.f);
+	m_OBM.GetGameObject<Emitter>(60)->SetColors(vec3(1,1,1), vec3(0,0,1));
 	//m_OBM.GetGameObject<Text>(50)->SetPosition(vec3(0, 0, 0));
 
 	//Set walls and small sprites
