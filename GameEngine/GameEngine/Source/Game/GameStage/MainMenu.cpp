@@ -48,12 +48,17 @@ void MenuStage::Init(GameData& gd)
 	//Init basic trunks
 	m_OBM.BindGameSystem(m_GSM);
 
-	m_OBM.AddObject(new Text(50, &m_OBM));
-	m_OBM.GetGameObject<Text>(50)->SetText(L"Text test...");
+	//m_OBM.AddObject(new Text(50, &m_OBM));
+	//m_OBM.GetGameObject<Text>(50)->SetText(L"Text test...");
 	//m_OBM.GetGameObject<Text>(50)->SetScale(vec3(10, 10));
-	m_OBM.GetGameObject<Text>(50)->SetColor(vec4(1, 1, 1, 1));
+	//m_OBM.GetGameObject<Text>(50)->SetColor(vec4(1, 1, 1, 1));
 	m_OBM.AddObject(new Emitter(60, &m_OBM));
 	m_OBM.GetGameObject<Emitter>(60)->GetTexture()->LoadTexture("Resource/Texture/particle.png");
+	m_OBM.GetGameObject<Emitter>(60)->SetNumOfParticle(100);
+	m_OBM.GetGameObject<Emitter>(60)->SetScale(vec3(2.5f, 2.5f));
+	m_OBM.GetGameObject<Emitter>(60)->SetDirection(vec3(0.f, 1.f));
+	m_OBM.GetGameObject<Emitter>(60)->SetSpeed(1.f);
+	m_OBM.GetGameObject<Emitter>(60)->SetBoundary(.1f);
 	//m_OBM.GetGameObject<Text>(50)->SetPosition(vec3(0, 0, 0));
 
 	//Set walls and small sprites

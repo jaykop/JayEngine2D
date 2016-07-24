@@ -19,11 +19,10 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 #include <algorithm>
 #include "Sprite.h"
 
-#define MaxParticle 100
-
 enum ParticleMode{ NORMAL, FIRE, SMOKE, EXPLOSION };
 
 class Emitter;
+
 //! Particle class
 class Particle : public Sprite
 {
@@ -32,15 +31,15 @@ public:
 	virtual ~Particle(void);
 	int m_index;
 	float m_life;
-	float m_dirAngle;
 	float m_slow;
-	float m_speed;
-	vec3 velocity; 
+	vec3 m_speed;
 	Emitter *m_parent;
 
 private:
 	
 };
+
+typedef std::vector<Particle*> ParticleList;
 
 //! Set of particles
 class Emitter : public Sprite
@@ -60,6 +59,7 @@ public:
 	ParticleMode GetMode(void) const;
 
 	// Quantity of particle of emitter
+	void SetNumOfParticle(int quantity);
 	int GetNumOfParticle(void) const;
 	
 	// direction functions
@@ -75,18 +75,16 @@ public:
 	float GetBoundary(void) const;
 
 	// Renderer functions
-	void Update(const int index);
-	void Render(const int index);
-	void Refresh(const int index);
+	void Update(Particle* particle);
+	void Render(Particle* particle);
+	void Refresh(Particle* particle);
 
-	// Particle container
-	Particle ParticlesContainer[MaxParticle];
-
-	//ParticleList& GetParticleContainer(void);
+	ParticleList& GetParticleContainer(void);
 
 private:
 
-	//ParticleList ParticlesContainer;
+	ParticleList ParticleContainer;
+
 	int m_quantity;
 	float m_boundary;
 	float m_emitterSpd;

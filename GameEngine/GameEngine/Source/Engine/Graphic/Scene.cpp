@@ -113,18 +113,42 @@ void Scene::DrawSprites(Sprite* sprite)
 void Scene::DrawParticle(Emitter* emitter)
 {
 	// Simulate all particles
-	for (int i = 0;	i != MaxParticle; ++i)
+	//for (int i = 0;	i != MaxParticle; ++i)
+	//{
+	//	//Update pipeline
+	//	Pipeline(&(emitter->ParticlesContainer[i]));
+	//	vec4 sptColor = emitter->ParticlesContainer[i].GetColor();
+
+	//	glUniformMatrix4fv(m_GSM->GetGLManager()->GetUnifrom(TRANSFORM), 1, GL_FALSE, &m_mvp.m_member[0][0]);
+	//	glUniformMatrix4fv(m_GSM->GetGLManager()->GetUnifrom(UV), 1, GL_FALSE, &m_animation.m_member[0][0]);
+	//	glUniform4f(m_GSM->GetGLManager()->GetUnifrom(COLOR), sptColor.x, sptColor.y, sptColor.z, emitter->ParticlesContainer[i].m_life);
+	//	glUniform1d(m_GSM->GetGLManager()->GetUnifrom(TYPE), emitter->ParticlesContainer[i].GetType());
+
+	//	emitter->Update(i);
+
+	//	//Refresh the buffer data
+	//	glBufferData(GL_ARRAY_BUFFER, sizeof(m_vertex_buffer_data), m_vertex_buffer_data, GL_STATIC_DRAW);
+
+	//	// Bind our texture in Texture Unit 0
+	//	glBindTexture(GL_TEXTURE_2D, emitter->GetTexture()->GetTexId());
+
+	//	// Draw the triangle
+	//	glDrawArrays(GL_QUADS, 0, 4);
+	//}
+
+	for (auto it = emitter->GetParticleContainer().begin(); 
+		it != emitter->GetParticleContainer().end(); ++it)
 	{
 		//Update pipeline
-		Pipeline(&(emitter->ParticlesContainer[i]));
-		vec4 sptColor = emitter->ParticlesContainer[i].GetColor();
+		Pipeline(*it);
+		vec4 sptColor = (*it)->GetColor();
 
 		glUniformMatrix4fv(m_GSM->GetGLManager()->GetUnifrom(TRANSFORM), 1, GL_FALSE, &m_mvp.m_member[0][0]);
 		glUniformMatrix4fv(m_GSM->GetGLManager()->GetUnifrom(UV), 1, GL_FALSE, &m_animation.m_member[0][0]);
-		glUniform4f(m_GSM->GetGLManager()->GetUnifrom(COLOR), sptColor.x, sptColor.y, sptColor.z, emitter->ParticlesContainer[i].m_life);
-		glUniform1d(m_GSM->GetGLManager()->GetUnifrom(TYPE), emitter->ParticlesContainer[i].GetType());
+		glUniform4f(m_GSM->GetGLManager()->GetUnifrom(COLOR), sptColor.x, sptColor.y, sptColor.z, (*it)->m_life);
+		glUniform1d(m_GSM->GetGLManager()->GetUnifrom(TYPE), (*it)->GetType());
 
-		emitter->Update(i);
+		emitter->Update((*it));
 
 		//Refresh the buffer data
 		glBufferData(GL_ARRAY_BUFFER, sizeof(m_vertex_buffer_data), m_vertex_buffer_data, GL_STATIC_DRAW);
