@@ -119,7 +119,7 @@ void Scene::DrawParticle(Emitter* emitter)
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE);
 	
 	// Get type "particle"
-	glUniform1d(m_GSM->GetGLManager()->GetUnifrom(TYPE), emitter->GetType());
+	glUniform1i(m_GSM->GetGLManager()->GetUnifrom(TYPE), emitter->GetType());
 
 	for (auto it = emitter->GetParticleContainer().begin();
 		it != emitter->GetParticleContainer().end(); ++it)
@@ -223,7 +223,7 @@ void Scene::Update(const ObjectList& objList)
 			glUniformMatrix4fv(m_GSM->GetGLManager()->GetUnifrom(TRANSFORM), 1, GL_FALSE, &m_mvp.m_member[0][0]);
 			glUniformMatrix4fv(m_GSM->GetGLManager()->GetUnifrom(UV), 1, GL_FALSE, &m_animation.m_member[0][0]);
 			glUniform4f(m_GSM->GetGLManager()->GetUnifrom(COLOR), sptColor.x, sptColor.y, sptColor.z, sptColor.w);
-			glUniform1d(m_GSM->GetGLManager()->GetUnifrom(TYPE), (*it)->GetType());
+			glUniform1i(m_GSM->GetGLManager()->GetUnifrom(TYPE), (*it)->GetType());
 
 			//Todo: high quality?
 			//glUniformMatrix4fv();

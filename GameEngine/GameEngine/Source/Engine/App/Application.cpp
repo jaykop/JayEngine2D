@@ -88,7 +88,7 @@ bool Application::DataLoaded(void)
 	m_SM->Load("Resource/Sound/drum_roll_y.wav", SE_2);
 
 	// Load font
-	m_GLM->SetFont("Resource/Font/SDMiSaeng.ttf");
+	m_GLM->SetFont("Resource/Font/Default.ttf");
 
 	return true;
 }
