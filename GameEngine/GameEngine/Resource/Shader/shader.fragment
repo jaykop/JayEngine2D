@@ -3,20 +3,20 @@
 // interpolated valuse form the vertex shaders
 in vec4 fragmentColor;
 in vec2 fragTexCoord;
+flat int fragmentType;
 
 //Texture ID
 uniform sampler2D Texture;
-uniform bool Type;
 
 // Ouput data
 out vec4 finalColor;
 
 void main()
 {
+		
+	finalColor = fragmentColor * texture(Texture, fragTexCoord);
 
-	if (Type != false)
-		finalColor = fragmentColor * texture(Texture, fragTexCoord);
-
-	else
-		finalColor = fragmentColor * texture(Texture, fragTexCoord).r;
+	//if (fragmentType != 0) {
+		//finalColor = fragmentColor * texture(Texture, fragTexCoord);
+	//}
 }

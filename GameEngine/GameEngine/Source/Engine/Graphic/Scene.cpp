@@ -13,6 +13,7 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 /******************************************************************************/
 
 #include <algorithm>
+#include <sstream>
 #include "Scene.h"
 #include "Text.h"
 #include "Sprite.h"
@@ -115,40 +116,21 @@ void Scene::DrawSprites(Sprite* sprite)
 void Scene::DrawParticle(Emitter* emitter)
 {
 	// Simulate all particles
-	//for (int i = 0;	i != MaxParticle; ++i)
-	//{
-	//	//Update pipeline
-	//	Pipeline(&(emitter->ParticlesContainer[i]));
-	//	vec4 sptColor = emitter->ParticlesContainer[i].GetColor();
-
-	//	glUniformMatrix4fv(m_GSM->GetGLManager()->GetUnifrom(TRANSFORM), 1, GL_FALSE, &m_mvp.m_member[0][0]);
-	//	glUniformMatrix4fv(m_GSM->GetGLManager()->GetUnifrom(UV), 1, GL_FALSE, &m_animation.m_member[0][0]);
-	//	glUniform4f(m_GSM->GetGLManager()->GetUnifrom(COLOR), sptColor.x, sptColor.y, sptColor.z, emitter->ParticlesContainer[i].m_life);
-	//	glUniform1d(m_GSM->GetGLManager()->GetUnifrom(TYPE), emitter->ParticlesContainer[i].GetType());
-
-	//	emitter->Update(i);
-
-	//	//Refresh the buffer data
-	//	glBufferData(GL_ARRAY_BUFFER, sizeof(m_vertex_buffer_data), m_vertex_buffer_data, GL_STATIC_DRAW);
-
-	//	// Bind our texture in Texture Unit 0
-	//	glBindTexture(GL_TEXTURE_2D, emitter->GetTexture()->GetTexId());
-
-	//	// Draw the triangle
-	//	glDrawArrays(GL_QUADS, 0, 4);
-	//}
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE);
-	for (auto it = emitter->GetParticleContainer().begin(); 
+	
+	// Get type "particle"
+	glUniform1d(m_GSM->GetGLManager()->GetUnifrom(TYPE), emitter->GetType());
+
+	for (auto it = emitter->GetParticleContainer().begin();
 		it != emitter->GetParticleContainer().end(); ++it)
 	{
-		//Update pipeline
+		// Update pipeline
 		Pipeline(*it);
 		vec4 sptColor = (*it)->GetColor();
-
-		glUniformMatrix4fv(m_GSM->GetGLManager()->GetUnifrom(TRANSFORM), 1, GL_FALSE, &m_mvp.m_member[0][0]);
+		
+		glUniformMatrix4fv(m_GSM->GetGLManager()->GetUnifrom(TRANSFORM), 1, GL_FALSE, &(*it)->m_mvp.m_member[0][0]);
 		glUniformMatrix4fv(m_GSM->GetGLManager()->GetUnifrom(UV), 1, GL_FALSE, &m_animation.m_member[0][0]);
 		glUniform4f(m_GSM->GetGLManager()->GetUnifrom(COLOR), sptColor.x, sptColor.y, sptColor.z, (*it)->m_life);
-		glUniform1d(m_GSM->GetGLManager()->GetUnifrom(TYPE), (*it)->GetType());
 
 		emitter->Update((*it));
 
@@ -158,9 +140,16 @@ void Scene::DrawParticle(Emitter* emitter)
 		// Bind our texture in Texture Unit 0
 		glBindTexture(GL_TEXTURE_2D, emitter->GetTexture()->GetTexId());
 
-		// Draw the triangle
+		// Draw the quad
 		glDrawArrays(GL_QUADS, 0, 4);
 	}
+
+	//Todo: How to make this worked by GPU
+	//Refresh the buffer data
+	//glBufferData(GL_ARRAY_BUFFER, emitter->GetNumOfParticle() * sizeof(emitter->m_particle_buffer_data), NULL, GL_STREAM_DRAW);
+	//glBufferSubData(GL_ARRAY_BUFFER, 0, emitter->GetNumOfParticle() * sizeof(emitter->m_particle_buffer_data), emitter->m_particle_buffer_data);
+	//glBindTexture(GL_TEXTURE_2D, emitter->GetTexture()->GetTexId());
+	//glDrawArraysInstanced(GL_QUADS, 0, 4, emitter->GetNumOfParticle());
 }
 
 /******************************************************************************/
@@ -173,6 +162,7 @@ void Scene::DrawParticle(Emitter* emitter)
 void Scene::DrawTexts(Text* text)
 {
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
 	GLfloat new_x = static_cast<GLfloat>(text->GetPosition().x);
 
 	// Iterate all character
@@ -307,6 +297,12 @@ void Scene::Pipeline(Sprite* sprite)
 	//calculate fined final matrix
 	m_mvp = projection.Transpose() * camera.Transpose() * model.Transpose();
 	m_mvp = m_mvp.Transpose();
+
+	if (sprite->GetType() == PARTICLE)
+	{
+		auto new_particle = static_cast<Particle*>(sprite); 
+		new_particle->m_mvp = m_mvp;
+	}
 
 	// Refresh the animation scene
 	if (sprite->GetPlayToggle())

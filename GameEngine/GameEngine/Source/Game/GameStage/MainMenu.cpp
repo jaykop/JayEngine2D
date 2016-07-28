@@ -50,22 +50,23 @@ void MenuStage::Init(GameData& gd)
 
 	//m_OBM.AddObject(new Text(50, &m_OBM));
 	//m_OBM.GetGameObject<Text>(50)->SetText(L"Text test...");
-	//m_OBM.GetGameObject<Text>(50)->SetScale(vec3(10, 10));
+	//m_OBM.GetGameObject<Text>(50)->SetScale(vec3(1, 1));
 	//m_OBM.GetGameObject<Text>(50)->SetColor(vec4(1, 1, 1, 1));
+
 	m_OBM.AddObject(new Emitter(60, &m_OBM));
 	m_OBM.GetGameObject<Emitter>(60)->GetTexture()->LoadTexture("Resource/Texture/particle.png");
 	m_OBM.GetGameObject<Emitter>(60)->SetNumOfParticle(100);
-	m_OBM.GetGameObject<Emitter>(60)->SetScale(vec3(2.5f, 2.5f));
-	m_OBM.GetGameObject<Emitter>(60)->SetDirection(vec3(0.f, 1.f));
-	m_OBM.GetGameObject<Emitter>(60)->SetSpeed(.1f);
-	m_OBM.GetGameObject<Emitter>(60)->SetBoundary(1.f);
+	m_OBM.GetGameObject<Emitter>(60)->SetScale(vec3(2.f, 2.f));
+	m_OBM.GetGameObject<Emitter>(60)->SetDirection(vec3(1.f, 0.f));
+	m_OBM.GetGameObject<Emitter>(60)->SetSpeed(1.f);
+	m_OBM.GetGameObject<Emitter>(60)->SetBoundary(5.f);
 	m_OBM.GetGameObject<Emitter>(60)->SetColors(vec3(1,1,1), vec3(0,0,1));
 	//m_OBM.GetGameObject<Text>(50)->SetPosition(vec3(0, 0, 0));
 
 	//Set walls and small sprites
-	offset = 2;
-	SetSamllSprites();
-	SetWallSprites();
+	offset = 0;
+	//SetSamllSprites();
+	//SetWallSprites();
 
 	//m_OBM.AddObject(new Sprite(0, &m_OBM));
 	//m_OBM.AddObject(new Sprite(1, &m_OBM));
@@ -216,9 +217,9 @@ void MenuStage::SetSamllSprites(void)
 			Random::GetInstance().GetRandomFloat(-50, 50),
 			Random::GetInstance().GetRandomFloat(-30, 30)));
 
-		float color_r = Random::GetInstance().GetRandomFloat(0, 1.f);
-		float color_g = Random::GetInstance().GetRandomFloat(0, 1.f);
-		float color_b = Random::GetInstance().GetRandomFloat(0, 1.f);
+		float color_r = Random::GetInstance().GetRandomFloat(1, 1.f);
+		float color_g = Random::GetInstance().GetRandomFloat(1, 1.f);
+		float color_b = Random::GetInstance().GetRandomFloat(1, 1.f);
 		m_OBM.GetGameObject<Sprite>(index)->SetColor(vec4(
 			color_r, color_g, color_b, 1.f));
 

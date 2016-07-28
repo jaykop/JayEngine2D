@@ -51,7 +51,6 @@ public:
 private:
 
 	// Private functions
-
 	// Manage transform and animation info
 	void Pipeline(Sprite* sprite);
 
@@ -66,6 +65,10 @@ private:
 	// Set mouse position
 	void GetPerspPosition(void);
 	void GetOrthoPosition(void);
+
+	GLuint particleColors;
+	GLuint particleMVPs;
+	GLuint particleNums;
 
 	// Math(by sprites) info
 	mat44 m_mvp;	

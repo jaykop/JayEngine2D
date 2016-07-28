@@ -17,6 +17,9 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 
 #include <vector>
 #include <algorithm>
+#include <stdlib.h>
+#include <vector>
+
 #include "Sprite.h"
 
 enum ParticleMode{ NORMAL, FIRE, SMOKE, EXPLOSION };
@@ -32,7 +35,9 @@ public:
 	int m_index;
 	float m_life;
 	float m_slow;
+	vec3 m_velocity;
 	vec3 m_speed;
+	mat44 m_mvp;
 	Emitter *m_parent;
 
 private:
@@ -80,6 +85,8 @@ public:
 	void Update(Particle* particle);
 	void Render(Particle* particle);
 	void Refresh(Particle* particle);
+
+	//GLfloat *m_particle_buffer_data;
 
 	ParticleList& GetParticleContainer(void);
 

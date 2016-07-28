@@ -93,6 +93,7 @@ public:
 	GLuint GetUnifrom(UniformType type) const;
 	GLuint GetVertexBuffer(void) const;
 	GLuint GetVertexAttrib(void) const;
+	GLuint GetInstanceAttrib(void) const;
 	Characters GetCharacters(void) const;
 	ProjectionInfo GetProjectionInfo(void) const;
 

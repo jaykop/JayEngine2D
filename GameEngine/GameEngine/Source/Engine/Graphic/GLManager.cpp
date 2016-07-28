@@ -246,10 +246,11 @@ void GLManager::InitGL(Application* pApp, HWND& window, int width, int height)
 			//Use shader
 			glUseProgram(m_shader.m_programID);
 
+			// Normal uniforms
 			m_uniform[TRANSFORM] = glGetUniformLocation(m_shader.m_programID, "MVP");	//Trasnform Matrix
 			m_uniform[UV] = glGetUniformLocation(m_shader.m_programID, "Animation");	//UV
 			m_uniform[COLOR] = glGetUniformLocation(m_shader.m_programID, "Color");		//Coloring
-			m_uniform[TYPE] = glGetUniformLocation(m_shader.m_programID, "Type");		//Type
+			m_uniform[TYPE] = glGetUniformLocation(m_shader.m_programID, "Type");	
 
 			// Set "Texture" sampler to user Texture Unit 0
 			m_uniform[TEXTURE] = glGetUniformLocation(m_shader.m_programID, "Texture");

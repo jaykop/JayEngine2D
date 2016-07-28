@@ -22,7 +22,7 @@ Particle::Particle(Emitter* parent, int index)
 m_slow(0.f), m_speed(vec3())
 {
 	SetType(PARTICLE);
-	SetColor(vec4(1.f, 1.f, 1.f, 0.f));
+	SetColor(vec4(1.f, 1.f, 1.f, 1.f));
 	SetRigidBody();
 	GetRigidBody()->ActivateCollider(false);
 }
@@ -33,18 +33,20 @@ Particle::~Particle(void)
 }
 
 Emitter::Emitter(const int id, ObjectManager* obm)
-: m_boundary(5.f), m_emitterScl(vec3(.5f, .5f)),
-m_emitterDir(vec3(0, 0)), m_emitterSpd(.5f),
+: m_boundary(5.f), m_emitterScl(vec3(1.f, 1.f)),
+m_emitterDir(vec3(0, 0)), m_emitterSpd(1.f),
 m_emitterMode(NORMAL), m_quantity(0)
 {
 	SetID(id);
 	SetType(PARTICLE);
 	SetObjectManager(obm);
-	SetColor(vec4(1.f, 1.0f, 1.0f, 0.f));
+	SetColor(vec4(1.f, 1.f, 1.f, 1.f));
 }
 
 Emitter::~Emitter()
 {
+	//delete[] m_particle_buffer_data;
+
 	// Delete mother texture
 	delete GetTexture();
 
@@ -85,11 +87,14 @@ ParticleMode Emitter::GetMode(void) const
 
 void Emitter::SetNumOfParticle(int quantity)
 {
+	m_quantity = quantity;
 	for (int index = 0; index < quantity; ++index)
 	{
 		Particle* new_particle = new Particle(this, index);
 		ParticleContainer.push_back(new_particle);
 	}
+
+	//m_particle_buffer_data = new GLfloat[20 * m_quantity];
 }
 
 // Quantity of particle of emitter
@@ -145,30 +150,34 @@ void Emitter::Update(Particle* particle)
 
 void Emitter::Render(Particle* particle)
 {
-
 	// Set new force (offset)
-	vec3 new_force = m_emitterSpd * (particle->m_speed + m_emitterDir.Normalize());
+	//particle->m_speed += m_emitterSpd;
+
+	vec3 new_force = vec3(
+		particle->m_speed.x * particle->m_velocity.x,
+		particle->m_speed.y * particle->m_velocity.y)
+		* 0.169f + m_emitterDir.Normalize();
 
 	// Update position by velocity and direction
 	particle->SetPosition(vec3(
-		particle->GetPosition().x + new_force.x,
-		particle->GetPosition().y + new_force.y,
+		particle->GetPosition().x + new_force.x ,
+		particle->GetPosition().y + new_force.y ,
 		particle->GetPosition().z));
 
-	float new_slow = (particle->m_slow * m_emitterSpd) / m_boundary;
+	float new_slow = particle->m_slow * new_force.Length() / m_boundary;
 
 	// Reduce particle's life
 	particle->m_life -= new_slow;
 
 	// Set color
-	//if (m_edgeColor.Length())
-	//{
-	vec3 colorOffset = m_edgeColor - GetColor();
+	if (m_edgeColor.Length())
+	{
+		vec3 colorOffset = m_edgeColor - GetColor();
 
 		particle->SetColor(vec4(
-			particle->GetColor() + colorOffset * new_slow * m_boundary,
+			particle->GetColor() + colorOffset * new_slow,
 			particle->m_life));
-	//}
+	}
 }
 
 void Emitter::Refresh(Particle* particle)
@@ -186,14 +195,20 @@ void Emitter::Refresh(Particle* particle)
 		GetColor().z,
 		particle->m_life));
 
+	// Set Velocity;
+	particle->m_velocity = vec3(
+		Random::GetInstance().GetRandomFloat(-1.f, 1.f),
+		Random::GetInstance().GetRandomFloat(-1.f, 1.f));
+	particle->m_velocity = particle->m_velocity.Normalize();
+
 	// Set speed
 	particle->m_speed =
 		m_emitterSpd * vec3(
-		Random::GetInstance().GetRandomFloat(-1.f, 1.f),
-		Random::GetInstance().GetRandomFloat(-1.f, 1.f));
+		Random::GetInstance().GetRandomFloat(0.f, 1.f),
+		Random::GetInstance().GetRandomFloat(0.f, 1.f));
 
 	// Reset vanishing speed
-	particle->m_slow = Random::GetInstance().GetRandomFloat(0.001f, 0.169f);
+	particle->m_slow = Random::GetInstance().GetRandomFloat(0.169f, 1.f);
 }
 
 ParticleList& Emitter::GetParticleContainer(void)
