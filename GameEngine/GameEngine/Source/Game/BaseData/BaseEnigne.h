@@ -25,8 +25,7 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 #include "../../Engine/Logic/Logic.h"
 #include "../../Engine/InputManager/InputManager.h"
 #include "../../Engine/Utilities/Debug/Debug.h"
-
-//Someday delete this
-#include <iostream>
+#include "../../Engine/Utilities/INI/iniReader.h"
+#include "../../Engine/Utilities/INI/iniWritter.h"
 
 #endif //_STAGE_BASE_HEADER_

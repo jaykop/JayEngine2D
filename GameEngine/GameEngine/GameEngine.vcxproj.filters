@@ -113,6 +113,12 @@
     <ClCompile Include="Source\Game\GameLogic\SampleLogic.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Engine\Utilities\INI\iniReader.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Utilities\INI\iniWritter.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -179,9 +185,6 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Source\Engine\ObjectManager\ObjectManager.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Game\BaseData\BaseStage.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Source\Engine\Utilities\Math\Vector\Vector4.h">
@@ -259,13 +262,16 @@
     <ClInclude Include="Source\Engine\Graphic\Particle.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Game\GameLogic\SampleLogicBuilder.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Game\GameLogic\SampleLogic.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Game\BaseData\LoadLogics.h">
+    <ClInclude Include="Source\Engine\StateManager\BaseStage.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Utilities\INI\iniReader.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Utilities\INI\iniWritter.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

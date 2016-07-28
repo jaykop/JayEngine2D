@@ -12,7 +12,7 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 */
 /******************************************************************************/
 
-#include "../../../Game/BaseData/BaseStage.h"
+#include "../BaseStage.h"
 #include "../../InputManager/InputManager.h"
 #include "../../App/Application.h"
 

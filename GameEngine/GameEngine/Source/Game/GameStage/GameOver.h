@@ -1,7 +1,7 @@
 #ifndef _GAMEOVERSTAGE_H_
 #define _GAMEOVERSTAGE_H_
 
-#include "../BaseData/BaseStage.h"
+#include "../../Engine/StateManager/BaseStage.h"
 
 class GameOverStage : public Stage
 {

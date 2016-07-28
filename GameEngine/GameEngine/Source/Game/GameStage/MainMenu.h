@@ -1,7 +1,7 @@
 #ifndef _MAINMENUSTAGE_H_
 #define _MAINMENUSTAGE_H_
 
-#include "../BaseData/BaseStage.h"
+#include "../../Engine/StateManager/BaseStage.h"
 
 class MenuStage : public Stage
 {

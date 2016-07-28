@@ -13,10 +13,12 @@ out vec4 finalColor;
 
 void main()
 {
+	// If type is text,
 	if (fragmentType == 0) {
 		finalColor = fragmentColor * texture(Texture, fragTexCoord).r;
 	}	
 	
+	// If not,
 	else	{
 		finalColor = fragmentColor * texture(Texture, fragTexCoord);
 	}

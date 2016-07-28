@@ -7,6 +7,7 @@
 
 \description
 Contains Debug's macros in debug mode
+
 All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 */
 /******************************************************************************/

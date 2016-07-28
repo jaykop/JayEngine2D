@@ -1,7 +1,7 @@
 #ifndef _LV2STAGE_H_
 #define _LV2STAGE_H_
 
-#include "../BaseData/BaseStage.h"
+#include "../../Engine/StateManager/BaseStage.h"
 
 class LV2Stage : public Stage
 {

@@ -99,6 +99,8 @@
     <ClCompile Include="Source\Engine\Graphic\GLManager.cpp" />
     <ClCompile Include="Source\Engine\Graphic\Scene.cpp" />
     <ClCompile Include="Source\Engine\InputManager\InputManager.cpp" />
+    <ClCompile Include="Source\Engine\Utilities\INI\iniReader.cpp" />
+    <ClCompile Include="Source\Engine\Utilities\INI\iniWritter.cpp" />
     <ClCompile Include="Source\Engine\Utilities\Math\MathUtils.cpp" />
     <ClCompile Include="Source\Engine\Utilities\Math\Matrix\Matrix2x2.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
@@ -153,6 +155,8 @@
     <ClInclude Include="Source\Engine\Graphic\GLManager.h" />
     <ClInclude Include="Source\Engine\Graphic\Scene.h" />
     <ClInclude Include="Source\Engine\InputManager\InputManager.h" />
+    <ClInclude Include="Source\Engine\Utilities\INI\iniReader.h" />
+    <ClInclude Include="Source\Engine\Utilities\INI\iniWritter.h" />
     <ClInclude Include="Source\Engine\Utilities\Math\MathUtils.h" />
     <ClInclude Include="Source\Engine\Utilities\Math\Matrix\Matrix2x2.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
@@ -165,7 +169,6 @@
     </ClInclude>
     <ClInclude Include="Source\Engine\Utilities\Random.h" />
     <ClInclude Include="Source\Game\BaseData\GameData.h" />
-    <ClInclude Include="Source\Game\BaseData\LoadLogics.h" />
     <ClInclude Include="Source\Game\BaseData\LoadStages.h" />
     <ClInclude Include="Source\Engine\Utilities\Math\Matrix\Matrix4x4.h" />
     <ClInclude Include="Source\Engine\Graphic\Shader.hpp" />
@@ -173,11 +176,10 @@
     <ClInclude Include="Source\Engine\Utilities\Math\Vector\Vector3.h" />
     <ClInclude Include="Source\Engine\ObjectManager\ObjectManager.h" />
     <ClInclude Include="Source\Engine\StateManager\StageFactory\StageFactory.h" />
-    <ClInclude Include="Source\Game\BaseData\BaseStage.h" />
+    <ClInclude Include="Source\Engine\StateManager\BaseStage.h" />
     <ClInclude Include="Source\Engine\Utilities\Math\Vector\Vector4.h" />
     <ClInclude Include="Source\Engine\Utilities\Time.h" />
     <ClInclude Include="Source\Game\GameLogic\SampleLogic.h" />
-    <ClInclude Include="Source\Game\GameLogic\SampleLogicBuilder.h" />
     <ClInclude Include="Source\Game\GameStage\GameOverBuilder.h" />
     <ClInclude Include="Source\Game\GameStage\GameOver.h" />
     <ClInclude Include="Source\Game\GameStage\LV1.h" />

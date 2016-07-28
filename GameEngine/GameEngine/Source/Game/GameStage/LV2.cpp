@@ -15,12 +15,29 @@ void LV2Stage::Init(GameData& gd)
 {
 	UNREFERENCED_PARAMETER(gd);
 	std::cout << "Lv2Stage::Init\n";
+
+	iniWritter writter(L"Resource/Data/Sample.ini");
+	writter.WriteInt(L"Setting", L"Age", 24);
+	writter.WriteFloat(L"Setting", L"Grade", 3.14159f);
+	writter.WriteBool(L"Setting", L"Marriage", false);
+	writter.WriteString(L"Setting", L"Name", L"jaykop");
+
+	iniReader reader(L"Resource/Data/Sample.ini");
+	int age = reader.ReadInt(L"Setting", L"Age", 24);
+	float grade = reader.ReadFloat(L"Setting", L"Grade", 3.14159f);
+	bool marriage = reader.ReadBool(L"Setting", L"Marriage", false);
+	wchar_t* name = reader.ReadString(L"Setting", L"Name", L"jaykop");
+
+	std::cout << age << "\n" <<
+		grade << "\n" <<
+		marriage << "\n";
+	std::wcout << name << "\n";
 }
 
 void LV2Stage::Update(GameData& gd)
 {
 	UNREFERENCED_PARAMETER(gd);
-	std::cout << "Lv2Stage::Update\n";
+	//std::cout << "Lv2Stage::Update\n";
 
 	if (InputManager::GetInstance().KeyPressed(KEY_ESC))
 		m_GSM->SetQuit(true);

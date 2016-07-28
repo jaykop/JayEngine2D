@@ -26,10 +26,12 @@ void main(){
 	// Set texture coordinate
 	vec4 newTexCoord = Animation * vec4(vertTexCoord, 0, 1);
 	
+	// If type is text,
 	if (Type == 0) {
 		fragTexCoord = vertTexCoord;
 	}
 	
+	// If not,
 	else {
 		fragTexCoord = vec2(newTexCoord.x, -newTexCoord.y);
 	}
