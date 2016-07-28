@@ -11,6 +11,12 @@ GameOverStage::~GameOverStage()
 
 }
 
+void GameOverStage::Load(GameData& gd)
+{
+	UNREFERENCED_PARAMETER(gd);
+	std::cout << "GameOverStage::Load\n";
+}
+
 void GameOverStage::Init(GameData& gd)
 {
 	UNREFERENCED_PARAMETER(gd);
@@ -41,7 +47,14 @@ void GameOverStage::Update(GameData& gd)
 		m_GSM->Restart(true);
 }
 
-void GameOverStage::Shutdown()
+void GameOverStage::Shutdown(GameData& gd)
 {
+	UNREFERENCED_PARAMETER(gd);
 	DEBUG_PRINT("GameOverStage::Shutdown\n");
+}
+
+void GameOverStage::Unload(GameData& gd)
+{
+	UNREFERENCED_PARAMETER(gd);
+	std::cout << "GameOverStage::Unload\n";
 }

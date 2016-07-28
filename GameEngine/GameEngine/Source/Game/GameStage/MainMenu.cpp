@@ -38,15 +38,21 @@ MenuStage::~MenuStage()
 
 }
 
+void MenuStage::Load(GameData& gd)
+{
+	UNREFERENCED_PARAMETER(gd);
+	std::cout << "MenuStage::Load\n";
+
+	//Bind basic systems
+	m_OBM.BindGameSystem(m_GSM);
+}
+
 void MenuStage::Init(GameData& gd)
 {
 	UNREFERENCED_PARAMETER(gd);
 	std::cout << "MenuStage::Init\n";
 	std::cout << "[Instruction]\nPress P: Pause Stage\nPress 0: Main Menu\n"
 		"Press 1: ST_LV1\nPress 2: ST_LV2\nPress 3: ST_LV3\nPress ESC: Quit the App\n";
-
-	//Init basic trunks
-	m_OBM.BindGameSystem(m_GSM);
 
 	m_OBM.AddObject(new Sprite(0, &m_OBM));
 	m_OBM.GetGameObject<Sprite>(0)->GetTexture()->LoadTexture("Resource/Texture/Phantom.png");
@@ -129,8 +135,9 @@ void MenuStage::Update(GameData& gd)
 	m_OBM.UpdateGameSystem();
 }
 
-void MenuStage::Shutdown()
+void MenuStage::Shutdown(GameData& gd)
 {
+	UNREFERENCED_PARAMETER(gd);
 	std::cout << "MenuStage::Shutdown\n";
 
 	//Cleare all Objects of the list
@@ -300,4 +307,10 @@ void MenuStage::SetWallSprites(void)
 	m_OBM.GetGameObject<Sprite>(102)->GetRigidBody()->SetScale(vec3(1, 200));
 	m_OBM.GetGameObject<Sprite>(103)->GetRigidBody()->SetScale(vec3(200, 1));
 	m_OBM.GetGameObject<Sprite>(104)->GetRigidBody()->SetScale(vec3(200, 1));
+}
+
+void MenuStage::Unload(GameData& gd)
+{
+	UNREFERENCED_PARAMETER(gd);
+	std::cout << "MenuStage::Unload\n";
 }

@@ -22,6 +22,7 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 
 #include "Sprite.h"
 
+//! Particle rendering type
 enum ParticleMode{ NORMAL, FIRE, SMOKE, EXPLOSION };
 
 class Emitter;
@@ -30,11 +31,12 @@ class Emitter;
 class Particle : public Sprite
 {
 public:
+
 	Particle(Emitter* parent = 0, int index = 0);
 	virtual ~Particle(void);
 	int m_index;
 	float m_life;
-	float m_slow;
+	float m_fade;
 	vec3 m_velocity;
 	vec3 m_speed;
 	mat44 m_mvp;
@@ -44,6 +46,7 @@ private:
 	
 };
 
+//! type definition of particle list
 typedef std::vector<Particle*> ParticleList;
 
 //! Set of particles
@@ -88,20 +91,22 @@ public:
 
 	//GLfloat *m_particle_buffer_data;
 
+	// Get Particle container
 	ParticleList& GetParticleContainer(void);
 
 private:
 
+	// Particle container
 	ParticleList ParticleContainer;
 
+	// Emitter info
 	int m_quantity;
 	float m_boundary;
 	float m_emitterSpd;
-
 	vec3 m_emitterScl;
 	vec3 m_emitterDir;
-	ParticleMode m_emitterMode;
 	vec3 m_edgeColor;
+	ParticleMode m_emitterMode;
 
 };
 

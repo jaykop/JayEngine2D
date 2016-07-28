@@ -27,6 +27,7 @@ class Sprite;
 class InputManager;
 class GameStateManager;
 
+//! Virtual stage class
 class Stage
 {
 public:
@@ -37,9 +38,11 @@ public:
 	};
 
 	virtual ~Stage() {};
+	virtual void Load(GameData& gd) = 0;
 	virtual void Init(GameData& gd) = 0;
 	virtual void Update(GameData& gd) = 0;
-	virtual void Shutdown() = 0;
+	virtual void Shutdown(GameData& gd) = 0;
+	virtual void Unload(GameData& gd) = 0;
 
 	GameStateManager* m_GSM;
 };

@@ -10,9 +10,11 @@ public:
 	MenuStage(GameStateManager* gsm = 0);
 
 	virtual ~MenuStage();
+	virtual void Load(GameData& gd);
 	virtual void Init(GameData& gd);
 	virtual void Update(GameData& gd);
-	virtual void Shutdown();
+	virtual void Shutdown(GameData& gd);
+	virtual void Unload(GameData& gd);
 
 	void PhysicsTest(void);
 	void BasicControl(void);

@@ -11,6 +11,12 @@ LV3Stage::~LV3Stage()
 
 }
 
+void LV3Stage::Load(GameData& gd)
+{
+	UNREFERENCED_PARAMETER(gd);
+	std::cout << "LV3Stage::Load\n";
+}
+
 void LV3Stage::Init(GameData& gd)
 {
 	UNREFERENCED_PARAMETER(gd);
@@ -41,7 +47,14 @@ void LV3Stage::Update(GameData& gd)
 		m_GSM->Restart(true);
 }
 
-void LV3Stage::Shutdown()
+void LV3Stage::Shutdown(GameData& gd)
 {
+	UNREFERENCED_PARAMETER(gd);
 	std::cout << "Lv3Stage::Shutdown\n";
+}
+
+void LV3Stage::Unload(GameData& gd)
+{
+	UNREFERENCED_PARAMETER(gd);
+	std::cout << "LV3Stage::Unload\n";
 }

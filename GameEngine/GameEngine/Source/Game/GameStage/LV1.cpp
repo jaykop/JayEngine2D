@@ -11,14 +11,20 @@ LV1Stage::~LV1Stage()
 
 }
 
+void LV1Stage::Load(GameData& gd)
+{
+	UNREFERENCED_PARAMETER(gd);
+	std::cout << "LV1Stage::Load\n";
+
+	//Bind basic systems
+	m_OBM.BindGameSystem(m_GSM);
+}
+
 void LV1Stage::Init(GameData& gd)
 {
 	UNREFERENCED_PARAMETER(gd);
 	std::cout << "Lv1Stage::Init\n";
 	std::cout << "Sound testing here.\n";
-
-	//Init basic trunks
-	m_OBM.BindGameSystem(m_GSM);
 
 	// Here objects to be init...
 
@@ -86,8 +92,15 @@ void LV1Stage::Update(GameData& gd)
 
 }
 
-void LV1Stage::Shutdown()
+void LV1Stage::Shutdown(GameData& gd)
 {
+	UNREFERENCED_PARAMETER(gd);
 	std::cout << "Lv1Stage::Shutdown\n";
 	m_OBM.ShutdownGameSystem();
+}
+
+void LV1Stage::Unload(GameData& gd)
+{
+	UNREFERENCED_PARAMETER(gd);
+	std::cout << "LV1Stage::Unload\n";
 }

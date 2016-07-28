@@ -11,6 +11,12 @@ LV2Stage::~LV2Stage()
 
 }
 
+void LV2Stage::Load(GameData& gd)
+{
+	UNREFERENCED_PARAMETER(gd);
+	std::cout << "LV2Stage::Load\n";
+}
+
 void LV2Stage::Init(GameData& gd)
 {
 	UNREFERENCED_PARAMETER(gd);
@@ -58,7 +64,14 @@ void LV2Stage::Update(GameData& gd)
 		m_GSM->Restart(true);
 }
 
-void LV2Stage::Shutdown()
+void LV2Stage::Shutdown(GameData& gd)
 {
+	UNREFERENCED_PARAMETER(gd);
 	std::cout << "Lv2Stage::Shutdown\n";
+}
+
+void LV2Stage::Unload(GameData& gd)
+{
+	UNREFERENCED_PARAMETER(gd);
+	std::cout << "LV2Stage::Unload\n";
 }

@@ -14,20 +14,20 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 
 #ifndef _INIWRITTER_H_
 #define _INIWRITTER_H_
-#include <Windows.h>
 
+//! iniWritter class
 class iniWritter
 {
 public:
 	iniWritter(const wchar_t* fileName);
-	DWORD CreateNewFileAsUTF16(IN LPCTSTR lpszFilePath);
 	void WriteInt(wchar_t *section, wchar_t* key, int DefaultInt);
 	void WriteFloat(wchar_t *section, wchar_t* key, float DefaultFloat);
 	void WriteBool(wchar_t *section, wchar_t* key, bool DefaultBoolean);
 	void WriteString(wchar_t *section, wchar_t* key, const wchar_t* DefaultString);
 
 private:
-
+	
+	// ini file name to write
 	wchar_t m_fileName[255];
 
 };

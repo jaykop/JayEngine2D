@@ -16,6 +16,12 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 #include <iostream>
 #include <Windows.h>
 
+/******************************************************************************/
+/*!
+\brief - iniReader Constructor
+\param fileName - fileName to write
+*/
+/******************************************************************************/
 iniReader::iniReader(const wchar_t* fileName)
 {
 	// Get file name
@@ -23,17 +29,41 @@ iniReader::iniReader(const wchar_t* fileName)
 	wmemcpy(m_fileName, fileName, wcslen(fileName));
 }
 
+/******************************************************************************/
+/*!
+\brief - iniReader Destructor
+*/
+/******************************************************************************/
 iniReader::~iniReader()
 {
-	delete[] m_stringResulet;
+	// Delete temp dynamic new
+	delete [] m_stringResult;
 }
 
+/******************************************************************************/
+/*!
+\brief - Read int to ini file
+\param section
+\param key
+\param DefaultInt - int to read
+\return iResult
+*/
+/******************************************************************************/
 int iniReader::ReadInt(wchar_t *section, wchar_t* key, int DefaultInt)
 {
 	int iResult = GetPrivateProfileInt(section, key, DefaultInt, m_fileName);
 	return iResult;
 }
 
+/******************************************************************************/
+/*!
+\brief - Read float to ini file
+\param section
+\param key
+\param DefaultFloat - float to read
+\return fltResult
+*/
+/******************************************************************************/
 float iniReader::ReadFloat(wchar_t *section, wchar_t* key, float DefaultFloat)
 {
 	wchar_t Result[255];
@@ -44,6 +74,15 @@ float iniReader::ReadFloat(wchar_t *section, wchar_t* key, float DefaultFloat)
 	return fltResult;
 }
 
+/******************************************************************************/
+/*!
+\brief - Read bool to ini file
+\param section
+\param key
+\param DefaultBoolean - bool to read
+\return bolResult
+*/
+/******************************************************************************/
 bool iniReader::ReadBool(wchar_t *section, wchar_t* key, bool DefaultBoolean)
 {
 	wchar_t Result[255];
@@ -55,11 +94,20 @@ bool iniReader::ReadBool(wchar_t *section, wchar_t* key, bool DefaultBoolean)
 	return bolResult;
 }
 
+/******************************************************************************/
+/*!
+\brief - Read string to ini file
+\param section
+\param key
+\param DefaultString - string to read
+\return m_stringResult
+*/
+/******************************************************************************/
 wchar_t* iniReader::ReadString(wchar_t *section, wchar_t* key, const wchar_t* DefaultString)
 {
-	m_stringResulet = new wchar_t[255];
-	memset(m_stringResulet, 0x00, 255);
+	m_stringResult = new wchar_t[255];
+	memset(m_stringResult, 0x00, 255);
 	 GetPrivateProfileString(section, key, 
-		 DefaultString, m_stringResulet, 255, m_fileName);
-	 return m_stringResulet;
+		 DefaultString, m_stringResult, 255, m_fileName);
+	 return m_stringResult;
 }

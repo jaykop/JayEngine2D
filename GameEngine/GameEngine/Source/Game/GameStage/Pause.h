@@ -7,9 +7,11 @@ public:
 	PauseStage(GameStateManager* gsm = 0);
 
 	virtual ~PauseStage();
+	virtual void Load(GameData& gd);
 	virtual void Init(GameData& gd);
 	virtual void Update(GameData& gd);
-	virtual void Shutdown();
+	virtual void Shutdown(GameData& gd);
+	virtual void Unload(GameData& gd);
 
 private:
 

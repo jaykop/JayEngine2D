@@ -17,9 +17,16 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 #include "../Utilities/Random.h"
 #include "../Physics//RigidBody.h"
 
+/******************************************************************************/
+/*!
+\brief - Particle Constructor
+\param parent - particle's parent emitter
+\param index - particle's index number
+*/
+/******************************************************************************/
 Particle::Particle(Emitter* parent, int index)
 :m_parent(parent), m_index(index), m_life(0.f),
-m_slow(0.f), m_speed(vec3())
+m_fade(0.f), m_speed(vec3())
 {
 	SetType(PARTICLE);
 	SetColor(vec4(1.f, 1.f, 1.f, 1.f));
@@ -27,11 +34,23 @@ m_slow(0.f), m_speed(vec3())
 	GetRigidBody()->ActivateCollider(false);
 }
 
+/******************************************************************************/
+/*!
+\brief - Particle Destructor
+*/
+/******************************************************************************/
 Particle::~Particle(void)
 {
 	m_parent = 0;
 }
 
+/******************************************************************************/
+/*!
+\brief - Emitter Constructor
+\param id - Emitter's id
+\param obm - Pointer to obm
+*/
+/******************************************************************************/
 Emitter::Emitter(const int id, ObjectManager* obm)
 : m_boundary(5.f), m_emitterScl(vec3(1.f, 1.f)),
 m_emitterDir(vec3(0, 0)), m_emitterSpd(1.f),
@@ -43,6 +62,11 @@ m_emitterMode(NORMAL), m_quantity(0)
 	SetColor(vec4(1.f, 1.f, 1.f, 1.f));
 }
 
+/******************************************************************************/
+/*!
+\brief - Emitter Destructor
+*/
+/******************************************************************************/
 Emitter::~Emitter()
 {
 	//delete[] m_particle_buffer_data;
@@ -57,7 +81,12 @@ Emitter::~Emitter()
 	ParticleContainer.clear();
 }
 
-// Scale functions
+/******************************************************************************/
+/*!
+\brief - Set all particle's scale 
+\param scale
+*/
+/******************************************************************************/
 void Emitter::SetScale(const vec3& scale)
 {
 	// init total information
@@ -69,22 +98,45 @@ void Emitter::SetScale(const vec3& scale)
 			(*it)->SetScale(m_emitterScl);
 }
 
+/******************************************************************************/
+/*!
+\brief - Get all particle's scale
+\return m_emitterScl
+*/
+/******************************************************************************/
 vec3 Emitter::GetScale(void) const
 {
 	return m_emitterScl;
 }
 
-// Mode functions
+/******************************************************************************/
+/*!
+\brief - Set emitter's render mode
+\param mode 
+*/
+/******************************************************************************/
 void Emitter::SetMode(ParticleMode mode)
 {
 	m_emitterMode = mode;
 }
 
+/******************************************************************************/
+/*!
+\brief - Get emitter's render mode
+\param m_emitterMode
+*/
+/******************************************************************************/
 ParticleMode Emitter::GetMode(void) const
 {
 	return m_emitterMode;
 }
 
+/******************************************************************************/
+/*!
+\brief - Set the Number Of Particle
+\param quantity - The number of particle
+*/
+/******************************************************************************/
 void Emitter::SetNumOfParticle(int quantity)
 {
 	m_quantity = quantity;
@@ -93,50 +145,92 @@ void Emitter::SetNumOfParticle(int quantity)
 		Particle* new_particle = new Particle(this, index);
 		ParticleContainer.push_back(new_particle);
 	}
-
-	//m_particle_buffer_data = new GLfloat[20 * m_quantity];
 }
 
-// Quantity of particle of emitter
+/******************************************************************************/
+/*!
+\brief - Get the Number Of Particle
+\return m_quantity - The number of particle
+*/
+/******************************************************************************/
 int Emitter::GetNumOfParticle(void) const
 {
 	return m_quantity;
 }
 
-// speed function
+/******************************************************************************/
+/*!
+\brief - Set particles' render speed
+\param speed 
+*/
+/******************************************************************************/
 void Emitter::SetSpeed(float speed)
 {
 	if (speed < 0) speed = -speed;
 	m_emitterSpd = speed;
 }
 
+/******************************************************************************/
+/*!
+\brief - Get particles' render speed
+\return m_emitterSpd
+*/
+/******************************************************************************/
 float Emitter::GetSpeed(void) const
 {
 	return m_emitterSpd;
 }
 
-// direction functions
+/******************************************************************************/
+/*!
+\brief - Set emitter's main direction
+\param dir
+*/
+/******************************************************************************/
 void Emitter::SetDirection(const vec3& dir)
 {
 	m_emitterDir = dir;
 }
 
+/******************************************************************************/
+/*!
+\brief - Get emitter's main direction
+\return m_emitterDir
+*/
+/******************************************************************************/
 vec3 Emitter::GetDirection(void) const
 {
 	return m_emitterDir;
 }
 
-// boundary functions
+/******************************************************************************/
+/*!
+\brief - Set emitter's spread boundary
+\param range
+*/
+/******************************************************************************/
 void Emitter::SetBoundary(float range)
 {
 	m_boundary = range;
 }
 
+/******************************************************************************/
+/*!
+\brief - Get emitter's spread boundary
+\return m_boundary
+*/
+/******************************************************************************/
 float Emitter::GetBoundary(void) const
 {
 	return m_boundary;
 }
 
+/******************************************************************************/
+/*!
+\brief - Main update function
+\param particle
+*/
+/******************************************************************************/
 void Emitter::Update(Particle* particle)
 {
 	// Render usual particle
@@ -148,6 +242,12 @@ void Emitter::Update(Particle* particle)
 		Refresh(particle);
 }
 
+/******************************************************************************/
+/*!
+\brief - Render each particle
+\param particle
+*/
+/******************************************************************************/
 void Emitter::Render(Particle* particle)
 {
 	// Set new force (offset)
@@ -164,22 +264,30 @@ void Emitter::Render(Particle* particle)
 		particle->GetPosition().y + new_force.y ,
 		particle->GetPosition().z));
 
-	float new_slow = particle->m_slow * new_force.Length() / m_boundary;
+	// Set new fade
+	float new_fade = particle->m_fade * new_force.Length() / m_boundary;
 
 	// Reduce particle's life
-	particle->m_life -= new_slow;
+	particle->m_life -= new_fade;
 
-	// Set color
+	// Color effect
+	// Change color from inside noe to outside one
 	if (m_edgeColor.Length())
 	{
 		vec3 colorOffset = m_edgeColor - GetColor();
 
 		particle->SetColor(vec4(
-			particle->GetColor() + colorOffset * new_slow,
+			particle->GetColor() + colorOffset * new_fade,
 			particle->m_life));
 	}
 }
 
+/******************************************************************************/
+/*!
+\brief - Refresh each particle
+\param particle
+*/
+/******************************************************************************/
 void Emitter::Refresh(Particle* particle)
 {
 	// Reset the original position
@@ -208,14 +316,27 @@ void Emitter::Refresh(Particle* particle)
 		Random::GetInstance().GetRandomFloat(0.f, 1.f));
 
 	// Reset vanishing speed
-	particle->m_slow = Random::GetInstance().GetRandomFloat(0.169f, 1.f);
+	particle->m_fade = Random::GetInstance().GetRandomFloat(0.169f, 1.f);
 }
 
+/******************************************************************************/
+/*!
+\brief - Get emitter's particle container
+\return ParticleContainer
+*/
+/******************************************************************************/
 ParticleList& Emitter::GetParticleContainer(void)
 {
 	return ParticleContainer;
 }
 
+/******************************************************************************/
+/*!
+\brief - Set emitter's color
+\param center - center color
+\param edge - edge color
+*/
+/******************************************************************************/
 void Emitter::SetColors(vec3 center, vec3 edge)
 {
 	SetColor(center);

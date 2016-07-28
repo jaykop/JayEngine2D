@@ -11,6 +11,15 @@ PauseStage::~PauseStage()
 
 }
 
+void PauseStage::Load(GameData& gd)
+{
+	UNREFERENCED_PARAMETER(gd);
+	std::cout << "PauseStage::Load\n";
+
+	// Bind basic systems
+	m_OBM.BindGameSystem(m_GSM);
+}
+
 void PauseStage::Init(GameData& gd)
 {
 	UNREFERENCED_PARAMETER(gd);
@@ -21,7 +30,6 @@ void PauseStage::Init(GameData& gd)
 
 	std::cout << "You can control the White box with keyboard arrows!\n";
 	
-	m_OBM.BindGameSystem(m_GSM);
 	m_OBM.InitGameSystem();
 }
 
@@ -39,8 +47,15 @@ void PauseStage::Update(GameData& gd)
 	m_OBM.UpdateGameSystem();
 }
 
-void PauseStage::Shutdown()
+void PauseStage::Shutdown(GameData& gd)
 {
+	UNREFERENCED_PARAMETER(gd);
 	std::cout << "PauseStage::Shutdown\n";
 	m_OBM.ShutdownGameSystem();
+}
+
+void PauseStage::Unload(GameData& gd)
+{
+	UNREFERENCED_PARAMETER(gd);
+	std::cout << "PauseStage::Unload\n";
 }

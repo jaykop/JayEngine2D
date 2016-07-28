@@ -79,7 +79,8 @@ void GameStateManager::Update(void)
 		// If paused once, then shut the toggle down
 		else if (m_isPausing) m_isPausing = false;
 
-		//Init current stage
+		//Load Init current stage
+		m_StageStack.top().pStage->Load(m_gameData);
 		m_StageStack.top().pStage->Init(m_gameData);
 	}
 
@@ -117,8 +118,9 @@ void GameStateManager::Update(void)
 	// pop pause stage from the stack 
 	else if (m_isResuming)
 	{
-		m_StageStack.top().pStage->Shutdown();	// Do shutdown first
-		m_StageStack.pop();	// And then pop the stack
+		m_StageStack.top().pStage->Shutdown(m_gameData);
+		m_StageStack.top().pStage->Unload(m_gameData);  
+		m_StageStack.pop();								
 	}
 
 	// If User quit at the puased stage,
@@ -127,14 +129,15 @@ void GameStateManager::Update(void)
 		// then shutdown every stage from the stack
 		while (!m_StageStack.empty())
 		{
-			m_StageStack.top().pStage->Shutdown();
+			m_StageStack.top().pStage->Shutdown(m_gameData);
+			m_StageStack.top().pStage->Unload(m_gameData);
 			m_StageStack.pop();
 		}
 	}
 
 	// Non for upper cases, just shutdown current stage
 	else
-		m_StageStack.top().pStage->Shutdown();
+		m_StageStack.top().pStage->Shutdown(m_gameData);
 
 }
 /******************************************************************************/

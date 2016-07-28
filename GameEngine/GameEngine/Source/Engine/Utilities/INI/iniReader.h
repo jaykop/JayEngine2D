@@ -15,9 +15,11 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 #ifndef _INIREADER_H_
 #define _INIREADER_H_
 
+//! iniReader class
 class iniReader
 {
 public:
+
 	iniReader(const wchar_t* fileName);
 	~iniReader();
 	int ReadInt(wchar_t *section, wchar_t* key, int DefaultInt);
@@ -27,8 +29,8 @@ public:
 
 private:
 
-	wchar_t m_fileName[255];
-	wchar_t* m_stringResulet;
+	wchar_t m_fileName[255];	// ini file name to read
+	wchar_t* m_stringResult;	// temp string storage
 
 };
 
