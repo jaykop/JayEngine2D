@@ -5,6 +5,7 @@
 Some parts will be used to Digipen GAM250(project class).
 
 *Technical help:
+
 1) Base Engine:
  - Matt A.Casanova
  - Hacompu
