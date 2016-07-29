@@ -272,7 +272,7 @@ Vector4<Type> operator*(Type constant, const Vector4<Type>& rhs)
 template <typename Type>
 std::ostream& operator<<(std::ostream& os, const Vector4<Type>& contents)
 {
-	os << "Vector4[ " << constents.x << ", " << constents.y << ", " << constents.z << ", " << constents.w << " ]\n";
+	os << "Vector4[ " << contents.x << ", " << contents.y << ", " << contents.z << ", " << contents.w << " ]";
 	return os;
 }
 

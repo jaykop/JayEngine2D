@@ -351,6 +351,6 @@ Vector2 operator*(float constant, const Vector2& rhs)
 /******************************************************************************/
 std::ostream& operator<<(std::ostream& os, const Vector2& constents)
 {
-	os << "Vector2[ " << constents.x << ", " << constents.y << " ]\n";
+	os << "Vector2[ " << constents.x << ", " << constents.y << " ]";
 	return os;
 }

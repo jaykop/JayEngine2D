@@ -1,5 +1,5 @@
-#include "../BaseData/BaseEnigne.h"
 #include "LV2.h"
+#include "../BaseData/BaseEnigne.h"
 
 LV2Stage::LV2Stage(GameStateManager* gsm)
 {
@@ -27,16 +27,22 @@ void LV2Stage::Init(GameData& gd)
 	writter.WriteFloat(L"Setting", L"Grade", 3.14159f);
 	writter.WriteBool(L"Setting", L"Marriage", false);
 	writter.WriteString(L"Setting", L"Name", L"jaykop");
+	writter.WriteVec3(L"Setting", L"Position", vec3(10, 214, 43));
+	writter.WriteVec4(L"Setting", L"Color", vec4(63, 57, 14, 53));
 
 	iniReader reader(L"Resource/Data/Sample.ini");
-	int age = reader.ReadInt(L"Setting", L"Age", 24);
-	float grade = reader.ReadFloat(L"Setting", L"Grade", 3.14159f);
-	bool marriage = reader.ReadBool(L"Setting", L"Marriage", false);
-	wchar_t* name = reader.ReadString(L"Setting", L"Name", L"jaykop");
+	int age = reader.ReadInt(L"Setting", L"Age");
+	float grade = reader.ReadFloat(L"Setting", L"Grade");
+	bool marriage = reader.ReadBool(L"Setting", L"Marriage");
+	wchar_t* name = reader.ReadString(L"Setting", L"Name");
+	vec3 position = reader.ReadVec3(L"Setting", L"Position");
+	vec4 color = reader.ReadVec4(L"Setting", L"Color");
 
 	std::cout << age << "\n" <<
 		grade << "\n" <<
 		marriage << "\n";
+	std::cout << position << "\n";
+	std::cout << color << "\n";
 	std::wcout << name << "\n";
 }
 

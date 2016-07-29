@@ -264,9 +264,9 @@ Vector3<Type> operator*(Type constant, const Vector3<Type>& rhs)
 */
 /******************************************************************************/
 template <typename Type>
-std::ostream& operator<<(std::ostream& os, const Vector3<Type>& constents)
+std::ostream& operator<<(std::ostream& os, const Vector3<Type>& contents)
 {
-	os << "Vector3[ " << constents.x << ", " << constents.y << ", " << constents.z << " ]\n";
+	os << "Vector3[ " << contents.x << ", " << contents.y << ", " << contents.z << " ]";
 	return os;
 }
 

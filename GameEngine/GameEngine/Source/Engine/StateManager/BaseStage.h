@@ -15,8 +15,6 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 #ifndef _BASESTAGE_H_
 #define _BASESTAGE_H_
 
-#include "../Utilities/Time.h"
-#include "../Utilities/Random.h"
 #include "../ObjectManager/ObjectManager.h"
 
 struct GameData;

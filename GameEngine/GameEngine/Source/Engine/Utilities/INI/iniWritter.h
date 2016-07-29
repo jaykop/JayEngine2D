@@ -15,15 +15,21 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 #ifndef _INIWRITTER_H_
 #define _INIWRITTER_H_
 
+#include "../Math/MathUtils.h"
+
 //! iniWritter class
 class iniWritter
 {
 public:
 	iniWritter(const wchar_t* fileName);
+
 	void WriteInt(wchar_t *section, wchar_t* key, int DefaultInt);
 	void WriteFloat(wchar_t *section, wchar_t* key, float DefaultFloat);
 	void WriteBool(wchar_t *section, wchar_t* key, bool DefaultBoolean);
 	void WriteString(wchar_t *section, wchar_t* key, const wchar_t* DefaultString);
+
+	void WriteVec3(wchar_t *section, wchar_t* key, const vec3& DefaultVec3);
+	void WriteVec4(wchar_t *section, wchar_t* key, const vec4& DefaultVec4);
 
 private:
 	

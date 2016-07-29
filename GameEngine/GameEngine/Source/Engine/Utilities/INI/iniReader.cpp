@@ -12,9 +12,9 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 */
 /******************************************************************************/
 
-#include "iniReader.h"
 #include <iostream>
 #include <Windows.h>
+#include "iniReader.h"
 
 /******************************************************************************/
 /*!
@@ -49,8 +49,9 @@ iniReader::~iniReader()
 \return iResult
 */
 /******************************************************************************/
-int iniReader::ReadInt(wchar_t *section, wchar_t* key, int DefaultInt)
+int iniReader::ReadInt(wchar_t *section, wchar_t* key)
 {
+	int DefaultInt = 0;
 	int iResult = GetPrivateProfileInt(section, key, DefaultInt, m_fileName);
 	return iResult;
 }
@@ -64,8 +65,9 @@ int iniReader::ReadInt(wchar_t *section, wchar_t* key, int DefaultInt)
 \return fltResult
 */
 /******************************************************************************/
-float iniReader::ReadFloat(wchar_t *section, wchar_t* key, float DefaultFloat)
+float iniReader::ReadFloat(wchar_t *section, wchar_t* key)
 {
+	float DefaultFloat = 0.f;
 	wchar_t Result[255];
 	wchar_t Default[255];
 	wsprintf(Default, L"%f", DefaultFloat);
@@ -83,8 +85,9 @@ float iniReader::ReadFloat(wchar_t *section, wchar_t* key, float DefaultFloat)
 \return bolResult
 */
 /******************************************************************************/
-bool iniReader::ReadBool(wchar_t *section, wchar_t* key, bool DefaultBoolean)
+bool iniReader::ReadBool(wchar_t *section, wchar_t* key)
 {
+	bool DefaultBoolean = false;
 	wchar_t Result[255];
 	wchar_t Default[255];
 	wsprintf(Default, L"%s", DefaultBoolean ? L"True" : L"False");
@@ -103,11 +106,86 @@ bool iniReader::ReadBool(wchar_t *section, wchar_t* key, bool DefaultBoolean)
 \return m_stringResult
 */
 /******************************************************************************/
-wchar_t* iniReader::ReadString(wchar_t *section, wchar_t* key, const wchar_t* DefaultString)
+wchar_t* iniReader::ReadString(wchar_t *section, wchar_t* key)
 {
+	const wchar_t* DefaultString = L"";
 	m_stringResult = new wchar_t[255];
 	memset(m_stringResult, 0x00, 255);
 	 GetPrivateProfileString(section, key, 
 		 DefaultString, m_stringResult, 255, m_fileName);
 	 return m_stringResult;
+}
+
+/******************************************************************************/
+/*!
+\brief - Read vec3 to ini file
+\param section
+\param key
+\param DefaultBoolean - vec3 to read
+*/
+/******************************************************************************/
+vec3 iniReader::ReadVec3(wchar_t *section, wchar_t* key)
+{
+	vec3 vec3Result;
+	const vec3 DefaultVec3;
+	wchar_t Result[2][255];
+	wchar_t Default[255];
+
+	wsprintf(Default, L"%f", DefaultVec3);
+	GetPrivateProfileString(section, key, Default, Result[0], 255, m_fileName);
+	for (int index = 0, fill = 0; index < sizeof(Result[0]) || fill < 3; ++index)
+	{
+		wchar_t pt[2] = { Result[0][index], '\0' };
+
+		if (!wcscmp(pt, L" "))
+		{
+			wcscpy_s(Result[1], (Result[0] + index + 1));
+			if (fill == 0) vec3Result.x = wcstof(Result[1], NULL);
+			else if (fill == 1) vec3Result.y = wcstof(Result[1], NULL);
+			else if (fill == 2) vec3Result.z = wcstof(Result[1], NULL);
+			++fill;
+		}
+	}
+
+	return vec3Result;
+}
+
+/******************************************************************************/
+/*!
+\brief - Read vec4 to ini file
+\param section
+\param key
+\param DefaultBoolean - vec4 to read
+*/
+/******************************************************************************/
+vec4 iniReader::ReadVec4(wchar_t *section, wchar_t* key)
+{
+	vec4 vec4Result;
+	const vec4 DefaultVec4;
+	wchar_t Result[2][255];
+	wchar_t Default[255];
+
+	wsprintf(Default, L"%f", DefaultVec4);
+	GetPrivateProfileString(section, key, Default, Result[0], 255, m_fileName);
+	
+	for (int index = 0, fill = 0; index < sizeof(Result[0]) && fill < 4; ++index)
+	{
+		wchar_t pt[2] = { Result[0][index], '\0' };
+
+		if (!wcscmp(pt, L" "))
+		{
+			wcscpy_s(Result[1], (Result[0] + index + 1));
+			if (fill == 0)
+				vec4Result.x = wcstof(Result[1], NULL);
+			else if (fill == 1) 
+				vec4Result.y = wcstof(Result[1], NULL);
+			else if (fill == 2) 
+				vec4Result.z = wcstof(Result[1], NULL);
+			else if (fill == 3) 
+				vec4Result.w = wcstof(Result[1], NULL);
+			++fill;
+		}
+	}
+
+	return vec4Result;
 }

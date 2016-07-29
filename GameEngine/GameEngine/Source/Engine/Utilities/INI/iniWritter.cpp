@@ -12,10 +12,11 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 */
 /******************************************************************************/
 
-#include "iniWritter.h"
-#include <iostream>
 #include <cstdio>
+#include <iostream>
 #include <atlstr.h>
+#include "iniWritter.h"
+#include "../Math/MathUtils.h"
 
 /******************************************************************************/
 /*!
@@ -86,4 +87,34 @@ void iniWritter::WriteBool(wchar_t *section, wchar_t* key, bool DefaultBoolean)
 void iniWritter::WriteString(wchar_t *section, wchar_t* key, const wchar_t* DefaultString)
 {
 	WritePrivateProfileString(section, key, DefaultString, m_fileName);
+}
+
+/******************************************************************************/
+/*!
+\brief - Write vec3 to ini file
+\param section
+\param key
+\param DefaultBoolean - vec3 to write
+*/
+/******************************************************************************/
+void iniWritter::WriteVec3(wchar_t *section, wchar_t* key, const vec3& DefaultVec3)
+{
+	wchar_t value[255];
+	_stprintf_s(value, L"[ %f, %f, %f]", DefaultVec3.x, DefaultVec3.y, DefaultVec3.z);
+	WritePrivateProfileString(section, key, value, m_fileName);
+}
+
+/******************************************************************************/
+/*!
+\brief - Write vec4 to ini file
+\param section
+\param key
+\param DefaultBoolean - vec4 to write
+*/
+/******************************************************************************/
+void iniWritter::WriteVec4(wchar_t *section, wchar_t* key, const vec4& DefaultVec4)
+{
+	wchar_t value[255];
+	_stprintf_s(value, L"[ %f, %f, %f, %f ]", DefaultVec4.x, DefaultVec4.y, DefaultVec4.z, DefaultVec4.w);
+	WritePrivateProfileString(section, key, value, m_fileName);
 }
