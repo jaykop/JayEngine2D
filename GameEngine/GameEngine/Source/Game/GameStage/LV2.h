@@ -3,6 +3,12 @@
 
 #include "../../Engine/StateManager/BaseStage.h"
 
+//Todo: remove later
+#include "../../Engine/Utilities/Json/JsonParser.h"
+//
+//class iniReader;
+//class iniWritter;
+
 class LV2Stage : public Stage
 {
 public:
@@ -16,8 +22,14 @@ public:
 	virtual void Shutdown(GameData& gd);
 	virtual void Unload(GameData& gd);
 
+	virtual void LoadObjects(const wchar_t* fileName);
+
 private:
 
+	//Obj Manager
+	ObjectManager m_OBM;
+	//iniReader* m_Loader;
+	JsonParser m_testParser;
 };
 
 #endif // _LV2STAGE_H_

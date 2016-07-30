@@ -58,3 +58,8 @@ void GameOverStage::Unload(GameData& gd)
 	UNREFERENCED_PARAMETER(gd);
 	std::cout << "GameOverStage::Unload\n";
 }
+
+void GameOverStage::LoadObjects(const wchar_t* fileName)
+{
+
+}

@@ -83,6 +83,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Include\jsoncpp.cpp" />
     <ClCompile Include="Include\LodePNG\lodepng.cpp" />
     <ClCompile Include="Source\Engine\App\Application.cpp" />
     <ClCompile Include="Source\Engine\Graphic\Particle.cpp" />
@@ -101,6 +102,9 @@
     <ClCompile Include="Source\Engine\InputManager\InputManager.cpp" />
     <ClCompile Include="Source\Engine\Utilities\INI\iniReader.cpp" />
     <ClCompile Include="Source\Engine\Utilities\INI\iniWritter.cpp" />
+    <ClCompile Include="Source\Engine\Utilities\Json\JsonParser.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="Source\Engine\Utilities\Math\MathUtils.cpp" />
     <ClCompile Include="Source\Engine\Utilities\Math\Matrix\Matrix2x2.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
@@ -157,6 +161,9 @@
     <ClInclude Include="Source\Engine\InputManager\InputManager.h" />
     <ClInclude Include="Source\Engine\Utilities\INI\iniReader.h" />
     <ClInclude Include="Source\Engine\Utilities\INI\iniWritter.h" />
+    <ClInclude Include="Source\Engine\Utilities\Json\JsonParser.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="Source\Engine\Utilities\Math\MathUtils.h" />
     <ClInclude Include="Source\Engine\Utilities\Math\Matrix\Matrix2x2.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>

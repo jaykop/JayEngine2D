@@ -314,3 +314,8 @@ void MenuStage::Unload(GameData& gd)
 	UNREFERENCED_PARAMETER(gd);
 	std::cout << "MenuStage::Unload\n";
 }
+
+void MenuStage::LoadObjects(const wchar_t* fileName)
+{
+
+}

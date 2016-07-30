@@ -15,6 +15,8 @@ void LV2Stage::Load(GameData& gd)
 {
 	UNREFERENCED_PARAMETER(gd);
 	std::cout << "LV2Stage::Load\n";
+
+	m_OBM.BindGameSystem(m_GSM);
 }
 
 void LV2Stage::Init(GameData& gd)
@@ -22,6 +24,7 @@ void LV2Stage::Init(GameData& gd)
 	UNREFERENCED_PARAMETER(gd);
 	std::cout << "Lv2Stage::Init\n";
 
+	// Testing ini...
 	iniWritter writter(L"Resource/Data/Sample.ini");
 	writter.WriteInt(L"Setting", L"Age", 24);
 	writter.WriteFloat(L"Setting", L"Grade", 3.14159f);
@@ -44,6 +47,11 @@ void LV2Stage::Init(GameData& gd)
 	std::cout << position << "\n";
 	std::cout << color << "\n";
 	std::wcout << name << "\n";
+
+	// Testing json...
+	m_testParser.sample();
+
+	m_OBM.InitGameSystem();
 }
 
 void LV2Stage::Update(GameData& gd)
@@ -68,16 +76,43 @@ void LV2Stage::Update(GameData& gd)
 
 	else if (InputManager::GetInstance().KeyTriggered(KEY_R))
 		m_GSM->Restart(true);
+
+	m_OBM.UpdateGameSystem();
 }
 
 void LV2Stage::Shutdown(GameData& gd)
 {
 	UNREFERENCED_PARAMETER(gd);
 	std::cout << "Lv2Stage::Shutdown\n";
+	m_OBM.ShutdownGameSystem();
 }
 
 void LV2Stage::Unload(GameData& gd)
 {
 	UNREFERENCED_PARAMETER(gd);
 	std::cout << "LV2Stage::Unload\n";
+	//delete m_Loader;
+}
+
+void LV2Stage::LoadObjects(const wchar_t* fileName)
+{
+	UNREFERENCED_PARAMETER(fileName);
+
+	//m_Loader = new iniReader(L"Resource/Data/LV2.ini");
+
+	//// Basic sprite info
+	//m_Loader->ReadInt(L"Object", L"ID");
+	//m_Loader->ReadVec3(L"Object", L"Position");
+	//m_Loader->ReadVec3(L"Object", L"Scale");
+	//m_Loader->ReadFloat(L"Object", L"Rotation");
+	//m_Loader->ReadVec4(L"Object", L"Color");
+	//m_Loader->ReadInt(L"Object", L"Type");
+	//m_Loader->ReadInt(L"Object", L"Projection");
+
+	// Basic body info...
+
+	// Basic text info...
+
+	// Basic emitter info...
+
 }

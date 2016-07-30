@@ -59,3 +59,8 @@ void PauseStage::Unload(GameData& gd)
 	UNREFERENCED_PARAMETER(gd);
 	std::cout << "PauseStage::Unload\n";
 }
+
+void PauseStage::LoadObjects(const wchar_t* fileName)
+{
+
+}

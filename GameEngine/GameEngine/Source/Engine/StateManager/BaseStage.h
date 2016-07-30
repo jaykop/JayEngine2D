@@ -42,6 +42,8 @@ public:
 	virtual void Shutdown(GameData& gd) = 0;
 	virtual void Unload(GameData& gd) = 0;
 
+	virtual void LoadObjects(const wchar_t* fileName) = 0;
+
 	GameStateManager* m_GSM;
 };
 

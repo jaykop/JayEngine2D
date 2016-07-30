@@ -58,3 +58,8 @@ void LV3Stage::Unload(GameData& gd)
 	UNREFERENCED_PARAMETER(gd);
 	std::cout << "LV3Stage::Unload\n";
 }
+
+void LV3Stage::LoadObjects(const wchar_t* fileName)
+{
+
+}
