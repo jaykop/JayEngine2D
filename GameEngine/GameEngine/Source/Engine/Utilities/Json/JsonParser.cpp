@@ -17,9 +17,9 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 
 #include "JsonParser.h"
 #include "../../Graphic/Scene.h"
-#include "../../Graphic/Text.h"
 #include "../../Graphic/Particle.h"
 #include "../../Physics/RigidBody.h"
+#include "../../ObjectManager/ObjectManager.h"
 
 JsonParser::JsonParser()
 {}
@@ -61,23 +61,23 @@ void JsonParser::write_sample(void)
 
 void JsonParser::read_sample(void)
 {
-	Json::Reader reader;
-	Json::Value root;
-	bool parsingRet = reader.parse(str, root);
+	//Json::Reader reader;
+	//Json::Value root;
+	//bool parsingRet = reader.parse(str, root);
 
-	if (!parsingRet)
-	{
-		std::cout << "Failed to parse Json : " << reader.getFormattedErrorMessages();
-		return;
-	}
+	//if (!parsingRet)
+	//{
+	//	std::cout << "Failed to parse Json : " << reader.getFormattedErrorMessages();
+	//	return;
+	//}
 
-	std::cout << root["hasCar"] << " : " << root["age"] << std::endl << std::endl;
+	//std::cout << root["hasCar"] << " : " << root["age"] << std::endl << std::endl;
 
-	const Json::Value items = root["items"];
-	for (unsigned i = 0; i < items.size(); i++)
-	{
-		std::cout << items[i].asString() << std::endl;
-	}
+	//const Json::Value items = root["items"];
+	//for (unsigned i = 0; i < items.size(); i++)
+	//{
+	//	std::cout << items[i].asString() << std::endl;
+	//}
 	
 
 	//auto member = root.getMemberNames();
@@ -97,20 +97,20 @@ void JsonParser::read_sample(void)
 	//}
 	//std::cout << std::endl;
 
-	Json::Value friends = root["friends"];
-	for (auto it = friends.begin(); it != friends.end(); it++)
-	{
-		if ((*it).isObject())
-		{
-			std::cout << (*it)["name"] << " : " << (*it)["age"] << std::endl;
-		}
-	}
+	//Json::Value friends = root["friends"];
+	//for (auto it = friends.begin(); it != friends.end(); it++)
+	//{
+	//	if ((*it).isObject())
+	//	{
+	//		std::cout << (*it)["name"] << " : " << (*it)["age"] << std::endl;
+	//	}
+	//}
 
-	Json::Value a = Load(L"Resource/Data/Sample2.something");
-	
-	Json::StyledWriter writer;
-	str = writer.write(a);
-	std::cout << str << std::endl << std::endl;
+	//Json::Value a = Load(L"Resource/Data/Sample2.something");
+	//
+	//Json::StyledWriter writer;
+	//str = writer.write(a);
+	//std::cout << str << std::endl << std::endl;
 
 	//std::cout << a.asString() << std::endl;
 }
@@ -124,147 +124,159 @@ void JsonParser::Save(const wchar_t* dir, const Json::Value& contents)
 	save_dir << writter.write(contents);
 }
 
-Json::Value JsonParser::Load(wchar_t* dir)
+void JsonParser::Load(wchar_t* dir)
 {
+	// Load json data to input file stream
 	std::ifstream load_dir(dir, std::ifstream::binary);
-	Json::Value result;
-	load_dir >> result;
+	// Move to json data
+	load_dir >> m_loadedData;
 
-	return result;
+	// Convert to string
+	Json::StyledWriter writer;
+	str = writer.write(m_loadedData);
+
+	// Parser checker
+	Json::Reader reader;
+	bool parsingRet = reader.parse(str, m_loadedData);
+	if (!parsingRet)
+		std::cout << "Failed to parse Json : " << reader.getFormattedErrorMessages();
 }
 
-void JsonParser::LoadStage(wchar_t* dir, Scene* scene)
+void JsonParser::InitLoadedData(ObjectManager* obm)
 {
-	Json::Reader reader;
-	Json::Value Stage;
-	
-	Stage = Load(dir);
+	// Load stage and objects
+	LoadStage(obm->GetGameScene());
+	LoadObjects(obm);
+}
 
-	Json::StyledWriter writer;
-	str = writer.write(Stage);
-
-	bool parsingRet = reader.parse(str, Stage);
-
-	if (!parsingRet)
-	{
-		std::cout << "Failed to parse Json : " << reader.getFormattedErrorMessages();
-		return;
-	}
-
-	// Check if there is stage info
-	if (Stage["Stage"].isArray())
+void JsonParser::LoadStage(Scene* scene)
+{
+	// Check if there is proper stage info
+	if (m_loadedData["Stage"].isArray())
 	{
 		// Set backgroud's color
-		if ((*Stage["Stage"].begin()).isMember("Background") &&
-			(*Stage["Stage"].begin())["Background"].isArray() &&
-			(*Stage["Stage"].begin())["Background"].size() == 4)
+		if ((*m_loadedData["Stage"].begin()).isMember("Background") &&
+			(*m_loadedData["Stage"].begin())["Background"].isArray() &&
+			(*m_loadedData["Stage"].begin())["Background"].size() == 4 && 
+			(*m_loadedData["Stage"].begin())["Background"][0].isNumeric())
 				scene->SetBackgroundColor(vec4(
-				(*Stage["Stage"].begin())["Background"][0].asFloat(),
-				(*Stage["Stage"].begin())["Background"][1].asFloat(),
-				(*Stage["Stage"].begin())["Background"][2].asFloat(),
-				(*Stage["Stage"].begin())["Background"][3].asFloat()));
+				(*m_loadedData["Stage"].begin())["Background"][0].asFloat(),
+				(*m_loadedData["Stage"].begin())["Background"][1].asFloat(),
+				(*m_loadedData["Stage"].begin())["Background"][2].asFloat(),
+				(*m_loadedData["Stage"].begin())["Background"][3].asFloat()));
 
 		// Set camera's position
-		if ((*Stage["Stage"].begin()).isMember("Camera") &&
-			(*Stage["Stage"].begin())["Camera"].isArray() &&
-			(*Stage["Stage"].begin())["Camera"].size() == 3)
-				scene->SetCamera(vec3(
-				(*Stage["Stage"].begin())["Camera"][0].asFloat(),
-				(*Stage["Stage"].begin())["Camera"][1].asFloat(),
-				(*Stage["Stage"].begin())["Camera"][2].asFloat()));
+		if ((*m_loadedData["Stage"].begin()).isMember("Camera") &&
+			(*m_loadedData["Stage"].begin())["Camera"].isArray() &&
+			(*m_loadedData["Stage"].begin())["Camera"].size() == 4 &&
+			(*m_loadedData["Stage"].begin())["Camera"][0].isNumeric())
+				scene->SetCamera(vec4(
+				(*m_loadedData["Stage"].begin())["Camera"][0].asFloat(),
+				(*m_loadedData["Stage"].begin())["Camera"][1].asFloat(),
+				(*m_loadedData["Stage"].begin())["Camera"][2].asFloat(),
+				(*m_loadedData["Stage"].begin())["Camera"][3].asFloat()));
 	}
 }
 
-Object* JsonParser::LoadObject(const Json::Value& loaded, ObjectManager* obm)
+void JsonParser::LoadObjects(ObjectManager* obm)
 {
-	if (loaded.isMember("ID") && loaded.isMember("Type"))
+	// Check if there is proper object info
+	if (m_loadedData["Object"].isArray())
 	{
-		if (!strcmp(loaded["Type"].asCString(), "SPRITE"))
+		for (auto it = m_loadedData["Object"].begin();
+			it != m_loadedData["Object"].end(); 
+			++it)
 		{
-			Sprite* sprite = new Sprite(loaded["ID"].asInt(), obm);
-
-			//! Set transform
-			if (loaded.isMember("Position") &&
-				loaded["Position"].isArray() &&
-				loaded["Position"].size() == 3 &&
-				loaded["Position"][0].isDouble())
+			if ((*it).isMember("ID") && (*it).isMember("Type"))
 			{
-				sprite->SetPosition(vec3(
-					loaded["Position"][0].asFloat(), 
-					loaded["Position"][1].asFloat(),
-					loaded["Position"][2].asFloat()));
+				if (!strcmp((*it)["Type"].asCString(), "SPRITE"))
+				{
+					int id = (*it)["ID"].asInt();
+					obm->AddObject(new Sprite(id, obm));
+
+					//! Set transform
+					if ((*it).isMember("Position") &&
+						(*it)["Position"].isArray() &&
+						(*it)["Position"].size() == 3 &&
+						(*it)["Position"][0].isNumeric())
+					{
+						obm->GetGameObject<Sprite>(id)->SetPosition(vec3(
+							(*it)["Position"][0].asFloat(),
+							(*it)["Position"][1].asFloat(),
+							(*it)["Position"][2].asFloat()));
+					}
+
+					if ((*it).isMember("Scale") &&
+						(*it)["Scale"].isArray() &&
+						(*it)["Scale"].size() == 3 &&
+						(*it)["Scale"][0].isNumeric())
+					{
+						obm->GetGameObject<Sprite>(id)->SetScale(vec3(
+							(*it)["Scale"][0].asFloat(),
+							(*it)["Scale"][1].asFloat(),
+							(*it)["Scale"][2].asFloat()));
+					}
+
+					if ((*it).isMember("Rotation") &&
+						(*it)["Rotation"].isNumeric())
+						obm->GetGameObject<Sprite>(id)->SetRotation((*it)["Rotation"].asFloat());
+
+					//! Set image(texture)
+					if ((*it).isMember("Projection") &&
+						(*it)["Projection"].isString())
+					{
+						if (!strcmp((*it)["Projection"].asString().c_str(),
+							"ORTHOGONAL"))
+							obm->GetGameObject<Sprite>(id)->SetProjectionType(ORTHOGONAL);
+
+						else if (!strcmp((*it)["Projection"].asString().c_str(),
+							"PERSPECTIVE"))
+							obm->GetGameObject<Sprite>(id)->SetProjectionType(PERSPECTIVE);
+					}
+
+					if ((*it).isMember("Color") &&
+						(*it)["Color"].isArray() &&
+						(*it)["Color"].size() == 4 &&
+						(*it)["Color"][0].isNumeric())
+					{
+						obm->GetGameObject<Sprite>(id)->SetColor(vec4(
+							(*it)["Color"][0].asFloat(),
+							(*it)["Color"][1].asFloat(),
+							(*it)["Color"][2].asFloat(),
+							(*it)["Color"][3].asFloat()));
+					}
+
+					//sprite->SetAnimation();
+
+					//// Set physics
+					//sprite->SetRigidBody();
+					//sprite->GetRigidBody()->ActivateCollider();
+					//sprite->GetRigidBody()->ActivateMove();
+					//sprite->GetRigidBody()->SetAcceleration();
+					//sprite->GetRigidBody()->SetForce();
+					//sprite->GetRigidBody()->SetFriction();
+					//sprite->GetRigidBody()->SetMass();
+					//sprite->GetRigidBody()->SetScale();
+					//sprite->GetRigidBody()->SetShape();
+
+					//return sprite;
+				}
+
+				else if (!strcmp((*it)["Type"].asCString(), "TEXT"))
+				{
+					//Text* text = new Text((*it)["ID"].asInt(), obm);
+
+					//return text;
+				}
+
+				else if (!strcmp((*it)["Type"].asCString(), "PARTICLE"))
+				{
+					//Emitter* emitter = new Emitter((*it)["ID"].asInt(), obm);
+
+					//return emitter;
+				}
+
 			}
-
-			if (loaded.isMember("Scale") &&
-				loaded["Scale"].isArray() &&
-				loaded["Scale"].size() == 3 &&
-				loaded["Scale"][0].isDouble())
-			{
-				sprite->SetScale(vec3(
-					loaded["Scale"][0].asFloat(),
-					loaded["Scale"][1].asFloat(),
-					loaded["Scale"][2].asFloat()));
-			}
-
-			if (loaded.isMember("Rotation") &&
-				loaded["Rotation"].isDouble())
-				sprite->SetRotation(loaded["Scale"].asFloat());
-			
-			//! Set image(texture)
-			if (loaded.isMember("Projection") &&
-				loaded["Projection"].isString())
-			{
-				if (!strcmp(loaded["Projection"].asString().c_str(),
-					"ORTHOGONAL"))
-					sprite->SetProjectionType(ORTHOGONAL);
-
-				else if (!strcmp(loaded["Projection"].asString().c_str(),
-					"PERSPECTIVE"))
-					sprite->SetProjectionType(PERSPECTIVE);
-			}
-
-			if (loaded.isMember("Color") &&
-				loaded["Color"].isArray() &&
-				loaded["Color"].size() == 3 &&
-				loaded["Color"][0].isDouble())
-			{
-				sprite->SetColor(vec3(
-					loaded["Color"][0].asFloat(),
-					loaded["Color"][1].asFloat(),
-					loaded["Color"][2].asFloat()));
-			}
-
-			//sprite->SetAnimation();
-
-			//// Set physics
-			//sprite->SetRigidBody();
-			//sprite->GetRigidBody()->ActivateCollider();
-			//sprite->GetRigidBody()->ActivateMove();
-			//sprite->GetRigidBody()->SetAcceleration();
-			//sprite->GetRigidBody()->SetForce();
-			//sprite->GetRigidBody()->SetFriction();
-			//sprite->GetRigidBody()->SetMass();
-			//sprite->GetRigidBody()->SetScale();
-			//sprite->GetRigidBody()->SetShape();
-
-			return sprite;
 		}
-
-		else if (!strcmp(loaded["Type"].asCString(), "TEXT"))
-		{
-			Text* text = new Text(loaded["ID"].asInt(), obm);
-
-			return text;
-		}
-
-		else if (!strcmp(loaded["Type"].asCString(), "PARTICLE"))
-		{
-			Emitter* emitter = new Emitter(loaded["ID"].asInt(), obm);
-
-			return emitter;
-		}
-
 	}
-
-	return nullptr;
 }

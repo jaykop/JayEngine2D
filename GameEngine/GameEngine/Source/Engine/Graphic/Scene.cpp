@@ -64,7 +64,7 @@ void Scene::Init(const ObjectList& objList)
 	m_zFar = static_cast<float>(temp.m_zFar);
 	m_fovy = static_cast<float>(temp.m_fovy);
 	aspectRatio = static_cast<float>(m_width) / static_cast<float>(m_height);
-	m_camera = vec4(0, 0, 80, 0);
+	//m_camera = vec4(0, 0, 80, 0);
 
 	// Init every sprites
 	for (auto it = objList.begin(); it != objList.end(); ++it)
@@ -128,7 +128,7 @@ void Scene::DrawParticle(Emitter* emitter)
 		Pipeline(*it);
 		vec4 sptColor = (*it)->GetColor();
 		
-		glUniformMatrix4fv(m_GSM->GetGLManager()->GetUnifrom(TRANSFORM), 1, GL_FALSE, &(*it)->m_mvp.m_member[0][0]);
+		glUniformMatrix4fv(m_GSM->GetGLManager()->GetUnifrom(TRANSFORM), 1, GL_FALSE, &m_mvp.m_member[0][0]);
 		glUniformMatrix4fv(m_GSM->GetGLManager()->GetUnifrom(UV), 1, GL_FALSE, &m_animation.m_member[0][0]);
 		glUniform4f(m_GSM->GetGLManager()->GetUnifrom(COLOR), sptColor.x, sptColor.y, sptColor.z, (*it)->m_life);
 
@@ -290,19 +290,22 @@ void Scene::Pipeline(Sprite* sprite)
 			0));
 
 	//Transform model mat
-	model = model * mat44::Scale(sprite->GetScale());
-	model = model * mat44::Rotate(Math::DegToRad(sprite->GetRotation()), vec3(.0f, .0f, 1.f));
-	model = model * mat44::Translate(sprite->GetPosition());
+	model = model * mat44::Scale(sprite->GetScale())
+		* mat44::Rotate(Math::DegToRad(sprite->GetRotation()), vec3(.0f, .0f, 1.f))
+		* mat44::Translate(sprite->GetPosition());
+	//model = model;
+	//model = model;
 
 	//calculate fined final matrix
 	m_mvp = projection.Transpose() * camera.Transpose() * model.Transpose();
 	m_mvp = m_mvp.Transpose();
 
-	if (sprite->GetType() == PARTICLE)
-	{
-		auto new_particle = static_cast<Particle*>(sprite); 
-		new_particle->m_mvp = m_mvp;
-	}
+	// Todo: Delete or not
+	//if (sprite->GetType() == PARTICLE)
+	//{
+	//	auto new_particle = static_cast<Particle*>(sprite); 
+	//	new_particle->m_mvp = m_mvp;
+	//}
 
 	// Refresh the animation scene
 	if (sprite->GetPlayToggle())

@@ -80,9 +80,6 @@ bool Application::DataLoaded(void)
 
 	m_GSM.SetFirstStage(ST_MENU);
 
-	// Load game logics
-	// m_GSM.AddLogic("SampleLogic", new SampleLogicBuilder);
-
 	// Load sound resources
 	m_SM->Load("Resource/Sound/arrow_x.wav", SE_1);
 	m_SM->Load("Resource/Sound/drum_roll_y.wav", SE_2);

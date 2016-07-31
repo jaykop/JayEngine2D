@@ -121,6 +121,7 @@ void MenuStage::Init(GameData& gd)
 
 	m_OBM.InitGameSystem();
 	//m_OBM.GetGameScene()->SetBackgroundColor(vec4(1, 1, 1, 1));
+	m_OBM.GetGameScene()->SetCamera(vec4(0, 0, 80, 0));
 }
 
 void MenuStage::Update(GameData& gd)

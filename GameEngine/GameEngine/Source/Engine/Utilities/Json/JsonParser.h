@@ -18,6 +18,10 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 #include "json/json.h"
 #include "../Converter.h"
 
+class Text;
+class Sprite;
+class Emitter;
+
 class Scene;
 class Object;
 class ObjectManager;
@@ -33,15 +37,22 @@ public:
 
 	//! Save and load file containing information
 	void Save(const wchar_t* dir, const Json::Value& contents);
-	Json::Value Load(wchar_t* dir);
+	void Load(wchar_t* dir);
 
-	void LoadStage(wchar_t* dir, Scene* scene);
-	Object* LoadObject(const Json::Value& loaded, ObjectManager* obm);
+	void InitLoadedData(ObjectManager* obm);
+	void LoadStage(Scene* scene);
+	void LoadObjects(ObjectManager* obm);
 
 private:
 
 	std::string str;
 	Converter m_converter;
+	Json::Value m_loadedData;
+
+	Text* new_text;
+	Sprite* new_sprite;
+	Emitter* new_emitter;
+
 };
 
 #endif

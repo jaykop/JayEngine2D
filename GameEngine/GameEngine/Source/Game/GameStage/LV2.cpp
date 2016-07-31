@@ -16,13 +16,23 @@ void LV2Stage::Load(GameData& gd)
 	UNREFERENCED_PARAMETER(gd);
 	std::cout << "LV2Stage::Load\n";
 	
+	// Bind game system
 	m_OBM.BindGameSystem(m_GSM);
+
+	// Load json data
+	m_testParser.Load(L"Resource/Data/Sample.json");
 }
 
 void LV2Stage::Init(GameData& gd)
 {
 	UNREFERENCED_PARAMETER(gd);
 	std::cout << "Lv2Stage::Init\n";
+
+	// Init loaded game data
+	m_testParser.InitLoadedData(&m_OBM);
+
+	// Init game systems; 
+	m_OBM.InitGameSystem();
 
 	// Testing ini...
 	iniWritter writter(L"Resource/Data/Sample.ini");
@@ -48,12 +58,7 @@ void LV2Stage::Init(GameData& gd)
 	std::cout << color << "\n";
 	std::wcout << name << "\n";
 
-	// Testing json...
-	m_testParser.write_sample();
-	m_testParser.read_sample();
-
-	m_OBM.InitGameSystem();
-	m_testParser.LoadStage(L"Resource/Data/Sample.json", m_OBM.GetGameScene());
+	//m_OBM.GetGameObject<Sprite>(0)->SetColor(vec4(0, 0, 1, 0));
 }
 
 void LV2Stage::Update(GameData& gd)
@@ -87,6 +92,7 @@ void LV2Stage::Shutdown(GameData& gd)
 	UNREFERENCED_PARAMETER(gd);
 	std::cout << "Lv2Stage::Shutdown\n";
 	m_OBM.ShutdownGameSystem();
+	m_OBM.ClearObjectList();
 }
 
 void LV2Stage::Unload(GameData& gd)

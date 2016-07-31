@@ -2,7 +2,18 @@
 	"Stage" : [
 		{
 			"Background" : [ 1.0, 1.0, 1.0, 1.0 ],
-			"Camera" : [10.0, 10.0, 80.0 ]
+			"Camera" : [10.0, 10.0, 80.0, 0 ]
+		}
+	],
+	"Object" : [
+		{
+			"ID" : 0,
+			"Type" : "SPRITE",
+			"Position" : [ 0.0, 0.0, 0.0 ],
+			"Scale" : [5.0, 5.0, 0.0],
+			"Rotation" : 0.0,
+			"Projection" : "PERSPECTIVE",
+			"Color" : [0.0, 1.0, 1.0, 1.0]
 		}
 	]
 }

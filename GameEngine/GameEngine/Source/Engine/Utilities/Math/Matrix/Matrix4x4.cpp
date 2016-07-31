@@ -540,8 +540,8 @@ Matrix4x4<Type> Matrix4x4<Type>::LookAt(Vector3<Type> eye, Vector3<Type> look, V
 	result.m_member[1][2] = -f.y;
 	result.m_member[2][2] = -f.z;
 
-	result.m_member[3][0] = s.DotProduct(eye);
-	result.m_member[3][1] = u.DotProduct(eye);
+	result.m_member[3][0] = -s.DotProduct(eye);
+	result.m_member[3][1] = -u.DotProduct(eye);
 	result.m_member[3][2] = f.DotProduct(eye);
 
 	return result;
