@@ -61,58 +61,7 @@ void JsonParser::write_sample(void)
 
 void JsonParser::read_sample(void)
 {
-	//Json::Reader reader;
-	//Json::Value root;
-	//bool parsingRet = reader.parse(str, root);
 
-	//if (!parsingRet)
-	//{
-	//	std::cout << "Failed to parse Json : " << reader.getFormattedErrorMessages();
-	//	return;
-	//}
-
-	//std::cout << root["hasCar"] << " : " << root["age"] << std::endl << std::endl;
-
-	//const Json::Value items = root["items"];
-	//for (unsigned i = 0; i < items.size(); i++)
-	//{
-	//	std::cout << items[i].asString() << std::endl;
-	//}
-	
-
-	//auto member = root.getMemberNames();
-
-	//for (std::string s : member)
-	//{
-	//	std::cout << s << std::endl;
-	//}
-	//std::cout << std::endl;
-
-	//for (std::string s : member)
-	//{
-	//	if (root[s].isString())
-	//	{
-	//		std::cout << root[s] << std::endl;
-	//	}
-	//}
-	//std::cout << std::endl;
-
-	//Json::Value friends = root["friends"];
-	//for (auto it = friends.begin(); it != friends.end(); it++)
-	//{
-	//	if ((*it).isObject())
-	//	{
-	//		std::cout << (*it)["name"] << " : " << (*it)["age"] << std::endl;
-	//	}
-	//}
-
-	//Json::Value a = Load(L"Resource/Data/Sample2.something");
-	//
-	//Json::StyledWriter writer;
-	//str = writer.write(a);
-	//std::cout << str << std::endl << std::endl;
-
-	//std::cout << a.asString() << std::endl;
 }
 
 void JsonParser::Save(const wchar_t* dir, const Json::Value& contents)
@@ -187,95 +136,247 @@ void JsonParser::LoadObjects(ObjectManager* obm)
 			it != m_loadedData["Object"].end(); 
 			++it)
 		{
-			if ((*it).isMember("ID") && (*it).isMember("Type"))
+			if ((*it).isMember("Type") &&
+				(*it).isMember("ID") && 
+				(*it)["ID"].isInt())
 			{
-				if (!strcmp((*it)["Type"].asCString(), "SPRITE"))
+				int id = (*it)["ID"].asInt();
+				obm->AddObject(new Sprite(id, obm));
+
+				//! Set transform
+				if ((*it).isMember("Position") &&
+					(*it)["Position"].isArray() &&
+					(*it)["Position"].size() == 3 &&
+					(*it)["Position"][0].isNumeric())
 				{
-					int id = (*it)["ID"].asInt();
-					obm->AddObject(new Sprite(id, obm));
-
-					//! Set transform
-					if ((*it).isMember("Position") &&
-						(*it)["Position"].isArray() &&
-						(*it)["Position"].size() == 3 &&
-						(*it)["Position"][0].isNumeric())
-					{
-						obm->GetGameObject<Sprite>(id)->SetPosition(vec3(
-							(*it)["Position"][0].asFloat(),
-							(*it)["Position"][1].asFloat(),
-							(*it)["Position"][2].asFloat()));
-					}
-
-					if ((*it).isMember("Scale") &&
-						(*it)["Scale"].isArray() &&
-						(*it)["Scale"].size() == 3 &&
-						(*it)["Scale"][0].isNumeric())
-					{
-						obm->GetGameObject<Sprite>(id)->SetScale(vec3(
-							(*it)["Scale"][0].asFloat(),
-							(*it)["Scale"][1].asFloat(),
-							(*it)["Scale"][2].asFloat()));
-					}
-
-					if ((*it).isMember("Rotation") &&
-						(*it)["Rotation"].isNumeric())
-						obm->GetGameObject<Sprite>(id)->SetRotation((*it)["Rotation"].asFloat());
-
-					//! Set image(texture)
-					if ((*it).isMember("Projection") &&
-						(*it)["Projection"].isString())
-					{
-						if (!strcmp((*it)["Projection"].asString().c_str(),
-							"ORTHOGONAL"))
-							obm->GetGameObject<Sprite>(id)->SetProjectionType(ORTHOGONAL);
-
-						else if (!strcmp((*it)["Projection"].asString().c_str(),
-							"PERSPECTIVE"))
-							obm->GetGameObject<Sprite>(id)->SetProjectionType(PERSPECTIVE);
-					}
-
-					if ((*it).isMember("Color") &&
-						(*it)["Color"].isArray() &&
-						(*it)["Color"].size() == 4 &&
-						(*it)["Color"][0].isNumeric())
-					{
-						obm->GetGameObject<Sprite>(id)->SetColor(vec4(
-							(*it)["Color"][0].asFloat(),
-							(*it)["Color"][1].asFloat(),
-							(*it)["Color"][2].asFloat(),
-							(*it)["Color"][3].asFloat()));
-					}
-
-					//sprite->SetAnimation();
-
-					//// Set physics
-					//sprite->SetRigidBody();
-					//sprite->GetRigidBody()->ActivateCollider();
-					//sprite->GetRigidBody()->ActivateMove();
-					//sprite->GetRigidBody()->SetAcceleration();
-					//sprite->GetRigidBody()->SetForce();
-					//sprite->GetRigidBody()->SetFriction();
-					//sprite->GetRigidBody()->SetMass();
-					//sprite->GetRigidBody()->SetScale();
-					//sprite->GetRigidBody()->SetShape();
-
-					//return sprite;
+					obm->GetGameObject<Sprite>(id)->SetPosition(vec3(
+						(*it)["Position"][0].asFloat(),
+						(*it)["Position"][1].asFloat(),
+						(*it)["Position"][2].asFloat()));
 				}
+
+				if ((*it).isMember("Scale") &&
+					(*it)["Scale"].isArray() &&
+					(*it)["Scale"].size() == 3 &&
+					(*it)["Scale"][0].isNumeric())
+				{
+					obm->GetGameObject<Sprite>(id)->SetScale(vec3(
+						(*it)["Scale"][0].asFloat(),
+						(*it)["Scale"][1].asFloat(),
+						(*it)["Scale"][2].asFloat()));
+				}
+
+				if ((*it).isMember("Rotation") &&
+					(*it)["Rotation"].isNumeric())
+					obm->GetGameObject<Sprite>(id)->SetRotation((*it)["Rotation"].asFloat());
+
+				//! Set image(texture)
+				if ((*it).isMember("Projection") &&
+					(*it)["Projection"].isString())
+				{
+					if (!strcmp((*it)["Projection"].asString().c_str(),
+						"ORTHOGONAL"))
+						obm->GetGameObject<Sprite>(id)->SetProjectionType(ORTHOGONAL);
+
+					else if (!strcmp((*it)["Projection"].asString().c_str(),
+						"PERSPECTIVE"))
+						obm->GetGameObject<Sprite>(id)->SetProjectionType(PERSPECTIVE);
+				}
+
+				if ((*it).isMember("Color") &&
+					(*it)["Color"].isArray() &&
+					(*it)["Color"].size() == 4 &&
+					(*it)["Color"][0].isNumeric())
+				{
+					obm->GetGameObject<Sprite>(id)->SetColor(vec4(
+						(*it)["Color"][0].asFloat(),
+						(*it)["Color"][1].asFloat(),
+						(*it)["Color"][2].asFloat(),
+						(*it)["Color"][3].asFloat()));
+				}
+
+				if ((*it).isMember("Animation") &&
+					(*it)["Animation"].isArray() &&
+					(*it)["Animation"].size() == 2 &&
+					(*it)["Animation"][0].isNumeric())
+				{
+					obm->GetGameObject<Sprite>(id)->SetAnimation(
+						(*it)["Animation"][0].asInt(),
+						(*it)["Animation"][1].asFloat());
+				}
+
+				//! Set physics
+				if ((*it).isMember("Body") &&
+					(*it)["Body"].isBool())
+					obm->GetGameObject<Sprite>(id)->SetRigidBody();
+
+				//! Body settor
+				if ((*it)["Body"].asBool())
+				{
+					//! Body collider toggle
+					if ((*it).isMember("Collider") &&
+						(*it)["Collider"].isBool())
+						obm->GetGameObject<Sprite>(id)->GetRigidBody()
+						->ActivateCollider((*it)["Collider"].asBool());
+
+					//! Body move toggle
+					if ((*it).isMember("Move") &&
+						(*it)["Move"].isBool())
+						obm->GetGameObject<Sprite>(id)->GetRigidBody()
+						->ActivateMove((*it)["Move"].asBool());
+
+					//! Body accel
+					if ((*it).isMember("Accel") &&
+						(*it)["Accel"].isNumeric())
+						obm->GetGameObject<Sprite>(id)->GetRigidBody()
+						->SetAcceleration((*it)["Accel"].asFloat());
+
+					//! Body force
+					if ((*it).isMember("Force") &&
+						(*it)["Force"].isArray() &&
+						(*it)["Force"].size() == 3 &&
+						(*it)["Force"][0].isNumeric())
+					{
+						obm->GetGameObject<Sprite>(id)
+							->GetRigidBody()->SetForce(vec3(
+							(*it)["Force"][0].asFloat(),
+							(*it)["Force"][1].asFloat(),
+							(*it)["Force"][2].asFloat()));
+					}
+
+					//! Body scale
+					if ((*it).isMember("BodyScale") &&
+						(*it)["BodyScale"].isArray() &&
+						(*it)["BodyScale"].size() == 3 &&
+						(*it)["BodyScale"][0].isNumeric())
+					{
+						obm->GetGameObject<Sprite>(id)->GetRigidBody()
+							->SetScale(vec3(
+							(*it)["BodyScale"][0].asFloat(),
+							(*it)["BodyScale"][1].asFloat(),
+							(*it)["BodyScale"][2].asFloat()));
+					}
+
+					//! Body accel
+					if ((*it).isMember("Accel") &&
+						(*it)["Accel"].isNumeric())
+						obm->GetGameObject<Sprite>(id)->GetRigidBody()
+						->SetAcceleration((*it)["Accel"].asFloat());
+
+					//! Body mass
+					if ((*it).isMember("Mass") &&
+						(*it)["Mass"].isNumeric())
+						obm->GetGameObject<Sprite>(id)->GetRigidBody()
+						->SetMass((*it)["Mass"].asFloat());
+
+					//! Body mass
+					if ((*it).isMember("Friction") &&
+						(*it)["Friction"].isNumeric())
+						obm->GetGameObject<Sprite>(id)->GetRigidBody()
+						->SetFriction((*it)["Friction"].asFloat());
+
+					//! Body mass
+					if ((*it).isMember("Friction") &&
+						(*it)["Friction"].isNumeric())
+						obm->GetGameObject<Sprite>(id)->GetRigidBody()
+						->SetFriction((*it)["Friction"].asFloat());
+
+					//! Body shape
+					if ((*it).isMember("Shape") &&
+						(*it)["Shape"].isString())
+					{
+						if (!strcmp("BALL", (*it)["Shape"].asString().c_str()))
+							obm->GetGameObject<Sprite>(id)->GetRigidBody()
+							->SetShape(BALL);
+
+						else if (!strcmp("BOX", (*it)["Shape"].asString().c_str()))
+							obm->GetGameObject<Sprite>(id)->GetRigidBody()
+							->SetShape(BOX);
+
+					}
+				}
+
+				if (!strcmp((*it)["Type"].asCString(), "SPRITE"))
+					continue;
 
 				else if (!strcmp((*it)["Type"].asCString(), "TEXT"))
 				{
-					//Text* text = new Text((*it)["ID"].asInt(), obm);
-
-					//return text;
+					Text* text = static_cast<Text*>(
+						obm->GetGameObject<Sprite>(id)); 
+					//new Text((*it)["ID"].asInt(), obm);
+					
+					if ((*it).isMember("Text") &&
+						(*it)["Text"].isString())
+						text->SetText(m_converter.ConverCtoWC(
+						(*it)["Text"].asString().c_str()));
 				}
 
 				else if (!strcmp((*it)["Type"].asCString(), "PARTICLE"))
 				{
-					//Emitter* emitter = new Emitter((*it)["ID"].asInt(), obm);
+					Emitter* emitter = static_cast<Emitter*>(
+						obm->GetGameObject<Sprite>(id));
 
-					//return emitter;
-				}
+					if((*it).isMember("EmitterScale") &&
+						(*it)["EmitterScale"].isArray() &&
+						(*it)["EmitterScale"].size() == 3 &&
+						(*it)["EmitterScale"][0].isNumeric())
+						emitter->SetScale(vec3(
+							(*it)["EmitterScale"][0].asFloat(),
+							(*it)["EmitterScale"][1].asFloat(),
+							(*it)["EmitterScale"][2].asFloat()));
+					
+					if ((*it).isMember("CenterColor") &&
+						(*it)["CenterColor"].isArray() &&
+						(*it)["CenterColor"].size() == 3 &&
+						(*it)["CenterColor"][0].isNumeric() &&
+						(*it).isMember("EdgeColor") &&
+						(*it)["EdgeColor"].isArray() &&
+						(*it)["EdgeColor"].size() == 3 &&
+						(*it)["EdgeColor"][0].isNumeric())
+					{
+						vec3 centre(
+							(*it)["CenterColor"][0].asFloat(),
+							(*it)["CenterColor"][1].asFloat(), 
+							(*it)["CenterColor"][2].asFloat());
 
+						vec3 edge(
+							(*it)["EdgeColor"][0].asFloat(),
+							(*it)["EdgeColor"][1].asFloat(),
+							(*it)["EdgeColor"][2].asFloat());
+
+						emitter->SetColors(centre, edge);
+					}
+
+					if ((*it).isMember("Mode") &&
+						(*it)["Mode"].isString())
+					{
+						// Todo: Preparing...
+						//emitter->SetMode();
+					}
+
+					if ((*it).isMember("Quantity") &&
+						(*it)["Quantity"].isNumeric())
+						emitter->SetNumOfParticle((*it)["Quantity"].asInt());
+
+					if((*it).isMember("Direction") &&
+						(*it)["Direction"].isArray() &&
+						(*it)["Direction"].size() == 3 &&
+						(*it)["Direction"][0].isNumeric())
+						emitter->SetDirection(vec3(
+							(*it)["Direction"][0].asFloat(),
+							(*it)["Direction"][1].asFloat(),
+							(*it)["Direction"][2].asFloat()));
+
+					if ((*it).isMember("Speed") &&
+						(*it)["Speed"].isNumeric())
+						emitter->SetSpeed((*it)["Speed"].asFloat());
+
+					if ((*it).isMember("Range") &&
+						(*it)["Range"].isNumeric())
+						emitter->SetBoundary((*it)["Range"].asFloat());
+					
+					//new Emitter((*it)["ID"].asInt(), obm);
+				}	
 			}
 		}
 	}

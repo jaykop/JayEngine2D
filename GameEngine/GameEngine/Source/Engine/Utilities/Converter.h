@@ -45,7 +45,7 @@ public:
 	\param str
 	*/
 	/******************************************************************************/
-	char* ConvertWCtoC(wchar_t* str)
+	char* ConvertWCtoC(const wchar_t* str)
 	{
 		//Calculate size of wchar
 		int strSize = WideCharToMultiByte(CP_ACP, 0, str, -1, NULL, 0, NULL, NULL);
@@ -62,7 +62,7 @@ public:
 	\param str
 	*/
 	/******************************************************************************/
-	wchar_t* ConverCtoWC(char* str)
+	wchar_t* ConverCtoWC(const char* str)
 	{
 		//Calculate size of multibyte
 		int strSize = MultiByteToWideChar(CP_ACP, 0, str, -1, NULL, NULL);
