@@ -153,6 +153,7 @@
     <ClInclude Include="Source\Engine\Sound\Sound.h" />
     <ClInclude Include="Source\Engine\Sound\SoundManager.h" />
     <ClInclude Include="Source\Engine\StateManager\StageBuilder.h" />
+    <ClInclude Include="Source\Engine\Utilities\Converter.h" />
     <ClInclude Include="Source\Engine\Utilities\Debug\Debug.h" />
     <ClInclude Include="Source\Engine\Physics\World.h" />
     <ClInclude Include="Source\Engine\StateManager\GameStateManager\GameStateManager.h" />

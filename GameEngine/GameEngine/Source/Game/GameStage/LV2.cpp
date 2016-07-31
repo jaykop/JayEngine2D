@@ -15,7 +15,7 @@ void LV2Stage::Load(GameData& gd)
 {
 	UNREFERENCED_PARAMETER(gd);
 	std::cout << "LV2Stage::Load\n";
-
+	
 	m_OBM.BindGameSystem(m_GSM);
 }
 
@@ -49,9 +49,11 @@ void LV2Stage::Init(GameData& gd)
 	std::wcout << name << "\n";
 
 	// Testing json...
-	m_testParser.sample();
+	m_testParser.write_sample();
+	m_testParser.read_sample();
 
 	m_OBM.InitGameSystem();
+	m_testParser.LoadStage(L"Resource/Data/Sample.json", m_OBM.GetGameScene());
 }
 
 void LV2Stage::Update(GameData& gd)
