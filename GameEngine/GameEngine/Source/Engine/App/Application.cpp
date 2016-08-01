@@ -16,19 +16,10 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 #include "../Utilities/Debug/Debug.h"
 #include "../InputManager/InputManager.h"
 #include "../../Game/BaseData/LoadStages.h"
-// #include "../../Game/BaseData/LoadLogics.h"
 #include "../Logic//LogicBuilderList.h"
 
 namespace
 {
-	/*!Name of the window class*/
-	LPCTSTR CLASS_NAME = TEXT("Game Engine");
-	/*!Window style if the user chooses full screen*/
-	const DWORD FULLSCREEN_STYLE = WS_POPUP | WS_VISIBLE;
-	/*!Window style if the user choose windowed mode*/
-	const DWORD WINDOWED_STYLE = WS_POPUP | WS_CAPTION | WS_SYSMENU;
-	//const DWORD WINDOWED_STYLE = WS_OVERLAPPEDWINDOW;
-
 	/******************************************************************************/
 	/*!
 	\brief - Adjust window size that client want
@@ -125,7 +116,7 @@ Application::Application(const InitData& initData)
 	m_winClass.hCursor = LoadCursor(0, IDC_ARROW);
 	m_winClass.hbrBackground = (HBRUSH)GetStockObject(WHITE_BRUSH);
 	m_winClass.hInstance = initData.instance;					//Instance from main 
-	m_winClass.lpszClassName = CLASS_NAME;						//Window class name
+	m_winClass.lpszClassName = initData.title;					//Window class name
 	m_winClass.lpfnWndProc = WinProc;							//Static member
 
 	// Set Icon for app
@@ -160,7 +151,7 @@ Application::Application(const InitData& initData)
 
 	//Now create our window
 	m_window = CreateWindow(
-		CLASS_NAME,				//Class name
+		initData.title,			//Class name
 		initData.title,			//Window Title
 		m_style,				//Window style
 		xStart,					//x Starting pos
@@ -209,7 +200,7 @@ Application::~Application(void)
 
 	LogicFactory::DeleteAllBuilders();
 
-	UnregisterClass(LPCTSTR(CLASS_NAME), m_instance);
+	UnregisterClass(LPCTSTR(m_winClass.lpszClassName), m_instance);
 
 	m_instance = 0;
 }

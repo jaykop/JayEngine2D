@@ -22,6 +22,16 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 
 using namespace Resolution;
 
+namespace {
+	
+	/*!Window style if the user chooses full screen*/
+	const DWORD FULLSCREEN_STYLE = WS_POPUP | WS_VISIBLE;
+	/*!Window style if the user choose windowed mode*/
+	const DWORD WINDOWED_STYLE = WS_POPUP | WS_CAPTION /*| WS_SYSMENU*/;
+	//const DWORD WINDOWED_STYLE = WS_OVERLAPPEDWINDOW;
+
+}
+
 //! Used in main to give initial values to the application.
 struct InitData
 {
