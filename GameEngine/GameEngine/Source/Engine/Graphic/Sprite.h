@@ -32,6 +32,7 @@ public:
 	
 	//Constructor and destructor
 	Sprite(const int id = 0, ObjectManager* obm = 0);
+	Sprite(Sprite& sprite);
 	virtual ~Sprite();
 
 	// Transforming functions

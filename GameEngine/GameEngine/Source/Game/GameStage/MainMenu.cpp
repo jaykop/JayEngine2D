@@ -122,6 +122,19 @@ void MenuStage::Init(GameData& gd)
 	m_OBM.InitGameSystem();
 	//m_OBM.GetGameScene()->SetBackgroundColor(vec4(1, 1, 1, 1));
 	m_OBM.GetGameScene()->SetCamera(vec4(0, 0, 80, 0));
+	//Sprite* sprite = new Sprite(*m_OBM.GetGameObject<Sprite>(0));
+
+	// Clone test
+	//m_OBM.MakeClone<Sprite>(
+	//	m_OBM.GetGameObject<Sprite>(0),
+	//	10, false);
+
+	//for (int index = 0; index < 10; ++index)
+	//{
+	//	m_OBM.GetGameObject<Sprite>(index)->SetPosition(vec3(
+	//		Random::GetInstance().GetRandomFloat(-50, 50),
+	//		Random::GetInstance().GetRandomFloat(-30, 30)));
+	//}
 }
 
 void MenuStage::Update(GameData& gd)

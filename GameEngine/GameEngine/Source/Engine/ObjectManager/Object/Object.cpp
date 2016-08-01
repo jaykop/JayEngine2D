@@ -31,6 +31,19 @@ Object::Object(const int id, ObjectManager* obm)
 
 /******************************************************************************/
 /*!
+\brief - Object's Copy Constructor
+*/
+/******************************************************************************/
+Object::Object(const Object& object)
+{
+	m_id = object.m_id;
+	m_logicList = object.m_logicList;
+	m_OBM = object.m_OBM;
+	m_type = object.m_type;
+}
+
+/******************************************************************************/
+/*!
 \brief - Object's Destructor
 */
 /******************************************************************************/

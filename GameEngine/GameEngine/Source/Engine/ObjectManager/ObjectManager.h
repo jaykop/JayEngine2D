@@ -33,12 +33,11 @@ class ObjectManager
 {
 public:
 	
-	// Constructor and Destructoer
+	//! Constructor and Destructoer
 	ObjectManager(void);
 	~ObjectManager();
 
-	// Functions manages objects
-
+	//! Functions manages objects
 	/******************************************************************************/
 	/*!
 	\brief - Add Object to the list
@@ -47,12 +46,13 @@ public:
 	*/
 	/******************************************************************************/
 	template <class Type>
-	void AddObject(Type* type)
+	void AddObject(Type* type, bool isCloned = false)
 	{
 		//Make new sprite
 		Type* new_sprite = type;
 
-		static_cast<Sprite*>(new_sprite)->SetTexture(new Texture);
+		if (!isCloned)
+			static_cast<Sprite*>(new_sprite)->SetTexture(new Texture);
 
 		//Push it into the list
 		m_ObjectList.insert(std::hash_map<int, Sprite*>::value_type(
@@ -64,20 +64,30 @@ public:
 		++number_of_Obj;
 	}
 
-	///******************************************************************************/
-	///*!
-	//\brief - Make sprite's clone
+	/******************************************************************************/
+	/*!
+	\brief - Make sprite's clone
 
-	//\param new_sprite - new sprite
-	//\param quantity - quantity of clone
-	//*/
-	///******************************************************************************/
-	//template <class Type>
-	//void MakeClone(Type* new_sprite, Type* existing, int quantity)
-	//{
-	//	for (int i = 1; i <= quantity; ++i)
-	//		AddObject(new_sprite);
-	//}
+	\param new_sprite - new sprite
+	\param quantity - quantity of clone
+	*/
+	/******************************************************************************/
+	template <class Type>
+	void MakeClone(Type* new_sprite, int quantity, bool same_id)
+	{
+		for (int i = 1; i <= quantity; ++i)
+		{
+			Type* new_Object = new Type(*new_sprite);
+			if (!same_id)
+			{
+				Sprite* converted = static_cast<Sprite*>(new_Object);
+				converted->SetID(new_sprite->GetID() + i);
+				converted->SetTexture(new Texture(
+					*static_cast<Sprite*>(new_sprite)->GetTexture()));
+			}
+			AddObject(new_Object, true);
+		}
+	}
 
 	/******************************************************************************/
 	/*!
@@ -102,20 +112,19 @@ public:
 
 	bool HasObject(const int id);
 	void RemoveObject(const int id);
-	void MakeClone(const int id, const int clone_id, int quantity = 1);
 
-	// Manage list
+	//! Manage list
 	const ObjectList& GetList(void) const;
 	void ClearObjectList(void);
 
-	// Manage main system
+	//! Manage main system
 	void BindGameSystem(GameStateManager* gsm);
 	void LoadStageData(wchar_t* dir);
 	void InitGameSystem(void);
 	void UpdateGameSystem(void);
 	void ShutdownGameSystem(void);
 
-	// Game System gettor
+	//! Game System gettor
 	Scene* GetGameScene(void) const;
 	World* GetGameWorld(void) const;
 	Logic* GetGameLogic(void) const;
@@ -126,22 +135,22 @@ public:
 
 private:
 	
-	// Sprites info
+	//! Sprites info
 	ObjectList m_ObjectList;
 
-	// Json Parser
+	//! Json Parser
 	JsonParser m_Loader;
 
-	// The number of the sprites
+	//! The number of the sprites
 	int number_of_Obj;
 
-	// Game system
+	//! Game system
 	Scene* scenePtr;
 	World* worldPtr;
 	Logic* logicPtr;
 	Sound* soundPtr;
 
-	// Pointer to GameStateManager
+	//! Pointer to GameStateManager
 	GameStateManager* m_GSM;
 };
 

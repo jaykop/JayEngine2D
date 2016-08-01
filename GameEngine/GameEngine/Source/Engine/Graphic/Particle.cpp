@@ -64,6 +64,24 @@ m_emitterMode(NORMAL), m_quantity(0)
 
 /******************************************************************************/
 /*!
+\brief - Emitter Copy Constructor
+*/
+/******************************************************************************/
+Emitter::Emitter(Emitter& emitter)
+: Sprite(emitter)
+{
+	ParticleContainer = emitter.ParticleContainer;
+	m_quantity = emitter.m_quantity;
+	m_boundary = emitter.m_boundary;
+	m_emitterSpd = emitter.m_emitterSpd;
+	m_emitterScl = emitter.m_emitterScl;
+	m_emitterDir = emitter.m_emitterDir;
+	m_edgeColor = emitter.m_edgeColor;
+	m_emitterMode = emitter.m_emitterMode;
+}
+
+/******************************************************************************/
+/*!
 \brief - Emitter Destructor
 */
 /******************************************************************************/

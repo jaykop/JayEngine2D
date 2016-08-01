@@ -23,6 +23,7 @@ class Texture{
 public:
 	Texture(void);
 	~Texture(void);
+	Texture(const Texture& texture);
 
 	// Manage texture info
 	void LoadTexture(const char* imagePath);

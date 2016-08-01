@@ -56,6 +56,7 @@ class Emitter : public Sprite
 public:
 
 	Emitter(const int id = 0, ObjectManager* obm = 0);
+	Emitter(Emitter& emitter);
 	virtual ~Emitter(void);
 
 	// Scale functions

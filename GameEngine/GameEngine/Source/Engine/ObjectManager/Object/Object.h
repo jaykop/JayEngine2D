@@ -25,11 +25,13 @@ class ObjectManager;
 
 typedef std::hash_map<const char*, GameLogic*> LogicMap;
 
+//! Basic Object class
 class Object {
 
 public:
 
 	Object(const int id = 0, ObjectManager* obm = 0);
+	Object(const Object& object);
 	virtual ~Object();
 
 	// Id functions
@@ -42,7 +44,11 @@ public:
 	void ClearLogicList(void);
 	const LogicMap& GetLogicList(void) const;
 
-	// GameLogic template function
+	/******************************************************************************/
+	/*!
+	\brief - Check if there is specific logic
+	*/
+	/******************************************************************************/
 	template <class Type>
 	bool HasLogic(void)
 	{
@@ -53,6 +59,11 @@ public:
 		return false;
 	}
 
+	/******************************************************************************/
+	/*!
+	\brief - Get specific logic
+	*/
+	/******************************************************************************/
 	template <class Type>
 	Type* GetLogic(void)
 	{
@@ -63,6 +74,11 @@ public:
 		return nullptr;
 	}
 
+	/******************************************************************************/
+	/*!
+	\brief - Delete specific logic
+	*/
+	/******************************************************************************/
 	template <class Type>
 	void DeleteLogic(void)
 	{
@@ -86,7 +102,7 @@ private:
 	int m_id;				//! Object id
 	ObjectManager* m_OBM;	//! Pointer to object manager
 	LogicMap m_logicList;	//! Logic list;
-	ObjectType m_type;
+	ObjectType m_type;		//! Object type
 };
 
 #endif // _OBJECT_H_

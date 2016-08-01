@@ -38,17 +38,60 @@ m_position(vec3(0.f, 0.f, 0.f)), m_scale(vec3(5.f, 5.f, 0.f))
 
 /******************************************************************************/
 /*!
-\brief - Sprite desturctor
+\brief - Sprite's Copy Constructor
+*/
+/******************************************************************************/
+Sprite::Sprite(Sprite& sprite)
+: Object(sprite)
+{
+	m_position = sprite.m_position;
+	m_scale = sprite.m_scale;
+	m_degree = sprite.m_degree;
 
+	m_prjt = sprite.m_prjt;
+	m_color = sprite.m_color;
+	m_curScene = sprite.m_curScene;
+	//m_texture = sprite.m_texture;
+	m_timer = sprite.m_timer;
+	ani_frame = sprite.ani_frame;
+	ani_speed = sprite.ani_speed;
+	ani_play = sprite.ani_play;
+
+	if (m_HasBody)
+	{
+		sprite.SetRigidBody();
+		sprite.GetRigidBody()->ActivateCollider(m_body->GetColliderToggle());
+		sprite.GetRigidBody()->ActivateMove(m_body->GetMoveToggle());
+		sprite.GetRigidBody()->SetAcceleration(m_body->GetAcceleration());
+		sprite.GetRigidBody()->SetDirectionAngle(m_body->GetDirectionAngle());
+		sprite.GetRigidBody()->SetFriction(m_body->GetFriction());
+		sprite.GetRigidBody()->SetMass(m_body->GetMass());
+		sprite.GetRigidBody()->SetSpeed(m_body->GetSpeed());
+		sprite.GetRigidBody()->SetScale(m_body->GetScale());
+		sprite.GetRigidBody()->SetShape(m_body->GetShape());
+		sprite.GetRigidBody()->SetVelocity(m_body->GetVelocity());
+	}
+}
+
+/******************************************************************************/
+/*!
+\brief - Sprite desturctor
 */
 /******************************************************************************/
 Sprite::~Sprite(void)
 {
 	if (m_HasBody)
+	{
 		delete m_body;
-	
-	if (GetType() != PARTICLE)
+		m_body = 0;
+	}
+
+	if (GetType() != PARTICLE &&
+		m_texture)
+	{
 		delete m_texture;
+		m_texture = 0;
+	}
 
 	ClearLogicList();
 }

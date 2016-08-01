@@ -27,6 +27,7 @@ public:
 
 	//! Constructor and destructor
 	Text(const int id = 0, ObjectManager* obm = 0);
+	Text(Text& text);
 	virtual ~Text(void);
 
 	//! Font functions

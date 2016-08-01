@@ -19,7 +19,6 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 /******************************************************************************/
 /*!
 \brief - Texture constructor
-
 */
 /******************************************************************************/
 Texture::Texture(void)
@@ -28,8 +27,18 @@ Texture::Texture(void)
 
 /******************************************************************************/
 /*!
-\brief - Texture destructor
+\brief - Texture constructor
+*/
+/******************************************************************************/
+Texture::Texture(const Texture& texture)
+{
+	m_texID = texture.m_texID;
+	m_loded = texture.m_loded;
+}
 
+/******************************************************************************/
+/*!
+\brief - Texture destructor
 */
 /******************************************************************************/
 Texture::~Texture(void)
