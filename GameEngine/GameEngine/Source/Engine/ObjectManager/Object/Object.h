@@ -23,7 +23,7 @@ enum ObjectType{ TEXT, SPRITE, PARTICLE, LIGHT };
 class GameLogic;
 class ObjectManager;
 
-typedef std::hash_map<const char*, GameLogic*> LogicList;
+typedef std::hash_map<const char*, GameLogic*> LogicMap;
 
 class Object {
 
@@ -40,13 +40,13 @@ public:
 	// GameLogic normal function
 	void AddLogic(GameLogic* logic);
 	void ClearLogicList(void);
-	const LogicList& GetLogicList(void) const;
+	const LogicMap& GetLogicList(void) const;
 
 	// GameLogic template function
 	template <class Type>
 	bool HasLogic(void)
 	{
-		LogicList::iterator found = m_logicList.find(typeid(Type).name());
+		LogicMap::iterator found = m_logicList.find(typeid(Type).name());
 		if (found != m_logicList.end())
 			return true;
 
@@ -56,7 +56,7 @@ public:
 	template <class Type>
 	Type* GetLogic(void)
 	{
-		LogicList::iterator found = m_logicList.find(typeid(Type).name());
+		LogicMap::iterator found = m_logicList.find(typeid(Type).name());
 		if (found != m_logicList.end())
 			return static_cast<Type*>(found->second);
 
@@ -66,7 +66,7 @@ public:
 	template <class Type>
 	void DeleteLogic(void)
 	{
-		LogicList::iterator found = m_logicList.find(typeid(Type).name());
+		LogicMap::iterator found = m_logicList.find(typeid(Type).name());
 		if (found != m_logicList.end())
 			delete found->second;
 		
@@ -85,7 +85,7 @@ private:
 
 	int m_id;				//! Object id
 	ObjectManager* m_OBM;	//! Pointer to object manager
-	LogicList m_logicList;	//! Logic list;
+	LogicMap m_logicList;	//! Logic list;
 	ObjectType m_type;
 };
 

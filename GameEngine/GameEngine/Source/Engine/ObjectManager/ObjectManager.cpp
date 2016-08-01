@@ -129,6 +129,10 @@ void ObjectManager::LoadStageData(wchar_t* dir)
 {
 	m_Loader.Load(dir);
 	m_Loader.InitLoadedData(this);
+
+	for (auto it = logicPtr->GetLogicList().begin();
+		it != logicPtr->GetLogicList().end(); ++it)
+		(*it)->Load(m_Loader.GetLoadedData());
 }
 
 /******************************************************************************/
@@ -142,7 +146,7 @@ void ObjectManager::InitGameSystem()
 	soundPtr->Init();
 	worldPtr->Init(m_ObjectList);
 	scenePtr->Init(m_ObjectList);
-	logicPtr->Init(m_ObjectList);
+	logicPtr->Init();
 }
 
 /******************************************************************************/
@@ -153,7 +157,7 @@ void ObjectManager::InitGameSystem()
 void ObjectManager::UpdateGameSystem(void)
 {
 	// Update game system
-	logicPtr->Update(m_ObjectList);
+	logicPtr->Update();
 	worldPtr->Update(m_ObjectList);
 	scenePtr->Update(m_ObjectList);
 	soundPtr->Update();
@@ -169,7 +173,7 @@ void ObjectManager::ShutdownGameSystem()
 	//Shutdown basic trunks
 	scenePtr->Shutdown(m_ObjectList);
 	worldPtr->Shutdown(m_ObjectList);
-	logicPtr->Shutdown(m_ObjectList);
+	logicPtr->Shutdown();
 	soundPtr->Shutdown();
 
 	//Delete dynamic scene, world, logic

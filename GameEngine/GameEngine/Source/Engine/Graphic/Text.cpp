@@ -26,7 +26,9 @@ Text::Text(const int id, ObjectManager* obm)
 }
 
 Text::~Text(void)
-{}
+{
+	ClearLogicList();
+}
 
 void Text::SetText(const wchar_t* text)
 {

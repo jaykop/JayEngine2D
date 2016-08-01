@@ -25,8 +25,7 @@ class GameLogic
 public:
 
 	GameLogic(Object* owner = 0)
-		:m_pOwner(owner), m_OBM(owner->GetOBM()),
-		m_GSM(0) {};
+		:m_Owner(owner), m_OBM(0), m_GSM(0) {};
 
 	virtual ~GameLogic(void) {};
 
@@ -38,7 +37,7 @@ public:
 
 private:
 
-	Object* m_pOwner;
+	Object* m_Owner;
 	ObjectManager* m_OBM;
 	GameStateManager* m_GSM;
 };

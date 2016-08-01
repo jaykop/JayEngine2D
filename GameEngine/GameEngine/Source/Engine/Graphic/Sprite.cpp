@@ -49,6 +49,8 @@ Sprite::~Sprite(void)
 	
 	if (GetType() != PARTICLE)
 		delete m_texture;
+
+	ClearLogicList();
 }
 
 /******************************************************************************/

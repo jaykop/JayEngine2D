@@ -17,6 +17,7 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 #include "../InputManager/InputManager.h"
 #include "../../Game/BaseData/LoadStages.h"
 // #include "../../Game/BaseData/LoadLogics.h"
+#include "../Logic//LogicBuilderList.h"
 
 namespace
 {
@@ -79,6 +80,9 @@ bool Application::DataLoaded(void)
 	m_GSM.AddStage(ST_PAUSE, new PauseBuilder);
 
 	m_GSM.SetFirstStage(ST_MENU);
+
+	// Build Logics
+	BuildLogics();
 
 	// Load sound resources
 	m_SM->Load("Resource/Sound/arrow_x.wav", SE_1);
@@ -202,6 +206,8 @@ Application::~Application(void)
 
 	m_GLM = 0;
 	m_SM = 0;
+
+	LogicFactory::DeleteAllBuilders();
 
 	UnregisterClass(LPCTSTR(CLASS_NAME), m_instance);
 

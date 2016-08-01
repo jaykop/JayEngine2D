@@ -20,6 +20,8 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 #include "../../Graphic/Particle.h"
 #include "../../Physics/RigidBody.h"
 #include "../../ObjectManager/ObjectManager.h"
+#include "../../Logic/LogicFactory.h"
+#include "../../Logic/GameLogic.h"
 
 JsonParser::JsonParser()
 {}
@@ -158,7 +160,7 @@ void JsonParser::LoadObjects(ObjectManager* obm)
 						(*it)["Text"].isString())
 						obm->GetGameObject<Text>(id)->
 						SetText(m_converter.ConverCtoWC(
-						(*it)["Text"].asString().c_str()));
+						(*it)["Text"].asCString()));
 				}
 
 				else if (!strcmp((*it)["Type"].asCString(), "PARTICLE"))
@@ -216,6 +218,9 @@ void JsonParser::LoadObjects(ObjectManager* obm)
 						(*it)["Range"].isNumeric())
 						obm->GetGameObject<Emitter>(id)->SetBoundary((*it)["Range"].asFloat());
 				}	
+
+				if ((*it).isMember("Logic"))
+					LoadLogics(it, obm->GetGameObject<Sprite>(id));
 			}
 		}
 	}
@@ -255,11 +260,11 @@ void JsonParser::LoadBasicObject(Json::Value::iterator& it, Sprite* sprite)
 	if ((*it).isMember("Projection") &&
 		(*it)["Projection"].isString())
 	{
-		if (!strcmp((*it)["Projection"].asString().c_str(),
+		if (!strcmp((*it)["Projection"].asCString(),
 			"ORTHOGONAL"))
 			sprite->SetProjectionType(ORTHOGONAL);
 
-		else if (!strcmp((*it)["Projection"].asString().c_str(),
+		else if (!strcmp((*it)["Projection"].asCString(),
 			"PERSPECTIVE"))
 			sprite->SetProjectionType(PERSPECTIVE);
 	}
@@ -361,13 +366,37 @@ void JsonParser::LoadBasicObject(Json::Value::iterator& it, Sprite* sprite)
 		if ((*it).isMember("Shape") &&
 			(*it)["Shape"].isString())
 		{
-			if (!strcmp("BALL", (*it)["Shape"].asString().c_str()))
+			if (!strcmp("BALL", (*it)["Shape"].asCString()))
 				sprite->GetRigidBody()
 				->SetShape(BALL);
 
-			else if (!strcmp("BOX", (*it)["Shape"].asString().c_str()))
+			else if (!strcmp("BOX", (*it)["Shape"].asCString()))
 				sprite->GetRigidBody()
 				->SetShape(BOX);
+		}
+	}
+}
+
+void JsonParser::LoadLogics(Json::Value::iterator& it, Object* object)
+{
+	if ((*it).isMember("Logic"))
+	{
+		for (auto logic = (*it)["Logic"].begin();
+			logic != (*it)["Logic"].end(); ++logic)
+		{
+			if ((*logic).isMember("name"))
+			{
+				GameLogic* newLogic = LogicFactory::CreateLogic((*logic)["name"].asCString(), object);
+				if (newLogic)
+				{
+					if ((*logic).isMember("value"))
+					{
+						newLogic->Load((*logic)["value"]);
+						object->AddLogic(newLogic);
+					}
+				}
+				else std::cerr << "Error: Cannot make new logic" << (*logic)["name"].asCString() << std::endl;
+			}
 		}
 	}
 }

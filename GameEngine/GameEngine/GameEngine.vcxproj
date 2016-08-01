@@ -87,6 +87,7 @@
     <ClCompile Include="Include\LodePNG\lodepng.cpp" />
     <ClCompile Include="Source\Engine\App\Application.cpp" />
     <ClCompile Include="Source\Engine\Graphic\Particle.cpp" />
+    <ClCompile Include="Source\Engine\Logic\LogicFactory.cpp" />
     <ClCompile Include="Source\Engine\ObjectManager\Object\Object.cpp" />
     <ClCompile Include="Source\Engine\Graphic\Text.cpp" />
     <ClCompile Include="Source\Engine\Graphic\Texture.cpp" />
@@ -146,6 +147,9 @@
     <ClInclude Include="Source\Engine\App\Application.h" />
     <ClInclude Include="Source\Engine\Graphic\Particle.h" />
     <ClInclude Include="Source\Engine\Logic\GameLogic.h" />
+    <ClInclude Include="Source\Engine\Logic\LogicBuilder.h" />
+    <ClInclude Include="Source\Engine\Logic\LogicBuilderList.h" />
+    <ClInclude Include="Source\Engine\Logic\LogicFactory.h" />
     <ClInclude Include="Source\Engine\ObjectManager\Object\Object.h" />
     <ClInclude Include="Source\Engine\Graphic\Text.h" />
     <ClInclude Include="Source\Engine\Graphic\Texture.h" />

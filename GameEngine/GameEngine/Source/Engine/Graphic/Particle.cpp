@@ -79,6 +79,7 @@ Emitter::~Emitter()
 			delete (*it);
 
 	ParticleContainer.clear();
+	ClearLogicList();
 }
 
 /******************************************************************************/

@@ -24,11 +24,10 @@
 			"Shape" : "BOX",
 			"Friction": 5,
 			"Mass" : 10,
-			"SampleLogic" : [
-			{
-					"NewColor" : [1, 0, 0, 1],
-					"NewSize" : [5, 5, 0]
-			}]
+			"Logic" : [
+							{"name" : "SampleLogic", 
+							"value" : { "NewColor" : [1, 0, 0, 1], "NewSize" : [5, 5, 0] }}
+						]
 		},
 		{
 			"ID" : 1,

@@ -83,8 +83,10 @@ void Object::SetObjectManager(ObjectManager* obm)
 void Object::ClearLogicList(void)
 {
 	for (auto it = m_logicList.begin(); it != m_logicList.end(); ++it)
+	{
 		delete it->second;
-
+		it->second = 0;
+	}
 	m_logicList.clear();
 }
 
@@ -106,7 +108,7 @@ void Object::AddLogic(GameLogic* logic)
 \return m_logicList
 */
 /******************************************************************************/
-const LogicList& Object::GetLogicList(void) const
+const LogicMap& Object::GetLogicList(void) const
 {
 	return m_logicList;
 }

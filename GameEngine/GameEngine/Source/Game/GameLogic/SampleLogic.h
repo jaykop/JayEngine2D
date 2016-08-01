@@ -2,15 +2,23 @@
 #define _SAMPLELOGIC_H_
 
 #include "../../Engine/Logic/GameLogic.h"
+#include "../../Engine/Logic/LogicBuilder.h"
+
+class SampleLogicBuilder : public LogicBuilder
+{
+
+public:
+	SampleLogicBuilder() {};
+	virtual ~SampleLogicBuilder() {};
+	virtual GameLogic* BuildLogic(Object* Owner) const;
+
+};
 
 class SampleLogic : public GameLogic
 {
 public:
 
-	SampleLogic(Object* owner) 
-		:m_pOwner(owner), m_OBM(owner->GetOBM()),
-		m_GSM(owner->GetOBM()->GetGSM()) {};
-
+	SampleLogic(Object* owner);
 	virtual ~SampleLogic(void) {};
 
 	virtual void Load(const Json::Value& data);
@@ -21,7 +29,7 @@ public:
 
 private:
 
-	Object* m_pOwner;
+	Object* m_Owner;
 	ObjectManager* m_OBM;
 	GameStateManager* m_GSM;
 

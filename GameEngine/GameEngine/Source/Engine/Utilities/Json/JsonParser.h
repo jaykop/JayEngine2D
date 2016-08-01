@@ -47,6 +47,7 @@ private:
 	void LoadStage(Scene* scene);
 	void LoadObjects(ObjectManager* obm);
 	void LoadBasicObject(Json::Value::iterator& it, Sprite* sprite);
+	void LoadLogics(Json::Value::iterator& it, Object* object);
 
 	std::string str;
 	Converter m_converter;
