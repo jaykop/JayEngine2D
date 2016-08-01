@@ -125,6 +125,12 @@ void ObjectManager::BindGameSystem(GameStateManager* gsm)
 	logicPtr = new Logic();
 }
 
+void ObjectManager::LoadStageData(wchar_t* dir)
+{
+	m_Loader.Load(dir);
+	m_Loader.InitLoadedData(this);
+}
+
 /******************************************************************************/
 /*!
 \brief - Initialize scene and world

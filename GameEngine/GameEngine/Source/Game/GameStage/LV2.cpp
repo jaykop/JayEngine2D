@@ -1,5 +1,6 @@
 #include "LV2.h"
 #include "../BaseData/BaseEnigne.h"
+#include "../GameLogic/SampleLogic.h"
 
 LV2Stage::LV2Stage(GameStateManager* gsm)
 {
@@ -20,16 +21,13 @@ void LV2Stage::Load(GameData& gd)
 	m_OBM.BindGameSystem(m_GSM);
 
 	// Load json data
-	m_testParser.Load(L"Resource/Data/Sample.json");
+	m_OBM.LoadStageData(L"Resource/Data/Sample.json");
 }
 
 void LV2Stage::Init(GameData& gd)
 {
 	UNREFERENCED_PARAMETER(gd);
 	std::cout << "Lv2Stage::Init\n";
-
-	// Init loaded game data
-	m_testParser.InitLoadedData(&m_OBM);
 
 	// Init game systems; 
 	m_OBM.InitGameSystem();
@@ -100,27 +98,4 @@ void LV2Stage::Unload(GameData& gd)
 	UNREFERENCED_PARAMETER(gd);
 	std::cout << "LV2Stage::Unload\n";
 	//delete m_Loader;
-}
-
-void LV2Stage::LoadObjects(const wchar_t* fileName)
-{
-	UNREFERENCED_PARAMETER(fileName);
-
-	//m_Loader = new iniReader(L"Resource/Data/LV2.ini");
-
-	//// Basic sprite info
-	//m_Loader->ReadInt(L"Object", L"ID");
-	//m_Loader->ReadVec3(L"Object", L"Position");
-	//m_Loader->ReadVec3(L"Object", L"Scale");
-	//m_Loader->ReadFloat(L"Object", L"Rotation");
-	//m_Loader->ReadVec4(L"Object", L"Color");
-	//m_Loader->ReadInt(L"Object", L"Type");
-	//m_Loader->ReadInt(L"Object", L"Projection");
-
-	// Basic body info...
-
-	// Basic text info...
-
-	// Basic emitter info...
-
 }

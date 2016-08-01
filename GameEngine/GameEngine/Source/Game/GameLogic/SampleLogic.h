@@ -13,9 +13,11 @@ public:
 
 	virtual ~SampleLogic(void) {};
 
+	virtual void Load(const Json::Value& data);
 	virtual void Init(void);
 	virtual void Update(void);
 	virtual void Shutdown(void);
+	virtual void Unload(void);
 
 private:
 
@@ -24,6 +26,9 @@ private:
 	GameStateManager* m_GSM;
 
 	int* test;
+
+	vec4 color;
+	vec3 size;
 
 };
 

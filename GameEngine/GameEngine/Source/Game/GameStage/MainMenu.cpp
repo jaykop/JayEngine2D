@@ -58,7 +58,7 @@ void MenuStage::Init(GameData& gd)
 	m_OBM.GetGameObject<Sprite>(0)->GetTexture()->LoadTexture("Resource/Texture/Phantom.png");
 
 	m_OBM.AddObject(new Text(50, &m_OBM));
-	m_OBM.GetGameObject<Text>(50)->SetText(L"Text test...");
+	m_OBM.GetGameObject<Text>(50)->SetText(L"Text test...\nNewline...2");
 	m_OBM.GetGameObject<Text>(50)->SetScale(vec3(1, 1));
 	m_OBM.GetGameObject<Text>(50)->SetColor(vec4(1, 1, 1, 1));
 
@@ -71,7 +71,7 @@ void MenuStage::Init(GameData& gd)
 	m_OBM.GetGameObject<Emitter>(60)->SetBoundary(5.f);
 	m_OBM.GetGameObject<Emitter>(60)->SetColors(vec3(1,1,1), vec3(0,0,1));
 	//m_OBM.GetGameObject<Text>(50)->SetPosition(vec3(0, 0, 0));
-
+	
 	//Set walls and small sprites
 	offset = 0;
 	//SetSamllSprites();
@@ -314,9 +314,4 @@ void MenuStage::Unload(GameData& gd)
 {
 	UNREFERENCED_PARAMETER(gd);
 	std::cout << "MenuStage::Unload\n";
-}
-
-void MenuStage::LoadObjects(const wchar_t* fileName)
-{
-
 }

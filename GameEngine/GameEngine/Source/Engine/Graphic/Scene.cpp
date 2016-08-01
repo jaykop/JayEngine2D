@@ -205,6 +205,7 @@ void Scene::Update(const ObjectList& objList)
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glClearColor(m_bgColor.x, m_bgColor.y, m_bgColor.z, m_bgColor.w);
 
+	// Set mouse position
 	GetPerspPosition();
 	GetOrthoPosition();
 
@@ -293,8 +294,6 @@ void Scene::Pipeline(Sprite* sprite)
 	model = model * mat44::Scale(sprite->GetScale())
 		* mat44::Rotate(Math::DegToRad(sprite->GetRotation()), vec3(.0f, .0f, 1.f))
 		* mat44::Translate(sprite->GetPosition());
-	//model = model;
-	//model = model;
 
 	//calculate fined final matrix
 	m_mvp = projection.Transpose() * camera.Transpose() * model.Transpose();

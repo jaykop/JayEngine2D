@@ -16,6 +16,7 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 
 #include <vector>
 #include "../Graphic/Text.h"
+#include "../Utilities/Json/JsonParser.h"
 
 class Sound;
 class Logic;
@@ -109,6 +110,7 @@ public:
 
 	// Manage main system
 	void BindGameSystem(GameStateManager* gsm);
+	void LoadStageData(wchar_t* dir);
 	void InitGameSystem(void);
 	void UpdateGameSystem(void);
 	void ShutdownGameSystem(void);
@@ -126,6 +128,9 @@ private:
 	
 	// Sprites info
 	ObjectList m_ObjectList;
+
+	// Json Parser
+	JsonParser m_Loader;
 
 	// The number of the sprites
 	int number_of_Obj;

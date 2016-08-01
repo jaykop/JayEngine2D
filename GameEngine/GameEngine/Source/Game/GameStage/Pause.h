@@ -13,8 +13,6 @@ public:
 	virtual void Shutdown(GameData& gd);
 	virtual void Unload(GameData& gd);
 
-	virtual void LoadObjects(const wchar_t* fileName);
-
 private:
 
 	//Obj Manager

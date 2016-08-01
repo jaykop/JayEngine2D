@@ -16,8 +16,6 @@ public:
 	virtual void Shutdown(GameData& gd);
 	virtual void Unload(GameData& gd);
 
-	virtual void LoadObjects(const wchar_t* fileName);
-
 	void PhysicsTest(void);
 	void BasicControl(void);
 	void SetWallSprites(void);
