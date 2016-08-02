@@ -39,9 +39,9 @@ public:
 	void ClearLogicList(void);
 	const LogicList& GetLogicList(void) const;
 
-	void Init(/*const ObjectList& objList*/);
-	void Update(/*const ObjectList& objList*/);
-	void Shutdown(/*const ObjectList& objList*/);
+	void Init(GameData& gd);
+	void Update(GameData& gd);
+	void Shutdown(GameData& gd);
 
 private:
 

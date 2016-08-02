@@ -30,7 +30,7 @@ void LV2Stage::Init(GameData& gd)
 	std::cout << "Lv2Stage::Init\n";
 
 	// Init game systems; 
-	m_OBM.InitGameSystem();
+	m_OBM.InitGameSystem(gd);
 
 	// Testing ini...
 	iniWritter writter(L"Resource/Data/Sample.ini");
@@ -82,14 +82,14 @@ void LV2Stage::Update(GameData& gd)
 	else if (InputManager::GetInstance().KeyTriggered(KEY_R))
 		m_GSM->Restart(true);
 
-	m_OBM.UpdateGameSystem();
+	m_OBM.UpdateGameSystem(gd);
 }
 
 void LV2Stage::Shutdown(GameData& gd)
 {
 	UNREFERENCED_PARAMETER(gd);
 	std::cout << "Lv2Stage::Shutdown\n";
-	m_OBM.ShutdownGameSystem();
+	m_OBM.ShutdownGameSystem(gd);
 	m_OBM.ClearObjectList();
 }
 

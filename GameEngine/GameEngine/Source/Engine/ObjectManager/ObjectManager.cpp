@@ -140,13 +140,13 @@ void ObjectManager::LoadStageData(wchar_t* dir)
 \brief - Initialize scene and world
 */
 /******************************************************************************/
-void ObjectManager::InitGameSystem()
+void ObjectManager::InitGameSystem(GameData& gd)
 {
 	// Initialize game system
 	soundPtr->Init();
 	worldPtr->Init(m_ObjectList);
 	scenePtr->Init(m_ObjectList);
-	logicPtr->Init();
+	logicPtr->Init(gd);
 }
 
 /******************************************************************************/
@@ -154,10 +154,10 @@ void ObjectManager::InitGameSystem()
 \brief - Update scene and world
 */
 /******************************************************************************/
-void ObjectManager::UpdateGameSystem(void)
+void ObjectManager::UpdateGameSystem(GameData& gd)
 {
 	// Update game system
-	logicPtr->Update();
+	logicPtr->Update(gd);
 	worldPtr->Update(m_ObjectList);
 	scenePtr->Update(m_ObjectList);
 	soundPtr->Update();
@@ -168,12 +168,12 @@ void ObjectManager::UpdateGameSystem(void)
 \brief - Shutdown scene and world
 */
 /******************************************************************************/
-void ObjectManager::ShutdownGameSystem()
+void ObjectManager::ShutdownGameSystem(GameData& gd)
 {
 	//Shutdown basic trunks
 	scenePtr->Shutdown(m_ObjectList);
 	worldPtr->Shutdown(m_ObjectList);
-	logicPtr->Shutdown();
+	logicPtr->Shutdown(gd);
 	soundPtr->Shutdown();
 
 	//Delete dynamic scene, world, logic

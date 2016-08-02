@@ -22,9 +22,9 @@ public:
 	virtual ~SampleLogic(void) {};
 
 	virtual void Load(const Json::Value& data);
-	virtual void Init(void);
-	virtual void Update(void);
-	virtual void Shutdown(void);
+	virtual void Init(GameData& gd);
+	virtual void Update(GameData& gd);
+	virtual void Shutdown(GameData& gd);
 	virtual void Unload(void);
 
 private:

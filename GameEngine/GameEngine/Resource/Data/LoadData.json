@@ -1,0 +1,19 @@
+{
+	"Font" : "",
+	
+	"Sound" : [
+		{
+			"name" : "SE_1", "directory" : "",
+			"name" : "SE_1", "directory" : ""
+		}
+	],
+	
+	"Texture" : [
+		{
+			"name" : "box", "directory" : "",
+			"name" : "ball", "directory" : "",
+			"name" : "particle", "directory" : "",
+			"name" : "sample1", "directory" : ""
+		}
+	]
+}

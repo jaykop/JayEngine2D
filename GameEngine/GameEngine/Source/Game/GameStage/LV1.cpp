@@ -28,7 +28,7 @@ void LV1Stage::Init(GameData& gd)
 
 	// Here objects to be init...
 
-	m_OBM.InitGameSystem();
+	m_OBM.InitGameSystem(gd);
 }
 
 void LV1Stage::Update(GameData& gd)
@@ -38,7 +38,7 @@ void LV1Stage::Update(GameData& gd)
 
 	static float volume = 0.5f;
 
-	m_OBM.UpdateGameSystem();
+	m_OBM.UpdateGameSystem(gd);
 
 	if (InputManager::GetInstance().KeyPressed(KEY_ESC))
 		m_GSM->SetQuit(true);
@@ -96,7 +96,7 @@ void LV1Stage::Shutdown(GameData& gd)
 {
 	UNREFERENCED_PARAMETER(gd);
 	std::cout << "Lv1Stage::Shutdown\n";
-	m_OBM.ShutdownGameSystem();
+	m_OBM.ShutdownGameSystem(gd);
 }
 
 void LV1Stage::Unload(GameData& gd)

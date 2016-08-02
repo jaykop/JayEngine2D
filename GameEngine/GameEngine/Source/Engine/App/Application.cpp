@@ -14,9 +14,9 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 
 #include "Application.h"
 #include "../Utilities/Debug/Debug.h"
+#include "../Logic//LogicBuilderList.h"
 #include "../InputManager/InputManager.h"
 #include "../../Game/BaseData/LoadStages.h"
-#include "../Logic//LogicBuilderList.h"
 
 namespace
 {

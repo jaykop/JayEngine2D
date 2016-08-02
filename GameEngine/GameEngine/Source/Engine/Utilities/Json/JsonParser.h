@@ -24,6 +24,8 @@ class Emitter;
 
 class Scene;
 class Object;
+class GLManager;
+class SoundManager;
 class ObjectManager;
 
 class JsonParser{
@@ -38,6 +40,7 @@ public:
 	void Save(const wchar_t* dir, const Json::Value& contents);
 	void Load(wchar_t* dir);
 
+	void InitAssetData(GLManager* GLM, SoundManager* SM);
 	void InitLoadedData(ObjectManager* obm);
 	const Json::Value& GetLoadedData(void) const;
 

@@ -31,8 +31,10 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 #include <map>
 #include "Shader.hpp"
 #include "../Utilities/Math/MathUtils.h"
+#include "../Utilities/Json/JsonParser.h"
 
 class Shader;
+class Texture;
 class Application;
 
 //! Uniform type
@@ -65,7 +67,7 @@ struct Character {
 
 //! type definition for list
 typedef std::map<wchar_t, Character> Characters;
-
+typedef std::map<std::string, Texture*> TextureMap;
 //! GLManager to manage base GL info
 class GLManager
 {
@@ -75,11 +77,11 @@ public:
 	GLManager(void);
 	~GLManager(void);
 
-	//Settor functions
+	//! Settor functions
 	void SysShutdown(void);
 	void SetGLFormat(void);
 	
-	//Init GL info
+	//! Init GL info
 	void Resize(int width, int height);
 	bool CheckGL(Application* pApp, HWND& window);
 	void InitGL(Application* pApp, HWND& window, int width, int height);
@@ -87,7 +89,7 @@ public:
 	// Set font
 	void SetFont(const char* fontDir);
 
-	//Gettor for GL info
+	//! Gettor for GL info
 	HDC  GetHDC(void) const;
 	Shader GetShader(void) const;
 	GLuint GetUnifrom(UniformType type) const;
@@ -97,7 +99,14 @@ public:
 	Characters GetCharacters(void) const;
 	ProjectionInfo GetProjectionInfo(void) const;
 
-	//Single tone pattern
+	//! Manage texture list
+	void LoadTextures(Json::Value::iterator& it);
+	void AddTexture(const std::string& name, const char* dir);
+	void ClearTextureMap(void);
+	Texture* GetTexture(const std::string& name);
+	const TextureMap& GetTextureMap(void) const;
+
+	//! Single tone pattern
 	static GLManager& GetInstance(void)
 	{
 		static GLManager gl_app;
@@ -106,21 +115,21 @@ public:
 
 private:
 
-	// Basic info
+	//! Basic info
 	HDC    m_hdc;
 	HGLRC  m_hglrc;
 	int    m_indexPixelFormat;
 
-	// Scene info
+	//! Scene info
 	Shader m_shader;
 	GLuint m_uniform[UNIFORM_END];
 	GLuint m_vertexBuffer;
 	GLuint m_vertexAttrib;
 	ProjectionInfo m_info;
 
-	// Ascii storage
+	//! Ascii storage
 	Characters m_chars;
-	
+	TextureMap m_textureList;
 };
 
 #endif // _GLManager_H_

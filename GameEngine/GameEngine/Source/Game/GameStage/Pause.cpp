@@ -30,7 +30,7 @@ void PauseStage::Init(GameData& gd)
 
 	std::cout << "You can control the White box with keyboard arrows!\n";
 	
-	m_OBM.InitGameSystem();
+	m_OBM.InitGameSystem(gd);
 }
 
 void PauseStage::Update(GameData& gd)
@@ -44,14 +44,14 @@ void PauseStage::Update(GameData& gd)
 	if (InputManager::GetInstance().KeyTriggered(KEY_P))
 		m_GSM->Resume();
 
-	m_OBM.UpdateGameSystem();
+	m_OBM.UpdateGameSystem(gd);
 }
 
 void PauseStage::Shutdown(GameData& gd)
 {
 	UNREFERENCED_PARAMETER(gd);
 	std::cout << "PauseStage::Shutdown\n";
-	m_OBM.ShutdownGameSystem();
+	m_OBM.ShutdownGameSystem(gd);
 }
 
 void PauseStage::Unload(GameData& gd)

@@ -12,8 +12,10 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 */
 /******************************************************************************/
 
-#include "GLManager.h"
+//#include "GLManager.h"
+#include "Texture.h"
 #include "../App/Application.h"
+#include "../Utilities/Debug/Debug.h"
 
 /******************************************************************************/
 /*!
@@ -419,4 +421,45 @@ void GLManager::SetFont(const char* fontDir)
 Characters GLManager::GetCharacters(void) const
 {
 	return m_chars;
+}
+
+void GLManager::LoadTextures(Json::Value::iterator& it)
+{
+
+}
+
+void GLManager::AddTexture(const std::string& name, const char* dir)
+{
+
+	//Find if there is existing stage 
+	//If there is, assert
+	DEBUG_ASSERT(m_textureList.find(name) == m_textureList.end(), "Error: Logic Duplication!");
+
+	//Unless, make new builder
+	m_textureList[name] = new Texture();
+	m_textureList[name]->LoadTexture(dir);
+}
+
+void GLManager::ClearTextureMap(void)
+{
+	for (auto it = m_textureList.begin();
+		it != m_textureList.end(); ++it)
+	{
+		delete (*it).second;
+		(*it).second = 0;
+	}
+
+	m_textureList.clear();
+}
+
+Texture* GLManager::GetTexture(const std::string& name)
+{
+	auto texture = m_textureList.find(name)->second;
+	if (texture)
+		return texture;
+}
+
+const TextureMap& GLManager::GetTextureMap(void) const
+{
+	return m_textureList;
 }

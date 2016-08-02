@@ -36,8 +36,9 @@ void SampleLogic::Load(const Json::Value& data)
 			data["NewSize"][2].asFloat());
 }
 
-void SampleLogic::Init(void)
+void SampleLogic::Init(GameData& gd)
 {
+	UNREFERENCED_PARAMETER(gd);
 	std::cout << "SanpleLogic Inited\n";
 	test = new int;
 	Sprite* newOwner = static_cast<Sprite*>(m_Owner);
@@ -45,16 +46,19 @@ void SampleLogic::Init(void)
 	newOwner->SetScale(size);
 }
 
-void SampleLogic::Update(void)
+void SampleLogic::Update(GameData& gd)
 {
+	UNREFERENCED_PARAMETER(gd);
 	std::cout << "SanpleLogic Update\n";
 }
 
-void SampleLogic::Shutdown(void)
+void SampleLogic::Shutdown(GameData& gd)
 {
+	UNREFERENCED_PARAMETER(gd);
+	std::cout << "SanpleLogic Shutdown\n";
+
 	delete test;
 	test = 0;
-	std::cout << "SanpleLogic Shutdown\n";
 }
 
 void SampleLogic::Unload(void)

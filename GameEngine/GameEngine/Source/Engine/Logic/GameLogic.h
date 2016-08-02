@@ -30,9 +30,9 @@ public:
 	virtual ~GameLogic(void) {};
 
 	virtual void Load(const Json::Value& data) = 0;
-	virtual void Init(void) = 0;
-	virtual void Update(void) = 0;
-	virtual void Shutdown(void) = 0;
+	virtual void Init(GameData& gd) = 0;
+	virtual void Update(GameData& gd) = 0;
+	virtual void Shutdown(GameData& gd) = 0;
 	virtual void Unload(void) = 0;
 
 private:

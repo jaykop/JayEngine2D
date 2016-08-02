@@ -21,53 +21,22 @@ Logic::Logic(void)
 Logic::~Logic(void)
 {}
 
-void Logic::Init(/*const ObjectList& objList*/)
+void Logic::Init(GameData& gd)
 {
-	//for (auto it_1 = objList.begin(); it_1 != objList.end(); ++it_1)
-	//{
-	//	// Get sprite's logic list
-	//	auto new_list = it_1->second->GetLogicList();
-
-	//	// Update sprite's logic
-	//	for (auto it_2 = new_list.begin(); it_2 != new_list.end(); ++it_2)
-	//		it_2->second->Init();
-	//}
-
 	for (auto it = m_logicList.begin(); it != m_logicList.end(); ++it)
-		(*it)->Init();
+		(*it)->Init(gd);
 }
 
-void Logic::Update(/*const ObjectList& objList*/)
+void Logic::Update(GameData& gd)
 {
-	//// Load sprite list
-	//for (auto it_1 = objList.begin(); it_1 != objList.end(); ++it_1)
-	//{
-	//	// Get sprite's logic list
-	//	auto new_list = it_1->second->GetLogicList();
-
-	//	// Update sprite's logic
-	//	for (auto it_2 = new_list.begin(); it_2 != new_list.end(); ++it_2)
-	//		it_2->second->Update();
-	//}
-
 	for (auto it = m_logicList.begin(); it != m_logicList.end(); ++it)
-		(*it)->Update();
+		(*it)->Update(gd);
 }
 
-void Logic::Shutdown(/*const ObjectList& objList*/)
+void Logic::Shutdown(GameData& gd)
 {
-	//for (auto it_1 = objList.begin(); it_1 != objList.end(); ++it_1)
-	//{
-	//	// Get sprite's logic list
-	//	auto new_list = it_1->second->GetLogicList();
-
-	//	// Update sprite's logic
-	//	for (auto it_2 = new_list.begin(); it_2 != new_list.end(); ++it_2)
-	//		it_2->second->Shutdown();
-	//}
-
 	for (auto it = m_logicList.begin(); it != m_logicList.end(); ++it)
-		(*it)->Shutdown();
+		(*it)->Shutdown(gd);
 }
 
 void Logic::AddLogic(GameLogic* logic)

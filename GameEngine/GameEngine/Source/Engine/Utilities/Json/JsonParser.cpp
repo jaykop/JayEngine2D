@@ -15,16 +15,19 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 #include <fstream>
 #include <iostream>
 
-#include "JsonParser.h"
+//#include "JsonParser.h"
 #include "../../Graphic/Scene.h"
 #include "../../Graphic/Particle.h"
 #include "../../Physics/RigidBody.h"
-#include "../../ObjectManager/ObjectManager.h"
-#include "../../Logic/LogicFactory.h"
 #include "../../Logic/GameLogic.h"
+#include "../../Logic/LogicFactory.h"
+#include "../../Sound/SoundManager.h"
+#include "../../ObjectManager/ObjectManager.h"
 
 JsonParser::JsonParser()
+:new_text(0), new_emitter(0), new_sprite(0)
 {}
+
 JsonParser::~JsonParser()
 {}
 
@@ -92,6 +95,40 @@ void JsonParser::Load(wchar_t* dir)
 	bool parsingRet = reader.parse(str, m_data);
 	if (!parsingRet)
 		std::cout << "Failed to parse Json : " << reader.getFormattedErrorMessages();
+}
+
+void JsonParser::InitAssetData(GLManager* GLM, SoundManager* SM)
+{
+	if (m_data.isMember("Font") &&
+		m_data["Font"].isString())
+			GLM->SetFont(m_data["Font"].asCString());
+
+	else
+		std::cerr << "Cannot load font file!\n";
+
+	if (m_data.isMember("Texture"))
+	{
+		for (auto it = m_data["Texture"].begin();
+			it != m_data["Texture"].end(); ++it)
+		{
+			//dGLM->LoadTextures();
+		}
+	}
+
+	else
+		std::cerr << "Cannot load texture files!\n";
+
+	if (m_data.isMember("Sound"))
+	{
+		for (auto it = m_data["Sound"].begin();
+			it != m_data["Sound"].end(); ++it)
+		{
+			//SM->Load((*it).asCString(), );
+		}
+	}
+
+	else
+		std::cerr << "Cannot load sound files!\n";
 }
 
 void JsonParser::InitLoadedData(ObjectManager* obm)

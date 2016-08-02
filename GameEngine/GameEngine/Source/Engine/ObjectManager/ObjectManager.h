@@ -16,6 +16,7 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 
 #include <vector>
 #include "../Graphic/Text.h"
+#include "../../Game/BaseData/GameData.h"
 #include "../Utilities/Json/JsonParser.h"
 
 class Sound;
@@ -120,9 +121,9 @@ public:
 	//! Manage main system
 	void BindGameSystem(GameStateManager* gsm);
 	void LoadStageData(wchar_t* dir);
-	void InitGameSystem(void);
-	void UpdateGameSystem(void);
-	void ShutdownGameSystem(void);
+	void InitGameSystem(GameData& gd);
+	void UpdateGameSystem(GameData& gd);
+	void ShutdownGameSystem(GameData& gd);
 
 	//! Game System gettor
 	Scene* GetGameScene(void) const;

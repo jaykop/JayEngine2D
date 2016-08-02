@@ -119,7 +119,7 @@ void MenuStage::Init(GameData& gd)
 
 	//m_OBM.GetGameObject<Sprite>(1)->GetRigidBody()->ActivateMove(false);
 
-	m_OBM.InitGameSystem();
+	m_OBM.InitGameSystem(gd);
 	//m_OBM.GetGameScene()->SetBackgroundColor(vec4(1, 1, 1, 1));
 	m_OBM.GetGameScene()->SetCamera(vec4(0, 0, 80, 0));
 	//Sprite* sprite = new Sprite(*m_OBM.GetGameObject<Sprite>(0));
@@ -146,7 +146,7 @@ void MenuStage::Update(GameData& gd)
 	PhysicsTest();
 
 	//Update basic trunks
-	m_OBM.UpdateGameSystem();
+	m_OBM.UpdateGameSystem(gd);
 }
 
 void MenuStage::Shutdown(GameData& gd)
@@ -155,7 +155,7 @@ void MenuStage::Shutdown(GameData& gd)
 	std::cout << "MenuStage::Shutdown\n";
 
 	//Cleare all Objects of the list
-	m_OBM.ShutdownGameSystem();
+	m_OBM.ShutdownGameSystem(gd);
 	m_OBM.ClearObjectList();
 }
 
