@@ -1,0 +1,15 @@
+{
+	"Font" : "Resource/Font/SDMiSaeng.ttf",
+	
+	"Sound" : [
+		{"key" : 0, "directory" : "Resource/Sound/arrow_x.wav"},
+		{"key" : 1, "directory" : "Resource/Sound/drum_roll_y.wav"}
+	],
+	
+	"Texture" : [
+		{"key" : 0, "directory" : "Resource/Texture/rect.png"},
+		{"key" : 1, "directory" : "Resource/Texture/circle.png"},
+		{"key" : 2, "directory" : "Resource/Texture/particle.png"},
+		{"key" : 3, "directory" : "Resource/Texture/Phantom.png"}
+	]
+}

@@ -18,6 +18,9 @@ void LV1Stage::Load(GameData& gd)
 
 	//Bind basic systems
 	m_OBM.BindGameSystem(m_GSM);
+
+	// Load json data
+	// m_OBM.LoadStageData(L"Resource/Data/Sample.json");
 }
 
 void LV1Stage::Init(GameData& gd)
@@ -73,13 +76,13 @@ void LV1Stage::Update(GameData& gd)
 	}
 
 	if (InputManager::GetInstance().KeyTriggered(KEY_A))
-		m_OBM.GetGameSound()->PlayBGM(SE_1);
+		m_OBM.GetGameSound()->PlayBGM(0);
 
 	if (InputManager::GetInstance().KeyTriggered(KEY_S))
 		m_OBM.GetGameSound()->StopBGM();
 
 	if (InputManager::GetInstance().KeyTriggered(KEY_Z))
-		m_OBM.GetGameSound()->PlaySE(SE_2);
+		m_OBM.GetGameSound()->PlaySE(1);
 
 	if (InputManager::GetInstance().KeyTriggered(KEY_X))
 		m_OBM.GetGameSound()->StopSE();
@@ -96,6 +99,7 @@ void LV1Stage::Shutdown(GameData& gd)
 {
 	UNREFERENCED_PARAMETER(gd);
 	std::cout << "Lv1Stage::Shutdown\n";
+
 	m_OBM.ShutdownGameSystem(gd);
 }
 
@@ -103,4 +107,6 @@ void LV1Stage::Unload(GameData& gd)
 {
 	UNREFERENCED_PARAMETER(gd);
 	std::cout << "LV1Stage::Unload\n";
+
+	// m_OBM.UnloadStageData();
 }

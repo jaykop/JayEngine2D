@@ -15,12 +15,16 @@ void GameOverStage::Load(GameData& gd)
 {
 	UNREFERENCED_PARAMETER(gd);
 	std::cout << "GameOverStage::Load\n";
+
+	m_OBM.BindGameSystem(m_GSM);
 }
 
 void GameOverStage::Init(GameData& gd)
 {
 	UNREFERENCED_PARAMETER(gd);
 	std::cout << "GameOverStage::Init\n";
+
+	m_OBM.InitGameSystem(gd);
 }
 
 void GameOverStage::Update(GameData& gd)
@@ -45,16 +49,22 @@ void GameOverStage::Update(GameData& gd)
 
 	else if (InputManager::GetInstance().KeyTriggered(KEY_R))
 		m_GSM->Restart(true);
+
+	m_OBM.UpdateGameSystem(gd);
 }
 
 void GameOverStage::Shutdown(GameData& gd)
 {
 	UNREFERENCED_PARAMETER(gd);
 	DEBUG_PRINT("GameOverStage::Shutdown\n");
+
+	m_OBM.ShutdownGameSystem(gd);
 }
 
 void GameOverStage::Unload(GameData& gd)
 {
 	UNREFERENCED_PARAMETER(gd);
 	std::cout << "GameOverStage::Unload\n";
+
+	m_OBM.UnloadStageData();
 }

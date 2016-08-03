@@ -3,12 +3,6 @@
 
 #include "../../Engine/StateManager/BaseStage.h"
 
-//Todo: remove later
-//#include "../../Engine/Utilities/Json/JsonParser.h"
-//
-//class iniReader;
-//class iniWritter;
-
 class LV2Stage : public Stage
 {
 public:
@@ -26,8 +20,6 @@ private:
 
 	//Obj Manager
 	ObjectManager m_OBM;
-	//iniReader* m_Loader;
-	//JsonParser m_testParser;
 };
 
 #endif // _LV2STAGE_H_

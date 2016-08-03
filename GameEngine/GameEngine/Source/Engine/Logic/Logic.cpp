@@ -15,53 +15,101 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 #include "Logic.h"
 #include "GameLogic.h"
 
+/******************************************************************************/
+/*!
+\brief - Logic Constructor
+*/
+/******************************************************************************/
 Logic::Logic(void)
 {}
 
+/******************************************************************************/
+/*!
+\brief - Logic Destrutor
+*/
+/******************************************************************************/
 Logic::~Logic(void)
 {}
 
-void Logic::Init(GameData& gd)
+/******************************************************************************/
+/*!
+\brief - Logic Load function
+*/
+/******************************************************************************/
+void Logic::Load(const ObjectList& objList, const Json::Value& data)
 {
-	for (auto it = m_logicList.begin(); it != m_logicList.end(); ++it)
-		(*it)->Init(gd);
-}
-
-void Logic::Update(GameData& gd)
-{
-	for (auto it = m_logicList.begin(); it != m_logicList.end(); ++it)
-		(*it)->Update(gd);
-}
-
-void Logic::Shutdown(GameData& gd)
-{
-	for (auto it = m_logicList.begin(); it != m_logicList.end(); ++it)
-		(*it)->Shutdown(gd);
-}
-
-void Logic::AddLogic(GameLogic* logic)
-{
-	m_logicList.push_back(logic);
-}
-
-void Logic::RemoveLogic(GameLogic* logic)
-{
-	for (auto it = m_logicList.begin(); it != m_logicList.end(); ++it)
+	// Load logics
+	for (auto it = objList.begin(); it != objList.end(); ++it)
 	{
-		if (*it == logic)
-		{
-			m_logicList.erase(it++);
-			break;
-		}
+		for (auto logic_it = (*it).second->GetLogicList().begin();
+			logic_it != (*it).second->GetLogicList().end(); ++logic_it)
+			(*logic_it).second->Load(data);
 	}
 }
 
-void Logic::ClearLogicList(void)
+/******************************************************************************/
+/*!
+\brief - Logic Init function
+\param gd - Game data
+*/
+/******************************************************************************/
+void Logic::Init(const ObjectList& objList, GameData& gd)
 {
-	m_logicList.clear();
+	// Init all object's logic data
+	for (auto it = objList.begin(); it != objList.end(); ++it)
+	{
+		for (auto logic_it = (*it).second->GetLogicList().begin();
+			logic_it != (*it).second->GetLogicList().end(); ++logic_it)
+			(*logic_it).second->Init(gd);
+	}
 }
 
-const LogicList& Logic::GetLogicList(void) const
+/******************************************************************************/
+/*!
+\brief - Logic Update function
+\param gd - Game data
+*/
+/******************************************************************************/
+void Logic::Update(const ObjectList& objList, GameData& gd)
 {
-	return m_logicList;
+	// Update all object's logic data
+	for (auto it = objList.begin(); it != objList.end(); ++it)
+	{
+		for (auto logic_it = (*it).second->GetLogicList().begin();
+			logic_it != (*it).second->GetLogicList().end(); ++logic_it)
+				(*logic_it).second->Update(gd);
+	}
+}
+
+/******************************************************************************/
+/*!
+\brief - Logic Shutdown function
+\param gd - Game data
+*/
+/******************************************************************************/
+void Logic::Shutdown(const ObjectList& objList, GameData& gd)
+{
+	// Shutdown all object's logic data
+	for (auto it = objList.begin(); it != objList.end(); ++it)
+	{
+		for (auto logic_it = (*it).second->GetLogicList().begin();
+			logic_it != (*it).second->GetLogicList().end(); ++logic_it)
+			(*logic_it).second->Shutdown(gd);
+	}
+}
+
+/******************************************************************************/
+/*!
+\brief - Logic Unload function
+*/
+/******************************************************************************/
+void Logic::Unload(const ObjectList& objList)
+{
+	// Shutdown all object's logic data
+	for (auto it = objList.begin(); it != objList.end(); ++it)
+	{
+		for (auto logic_it = (*it).second->GetLogicList().begin();
+			logic_it != (*it).second->GetLogicList().end(); ++logic_it)
+			(*logic_it).second->Unload();
+	}
 }

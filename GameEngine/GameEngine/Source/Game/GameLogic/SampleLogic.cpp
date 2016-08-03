@@ -8,9 +8,7 @@ GameLogic* SampleLogicBuilder::BuildLogic(Object* Owner) const
 
 SampleLogic::SampleLogic(Object* owner)
 : m_Owner(owner), m_OBM(owner->GetOBM()), m_GSM(owner->GetOBM()->GetGSM())
-{
-	m_Owner->GetOBM()->GetGameLogic()->AddLogic(this);
-}
+{}
 
 void SampleLogic::Load(const Json::Value& data)
 {
@@ -40,7 +38,7 @@ void SampleLogic::Init(GameData& gd)
 {
 	UNREFERENCED_PARAMETER(gd);
 	std::cout << "SanpleLogic Inited\n";
-	test = new int;
+
 	Sprite* newOwner = static_cast<Sprite*>(m_Owner);
 	newOwner->SetColor(color);
 	newOwner->SetScale(size);
@@ -56,9 +54,6 @@ void SampleLogic::Shutdown(GameData& gd)
 {
 	UNREFERENCED_PARAMETER(gd);
 	std::cout << "SanpleLogic Shutdown\n";
-
-	delete test;
-	test = 0;
 }
 
 void SampleLogic::Unload(void)

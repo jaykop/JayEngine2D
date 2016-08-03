@@ -87,6 +87,7 @@
     <ClCompile Include="Include\LodePNG\lodepng.cpp" />
     <ClCompile Include="Source\Engine\App\Application.cpp" />
     <ClCompile Include="Source\Engine\Graphic\Particle.cpp" />
+    <ClCompile Include="Source\Engine\Logic\GameLogic.cpp" />
     <ClCompile Include="Source\Engine\Logic\LogicFactory.cpp" />
     <ClCompile Include="Source\Engine\ObjectManager\Object\Object.cpp" />
     <ClCompile Include="Source\Engine\Graphic\Text.cpp" />
@@ -148,12 +149,13 @@
     <ClInclude Include="Source\Engine\Graphic\Particle.h" />
     <ClInclude Include="Source\Engine\Logic\GameLogic.h" />
     <ClInclude Include="Source\Engine\Logic\LogicBuilder.h" />
-    <ClInclude Include="Source\Engine\Logic\LogicBuilderList.h" />
+    <ClInclude Include="Source\Game\BaseData\LoadLogics.h" />
     <ClInclude Include="Source\Engine\Logic\LogicFactory.h" />
     <ClInclude Include="Source\Engine\ObjectManager\Object\Object.h" />
     <ClInclude Include="Source\Engine\Graphic\Text.h" />
     <ClInclude Include="Source\Engine\Graphic\Texture.h" />
     <ClInclude Include="Source\Engine\Logic\Logic.h" />
+    <ClInclude Include="Source\Engine\Sound\Audio.h" />
     <ClInclude Include="Source\Engine\Sound\Sound.h" />
     <ClInclude Include="Source\Engine\Sound\SoundManager.h" />
     <ClInclude Include="Source\Engine\StateManager\StageBuilder.h" />

@@ -21,8 +21,11 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 class iniWritter
 {
 public:
+	
+	//! Constuctor
 	iniWritter(const wchar_t* fileName);
 
+	//! Writting functions
 	void WriteInt(wchar_t *section, wchar_t* key, int DefaultInt);
 	void WriteFloat(wchar_t *section, wchar_t* key, float DefaultFloat);
 	void WriteBool(wchar_t *section, wchar_t* key, bool DefaultBoolean);

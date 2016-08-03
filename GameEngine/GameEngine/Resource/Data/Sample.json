@@ -16,7 +16,7 @@
 			"Accel" : 0, "Friction": 5, "Mass" : 10,
 			"Force" : [1, 1, 0], "BodyScale" : [5, 5, 0],
 			"Logic" : [
-							{"name" : "SampleLogic", "values" : { "NewColor" : [1, 0, 0, 1], "NewSize" : [15, 15, 0] }}
+							{"key" : 0, "values" : { "NewColor" : [1, 0, 0, 1], "NewSize" : [15, 15, 0] }}
 						]
 		},
 		{

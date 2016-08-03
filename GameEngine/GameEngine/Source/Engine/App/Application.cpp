@@ -14,9 +14,9 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 
 #include "Application.h"
 #include "../Utilities/Debug/Debug.h"
-#include "../Logic//LogicBuilderList.h"
 #include "../InputManager/InputManager.h"
 #include "../../Game/BaseData/LoadStages.h"
+#include "../../Game/BaseData/LoadLogics.h"
 
 namespace
 {
@@ -62,8 +62,6 @@ namespace
 /******************************************************************************/
 bool Application::DataLoaded(void)
 {
-	m_Loader.Load(L"Resource/Data/LoadData.json");
-
 	// Load stages
 	m_GSM.AddStage(ST_MENU, new MainMenuBuilder);
 	m_GSM.AddStage(ST_LV1, new LV1Builder);
@@ -76,10 +74,6 @@ bool Application::DataLoaded(void)
 
 	// Here app loads font, sound, textures
 	m_Loader.InitAssetData(m_GLM, m_SM);
-
-	// Load sound resources
-	m_SM->Load("Resource/Sound/arrow_x.wav", SE_1);
-	m_SM->Load("Resource/Sound/drum_roll_y.wav", SE_2);
 
 	// Build Logics
 	BuildLogics();
@@ -166,10 +160,13 @@ Application::Application(const InitData& initData)
 		this					//Lparm This will be available in WM_CREATE
 		);
 
+	/******************* Load json data as string *******************/
+	m_Loader.Load(L"Resource/Data/AssetData.json");
+
 	/******************** Set sound system; FMOD ********************/
 
 	m_SM = new SoundManager;
-	m_SM->InitFMOD(this);
+	m_SM->InitFMOD(this, m_Loader.CheckLoadedSounds());
 
 	/******************** Set Open GL ********************/ 
 
@@ -200,7 +197,7 @@ Application::~Application(void)
 	m_GLM = 0;
 	m_SM = 0;
 
-	LogicFactory::DeleteAllBuilders();
+	LogicFactory::ClearBuilderMap();
 
 	UnregisterClass(LPCTSTR(m_winClass.lpszClassName), m_instance);
 

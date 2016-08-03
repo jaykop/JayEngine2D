@@ -18,6 +18,8 @@ public:
 
 private:
 
+	ObjectManager m_OBM;
+
 };
 
 #endif // _LV3STAGE_H_

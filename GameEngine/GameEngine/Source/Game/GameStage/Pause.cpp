@@ -18,6 +18,9 @@ void PauseStage::Load(GameData& gd)
 
 	// Bind basic systems
 	m_OBM.BindGameSystem(m_GSM);
+	
+	// Load json data
+	// m_OBM.LoadStageData(L"Resource/Data/Sample.json");
 }
 
 void PauseStage::Init(GameData& gd)
@@ -58,4 +61,5 @@ void PauseStage::Unload(GameData& gd)
 {
 	UNREFERENCED_PARAMETER(gd);
 	std::cout << "PauseStage::Unload\n";
+	// m_OBM.UnloadStageData();
 }

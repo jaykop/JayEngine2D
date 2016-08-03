@@ -28,6 +28,7 @@ class GLManager;
 class SoundManager;
 class ObjectManager;
 
+//! Json Parser class
 class JsonParser{
 
 public:
@@ -40,6 +41,7 @@ public:
 	void Save(const wchar_t* dir, const Json::Value& contents);
 	void Load(wchar_t* dir);
 
+	int  CheckLoadedSounds(void);
 	void InitAssetData(GLManager* GLM, SoundManager* SM);
 	void InitLoadedData(ObjectManager* obm);
 	const Json::Value& GetLoadedData(void) const;

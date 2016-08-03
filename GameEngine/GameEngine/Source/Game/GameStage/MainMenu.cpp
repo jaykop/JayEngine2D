@@ -45,6 +45,9 @@ void MenuStage::Load(GameData& gd)
 
 	//Bind basic systems
 	m_OBM.BindGameSystem(m_GSM);
+
+	// Load json data
+	// m_OBM.LoadStageData(L"Resource/Data/Sample.json");
 }
 
 void MenuStage::Init(GameData& gd)
@@ -55,7 +58,7 @@ void MenuStage::Init(GameData& gd)
 		"Press 1: ST_LV1\nPress 2: ST_LV2\nPress 3: ST_LV3\nPress ESC: Quit the App\n";
 
 	m_OBM.AddObject(new Sprite(0, &m_OBM));
-	m_OBM.GetGameObject<Sprite>(0)->SetTexture(m_GSM->GetGLManager()->GetTexture("sample1"));
+	m_OBM.GetGameObject<Sprite>(0)->SetTexture(m_GSM->GetGLManager()->GetTexture(3));
 
 	m_OBM.AddObject(new Text(50, &m_OBM));
 	m_OBM.GetGameObject<Text>(50)->SetText(L"Text test...\nNewline...2");
@@ -326,4 +329,6 @@ void MenuStage::Unload(GameData& gd)
 {
 	UNREFERENCED_PARAMETER(gd);
 	std::cout << "MenuStage::Unload\n";
+
+	// m_OBM.UnloadStageData();
 }

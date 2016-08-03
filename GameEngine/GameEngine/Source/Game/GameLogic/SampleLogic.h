@@ -33,8 +33,6 @@ private:
 	ObjectManager* m_OBM;
 	GameStateManager* m_GSM;
 
-	int* test;
-
 	vec4 color;
 	vec3 size;
 

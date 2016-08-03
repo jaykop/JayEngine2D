@@ -16,7 +16,8 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 #include "LogicBuilder.h"
 #include "../Utilities/Debug/Debug.h"
 
-std::map <std::string, LogicBuilder*> LogicFactory::m_builderMap;
+//! Init static builder map
+std::map <int, LogicBuilder*> LogicFactory::m_builderMap;
 
 /******************************************************************************/
 /*!
@@ -25,27 +26,25 @@ std::map <std::string, LogicBuilder*> LogicFactory::m_builderMap;
 /******************************************************************************/
 LogicFactory::~LogicFactory(void)
 {
-	DeleteAllBuilders();
+	ClearBuilderMap();
 }
 
 /******************************************************************************/
 /*!
 \brief - Add Builder
-
-\param stage - stage to make
+\param key - Logic builder key
 \param pBuilder - pointer to the builder
-
 */
 /******************************************************************************/
-void LogicFactory::AddBuilder(const std::string& name, LogicBuilder* pBuilder)
+void LogicFactory::AddBuilder(int key, LogicBuilder* pBuilder)
 {
 	//Find if there is existing stage 
 	//If there is, assert
-	DEBUG_ASSERT(m_builderMap.find(name) == m_builderMap.end(), "Error: Logic Duplication!");
+	DEBUG_ASSERT(m_builderMap.find(key) == m_builderMap.end(), "Error: Logic Duplication!");
 
 	//Unless, make new builder
 	if (pBuilder)
-		m_builderMap[name] = pBuilder;
+		m_builderMap[key] = pBuilder;
 }
 
 /******************************************************************************/
@@ -53,7 +52,7 @@ void LogicFactory::AddBuilder(const std::string& name, LogicBuilder* pBuilder)
 \brief - Clear the builder map
 */
 /******************************************************************************/
-void LogicFactory::DeleteAllBuilders(void)
+void LogicFactory::ClearBuilderMap(void)
 {
 	for (auto it = m_builderMap.begin(); it != m_builderMap.end(); ++it)
 	{
@@ -67,15 +66,13 @@ void LogicFactory::DeleteAllBuilders(void)
 /******************************************************************************/
 /*!
 \brief - Create stage
-
-\param stage - stage to make
-\param GSM - GSM to puint to the stage
-
+\param key - Logic builder key
+\param owner - Logic of owner object
 */
 /******************************************************************************/
-GameLogic* LogicFactory::CreateLogic(const std::string& name, Object* owner)
+GameLogic* LogicFactory::CreateLogic(int key, Object* owner)
 {
-	auto bulider = m_builderMap.find(name)->second;
+	auto bulider = m_builderMap.find(key)->second;
 	
 	//if there is, return new logic
 	if (bulider)

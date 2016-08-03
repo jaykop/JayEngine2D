@@ -50,12 +50,16 @@ void ObjectManager::RemoveObject(const int id)
 {
 	//If there is id that client to find,
 	if (scenePtr)
-		scenePtr->DeleteSprite(id);
+		scenePtr->RemoveSprite(id);
 
 	//Delete it
-	delete m_ObjectList.find(id)->second;
-
-	m_ObjectList.erase(id);
+	auto found = m_ObjectList.find(id)->second;
+	if (found)
+	{
+		delete found;
+		found = 0;
+		m_ObjectList.erase(id);
+	}
 
 	--number_of_Obj;
 }
@@ -111,7 +115,6 @@ const ObjectList& ObjectManager::GetObjectList(void) const
 /******************************************************************************/
 /*!
 \brief - Bind scene and world 
-
 \param pApp - pointer to app to bind to scene
 */
 /******************************************************************************/
@@ -125,14 +128,17 @@ void ObjectManager::BindGameSystem(GameStateManager* gsm)
 	logicPtr = new Logic();
 }
 
+/******************************************************************************/
+/*!
+\brief - Load stage info and init
+\param dir - Json file;s directory to load stage info
+*/
+/******************************************************************************/
 void ObjectManager::LoadStageData(wchar_t* dir)
 {
 	m_Loader.Load(dir);
 	m_Loader.InitLoadedData(this);
-
-	for (auto it = logicPtr->GetLogicList().begin();
-		it != logicPtr->GetLogicList().end(); ++it)
-		(*it)->Load(m_Loader.GetLoadedData());
+	logicPtr->Load(m_ObjectList, m_Loader.GetLoadedData());
 }
 
 /******************************************************************************/
@@ -146,7 +152,7 @@ void ObjectManager::InitGameSystem(GameData& gd)
 	soundPtr->Init();
 	worldPtr->Init(m_ObjectList);
 	scenePtr->Init(m_ObjectList);
-	logicPtr->Init(gd);
+	logicPtr->Init(m_ObjectList, gd);
 }
 
 /******************************************************************************/
@@ -157,7 +163,7 @@ void ObjectManager::InitGameSystem(GameData& gd)
 void ObjectManager::UpdateGameSystem(GameData& gd)
 {
 	// Update game system
-	logicPtr->Update(gd);
+	logicPtr->Update(m_ObjectList, gd);
 	worldPtr->Update(m_ObjectList);
 	scenePtr->Update(m_ObjectList);
 	soundPtr->Update();
@@ -173,7 +179,7 @@ void ObjectManager::ShutdownGameSystem(GameData& gd)
 	//Shutdown basic trunks
 	scenePtr->Shutdown(m_ObjectList);
 	worldPtr->Shutdown(m_ObjectList);
-	logicPtr->Shutdown(gd);
+	logicPtr->Shutdown(m_ObjectList, gd);
 	soundPtr->Shutdown();
 
 	//Delete dynamic scene, world, logic
@@ -186,6 +192,16 @@ void ObjectManager::ShutdownGameSystem(GameData& gd)
 	scenePtr = 0;
 	worldPtr = 0;
 	soundPtr = 0;
+}
+
+/******************************************************************************/
+/*!
+\brief - Unload stage info
+*/
+/******************************************************************************/
+void ObjectManager::UnloadStageData(void)
+{
+	logicPtr->Unload(m_ObjectList);
 }
 
 /******************************************************************************/

@@ -75,12 +75,12 @@ void Scene::Init(const ObjectList& objList)
 			// If object is normal sprite,
 			// Set basic texture; box
 			if (it->second->GetType() == SPRITE)
-				it->second->SetTexture(m_GSM->GetGLManager()->GetTexture("box"));
+				it->second->SetTexture(m_GSM->GetGLManager()->GetTexture(0));
 
 			// If object is particle
 			// Set basic texture; basic particle
 			if (it->second->GetType() == PARTICLE)
-				it->second->SetTexture(m_GSM->GetGLManager()->GetTexture("particle"));
+				it->second->SetTexture(m_GSM->GetGLManager()->GetTexture(2));
 		}
 	}
 }
@@ -453,7 +453,7 @@ void Scene::AddSprite(Sprite* sprite)
 \param id - sprite's id to delete
 */
 /******************************************************************************/
-void Scene::DeleteSprite(const int id)
+void Scene::RemoveSprite(const int id)
 {
 	//Find the sprite from the vector
 	for (auto it = m_DrawList.begin(); it != m_DrawList.end(); ++it)

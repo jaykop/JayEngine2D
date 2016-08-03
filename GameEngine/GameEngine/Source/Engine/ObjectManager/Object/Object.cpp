@@ -14,7 +14,7 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 
 #include "Object.h"
 #include "../ObjectManager.h"
-#include "../../Logic/GameLogic.h"
+#include "../../Logic/Logic.h"
 #include "../../StateManager/GameStateManager/GameStateManager.h"
 
 /******************************************************************************/
@@ -49,7 +49,7 @@ Object::Object(const Object& object)
 /******************************************************************************/
 Object::~Object()
 {
-	ClearLogicList();
+ 	ClearLogicList();
 }
 
 /******************************************************************************/
@@ -97,8 +97,11 @@ void Object::ClearLogicList(void)
 {
 	for (auto it = m_logicList.begin(); it != m_logicList.end(); ++it)
 	{
-		delete it->second;
-		it->second = 0;
+		if (it->second)
+		{
+			delete it->second;
+			it->second = 0;
+		}
 	}
 	m_logicList.clear();
 }
@@ -112,7 +115,7 @@ void Object::ClearLogicList(void)
 void Object::AddLogic(GameLogic* logic)
 {
 	// Add logic to the object's logic list
-	m_logicList[typeid(*logic).name()] = logic;
+	m_logicList[logic->GetKey()] = logic;
 }
 
 /******************************************************************************/

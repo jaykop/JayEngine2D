@@ -19,11 +19,13 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 
 class Object;
 
-//! Logic builder
+//! Virtual logic builder class
 class LogicBuilder{
 
 public:
 
+	//! Basic constructor and destructor,
+	//! build function
 	LogicBuilder() {};
 	virtual ~LogicBuilder(void) {};
 	virtual GameLogic* BuildLogic(Object* Owner) const = 0;

@@ -67,7 +67,7 @@ struct Character {
 
 //! type definition for list
 typedef std::map<wchar_t, Character> Characters;
-typedef std::map<std::string, Texture*> TextureMap;
+typedef std::map<int, Texture*> TextureMap;
 //! GLManager to manage base GL info
 class GLManager
 {
@@ -100,10 +100,9 @@ public:
 	ProjectionInfo GetProjectionInfo(void) const;
 
 	//! Manage texture list
-	void AddTexture(const std::string& name, const char* directory);
+	void AddTexture(int key, const char* directory);
 	void ClearTextureMap(void);
-	Texture* GetTexture(const std::string& name);
-	const TextureMap& GetTextureMap(void) const;
+	Texture* GetTexture(int key);
 
 	//! Single tone pattern
 	static GLManager& GetInstance(void)

@@ -24,51 +24,41 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 #include "../../Sound/SoundManager.h"
 #include "../../ObjectManager/ObjectManager.h"
 
+/******************************************************************************/
+/*!
+\brief - JsonParser Constructor
+*/
+/******************************************************************************/
 JsonParser::JsonParser()
 :new_text(0), new_emitter(0), new_sprite(0)
 {}
 
+/******************************************************************************/
+/*!
+\brief - JsonParser Destructor
+*/
+/******************************************************************************/
 JsonParser::~JsonParser()
 {}
 
+/******************************************************************************/
+/*!
+\brief - Get loaded data
+\return m_data
+*/
+/******************************************************************************/
 const Json::Value& JsonParser::GetLoadedData(void) const
 {
 	return m_data;
 }
 
-void JsonParser::write_sample(void)
-{
-	Json::Value root;
-	root["id"] = "Luna";
-	root["name"] = "Silver";
-	root["age"] = 19;
-	root["hasCar"] = false;
-
-	Json::Value items;
-	items.append("nootbook");
-	items.append("ipadmini2");
-	items.append("iphone5s");
-	root["items"] = items;
-
-	Json::Value friends;
-	Json::Value tom;
-	tom["name"] = "Tom";
-	tom["age"] = 21;
-	Json::Value jane;
-	jane["name"] = "jane";
-	jane["age"] = 23;
-	friends.append(tom);
-	friends.append(jane);
-	root["friends"] = friends;
-
-	Json::StyledWriter writer;
-	str = writer.write(root);
-	std::cout << str << std::endl << std::endl;
-
-	// This will remove usless new line '\n'
-	Save(L"Resource/Data/Sample2.something", root);
-}
-
+/******************************************************************************/
+/*!
+\brief - Save data as json file
+\param dir - directory to save json file
+\param contents - json vaule
+*/
+/******************************************************************************/
 void JsonParser::Save(const wchar_t* dir, const Json::Value& contents)
 {
 	std::ofstream save_dir;
@@ -78,6 +68,12 @@ void JsonParser::Save(const wchar_t* dir, const Json::Value& contents)
 	save_dir << writter.write(contents);
 }
 
+/******************************************************************************/
+/*!
+\brief - Load data from json file
+\param dir - directory to load json file
+*/
+/******************************************************************************/
 void JsonParser::Load(wchar_t* dir)
 {
 	// Load json data to input file stream
@@ -97,44 +93,93 @@ void JsonParser::Load(wchar_t* dir)
 		std::cout << "Failed to parse Json : " << reader.getFormattedErrorMessages();
 }
 
+/******************************************************************************/
+/*!
+\brief - Init asset data to use in engine
+\param GLM - Pointer to gl manager
+\param SM - Pointer to sound manager
+*/
+/******************************************************************************/
 void JsonParser::InitAssetData(GLManager* GLM, SoundManager* SM)
 {
+	// Load font
 	if (m_data.isMember("Font") &&
 		m_data["Font"].isString())
 			GLM->SetFont(m_data["Font"].asCString());
 	
+	// Alarm Error
 	else
 		std::cerr << "Cannot load font file!\n";
 
+	// Load textures
 	if (m_data.isMember("Texture"))
 	{
 		for (auto it = m_data["Texture"].begin();
 			it != m_data["Texture"].end(); ++it)
 		{
-			if ((*it).isMember("name") &&
-				(*it)["name"].isString() &&
+			if ((*it).isMember("key") &&
+				(*it)["key"].isInt() &&
 				(*it).isMember("directory") &&
 				(*it)["directory"].isString())
-					GLM->AddTexture((*it)["name"].asCString(), (*it)["directory"].asCString());
+					GLM->AddTexture((*it)["key"].asInt(), (*it)["directory"].asCString());
 		}
 	}
 
+	// Alarm Error
 	else
 		std::cerr << "Cannot load texture files!\n";
 
+	// Load Sound
 	if (m_data.isMember("Sound"))
 	{
 		for (auto it = m_data["Sound"].begin();
 			it != m_data["Sound"].end(); ++it)
 		{
-			//SM->Load((*it).asCString(), );
+			if ((*it).isMember("key") &&
+				(*it)["key"].isInt() &&
+				(*it).isMember("directory") &&
+				(*it)["directory"].isString())
+					SM->AddSound((*it)["key"].asInt(), (*it)["directory"].asCString());
 		}
 	}
 
+	// Alarm Error
 	else
 		std::cerr << "Cannot load sound files!\n";
 }
 
+/******************************************************************************/
+/*!
+\brief - Count how many sounds to be loaded.
+		 This is to init fmod properly.
+\return quantity
+*/
+/******************************************************************************/
+int JsonParser::CheckLoadedSounds(void)
+{
+	int quantity = 0;
+	if (m_data.isMember("Sound"))
+	{
+		for (auto it = m_data["Sound"].begin();
+			it != m_data["Sound"].end(); ++it)
+		{
+			if ((*it).isMember("key") &&
+				(*it)["key"].isInt() &&
+				(*it).isMember("directory") &&
+				(*it)["directory"].isString())
+					++quantity;
+		}
+	}
+
+	return quantity;
+}
+
+/******************************************************************************/
+/*!
+\brief - Init Loaded Data on game stage
+\parma obm 
+*/
+/******************************************************************************/
 void JsonParser::InitLoadedData(ObjectManager* obm)
 {
 	// Load stage and objects
@@ -142,6 +187,12 @@ void JsonParser::InitLoadedData(ObjectManager* obm)
 	LoadObjects(obm);
 }
 
+/******************************************************************************/
+/*!
+\brief - Init scene info from json file
+\parma scene
+*/
+/******************************************************************************/
 void JsonParser::LoadStage(Scene* scene)
 {
 	// Check if there is proper stage info
@@ -171,27 +222,38 @@ void JsonParser::LoadStage(Scene* scene)
 	}
 }
 
+/******************************************************************************/
+/*!
+\brief - Init object info from json file
+\parma obm
+*/
+/******************************************************************************/
 void JsonParser::LoadObjects(ObjectManager* obm)
 {
 	// Check if there is proper object info
 	if (m_data["Object"].isArray())
 	{
+		// Loop for all objects in the stage
 		for (auto it = m_data["Object"].begin();
 			it != m_data["Object"].end(); 
 			++it)
 		{
+			// Check type and id
 			if ((*it).isMember("Type") &&
 				(*it).isMember("ID") && 
 				(*it)["ID"].isInt())
 			{
+				// Now set basic info by its type
 				int id = (*it)["ID"].asInt();
 
+				// Sprite case
 				if (!strcmp((*it)["Type"].asCString(), "SPRITE"))
 				{
 					obm->AddObject(new Sprite(id, obm));
 					LoadBasicObject(it, obm->GetGameObject<Sprite>(id));
 				}
 
+				// Text case
 				else if (!strcmp((*it)["Type"].asCString(), "TEXT"))
 				{
 					obm->AddObject(new Text(id, obm));
@@ -204,6 +266,7 @@ void JsonParser::LoadObjects(ObjectManager* obm)
 						(*it)["Text"].asCString()));
 				}
 
+				// Particle(Emitter) case
 				else if (!strcmp((*it)["Type"].asCString(), "PARTICLE"))
 				{
 					obm->AddObject(new Emitter(id, obm));
@@ -260,6 +323,7 @@ void JsonParser::LoadObjects(ObjectManager* obm)
 						obm->GetGameObject<Emitter>(id)->SetBoundary((*it)["Range"].asFloat());
 				}	
 
+				// Load logics
 				if ((*it).isMember("Logic"))
 					LoadLogics(it, obm->GetGameObject<Sprite>(id));
 			}
@@ -267,6 +331,13 @@ void JsonParser::LoadObjects(ObjectManager* obm)
 	}
 }
 
+/******************************************************************************/
+/*!
+\brief - Init basic sprite info from json file
+\parma it - iterator from json value
+\param sprite - pointer to sprite to set
+*/
+/******************************************************************************/
 void JsonParser::LoadBasicObject(Json::Value::iterator& it, Sprite* sprite)
 {
 	//! Set transform
@@ -418,6 +489,13 @@ void JsonParser::LoadBasicObject(Json::Value::iterator& it, Sprite* sprite)
 	}
 }
 
+/******************************************************************************/
+/*!
+\brief - Init logic to object
+\parma it - iterator from json value
+\param Object - pointer to Object to set
+*/
+/******************************************************************************/
 void JsonParser::LoadLogics(Json::Value::iterator& it, Object* object)
 {
 	if ((*it).isMember("Logic"))
@@ -425,9 +503,9 @@ void JsonParser::LoadLogics(Json::Value::iterator& it, Object* object)
 		for (auto logic = (*it)["Logic"].begin();
 			logic != (*it)["Logic"].end(); ++logic)
 		{
-			if ((*logic).isMember("name"))
+			if ((*logic).isMember("key"))
 			{
-				GameLogic* newLogic = LogicFactory::CreateLogic((*logic)["name"].asCString(), object);
+				GameLogic* newLogic = LogicFactory::CreateLogic((*logic)["key"].asInt(), object);
 				if (newLogic)
 				{
 					if ((*logic).isMember("values"))
@@ -436,8 +514,41 @@ void JsonParser::LoadLogics(Json::Value::iterator& it, Object* object)
 						object->AddLogic(newLogic);
 					}
 				}
-				else std::cerr << "Error: Cannot make new logic" << (*logic)["name"].asCString() << std::endl;
+				else std::cerr << "Error: Cannot make new logic" << (*logic)["key"].asInt() << std::endl;
 			}
 		}
 	}
+}
+
+void JsonParser::write_sample(void)
+{
+	Json::Value root;
+	root["id"] = "Luna";
+	root["name"] = "Silver";
+	root["age"] = 19;
+	root["hasCar"] = false;
+
+	Json::Value items;
+	items.append("nootbook");
+	items.append("ipadmini2");
+	items.append("iphone5s");
+	root["items"] = items;
+
+	Json::Value friends;
+	Json::Value tom;
+	tom["name"] = "Tom";
+	tom["age"] = 21;
+	Json::Value jane;
+	jane["name"] = "jane";
+	jane["age"] = 23;
+	friends.append(tom);
+	friends.append(jane);
+	root["friends"] = friends;
+
+	Json::StyledWriter writer;
+	str = writer.write(root);
+	std::cout << str << std::endl << std::endl;
+
+	// This will remove usless new line '\n'
+	Save(L"Resource/Data/Sample2.something", root);
 }

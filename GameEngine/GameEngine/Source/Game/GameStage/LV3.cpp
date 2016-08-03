@@ -15,12 +15,20 @@ void LV3Stage::Load(GameData& gd)
 {
 	UNREFERENCED_PARAMETER(gd);
 	std::cout << "LV3Stage::Load\n";
+
+	//Bind basic systems
+	m_OBM.BindGameSystem(m_GSM);
+
+	// Load json data
+	// m_OBM.LoadStageData(L"Resource/Data/Sample.json");
 }
 
 void LV3Stage::Init(GameData& gd)
 {
 	UNREFERENCED_PARAMETER(gd);
 	std::cout << "Lv3Stage::Init\n";
+
+	m_OBM.InitGameSystem(gd);
 }
 
 void LV3Stage::Update(GameData& gd)
@@ -45,16 +53,22 @@ void LV3Stage::Update(GameData& gd)
 
 	else if (InputManager::GetInstance().KeyTriggered(KEY_R))
 		m_GSM->Restart(true);
+
+	m_OBM.UpdateGameSystem(gd);
 }
 
 void LV3Stage::Shutdown(GameData& gd)
 {
 	UNREFERENCED_PARAMETER(gd);
 	std::cout << "Lv3Stage::Shutdown\n";
+
+	m_OBM.ShutdownGameSystem(gd);
 }
 
 void LV3Stage::Unload(GameData& gd)
 {
 	UNREFERENCED_PARAMETER(gd);
 	std::cout << "LV3Stage::Unload\n";
+
+	// m_OBM.UnloadStageData();
 }

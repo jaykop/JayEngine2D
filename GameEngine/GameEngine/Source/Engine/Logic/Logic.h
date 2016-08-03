@@ -15,38 +15,30 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 #ifndef _LOGIC_G_
 #define _LOGIC_G_
 
-#include <vector>
-//#include <hash_map>
+#include <map>
 #include "GameLogic.h"
 #include "../ObjectManager/ObjectManager.h"
 
 class Sprite;
-//class ObjectManager;
 
-//! Type definition for list
-//typedef std::hash_map<int, Sprite*> ObjectList;
-typedef std::vector<GameLogic*> LogicList;
+//! Logic System class
 class Logic
 {
 
 public:
 
+	//! Constructor and Destructor
 	Logic(void);
 	~Logic(void);
 
-	void AddLogic(GameLogic* logic);
-	void RemoveLogic(GameLogic* logic);
-	void ClearLogicList(void);
-	const LogicList& GetLogicList(void) const;
-
-	void Init(GameData& gd);
-	void Update(GameData& gd);
-	void Shutdown(GameData& gd);
+	//! Loop functions
+	void Load(const ObjectList& objList, const Json::Value& data);
+	void Init(const ObjectList& objList, GameData& gd);
+	void Update(const ObjectList& objList, GameData& gd);
+	void Shutdown(const ObjectList& objList, GameData& gd);
+	void Unload(const ObjectList& objList);
 
 private:
-
-	//ObjectManager* m_OBM;
-	LogicList m_logicList;
 
 };
 

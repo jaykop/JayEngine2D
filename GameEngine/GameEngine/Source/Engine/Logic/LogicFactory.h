@@ -21,20 +21,21 @@ class Object;
 class GameLogic;
 class LogicBuilder;
 
+//! Logic Factoty class
 class LogicFactory
 {
 
 public:
 
 	~LogicFactory(void);
-	static void AddBuilder(const std::string& name, LogicBuilder* pBuilder);
-	static void DeleteAllBuilders(void);
+	static void AddBuilder(int key, LogicBuilder* pBuilder);
+	static void ClearBuilderMap(void);
 
-	static GameLogic* CreateLogic(const std::string& name, Object *owner);
+	static GameLogic* CreateLogic(int key, Object *owner);
 
 private:
 
-	static std::map <std::string, LogicBuilder*> m_builderMap;
+	static std::map <int, LogicBuilder*> m_builderMap;
 
 };
 

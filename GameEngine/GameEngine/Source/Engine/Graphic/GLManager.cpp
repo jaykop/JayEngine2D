@@ -172,12 +172,6 @@ bool GLManager::CheckGL(Application* pApp, HWND& window)
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	//glEnable(GL_POINT_SMOOTH);
-	//glEnable(GL_LINE_SMOOTH);
-	//glEnable(GL_POLYGON_SMOOTH);
-	//glHint(GL_POINT_SMOOTH_HINT, GL_NICEST);
-	//glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
-	//glHint(GL_POLYGON_SMOOTH_HINT, GL_NICEST);
 	glDepthFunc(GL_LEQUAL);
 	
 	return true;
@@ -424,18 +418,30 @@ Characters GLManager::GetCharacters(void) const
 	return m_chars;
 }
 
-void GLManager::AddTexture(const std::string& name, const char* dir)
-{
+/******************************************************************************/
+/*!
+\brief - Add texture to the map
 
+\param key - map key
+\param dir - directory of texture
+*/
+/******************************************************************************/
+void GLManager::AddTexture(int key, const char* dir)
+{
 	//Find if there is existing stage 
 	//If there is, assert
-	DEBUG_ASSERT(m_textureList.find(name) == m_textureList.end(), "Error: Logic Duplication!");
+	DEBUG_ASSERT(m_textureList.find(key) == m_textureList.end(), "Error: Logic Duplication!");
 
 	//Unless, make new builder
-	m_textureList[name] = new Texture;
-	m_textureList[name]->LoadTexture(dir);
+	m_textureList[key] = new Texture;
+	m_textureList[key]->LoadTexture(dir);
 }
 
+/******************************************************************************/
+/*!
+\brief - Clear all texture map
+*/
+/******************************************************************************/
 void GLManager::ClearTextureMap(void)
 {
 	for (auto it = m_textureList.begin();
@@ -451,19 +457,21 @@ void GLManager::ClearTextureMap(void)
 	m_textureList.clear();
 }
 
-Texture* GLManager::GetTexture(const std::string& name)
+/******************************************************************************/
+/*!
+\brief - Get pointer to specific texture
+\param key - map key
+\return texture
+*/
+/******************************************************************************/
+Texture* GLManager::GetTexture(int key)
 {
 	// If there is found one,
 	// return it
-	auto texture = m_textureList.find(name)->second;
+	auto texture = m_textureList.find(key)->second;
 	if (texture)
 		return texture;
 
 	// Unless, return 0
 	return nullptr;
-}
-
-const TextureMap& GLManager::GetTextureMap(void) const
-{
-	return m_textureList;
 }

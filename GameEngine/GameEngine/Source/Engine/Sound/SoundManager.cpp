@@ -12,6 +12,7 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 */
 /******************************************************************************/
 
+#include "Audio.h"
 #include "SoundManager.h"
 #include "../App/Application.h"
 #include "../Utilities/Debug/Debug.h"
@@ -23,12 +24,7 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 /******************************************************************************/
 SoundManager::SoundManager(void)
 :m_system(0)
-{
-	// Init all sound pointers
-	for (int i = 0; i < SOUND_END; ++i) {
-		m_sound[i] = 0;
-	}
-}
+{}
 
 /******************************************************************************/
 /*!
@@ -37,6 +33,7 @@ SoundManager::SoundManager(void)
 /******************************************************************************/
 SoundManager::~SoundManager(void)
 {
+	ClearSoundMap();
 	m_system->release();
 	m_system->close();
 }
@@ -45,32 +42,21 @@ SoundManager::~SoundManager(void)
 /*!
 \brief - Initialize SoundManager
 \param pApp - pointer to application
+\param size - The number of sound to load
 */
 /******************************************************************************/
-void SoundManager::InitFMOD(Application* pApp)
+void SoundManager::InitFMOD(Application* pApp, int size)
 {
 	FMOD::System_Create(&m_system);
-	FMOD_RESULT result = m_system->init(SOUND_END, FMOD_INIT_NORMAL, 0);
+	FMOD_RESULT result = m_system->init(size, FMOD_INIT_NORMAL, 0);
 	ErrorCheck(pApp, result);
 }
 
 /******************************************************************************/
 /*!
-\brief - Load sounds 
-\param SoundDir - sound's directory
-\param sound - sound type
-*/
-/******************************************************************************/
-void SoundManager::Load(const char* SoundDir, SoundData sound)
-{
-	m_system->createSound(SoundDir, FMOD_HARDWARE, 0, &m_sound[sound]);
-}
-
-/******************************************************************************/
-/*!
 \brief - Check sound's error
-\param result - function's result
 \param pApp - pointer to application
+\param result - function's result
 */
 /******************************************************************************/
 void SoundManager::ErrorCheck(Application* pApp, FMOD_RESULT result)
@@ -97,23 +83,50 @@ FMOD::System* SoundManager::GetSystem(void)
 /******************************************************************************/
 /*!
 \brief - Get pointer to sound
-\param soundData - sound type
+\param key - sound key
 \return m_sound
 */
 /******************************************************************************/
-FMOD::Sound* SoundManager::GetSound(const SoundData soundData)
+FMOD::Sound* SoundManager::GetSound(int key)
 {
-	return m_sound[soundData];
+	auto found = m_audioMap.find(key)->second;
+
+	if (found)
+		return m_audioMap[key]->m_sound;
+
+	return nullptr;
 }
 
 /******************************************************************************/
 /*!
 \brief - Get pointer to sound
-\param soundData - sound type
-\return m_sound
+\param key - sound key
+\param SoundDir - sound type
 */
 /******************************************************************************/
-void SoundManager::AddSound(const char* SoundDir, const std::string& name)
+void SoundManager::AddSound(int key, const char* SoundDir)
 {
-	//m_soundList[name] = m_system->createSound();
+	//Find if there is existing stage 
+	//If there is, assert
+	DEBUG_ASSERT(m_audioMap.find(key) == m_audioMap.end(), "Error: Logic Duplication!");
+
+	//Unless, make new builder
+	m_audioMap[key] = new Audio;
+	m_system->createSound(SoundDir, FMOD_HARDWARE, 0, &m_audioMap[key]->m_sound);
+}
+
+/******************************************************************************/
+/*!
+\brief - Clear sound map
+*/
+/******************************************************************************/
+void SoundManager::ClearSoundMap(void)
+{
+	for (auto it = m_audioMap.begin(); it != m_audioMap.end(); ++it)
+	{
+		delete it->second;
+		it->second = 0;
+	}
+
+	m_audioMap.clear();
 }

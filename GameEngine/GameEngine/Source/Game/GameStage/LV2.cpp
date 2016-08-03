@@ -82,6 +82,9 @@ void LV2Stage::Update(GameData& gd)
 	else if (InputManager::GetInstance().KeyTriggered(KEY_R))
 		m_GSM->Restart(true);
 
+	else if (InputManager::GetInstance().KeyTriggered(KEY_SPACE))
+		m_OBM.GetGameObject<Sprite>(0)->RemoveLogic<SampleLogic>();
+
 	m_OBM.UpdateGameSystem(gd);
 }
 
@@ -97,5 +100,6 @@ void LV2Stage::Unload(GameData& gd)
 {
 	UNREFERENCED_PARAMETER(gd);
 	std::cout << "LV2Stage::Unload\n";
-	//delete m_Loader;
+
+	m_OBM.UnloadStageData();
 }

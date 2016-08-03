@@ -128,6 +128,9 @@
     <ClCompile Include="Source\Engine\Logic\LogicFactory.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Engine\Logic\GameLogic.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -295,7 +298,10 @@
     <ClInclude Include="Source\Engine\Logic\LogicFactory.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Engine\Logic\LogicBuilderList.h">
+    <ClInclude Include="Source\Engine\Sound\Audio.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\BaseData\LoadLogics.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

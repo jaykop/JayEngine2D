@@ -27,11 +27,6 @@ m_system(gsm->GetSoundManager()->GetSystem()),
 m_BGMToggle(true), m_SEToggle(true), m_MasterToggle(true),
 m_BGMVolume(.5f), m_SEVolume(.5f), m_MasterVolume(.5f)
 {
-	// Init all sound pointers
-	for (int i = 0; i < SOUND_END; ++i) {
-		m_sound[i] = m_SM->GetSound(static_cast<SoundData>(i));
-	}
-
 	// Init all channels
 	for (int i = 0; i < TYPE_END; ++i) {
 		m_channel[i] = 0;
@@ -82,10 +77,12 @@ void Sound::Shutdown(void)
 \param sound - sound type
 */
 /******************************************************************************/
-void Sound::PlayBGM(SoundData sound)
+void Sound::PlayBGM(int key)
 {
+	auto found = m_SM->GetSound(key);
+
 	if (m_BGMToggle)
-		m_system->playSound(FMOD_CHANNEL_FREE, m_sound[sound], false, &m_channel[BGM]);
+		m_system->playSound(FMOD_CHANNEL_FREE, found, false, &m_channel[BGM]);
 }
 
 /******************************************************************************/
@@ -115,10 +112,12 @@ void Sound::PauseBGM(bool boolean)
 \param sound - sound type
 */
 /******************************************************************************/
-void Sound::PlaySE(SoundData sound)
+void Sound::PlaySE(int key)
 {
+	auto found = m_SM->GetSound(key);
+
 	if (m_SEToggle)
-		m_system->playSound(FMOD_CHANNEL_FREE, m_sound[sound], false, &m_channel[SE]);
+		m_system->playSound(FMOD_CHANNEL_FREE, found, false, &m_channel[SE]);
 }
 
 /******************************************************************************/

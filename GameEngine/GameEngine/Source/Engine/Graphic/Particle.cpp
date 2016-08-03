@@ -91,7 +91,10 @@ Emitter::~Emitter()
 
 	for (auto it = ParticleContainer.begin();
 		it != ParticleContainer.end(); ++it)
-			delete (*it);
+	{
+		delete (*it);
+		(*it) = 0;
+	}
 
 	ParticleContainer.clear();
 	ClearLogicList();

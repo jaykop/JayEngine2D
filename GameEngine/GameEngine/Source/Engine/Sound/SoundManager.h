@@ -18,36 +18,37 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 #pragma once
 #include "FMOD/fmod.hpp"
 #pragma comment(lib, "fmodex_vc.lib")
-
 #include <map>
-//using namespace FMOD;
 
-typedef std::map<std::string, FMOD::Sound*> SonudMap;
-
+class Audio;
 class Application;
-enum SoundData{BG, END, SE_1, SE_2, SOUND_END};
 
+//! type definition audio map
+typedef std::map<int, Audio*> AudioMap;
+
+//! Sound manager class
 class SoundManager
 {
 
 public:
 
+	//! Basic functions
 	SoundManager(void);
 	~SoundManager(void);
 
-	void InitFMOD(Application* pApp);
-	void Load(const char* SoundDir, SoundData sound);
-	void AddSound(const char* SoundDir, const std::string& name);
+	//! Manage fmod system and loaded sounds
+	void InitFMOD(Application* pApp, int size);
+	void AddSound(int key, const char* SoundDir);
+	void ClearSoundMap(void);
 	void ErrorCheck(Application* pApp, FMOD_RESULT result);
 
 	FMOD::System*	GetSystem(void);
-	FMOD::Sound*	GetSound(const SoundData soundData);
+	FMOD::Sound*	GetSound(int key);
 
 private:
 
-	FMOD::System*	m_system;				// pointer to system
-	FMOD::Sound*	m_sound[SOUND_END];		// pointer to sound file
-	SonudMap		m_soundList;
+	FMOD::System*	m_system;	// pointer to system
+	AudioMap		m_audioMap;
 };
 
 #endif // _SOUND_H_

@@ -22,8 +22,11 @@ class iniReader
 {
 public:
 
+	//! Constuctor and destructor
 	iniReader(const wchar_t* fileName);
 	~iniReader();
+
+	//! Reading functions
 	int ReadInt(wchar_t *section, wchar_t* key);
 	float ReadFloat(wchar_t *section, wchar_t* key);
 	bool ReadBool(wchar_t *section, wchar_t* key);

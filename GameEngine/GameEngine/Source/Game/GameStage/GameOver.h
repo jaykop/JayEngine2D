@@ -18,6 +18,8 @@ public:
 
 private:
 
+	ObjectManager m_OBM;
+
 };
 
 #endif // _GAMEOVERSTAGE_H_

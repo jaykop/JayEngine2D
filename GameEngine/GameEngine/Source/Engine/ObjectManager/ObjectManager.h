@@ -121,6 +121,7 @@ public:
 	void InitGameSystem(GameData& gd);
 	void UpdateGameSystem(GameData& gd);
 	void ShutdownGameSystem(GameData& gd);
+	void UnloadStageData(void);
 
 	//! Game System gettor
 	Scene* GetGameScene(void) const;

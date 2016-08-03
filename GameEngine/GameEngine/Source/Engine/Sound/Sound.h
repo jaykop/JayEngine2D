@@ -12,33 +12,39 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 */
 /******************************************************************************/
 
+#include <map>
+
 #include "SoundManager.h"
 
 enum ChannleType{BGM, SE, TYPE_END};
+
+class Audio;
 class GameStateManager;
 
+//! Sound system class
 class Sound{
 
 public:
 
-	// Basic function
+	//! Basic functions
 	Sound(GameStateManager* gsm);
 	~Sound(void);
 
+	//! Loop functions
 	void Init(void);
 	void Update(void);
 	void Shutdown(void);
 
-	// play, pause, stop
-	void PlayBGM(SoundData sound);
+	//! play, pause, stop functions
+	void PlayBGM(int key);
 	void StopBGM(void);
 	void PauseBGM(bool boolean);
 
-	void PlaySE(SoundData sound);
+	void PlaySE(int key);
 	void StopSE(void);
 	void PauseSE(bool boolean);
 
-	//Manage mute toggle
+	//! Manage mute toggle
 	bool GetSEMuteToggle(void) const;
 	bool GetBGMMuteToggle(void) const;
 	bool GetMasterMuteToggle(void) const;
@@ -47,7 +53,7 @@ public:
 	void SetBGMMuteToggle(bool toggle);
 	void SetMasterMuteToggle(bool toggle);
 	
-	//Manager volume
+	//! Manager volume
 	float GetSEVolume(void) const;
 	float GetBGMVolume(void) const;
 	float GetMasterVolume(void) const;
@@ -72,5 +78,4 @@ private:
 
 	FMOD::System*	m_system;			 // pointer to system
 	FMOD::Channel*	m_channel[TYPE_END]; // pointer to channel
-	FMOD::Sound*	m_sound[SOUND_END];	 // pointer to sound file
 };

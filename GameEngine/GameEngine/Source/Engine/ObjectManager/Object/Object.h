@@ -23,7 +23,7 @@ enum ObjectType{ TEXT, SPRITE, PARTICLE, LIGHT };
 class GameLogic;
 class ObjectManager;
 
-typedef std::hash_map<const char*, GameLogic*> LogicMap;
+typedef std::hash_map<int, GameLogic*> LogicMap;
 
 //! Basic Object class
 class Object {
@@ -50,9 +50,9 @@ public:
 	*/
 	/******************************************************************************/
 	template <class Type>
-	bool HasLogic(void)
+	bool HasLogic()
 	{
-		LogicMap::iterator found = m_logicList.find(typeid(Type).name());
+		LogicMap::iterator found = m_logicList.find(Type::GetKey());
 		if (found != m_logicList.end())
 			return true;
 
@@ -65,9 +65,9 @@ public:
 	*/
 	/******************************************************************************/
 	template <class Type>
-	Type* GetLogic(void)
+	Type* GetLogic()
 	{
-		LogicMap::iterator found = m_logicList.find(typeid(Type).name());
+		LogicMap::iterator found = m_logicList.find(Type::GetKey());
 		if (found != m_logicList.end())
 			return static_cast<Type*>(found->second);
 
@@ -80,13 +80,16 @@ public:
 	*/
 	/******************************************************************************/
 	template <class Type>
-	void DeleteLogic(void)
+	void RemoveLogic()
 	{
-		LogicMap::iterator found = m_logicList.find(typeid(Type).name());
+		LogicMap::iterator found = m_logicList.find(Type::GetKey());
+
 		if (found != m_logicList.end())
+		{
 			delete found->second;
-		
-		m_logicList.erase(found);
+			found->second = 0;
+			m_logicList.erase(found);
+		}
 	}
 
 	ObjectManager* GetOBM(void);

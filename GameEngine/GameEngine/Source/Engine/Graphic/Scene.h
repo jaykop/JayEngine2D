@@ -46,7 +46,7 @@ public:
 	vec4 GetCamera(void) const;
 
 	void AddSprite(Sprite* sprite);
-	void DeleteSprite(const int id);
+	void RemoveSprite(const int id);
 
 private:
 
