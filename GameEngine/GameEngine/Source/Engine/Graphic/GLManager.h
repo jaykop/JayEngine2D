@@ -100,8 +100,7 @@ public:
 	ProjectionInfo GetProjectionInfo(void) const;
 
 	//! Manage texture list
-	void LoadTextures(Json::Value::iterator& it);
-	void AddTexture(const std::string& name, const char* dir);
+	void AddTexture(const std::string& name, const char* directory);
 	void ClearTextureMap(void);
 	Texture* GetTexture(const std::string& name);
 	const TextureMap& GetTextureMap(void) const;

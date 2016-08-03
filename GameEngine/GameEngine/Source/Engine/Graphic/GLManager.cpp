@@ -42,6 +42,7 @@ GLManager::GLManager(void)
 GLManager::~GLManager(void)
 {
 	// Nothing here
+	ClearTextureMap();
 }
 
 /******************************************************************************/
@@ -423,11 +424,6 @@ Characters GLManager::GetCharacters(void) const
 	return m_chars;
 }
 
-void GLManager::LoadTextures(Json::Value::iterator& it)
-{
-
-}
-
 void GLManager::AddTexture(const std::string& name, const char* dir)
 {
 
@@ -436,7 +432,7 @@ void GLManager::AddTexture(const std::string& name, const char* dir)
 	DEBUG_ASSERT(m_textureList.find(name) == m_textureList.end(), "Error: Logic Duplication!");
 
 	//Unless, make new builder
-	m_textureList[name] = new Texture();
+	m_textureList[name] = new Texture;
 	m_textureList[name]->LoadTexture(dir);
 }
 
@@ -445,8 +441,11 @@ void GLManager::ClearTextureMap(void)
 	for (auto it = m_textureList.begin();
 		it != m_textureList.end(); ++it)
 	{
-		delete (*it).second;
-		(*it).second = 0;
+		if ((*it).second)
+		{
+			delete (*it).second;
+			(*it).second = 0;
+		}
 	}
 
 	m_textureList.clear();
@@ -454,9 +453,14 @@ void GLManager::ClearTextureMap(void)
 
 Texture* GLManager::GetTexture(const std::string& name)
 {
+	// If there is found one,
+	// return it
 	auto texture = m_textureList.find(name)->second;
 	if (texture)
 		return texture;
+
+	// Unless, return 0
+	return nullptr;
 }
 
 const TextureMap& GLManager::GetTextureMap(void) const

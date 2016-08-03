@@ -51,7 +51,7 @@ Sprite::Sprite(Sprite& sprite)
 	m_prjt = sprite.m_prjt;
 	m_color = sprite.m_color;
 	m_curScene = sprite.m_curScene;
-	//m_texture = sprite.m_texture;
+	m_texture = sprite.m_texture;
 	m_timer = sprite.m_timer;
 	ani_frame = sprite.ani_frame;
 	ani_speed = sprite.ani_speed;
@@ -84,13 +84,6 @@ Sprite::~Sprite(void)
 	{
 		delete m_body;
 		m_body = 0;
-	}
-
-	if (GetType() != PARTICLE &&
-		m_texture)
-	{
-		delete m_texture;
-		m_texture = 0;
 	}
 
 	ClearLogicList();

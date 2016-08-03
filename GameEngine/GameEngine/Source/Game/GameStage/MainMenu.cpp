@@ -55,7 +55,7 @@ void MenuStage::Init(GameData& gd)
 		"Press 1: ST_LV1\nPress 2: ST_LV2\nPress 3: ST_LV3\nPress ESC: Quit the App\n";
 
 	m_OBM.AddObject(new Sprite(0, &m_OBM));
-	m_OBM.GetGameObject<Sprite>(0)->GetTexture()->LoadTexture("Resource/Texture/Phantom.png");
+	m_OBM.GetGameObject<Sprite>(0)->SetTexture(m_GSM->GetGLManager()->GetTexture("sample1"));
 
 	m_OBM.AddObject(new Text(50, &m_OBM));
 	m_OBM.GetGameObject<Text>(50)->SetText(L"Text test...\nNewline...2");
@@ -63,7 +63,6 @@ void MenuStage::Init(GameData& gd)
 	m_OBM.GetGameObject<Text>(50)->SetColor(vec4(1, 1, 1, 1));
 
 	m_OBM.AddObject(new Emitter(60, &m_OBM));
-	m_OBM.GetGameObject<Emitter>(60)->GetTexture()->LoadTexture("Resource/Texture/particle.png");
 	m_OBM.GetGameObject<Emitter>(60)->SetNumOfParticle(100);
 	m_OBM.GetGameObject<Emitter>(60)->SetScale(vec3(2.f, 2.f));
 	m_OBM.GetGameObject<Emitter>(60)->SetDirection(vec3(1.f, 0.f));

@@ -70,17 +70,17 @@ void Scene::Init(const ObjectList& objList)
 	for (auto it = objList.begin(); it != objList.end(); ++it)
 	{
 		// If sprite has no texture...
-		if (!it->second->GetTexture()->IsLoaded())
+		if (!it->second->GetTexture())
 		{
 			// If object is normal sprite,
 			// Set basic texture; box
 			if (it->second->GetType() == SPRITE)
-				it->second->GetTexture()->LoadTexture("Resource/Texture/rect.png");
+				it->second->SetTexture(m_GSM->GetGLManager()->GetTexture("box"));
 
 			// If object is particle
 			// Set basic texture; basic particle
 			if (it->second->GetType() == PARTICLE)
-				it->second->GetTexture()->LoadTexture("Resource/Texture/particle.png");
+				it->second->SetTexture(m_GSM->GetGLManager()->GetTexture("particle"));
 		}
 	}
 }

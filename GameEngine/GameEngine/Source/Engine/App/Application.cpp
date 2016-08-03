@@ -62,6 +62,8 @@ namespace
 /******************************************************************************/
 bool Application::DataLoaded(void)
 {
+	m_Loader.Load(L"Resource/Data/LoadData.json");
+
 	// Load stages
 	m_GSM.AddStage(ST_MENU, new MainMenuBuilder);
 	m_GSM.AddStage(ST_LV1, new LV1Builder);
@@ -72,15 +74,15 @@ bool Application::DataLoaded(void)
 
 	m_GSM.SetFirstStage(ST_MENU);
 
-	// Build Logics
-	BuildLogics();
+	// Here app loads font, sound, textures
+	m_Loader.InitAssetData(m_GLM, m_SM);
 
 	// Load sound resources
 	m_SM->Load("Resource/Sound/arrow_x.wav", SE_1);
 	m_SM->Load("Resource/Sound/drum_roll_y.wav", SE_2);
 
-	// Load font
-	m_GLM->SetFont("Resource/Font/SDMiSaeng.ttf");
+	// Build Logics
+	BuildLogics();
 
 	return true;
 }

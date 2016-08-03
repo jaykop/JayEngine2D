@@ -102,7 +102,7 @@ void JsonParser::InitAssetData(GLManager* GLM, SoundManager* SM)
 	if (m_data.isMember("Font") &&
 		m_data["Font"].isString())
 			GLM->SetFont(m_data["Font"].asCString());
-
+	
 	else
 		std::cerr << "Cannot load font file!\n";
 
@@ -111,7 +111,11 @@ void JsonParser::InitAssetData(GLManager* GLM, SoundManager* SM)
 		for (auto it = m_data["Texture"].begin();
 			it != m_data["Texture"].end(); ++it)
 		{
-			//dGLM->LoadTextures();
+			if ((*it).isMember("name") &&
+				(*it)["name"].isString() &&
+				(*it).isMember("directory") &&
+				(*it)["directory"].isString())
+					GLM->AddTexture((*it)["name"].asCString(), (*it)["directory"].asCString());
 		}
 	}
 
@@ -426,9 +430,9 @@ void JsonParser::LoadLogics(Json::Value::iterator& it, Object* object)
 				GameLogic* newLogic = LogicFactory::CreateLogic((*logic)["name"].asCString(), object);
 				if (newLogic)
 				{
-					if ((*logic).isMember("value"))
+					if ((*logic).isMember("values"))
 					{
-						newLogic->Load((*logic)["value"]);
+						newLogic->Load((*logic)["values"]);
 						object->AddLogic(newLogic);
 					}
 				}

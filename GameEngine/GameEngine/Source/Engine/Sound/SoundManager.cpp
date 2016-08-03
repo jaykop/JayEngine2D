@@ -105,3 +105,15 @@ FMOD::Sound* SoundManager::GetSound(const SoundData soundData)
 {
 	return m_sound[soundData];
 }
+
+/******************************************************************************/
+/*!
+\brief - Get pointer to sound
+\param soundData - sound type
+\return m_sound
+*/
+/******************************************************************************/
+void SoundManager::AddSound(const char* SoundDir, const std::string& name)
+{
+	//m_soundList[name] = m_system->createSound();
+}

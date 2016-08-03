@@ -89,9 +89,6 @@ Emitter::~Emitter()
 {
 	//delete[] m_particle_buffer_data;
 
-	// Delete mother texture
-	delete GetTexture();
-
 	for (auto it = ParticleContainer.begin();
 		it != ParticleContainer.end(); ++it)
 			delete (*it);

@@ -92,7 +92,9 @@ private:
 	GLManager* m_GLM;
 	SoundManager* m_SM;
 	GameStateManager m_GSM;
-	
+
+	JsonParser m_Loader;
+
 }; //end GameEngine
 
 

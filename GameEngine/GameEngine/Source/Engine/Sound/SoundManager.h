@@ -19,7 +19,10 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 #include "FMOD/fmod.hpp"
 #pragma comment(lib, "fmodex_vc.lib")
 
+#include <map>
 //using namespace FMOD;
+
+typedef std::map<std::string, FMOD::Sound*> SonudMap;
 
 class Application;
 enum SoundData{BG, END, SE_1, SE_2, SOUND_END};
@@ -34,7 +37,7 @@ public:
 
 	void InitFMOD(Application* pApp);
 	void Load(const char* SoundDir, SoundData sound);
-
+	void AddSound(const char* SoundDir, const std::string& name);
 	void ErrorCheck(Application* pApp, FMOD_RESULT result);
 
 	FMOD::System*	GetSystem(void);
@@ -44,6 +47,7 @@ private:
 
 	FMOD::System*	m_system;				// pointer to system
 	FMOD::Sound*	m_sound[SOUND_END];		// pointer to sound file
+	SonudMap		m_soundList;
 };
 
 #endif // _SOUND_H_

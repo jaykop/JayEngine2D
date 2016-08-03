@@ -47,13 +47,10 @@ public:
 	*/
 	/******************************************************************************/
 	template <class Type>
-	void AddObject(Type* type, bool isCloned = false)
+	void AddObject(Type* type)
 	{
 		//Make new sprite
 		Type* new_sprite = type;
-
-		if (!isCloned)
-			static_cast<Sprite*>(new_sprite)->SetTexture(new Texture);
 
 		//Push it into the list
 		m_ObjectList.insert(std::hash_map<int, Sprite*>::value_type(
