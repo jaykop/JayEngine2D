@@ -16,7 +16,7 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 #define _LOGIC_G_
 
 #include <map>
-#include "GameLogic.h"
+#include "GameLogic/GameLogic.h"
 #include "../ObjectManager/ObjectManager.h"
 
 class Sprite;

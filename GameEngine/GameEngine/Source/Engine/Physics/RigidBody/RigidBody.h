@@ -15,7 +15,7 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 #ifndef _RIGIDBODY_H_
 #define _RIGIDBODY_H_
 
-#include "../Utilities/Math/MathUtils.h"
+#include "../../Utilities/Math/MathUtils.h"
 
 //! For Rectangle sprites
 class Vertices{

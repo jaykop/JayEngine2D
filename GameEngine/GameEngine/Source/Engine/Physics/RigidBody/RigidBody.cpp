@@ -12,7 +12,7 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 */
 /******************************************************************************/
 
-#include "../Graphic/Sprite.h"
+#include "../../Graphic/Sprite/Sprite.h"
 #include "RigidBody.h"
 
 /******************************************************************************/

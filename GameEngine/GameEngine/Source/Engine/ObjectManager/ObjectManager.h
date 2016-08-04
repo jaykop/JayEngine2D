@@ -14,8 +14,7 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 #ifndef _OBJECTMANAGER_H_
 #define _OBJECTMANAGER_H_
 
-#include <vector>
-#include "../Graphic/Text.h"
+#include "../Graphic/Text/Text.h"
 #include "../../Game/BaseData/GameData.h"
 #include "../Utilities/Json/JsonParser.h"
 

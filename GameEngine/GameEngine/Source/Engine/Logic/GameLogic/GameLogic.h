@@ -15,9 +15,9 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 #ifndef _GAMELOGIC_H_
 #define _GAMELOGIC_H_
 
-#include "../ObjectManager/Object/Object.h"
-#include "../ObjectManager/ObjectManager.h"
-#include "../Utilities/Json/JsonParser.h"
+#include "../../ObjectManager/Object/Object.h"
+#include "../../ObjectManager/ObjectManager.h"
+#include "../../Utilities/Json/JsonParser.h"
 
 class GameStateManager;
 

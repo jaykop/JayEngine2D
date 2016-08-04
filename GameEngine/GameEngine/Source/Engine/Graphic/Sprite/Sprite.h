@@ -15,9 +15,9 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 #ifndef _SPRITE_H_
 #define _SPRITE_H_
 
-#include "Texture.h"
-#include "../Utilities/Time.h"
-#include "../ObjectManager/Object/Object.h"
+#include "../Texture/Texture.h"
+#include "../../Utilities/Time.h"
+#include "../../ObjectManager/Object/Object.h"
 
 //! Sprite's prohection type
 enum Projt { PERSPECTIVE, ORTHOGONAL };

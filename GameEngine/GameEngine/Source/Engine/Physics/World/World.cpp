@@ -14,9 +14,9 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 
 #include "World.h"
 #include <hash_map>
-#include "../Graphic/Sprite.h"
-#include "../Physics/RigidBody.h"
-#include "../ObjectManager/ObjectManager.h"
+#include "../RigidBody/RigidBody.h"
+#include "../../Graphic/Sprite/Sprite.h"
+#include "../../ObjectManager/ObjectManager.h"
 
 /******************************************************************************/
 /*!

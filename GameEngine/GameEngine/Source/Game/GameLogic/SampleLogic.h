@@ -1,7 +1,7 @@
 #ifndef _SAMPLELOGIC_H_
 #define _SAMPLELOGIC_H_
 
-#include "../../Engine/Logic/GameLogic.h"
+#include "../../Engine/Logic/GameLogic/GameLogic.h"
 #include "../../Engine/Logic/LogicBuilder.h"
 
 class SampleLogicBuilder : public LogicBuilder

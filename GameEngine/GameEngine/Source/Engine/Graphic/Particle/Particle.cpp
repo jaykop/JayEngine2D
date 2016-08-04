@@ -12,10 +12,9 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 */
 /******************************************************************************/
 
-#include "Texture.h"
 #include "Particle.h"
-#include "../Utilities/Random.h"
-#include "../Physics//RigidBody.h"
+#include "../../Utilities/Random.h"
+#include "../../Physics//RigidBody/RigidBody.h"
 
 /******************************************************************************/
 /*!

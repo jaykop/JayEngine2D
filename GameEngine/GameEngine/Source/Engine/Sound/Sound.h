@@ -14,7 +14,7 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 
 #include <map>
 
-#include "SoundManager.h"
+#include "SoundManager/SoundManager.h"
 
 enum ChannleType{BGM, SE, TYPE_END};
 

@@ -15,7 +15,7 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 #ifndef _TEXTURE_H_
 #define _TEXTURE_H_
 
-#include "../Graphic/GLManager.h"
+#include "../GLManager/GLManager.h"
 
 //! Texture class to load png image
 class Texture{

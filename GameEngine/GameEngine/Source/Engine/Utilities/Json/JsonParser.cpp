@@ -16,13 +16,12 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 #include <iostream>
 
 //#include "JsonParser.h"
-#include "../../Graphic/Scene.h"
-#include "../../Graphic/Particle.h"
-#include "../../Physics/RigidBody.h"
-#include "../../Logic/GameLogic.h"
-#include "../../Logic/LogicFactory.h"
-#include "../../Sound/SoundManager.h"
-#include "../../ObjectManager/ObjectManager.h"
+#include "../../Graphic/Scene/Scene.h"
+#include "../../Graphic/Particle/Particle.h"
+#include "../../Physics/RigidBody/RigidBody.h"
+#include "../../Logic/GameLogic/GameLogic.h"
+#include "../../Logic/LogicFactory/LogicFactory.h"
+#include "../../Sound/SoundManager/SoundManager.h"
 
 /******************************************************************************/
 /*!

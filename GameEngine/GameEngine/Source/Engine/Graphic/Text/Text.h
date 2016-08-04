@@ -16,7 +16,7 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 #define _FREETYPE_TEXT_H_
 
 #include <string>
-#include "Sprite.h"
+#include "../Sprite/Sprite.h"
 
 class ObjectManager;
 

@@ -15,7 +15,7 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 #ifndef _LOGICBUILDER_H_
 #define _LOGICBUILDER_H_
 
-#include "GameLogic.h"
+#include "GameLogic/GameLogic.h"
 
 class Object;
 

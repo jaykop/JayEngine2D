@@ -12,10 +12,10 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 */
 /******************************************************************************/
 
-#include "Audio.h"
+#include "../Audio.h"
 #include "SoundManager.h"
-#include "../App/Application.h"
-#include "../Utilities/Debug/Debug.h"
+#include "../../App/Application.h"
+#include "../../Utilities/Debug/Debug.h"
 
 /******************************************************************************/
 /*!

@@ -16,9 +16,9 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 #include "ObjectManager.h"
 #include "../Logic/Logic.h"
 #include "../Sound/Sound.h"
-#include "../Graphic/Particle.h"
-#include "../Graphic/Scene.h"
-#include "../Physics/World.h"
+#include "../Graphic/Scene/Scene.h"
+#include "../Graphic/Particle/Particle.h"
+#include "../Physics/World/World.h"
 #include "../StateManager/GameStateManager/GameStateManager.h"
 
 /******************************************************************************/

@@ -13,7 +13,7 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 /******************************************************************************/
 
 #include "Text.h"
-#include "../ObjectManager/ObjectManager.h"
+#include "../../ObjectManager/ObjectManager.h"
 
 /******************************************************************************/
 /*!

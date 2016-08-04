@@ -86,21 +86,21 @@
     <ClCompile Include="Include\jsoncpp.cpp" />
     <ClCompile Include="Include\LodePNG\lodepng.cpp" />
     <ClCompile Include="Source\Engine\App\Application.cpp" />
-    <ClCompile Include="Source\Engine\Graphic\Particle.cpp" />
-    <ClCompile Include="Source\Engine\Logic\GameLogic.cpp" />
-    <ClCompile Include="Source\Engine\Logic\LogicFactory.cpp" />
+    <ClCompile Include="Source\Engine\Graphic\Particle\Particle.cpp" />
+    <ClCompile Include="Source\Engine\Logic\GameLogic\GameLogic.cpp" />
+    <ClCompile Include="Source\Engine\Logic\LogicFactory\LogicFactory.cpp" />
     <ClCompile Include="Source\Engine\ObjectManager\Object\Object.cpp" />
-    <ClCompile Include="Source\Engine\Graphic\Text.cpp" />
-    <ClCompile Include="Source\Engine\Graphic\Texture.cpp" />
+    <ClCompile Include="Source\Engine\Graphic\Text\Text.cpp" />
+    <ClCompile Include="Source\Engine\Graphic\Texture\Texture.cpp" />
     <ClCompile Include="Source\Engine\Logic\Logic.cpp" />
     <ClCompile Include="Source\Engine\Sound\Sound.cpp" />
-    <ClCompile Include="Source\Engine\Sound\SoundManager.cpp" />
+    <ClCompile Include="Source\Engine\Sound\SoundManager\SoundManager.cpp" />
     <ClCompile Include="Source\Engine\StateManager\StageFactory\StageFactory.cpp" />
     <ClCompile Include="Source\Engine\Utilities\Debug\Debug.cpp" />
-    <ClCompile Include="Source\Engine\Physics\World.cpp" />
+    <ClCompile Include="Source\Engine\Physics\World\World.cpp" />
     <ClCompile Include="Source\Engine\StateManager\GameStateManager\GameStateManager.cpp" />
-    <ClCompile Include="Source\Engine\Graphic\GLManager.cpp" />
-    <ClCompile Include="Source\Engine\Graphic\Scene.cpp" />
+    <ClCompile Include="Source\Engine\Graphic\GLManager\GLManager.cpp" />
+    <ClCompile Include="Source\Engine\Graphic\Scene\Scene.cpp" />
     <ClCompile Include="Source\Engine\InputManager\InputManager.cpp" />
     <ClCompile Include="Source\Engine\Utilities\INI\iniReader.cpp" />
     <ClCompile Include="Source\Engine\Utilities\INI\iniWritter.cpp" />
@@ -122,14 +122,14 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="Source\Engine\Graphic\Shader.cpp" />
-    <ClCompile Include="Source\Engine\Graphic\Sprite.cpp" />
+    <ClCompile Include="Source\Engine\Graphic\Shader\Shader.cpp" />
+    <ClCompile Include="Source\Engine\Graphic\Sprite\Sprite.cpp" />
     <ClCompile Include="Source\Engine\Utilities\Math\Vector\Vector3.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="Source\Engine\ObjectManager\ObjectManager.cpp" />
-    <ClCompile Include="Source\Engine\Physics\RigidBody.cpp">
+    <ClCompile Include="Source\Engine\Physics\RigidBody\RigidBody.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="Source\Engine\WinMain.cpp" />
@@ -146,25 +146,25 @@
     <ClInclude Include="Include\LodePNG\lodepng.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Source\Engine\App\Application.h" />
-    <ClInclude Include="Source\Engine\Graphic\Particle.h" />
-    <ClInclude Include="Source\Engine\Logic\GameLogic.h" />
+    <ClInclude Include="Source\Engine\Graphic\Particle\Particle.h" />
+    <ClInclude Include="Source\Engine\Logic\GameLogic\GameLogic.h" />
     <ClInclude Include="Source\Engine\Logic\LogicBuilder.h" />
     <ClInclude Include="Source\Game\BaseData\LoadLogics.h" />
-    <ClInclude Include="Source\Engine\Logic\LogicFactory.h" />
+    <ClInclude Include="Source\Engine\Logic\LogicFactory\LogicFactory.h" />
     <ClInclude Include="Source\Engine\ObjectManager\Object\Object.h" />
-    <ClInclude Include="Source\Engine\Graphic\Text.h" />
-    <ClInclude Include="Source\Engine\Graphic\Texture.h" />
+    <ClInclude Include="Source\Engine\Graphic\Text\Text.h" />
+    <ClInclude Include="Source\Engine\Graphic\Texture\Texture.h" />
     <ClInclude Include="Source\Engine\Logic\Logic.h" />
     <ClInclude Include="Source\Engine\Sound\Audio.h" />
     <ClInclude Include="Source\Engine\Sound\Sound.h" />
-    <ClInclude Include="Source\Engine\Sound\SoundManager.h" />
+    <ClInclude Include="Source\Engine\Sound\SoundManager\SoundManager.h" />
     <ClInclude Include="Source\Engine\StateManager\StageBuilder.h" />
     <ClInclude Include="Source\Engine\Utilities\Converter.h" />
     <ClInclude Include="Source\Engine\Utilities\Debug\Debug.h" />
-    <ClInclude Include="Source\Engine\Physics\World.h" />
+    <ClInclude Include="Source\Engine\Physics\World\World.h" />
     <ClInclude Include="Source\Engine\StateManager\GameStateManager\GameStateManager.h" />
-    <ClInclude Include="Source\Engine\Graphic\GLManager.h" />
-    <ClInclude Include="Source\Engine\Graphic\Scene.h" />
+    <ClInclude Include="Source\Engine\Graphic\GLManager\GLManager.h" />
+    <ClInclude Include="Source\Engine\Graphic\Scene\Scene.h" />
     <ClInclude Include="Source\Engine\InputManager\InputManager.h" />
     <ClInclude Include="Source\Engine\Utilities\INI\iniReader.h" />
     <ClInclude Include="Source\Engine\Utilities\INI\iniWritter.h" />
@@ -178,15 +178,15 @@
     <ClInclude Include="Source\Engine\Utilities\Math\Vector\Vector2.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClInclude>
-    <ClInclude Include="Source\Engine\Physics\RigidBody.h">
+    <ClInclude Include="Source\Engine\Physics\RigidBody\RigidBody.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="Source\Engine\Utilities\Random.h" />
     <ClInclude Include="Source\Game\BaseData\GameData.h" />
     <ClInclude Include="Source\Game\BaseData\LoadStages.h" />
     <ClInclude Include="Source\Engine\Utilities\Math\Matrix\Matrix4x4.h" />
-    <ClInclude Include="Source\Engine\Graphic\Shader.hpp" />
-    <ClInclude Include="Source\Engine\Graphic\Sprite.h" />
+    <ClInclude Include="Source\Engine\Graphic\Shader\Shader.hpp" />
+    <ClInclude Include="Source\Engine\Graphic\Sprite\Sprite.h" />
     <ClInclude Include="Source\Engine\Utilities\Math\Vector\Vector3.h" />
     <ClInclude Include="Source\Engine\ObjectManager\ObjectManager.h" />
     <ClInclude Include="Source\Engine\StateManager\StageFactory\StageFactory.h" />

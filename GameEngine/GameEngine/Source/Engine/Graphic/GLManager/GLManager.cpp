@@ -13,9 +13,9 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 /******************************************************************************/
 
 //#include "GLManager.h"
-#include "Texture.h"
-#include "../App/Application.h"
-#include "../Utilities/Debug/Debug.h"
+#include "../Texture/Texture.h"
+#include "../../App/Application.h"
+#include "../../Utilities/Debug/Debug.h"
 
 /******************************************************************************/
 /*!

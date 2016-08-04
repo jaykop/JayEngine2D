@@ -13,8 +13,8 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 /******************************************************************************/
 
 #include "LogicFactory.h"
-#include "LogicBuilder.h"
-#include "../Utilities/Debug/Debug.h"
+#include "../LogicBuilder.h"
+#include "../../Utilities/Debug/Debug.h"
 
 //! Init static builder map
 std::map <int, LogicBuilder*> LogicFactory::m_builderMap;

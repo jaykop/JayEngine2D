@@ -17,17 +17,23 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 
 #include "../../Engine/App/Application.h"
 
-#include "../../Engine/Graphic/Sprite.h"
-#include "../../Engine/Graphic/Particle.h"
-#include "../../Engine/Graphic/Scene.h"
+// Graphic Header
+#include "../../Engine/Graphic/Sprite/Sprite.h"
+#include "../../Engine/Graphic/Particle/Particle.h"
+#include "../../Engine/Graphic/Scene/Scene.h"
 
-#include "../../Engine/Physics/World.h"
-#include "../../Engine/Physics/RigidBody.h"
+// Physics Header
+#include "../../Engine/Physics/World/World.h"
+#include "../../Engine/Physics/RigidBody/RigidBody.h"
 
+// Sound Header
 #include "../../Engine/Sound/Sound.h"
+
+// Logic Header
 #include "../../Engine/Logic/Logic.h"
 #include "../../Engine/InputManager/InputManager.h"
 
+// Until Header
 #include "../../Engine/Utilities/Time.h"
 #include "../../Engine/Utilities/Random.h"
 #include "../../Engine/Utilities/Debug/Debug.h"

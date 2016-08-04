@@ -16,7 +16,7 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 #define _WORLD_G_
 
 #include <hash_map>
-#include "../Utilities/Math/MathUtils.h"
+#include "../../Utilities/Math/MathUtils.h"
 
 class Sprite;
 class Vertices;

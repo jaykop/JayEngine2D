@@ -16,8 +16,8 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 #define APPLICATION_H
 
 #define WIN32_LEAN_AND_MEAN
-#include "../Graphic/GLManager.h"
-#include "../Sound/SoundManager.h"
+#include "../Graphic/GLManager/GLManager.h"
+#include "../Sound/SoundManager/SoundManager.h"
 #include "../StateManager/GameStateManager/GameStateManager.h"
 
 using namespace Resolution;

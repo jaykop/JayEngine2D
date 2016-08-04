@@ -20,7 +20,7 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 #include <stdlib.h>
 #include <vector>
 
-#include "Sprite.h"
+#include "../Sprite/Sprite.h"
 
 //! Particle rendering type
 enum ParticleMode{ NORMAL, FIRE, SMOKE, EXPLOSION };

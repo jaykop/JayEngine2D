@@ -14,13 +14,13 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 
 #include <algorithm>
 #include <sstream>
-#include "Scene.h"
-#include "Text.h"
-#include "Sprite.h"
-#include "Particle.h"
-#include "../InputManager/InputManager.h"
-#include "../ObjectManager/ObjectManager.h"
-#include "../StateManager/GameStateManager/GameStateManager.h"
+#include "../Scene/Scene.h"
+#include "../Text/Text.h"
+#include "../Sprite/Sprite.h"
+#include "../Particle/Particle.h"
+#include "../../InputManager/InputManager.h"
+#include "../../ObjectManager/ObjectManager.h"
+#include "../../StateManager/GameStateManager/GameStateManager.h"
 
 /******************************************************************************/
 /*!

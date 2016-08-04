@@ -17,11 +17,11 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 
 // Basic GL
 #pragma comment(lib,"opengl32.lib")
-#include "../../../Include/GL/glew.h"
-#include "../../../Include//GL/wglew.h"
+#include "../../../../Include/GL/glew.h"
+#include "../../../../Include//GL/wglew.h"
 #include <windows.h>
-#include "../../../Include/GL/gl.h"
-#include "../../../Include/GL/glu.h"
+#include "../../../../Include/GL/gl.h"
+#include "../../../../Include/GL/glu.h"
 
 // Freetype lib
 #include <ft2build.h>
@@ -29,9 +29,9 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 
 // Others...
 #include <map>
-#include "Shader.hpp"
-#include "../Utilities/Math/MathUtils.h"
-#include "../Utilities/Json/JsonParser.h"
+#include "../Shader/Shader.hpp"
+#include "../../Utilities/Math/MathUtils.h"
+#include "../../Utilities/Json/JsonParser.h"
 
 class Shader;
 class Texture;

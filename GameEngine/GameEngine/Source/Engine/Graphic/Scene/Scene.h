@@ -17,7 +17,7 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 
 #include <vector>
 #include <hash_map>
-#include "../Graphic/Texture.h"
+#include "../Texture/Texture.h"
 
 class Text;
 class Sprite;
