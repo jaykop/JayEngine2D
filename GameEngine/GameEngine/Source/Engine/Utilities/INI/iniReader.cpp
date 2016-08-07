@@ -22,11 +22,11 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 \param fileName - fileName to write
 */
 /******************************************************************************/
-iniReader::iniReader(const wchar_t* fileName)
+iniReader::iniReader(const char* fileName)
 {
 	// Get file name
-	wmemset(m_fileName, 0x00, 255);
-	wmemcpy(m_fileName, fileName, wcslen(fileName));
+	memset(m_fileName, 0x00, 255);
+	memcpy(m_fileName, fileName, strlen(fileName));
 }
 
 /******************************************************************************/
@@ -49,7 +49,7 @@ iniReader::~iniReader()
 \return iResult
 */
 /******************************************************************************/
-int iniReader::ReadInt(wchar_t *section, wchar_t* key)
+int iniReader::ReadInt(char *section, char* key)
 {
 	int DefaultInt = 0;
 	int iResult = GetPrivateProfileInt(section, key, DefaultInt, m_fileName);
@@ -65,14 +65,14 @@ int iniReader::ReadInt(wchar_t *section, wchar_t* key)
 \return fltResult
 */
 /******************************************************************************/
-float iniReader::ReadFloat(wchar_t *section, wchar_t* key)
+float iniReader::ReadFloat(char *section, char* key)
 {
 	float DefaultFloat = 0.f;
-	wchar_t Result[255];
-	wchar_t Default[255];
-	wsprintf(Default, L"%f", DefaultFloat);
+	char Result[255];
+	char Default[255];
+	wsprintf(Default, "%f", DefaultFloat);
 	GetPrivateProfileString(section, key, Default, Result, 255, m_fileName);
-	float fltResult = wcstof(Result, NULL);
+	float fltResult = static_cast<float>(atof(Result));
 	return fltResult;
 }
 
@@ -85,15 +85,15 @@ float iniReader::ReadFloat(wchar_t *section, wchar_t* key)
 \return bolResult
 */
 /******************************************************************************/
-bool iniReader::ReadBool(wchar_t *section, wchar_t* key)
+bool iniReader::ReadBool(char *section, char* key)
 {
 	bool DefaultBoolean = false;
-	wchar_t Result[255];
-	wchar_t Default[255];
-	wsprintf(Default, L"%s", DefaultBoolean ? L"True" : L"False");
+	char Result[255];
+	char Default[255];
+	wsprintf(Default, "%s", DefaultBoolean ? "True" : "False");
 	GetPrivateProfileString(section, key, Default, Result, 255, m_fileName);
-	bool bolResult = (wcscmp(Result, L"True") == 0 ||
-		wcscmp(Result, L"true") == 0) ? true : false;
+	bool bolResult = (strcmp(Result, "True") == 0 ||
+		strcmp(Result, "true") == 0) ? true : false;
 	return bolResult;
 }
 
@@ -106,10 +106,10 @@ bool iniReader::ReadBool(wchar_t *section, wchar_t* key)
 \return m_stringResult
 */
 /******************************************************************************/
-wchar_t* iniReader::ReadString(wchar_t *section, wchar_t* key)
+char* iniReader::ReadString(char *section, char* key)
 {
-	const wchar_t* DefaultString = L"";
-	m_stringResult = new wchar_t[255];
+	const char* DefaultString = "";
+	m_stringResult = new char[255];
 	memset(m_stringResult, 0x00, 255);
 	 GetPrivateProfileString(section, key, 
 		 DefaultString, m_stringResult, 255, m_fileName);
@@ -124,25 +124,25 @@ wchar_t* iniReader::ReadString(wchar_t *section, wchar_t* key)
 \param DefaultBoolean - vec3 to read
 */
 /******************************************************************************/
-vec3 iniReader::ReadVec3(wchar_t *section, wchar_t* key)
+vec3 iniReader::ReadVec3(char *section, char* key)
 {
 	vec3 vec3Result;
 	const vec3 DefaultVec3;
-	wchar_t Result[2][255];
-	wchar_t Default[255];
+	char Result[2][255];
+	char Default[255];
 
-	wsprintf(Default, L"%f", DefaultVec3);
+	wsprintf(Default, "%f", DefaultVec3);
 	GetPrivateProfileString(section, key, Default, Result[0], 255, m_fileName);
 	for (int index = 0, fill = 0; index < sizeof(Result[0]) || fill < 3; ++index)
 	{
-		wchar_t pt[2] = { Result[0][index], '\0' };
+		char pt[2] = { Result[0][index], '\0' };
 
-		if (!wcscmp(pt, L" "))
+		if (!strcmp(pt, " "))
 		{
-			wcscpy_s(Result[1], (Result[0] + index + 1));
-			if (fill == 0) vec3Result.x = wcstof(Result[1], NULL);
-			else if (fill == 1) vec3Result.y = wcstof(Result[1], NULL);
-			else if (fill == 2) vec3Result.z = wcstof(Result[1], NULL);
+			strcpy_s(Result[1], (Result[0] + index + 1));
+			if (fill == 0) vec3Result.x = static_cast<float>(atof(Result[1]));
+			else if (fill == 1) vec3Result.y = static_cast<float>(atof(Result[1]));
+			else if (fill == 2) vec3Result.z = static_cast<float>(atof(Result[1]));
 			++fill;
 		}
 	}
@@ -158,31 +158,31 @@ vec3 iniReader::ReadVec3(wchar_t *section, wchar_t* key)
 \param DefaultBoolean - vec4 to read
 */
 /******************************************************************************/
-vec4 iniReader::ReadVec4(wchar_t *section, wchar_t* key)
+vec4 iniReader::ReadVec4(char *section, char* key)
 {
 	vec4 vec4Result;
 	const vec4 DefaultVec4;
-	wchar_t Result[2][255];
-	wchar_t Default[255];
+	char Result[2][255];
+	char Default[255];
 
-	wsprintf(Default, L"%f", DefaultVec4);
+	wsprintf(Default, "%f", DefaultVec4);
 	GetPrivateProfileString(section, key, Default, Result[0], 255, m_fileName);
 	
 	for (int index = 0, fill = 0; index < sizeof(Result[0]) && fill < 4; ++index)
 	{
-		wchar_t pt[2] = { Result[0][index], '\0' };
+		char pt[2] = { Result[0][index], '\0' };
 
-		if (!wcscmp(pt, L" "))
+		if (!strcmp(pt, " "))
 		{
-			wcscpy_s(Result[1], (Result[0] + index + 1));
+			strcpy_s(Result[1], (Result[0] + index + 1));
 			if (fill == 0)
-				vec4Result.x = wcstof(Result[1], NULL);
+				vec4Result.x = static_cast<float>(atof(Result[1]));
 			else if (fill == 1) 
-				vec4Result.y = wcstof(Result[1], NULL);
+				vec4Result.y = static_cast<float>(atof(Result[1]));
 			else if (fill == 2) 
-				vec4Result.z = wcstof(Result[1], NULL);
+				vec4Result.z = static_cast<float>(atof(Result[1]));
 			else if (fill == 3) 
-				vec4Result.w = wcstof(Result[1], NULL);
+				vec4Result.w = static_cast<float>(atof(Result[1])); 
 			++fill;
 		}
 	}

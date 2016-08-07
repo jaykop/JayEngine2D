@@ -23,22 +23,22 @@ class iniReader
 public:
 
 	//! Constuctor and destructor
-	iniReader(const wchar_t* fileName);
+	iniReader(const char* fileName);
 	~iniReader();
 
 	//! Reading functions
-	int ReadInt(wchar_t *section, wchar_t* key);
-	float ReadFloat(wchar_t *section, wchar_t* key);
-	bool ReadBool(wchar_t *section, wchar_t* key);
-	wchar_t* ReadString(wchar_t *section, wchar_t* key);
+	int ReadInt(char *section, char* key);
+	float ReadFloat(char *section, char* key);
+	bool ReadBool(char *section, char* key);
+	char* ReadString(char *section, char* key);
 
-	vec3 ReadVec3(wchar_t *section, wchar_t* key);
-	vec4 ReadVec4(wchar_t *section, wchar_t* key);
+	vec3 ReadVec3(char *section, char* key);
+	vec4 ReadVec4(char *section, char* key);
 
 private:
 
-	wchar_t m_fileName[255];	// ini file name to read
-	wchar_t* m_stringResult;	// temp string storage
+	char m_fileName[255];	// ini file name to read
+	char* m_stringResult;	// temp string storage
 
 };
 

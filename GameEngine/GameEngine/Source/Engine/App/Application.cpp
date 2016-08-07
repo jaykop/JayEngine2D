@@ -116,8 +116,8 @@ Application::Application(const InitData& initData)
 	m_winClass.lpfnWndProc = WinProc;							//Static member
 
 	// Set Icon for app
-	m_winClass.hIcon = (HICON)LoadImage(NULL, L"Resource/Texture/Icon/icon_256.ico", IMAGE_ICON, 256, 256, LR_LOADFROMFILE);
-	m_winClass.hIconSm = (HICON)LoadImage(NULL, L"Resource/Texture/Icon/icon_32.ico", IMAGE_ICON, 32, 32, LR_LOADFROMFILE);
+	m_winClass.hIcon = (HICON)LoadImage(NULL, "Resource/Texture/Icon/icon_256.ico", IMAGE_ICON, 256, 256, LR_LOADFROMFILE);
+	m_winClass.hIconSm = (HICON)LoadImage(NULL, "Resource/Texture/Icon/icon_32.ico", IMAGE_ICON, 32, 32, LR_LOADFROMFILE);
 
 	//Register our window class
 	RegisterClassEx(&m_winClass);
@@ -161,7 +161,7 @@ Application::Application(const InitData& initData)
 		);
 
 	/******************* Load json data as string *******************/
-	m_Loader.Load(L"Resource/Data/AssetData.json");
+	m_Loader.Load("Resource/Data/AssetData.json");
 
 	/******************** Set sound system; FMOD ********************/
 

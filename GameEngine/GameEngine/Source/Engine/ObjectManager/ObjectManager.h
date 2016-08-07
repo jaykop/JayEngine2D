@@ -116,7 +116,7 @@ public:
 
 	//! Manage main system
 	void BindGameSystem(GameStateManager* gsm);
-	void LoadStageData(wchar_t* dir);
+	void LoadStageData(char* dir);
 	void InitGameSystem(GameData& gd);
 	void UpdateGameSystem(GameData& gd);
 	void ShutdownGameSystem(GameData& gd);

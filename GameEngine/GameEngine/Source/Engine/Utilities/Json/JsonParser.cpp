@@ -58,7 +58,7 @@ const Json::Value& JsonParser::GetLoadedData(void) const
 \param contents - json vaule
 */
 /******************************************************************************/
-void JsonParser::Save(const wchar_t* dir, const Json::Value& contents)
+void JsonParser::Save(const char* dir, const Json::Value& contents)
 {
 	std::ofstream save_dir;
 	save_dir.open(dir);
@@ -73,7 +73,7 @@ void JsonParser::Save(const wchar_t* dir, const Json::Value& contents)
 \param dir - directory to load json file
 */
 /******************************************************************************/
-void JsonParser::Load(wchar_t* dir)
+void JsonParser::Load(char* dir)
 {
 	// Load json data to input file stream
 	std::ifstream load_dir(dir, std::ifstream::binary);
@@ -102,10 +102,19 @@ void JsonParser::Load(wchar_t* dir)
 void JsonParser::InitAssetData(GLManager* GLM, SoundManager* SM)
 {
 	// Load font
-	if (m_data.isMember("Font") &&
-		m_data["Font"].isString())
-			GLM->SetFont(m_data["Font"].asCString());
-	
+	if (m_data.isMember("Font"))
+	{
+		for (auto it = m_data["Font"].begin();
+			it != m_data["Font"].end(); ++it)
+		{
+			if ((*it).isMember("size") &&
+				(*it)["size"].isInt() &&
+				(*it).isMember("directory") &&
+				(*it)["directory"].isString())
+				GLM->SetFont((*it)["directory"].asCString(), static_cast<unsigned>((*it)["size"].asInt()));
+		}
+	}
+
 	// Alarm Error
 	else
 		std::cerr << "Cannot load font file!\n";
@@ -261,8 +270,7 @@ void JsonParser::LoadObjects(ObjectManager* obm)
 					if ((*it).isMember("Text") &&
 						(*it)["Text"].isString())
 						obm->GetGameObject<Text>(id)->
-						SetText(m_converter.ConverCtoWC(
-						(*it)["Text"].asCString()));
+						SetText((*it)["Text"].asCString());
 				}
 
 				// Particle(Emitter) case
@@ -372,7 +380,7 @@ void JsonParser::LoadBasicObject(Json::Value::iterator& it, Sprite* sprite)
 		(*it)["Projection"].isString())
 	{
 		if (!strcmp((*it)["Projection"].asCString(),
-			"ORTHOGONAL"))
+			"ORTHOGONA"))
 			sprite->SetProjectionType(ORTHOGONAL);
 
 		else if (!strcmp((*it)["Projection"].asCString(),
@@ -424,10 +432,10 @@ void JsonParser::LoadBasicObject(Json::Value::iterator& it, Sprite* sprite)
 			->ActivateMove((*it)["Move"].asBool());
 
 		//! Body accel
-		if ((*it).isMember("Accel") &&
-			(*it)["Accel"].isNumeric())
+		if ((*it).isMember("Acce") &&
+			(*it)["Acce"].isNumeric())
 			sprite->GetRigidBody()
-			->SetAcceleration((*it)["Accel"].asFloat());
+			->SetAcceleration((*it)["Acce"].asFloat());
 
 		//! Body force
 		if ((*it).isMember("Force") &&
@@ -477,7 +485,7 @@ void JsonParser::LoadBasicObject(Json::Value::iterator& it, Sprite* sprite)
 		if ((*it).isMember("Shape") &&
 			(*it)["Shape"].isString())
 		{
-			if (!strcmp("BALL", (*it)["Shape"].asCString()))
+			if (!strcmp("BAL", (*it)["Shape"].asCString()))
 				sprite->GetRigidBody()
 				->SetShape(BALL);
 
@@ -549,5 +557,5 @@ void JsonParser::write_sample(void)
 	std::cout << str << std::endl << std::endl;
 
 	// This will remove usless new line '\n'
-	Save(L"Resource/Data/Sample2.something", root);
+	Save("Resource/Data/Sample2.something", root);
 }

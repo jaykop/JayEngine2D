@@ -991,7 +991,7 @@ static unsigned getTreeInflateDynamic(HuffmanTree* tree_ll, HuffmanTree* tree_d,
   /*see comments in deflateDynamic for explanation of the context and these variables, it is analogous*/
   unsigned* bitlen_ll = 0; /*lit,len code lengths*/
   unsigned* bitlen_d = 0; /*dist code lengths*/
-  /*code length code lengths ("clcl"), the bit lengths of the huffman tree used to compress bitlen_ll and bitlen_d*/
+  /*code length code lengths ("clc"), the bit lengths of the huffman tree used to compress bitlen_ll and bitlen_d*/
   unsigned* bitlen_cl = 0;
   HuffmanTree tree_cl; /*the code tree for code length codes (the huffman tree for compressed huffman trees)*/
 
@@ -1730,12 +1730,12 @@ static unsigned deflateDynamic(ucvector* out, size_t* bp, Hash* hash,
   /*
   A block is compressed as follows: The PNG data is lz77 encoded, resulting in
   literal bytes and length/distance pairs. This is then huffman compressed with
-  two huffman trees. One huffman tree is used for the lit and len values ("ll"),
+  two huffman trees. One huffman tree is used for the lit and len values ("l"),
   another huffman tree is used for the dist values ("d"). These two trees are
   stored using their code lengths, and to compress even more these code lengths
   are also run-length encoded and huffman compressed. This gives a huffman tree
-  of code lengths "cl". The code lenghts used to describe this third tree are
-  the code length code lengths ("clcl").
+  of code lengths "c". The code lenghts used to describe this third tree are
+  the code length code lengths ("clc").
   */
 
   /*The lz77 encoded data, represented with integers since there will also be length and distance codes in it*/
@@ -1748,7 +1748,7 @@ static unsigned deflateDynamic(ucvector* out, size_t* bp, Hash* hash,
   uivector frequencies_cl; /*frequency of code length codes*/
   uivector bitlen_lld; /*lit,len,dist code lenghts (int bits), literally (without repeat codes).*/
   uivector bitlen_lld_e; /*bitlen_lld encoded with repeat codes (this is a rudemtary run length compression)*/
-  /*bitlen_cl is the code length code lengths ("clcl"). The bit lengths of codes to represent tree_cl
+  /*bitlen_cl is the code length code lengths ("clc"). The bit lengths of codes to represent tree_cl
   (these are written as is in the file, it would be crazy to compress these using yet another huffman
   tree that needs to be represented by yet another set of code lengths)*/
   uivector bitlen_cl;
@@ -5930,7 +5930,7 @@ const char* lodepng_error_text(unsigned code)
     case 32: return "illegal PNG compression method";
     case 33: return "illegal PNG filter method";
     case 34: return "illegal PNG interlace method";
-    case 35: return "chunk length of a chunk is too large or the chunk too small";
+    case 35: return "chunk length of a chunk is too large or the chunk too smal";
     case 36: return "illegal PNG filter type encountered";
     case 37: return "illegal bit depth for this color type given";
     case 38: return "the palette is too big"; /*more than 256 colors*/
@@ -5946,7 +5946,7 @@ const char* lodepng_error_text(unsigned code)
     case 50: return "jumped past memory while generating dynamic huffman tree";
     case 51: return "jumped past memory while inflating huffman block";
     case 52: return "jumped past memory while inflating";
-    case 53: return "size of zlib data too small";
+    case 53: return "size of zlib data too smal";
     case 54: return "repeat symbol in tree while there was no value symbol yet";
     /*jumped past tree while generating huffman tree, this could be when the
     tree will have more leaves than symbols after generating it out of the

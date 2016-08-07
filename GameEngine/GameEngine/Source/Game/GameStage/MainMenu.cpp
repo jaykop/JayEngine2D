@@ -47,7 +47,7 @@ void MenuStage::Load(GameData& gd)
 	m_OBM.BindGameSystem(m_GSM);
 
 	// Load json data
-	// m_OBM.LoadStageData(L"Resource/Data/Sample.json");
+	// m_OBM.LoadStageData("Resource/Data/Sample.json");
 }
 
 void MenuStage::Init(GameData& gd)
@@ -61,9 +61,10 @@ void MenuStage::Init(GameData& gd)
 	m_OBM.GetGameObject<Sprite>(0)->SetTexture(m_GSM->GetGLManager()->GetTexture(3));
 
 	m_OBM.AddObject(new Text(50, &m_OBM));
-	m_OBM.GetGameObject<Text>(50)->SetText(L"Text test...\nNewline...2");
+	m_OBM.GetGameObject<Text>(50)->SetText("Text test...\nText test...\nText test...\nText test...ss");
 	m_OBM.GetGameObject<Text>(50)->SetScale(vec3(1, 1));
 	m_OBM.GetGameObject<Text>(50)->SetColor(vec4(1, 1, 1, 1));
+	//m_OBM.GetGameObject<Text>(50)->SetFontSize(50);
 
 	m_OBM.AddObject(new Emitter(60, &m_OBM));
 	m_OBM.GetGameObject<Emitter>(60)->SetNumOfParticle(100);
@@ -76,55 +77,6 @@ void MenuStage::Init(GameData& gd)
 	
 	//Set walls and small sprites
 	offset = 0;
-	//SetSamllSprites();
-	//SetWallSprites();
-
-	//m_OBM.AddObject(new Sprite(0, &m_OBM));
-	//m_OBM.AddObject(new Sprite(1, &m_OBM));
-	//m_OBM.GetGameObject<Sprite>(0)->SetRigidBody();
-	//m_OBM.GetGameObject<Sprite>(1)->SetRigidBody();
-	//m_OBM.GetGameObject<Sprite>(0)->SetPosition(vec3(0, 0));
-	//m_OBM.GetGameObject<Sprite>(1)->SetPosition(vec3(10, 10));
-
-
-	//float radius = 10;//Random::GetInstance().GetRandomFloat(10, 15);
-	////m_OBM.GetGameObject<Sprite>(0)->SetScale(vec3(radius, radius));
-	//m_OBM.GetGameObject<Sprite>(0)->SetScale(vec3(5, 10));
-	//m_OBM.GetGameObject<Sprite>(1)->SetScale(vec3(radius, radius));
-	////m_OBM.GetGameObject<Sprite>(0)->GetRigidBody()->SetShape(BALL);
-	////m_OBM.GetGameObject<Sprite>(0)->GetTexture()->
-	////	LoadTexture("Resource/Texture/circle.png");
-	//m_OBM.GetGameObject<Sprite>(1)->GetRigidBody()->SetShape(BALL);
-	//m_OBM.GetGameObject<Sprite>(1)->GetTexture()->
-	//	LoadTexture("Resource/Texture/circle.png");
-	//m_OBM.GetGameObject<Sprite>(0)->GetRigidBody()->SetScale(
-	//	m_OBM.GetGameObject<Sprite>(0)->GetScale());
-	//m_OBM.GetGameObject<Sprite>(1)->GetRigidBody()->SetScale(
-	//	m_OBM.GetGameObject<Sprite>(1)->GetScale());
-
-	//
-
-	//m_OBM.GetGameObject<Sprite>(0)->SetRotation(
-	//	Random::GetInstance().GetRandomFloat(-180, 180));
-
-	//////Bind rigid body
-	////m_OBM.GetGameObject<Sprite>(index)->GetRigidBody()->SetShape(BOX);
-	////m_OBM.GetGameObject<Sprite>(index)->GetRigidBody()->SetScale(
-	////	m_OBM.GetGameObject<Sprite>(index)->GetScale());
-
-	//m_OBM.GetGameObject<Sprite>(0)->GetRigidBody()->SetMass(
-	//	(m_OBM.GetGameObject<Sprite>(0)->GetScale().x *
-	//	m_OBM.GetGameObject<Sprite>(0)->GetScale().y) / 50);
-	//m_OBM.GetGameObject<Sprite>(1)->GetRigidBody()->SetMass(
-	//	(m_OBM.GetGameObject<Sprite>(1)->GetScale().x *
-	//	m_OBM.GetGameObject<Sprite>(1)->GetScale().y) / 50);
-
-	//m_OBM.GetGameObject<Sprite>(1)->GetRigidBody()->ActivateMove(false);
-
-	m_OBM.InitGameSystem(gd);
-	//m_OBM.GetGameScene()->SetBackgroundColor(vec4(1, 1, 1, 1));
-	m_OBM.GetGameScene()->SetCamera(vec4(0, 0, 80, 0));
-	//Sprite* sprite = new Sprite(*m_OBM.GetGameObject<Sprite>(0));
 
 	// Clone test
 	//m_OBM.MakeClone<Sprite>(
@@ -137,6 +89,10 @@ void MenuStage::Init(GameData& gd)
 	//		Random::GetInstance().GetRandomFloat(-50, 50),
 	//		Random::GetInstance().GetRandomFloat(-30, 30)));
 	//}
+
+	m_OBM.InitGameSystem(gd);
+	m_OBM.GetGameScene()->SetCamera(vec4(0, 0, 80, 0));
+	//m_OBM.GetGameScene()->SetBackgroundColor(vec4(1, 1, 1, 1));
 }
 
 void MenuStage::Update(GameData& gd)

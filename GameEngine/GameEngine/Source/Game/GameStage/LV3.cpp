@@ -20,7 +20,7 @@ void LV3Stage::Load(GameData& gd)
 	m_OBM.BindGameSystem(m_GSM);
 
 	// Load json data
-	// m_OBM.LoadStageData(L"Resource/Data/Sample.json");
+	// m_OBM.LoadStageData("Resource/Data/Sample.json");
 }
 
 void LV3Stage::Init(GameData& gd)

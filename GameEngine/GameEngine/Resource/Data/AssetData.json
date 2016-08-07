@@ -1,5 +1,7 @@
 {
-	"Font" : "Resource/Font/SDMiSaeng.ttf",
+	"Font" : [
+		{"directory" : "Resource/Font/SDMiSaeng.ttf", "size" : 40}
+	],
 	
 	"Sound" : [
 		{"key" : 0, "directory" : "Resource/Sound/arrow_x.wav"},

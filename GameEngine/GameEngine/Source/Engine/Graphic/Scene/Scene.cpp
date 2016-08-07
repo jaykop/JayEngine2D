@@ -164,14 +164,15 @@ void Scene::DrawTexts(Text* text)
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	GLfloat new_x = static_cast<GLfloat>(text->GetPosition().x);
-
+	GLfloat lower_y = 0;
+	int num_newline = 1;
 	// Iterate all character
-	std::wstring::const_iterator c;
+	std::string::const_iterator c;
 	for (c = text->GetText().begin(); c != text->GetText().end(); ++c)
 	{
 		Character ch = m_GSM->GetGLManager()->GetCharacters()[*c];
 		GLfloat xpos = new_x + ch.Bearing.x * text->GetScale().x;
-		GLfloat ypos = text->GetPosition().y - (ch.Size.y - ch.Bearing.y) * text->GetScale().y;
+		GLfloat ypos = text->GetPosition().y - (ch.Size.y - ch.Bearing.y) * text->GetScale().y - lower_y;
 		GLfloat zpos = text->GetPosition().z;
 
 		GLfloat w = ch.Size.x * text->GetScale().x;
@@ -188,7 +189,17 @@ void Scene::DrawTexts(Text* text)
 		glBindTexture(GL_TEXTURE_2D, ch.TextureID);
 		glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices);
 		glDrawArrays(GL_QUADS, 0, 4);
-		new_x += (ch.Advance >> 6) * text->GetScale().x;
+		
+		const char newline = *c;
+		if (newline == '\n')
+		{
+			new_x = 0;
+			lower_y = m_GSM->GetGLManager()->GetFontSize() * (2.f / 3.f) * num_newline;
+			++num_newline;
+		}
+
+		else
+			new_x += (ch.Advance >> 6) * text->GetScale().x;
 	}
 }
 

@@ -41,15 +41,15 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE /*prev*/,
 	DEBUG_CREATE_CONSOLE();
 
 	//! Set default values
-	wchar_t* Title = L"Demo Engine";
+	char* Title = "Demo Engine";
 	int Resolution = 1;
 	bool ScreenMode = true;
 
 	//! Load ini setting values
-	iniReader LoadSetting(L"Resource/Data/Settings.ini");
-	Title = LoadSetting.ReadString(L"Setting", L"Title");
-	Resolution = LoadSetting.ReadInt(L"Setting", L"Resolution");
-	ScreenMode = LoadSetting.ReadBool(L"Setting", L"FullScreen");
+	iniReader LoadSetting("Resource/Data/Settings.ini");
+	Title = LoadSetting.ReadString("Setting", "Title");
+	Resolution = LoadSetting.ReadInt("Setting", "Resolution");
+	ScreenMode = LoadSetting.ReadBool("Setting", "FullScreen");
 	
 	//! Values to init my application from main, these could be read from a file
 	InitData initData;

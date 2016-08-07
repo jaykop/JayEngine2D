@@ -134,7 +134,7 @@ void ObjectManager::BindGameSystem(GameStateManager* gsm)
 \param dir - Json file;s directory to load stage info
 */
 /******************************************************************************/
-void ObjectManager::LoadStageData(wchar_t* dir)
+void ObjectManager::LoadStageData(char* dir)
 {
 	m_Loader.Load(dir);
 	m_Loader.InitLoadedData(this);

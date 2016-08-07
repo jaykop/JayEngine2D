@@ -66,7 +66,7 @@ struct Character {
 };
 
 //! type definition for list
-typedef std::map<wchar_t, Character> Characters;
+typedef std::map<char, Character> Characters;
 typedef std::map<int, Texture*> TextureMap;
 //! GLManager to manage base GL info
 class GLManager
@@ -87,7 +87,10 @@ public:
 	void InitGL(Application* pApp, HWND& window, int width, int height);
 	
 	// Set font
-	void SetFont(const char* fontDir);
+	void SetFont(const char* fontDir, unsigned fontSize);
+	FT_Face& GetFT_Face(void);
+	unsigned GetFontSize(void) const;
+	//void SetFontSize(unsigned fontSize);
 
 	//! Gettor for GL info
 	HDC  GetHDC(void) const;
@@ -128,6 +131,8 @@ private:
 	//! Ascii storage
 	Characters m_chars;
 	TextureMap m_textureList;
+	FT_Face	   m_face;
+	FT_UInt	   m_fontSize;
 };
 
 #endif // _GLManager_H_

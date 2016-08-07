@@ -23,21 +23,21 @@ class iniWritter
 public:
 	
 	//! Constuctor
-	iniWritter(const wchar_t* fileName);
+	iniWritter(const char* fileName);
 
 	//! Writting functions
-	void WriteInt(wchar_t *section, wchar_t* key, int DefaultInt);
-	void WriteFloat(wchar_t *section, wchar_t* key, float DefaultFloat);
-	void WriteBool(wchar_t *section, wchar_t* key, bool DefaultBoolean);
-	void WriteString(wchar_t *section, wchar_t* key, const wchar_t* DefaultString);
+	void WriteInt(char *section, char* key, int DefaultInt);
+	void WriteFloat(char *section, char* key, float DefaultFloat);
+	void WriteBool(char *section, char* key, bool DefaultBoolean);
+	void WriteString(char *section, char* key, const char* DefaultString);
 
-	void WriteVec3(wchar_t *section, wchar_t* key, const vec3& DefaultVec3);
-	void WriteVec4(wchar_t *section, wchar_t* key, const vec4& DefaultVec4);
+	void WriteVec3(char *section, char* key, const vec3& DefaultVec3);
+	void WriteVec4(char *section, char* key, const vec4& DefaultVec4);
 
 private:
 	
 	// ini file name to write
-	wchar_t m_fileName[255];
+	char m_fileName[255];
 
 };
 

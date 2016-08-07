@@ -23,10 +23,9 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 */
 /******************************************************************************/
 GLManager::GLManager(void)
+:m_hdc(0), m_hglrc(0)
 {
 	//Set projection matrix
-	m_hdc = 0;
-	m_hglrc = 0;
 	m_info.m_width = 0;
 	m_info.m_height = 0;
 	m_info.m_zNear = 0.1f;
@@ -133,8 +132,8 @@ bool GLManager::CheckGL(Application* pApp, HWND& window)
 	m_hdc = GetDC(window);
 	if (!m_hdc)
 	{
-		MessageBox(window, L"Failed to get the wnd dc",
-			L"Device Context Error", MB_OK);
+		MessageBox(window, "Failed to get the wnd dc",
+			"Device Context Error", MB_OK);
 
 		SysShutdown();
 		pApp->Quit();
@@ -147,8 +146,8 @@ bool GLManager::CheckGL(Application* pApp, HWND& window)
 	m_hglrc = wglCreateContext(m_hdc);
 	if (!m_hglrc)
 	{
-		MessageBox(window, L"Failed to Create the OpenGL Rendering Context",
-			L"OpenGL Rendering Context Error", MB_OK);
+		MessageBox(window, "Failed to Create the OpenGL Rendering Context",
+			"OpenGL Rendering Context Error", MB_OK);
 
 		SysShutdown();
 		pApp->Quit();
@@ -157,8 +156,8 @@ bool GLManager::CheckGL(Application* pApp, HWND& window)
 	//Make the OpenGL Rendering context current rc
 	if (!wglMakeCurrent(m_hdc, m_hglrc))
 	{
-		MessageBox(window, L"Failed to make OpenGL Rendering Context current",
-			L"OpenGL Rendering Context Error", MB_OK);
+		MessageBox(window, "Failed to make OpenGL Rendering Context current",
+			"OpenGL Rendering Context Error", MB_OK);
 
 		SysShutdown();
 		pApp->Quit();
@@ -191,8 +190,8 @@ void GLManager::InitGL(Application* pApp, HWND& window, int width, int height)
 		GLenum err = glewInit();
 		if (err != GLEW_OK)
 		{
-			MessageBox(window, L"Failed to initialize GLEW",
-				L"OpenGL GLEW Error", MB_OK);
+			MessageBox(window, "Failed to initialize GLEW",
+				"OpenGL GLEW Error", MB_OK);
 
 			pApp->Quit();
 		}
@@ -341,8 +340,10 @@ GLuint GLManager::GetVertexAttrib(void) const
 \param fontDir - font's directory
 */
 /******************************************************************************/
-void GLManager::SetFont(const char* fontDir)
+void GLManager::SetFont(const char* fontDir, unsigned fontSize)
 {
+	m_fontSize = fontSize;
+
 	// FreeType
 	FT_Library ft;
 	// All functions return a value different than 0 whenever an error occurred
@@ -350,12 +351,12 @@ void GLManager::SetFont(const char* fontDir)
 		std::cout << "ERROR::FREETYPE: Could not init FreeType Library" << std::endl;
 
 	// Load font as face
-	FT_Face face;
-	if (FT_New_Face(ft, fontDir, 0, &face))
+	//FT_Face face;
+	if (FT_New_Face(ft, fontDir, 0, &m_face))
 		std::cout << "ERROR::FREETYPE: Failed to load font" << std::endl;
 
 	// Set size to load glyphs as
-	FT_Set_Pixel_Sizes(face, 0, 48);
+	FT_Set_Pixel_Sizes(m_face, 0, m_fontSize);
 
 	// Disable byte-alignment restriction
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
@@ -364,7 +365,7 @@ void GLManager::SetFont(const char* fontDir)
 	for (GLubyte c = 0; c < 128; c++)
 	{
 		// Load character glyph 
-		if (FT_Load_Char(face, c, FT_LOAD_RENDER))
+		if (FT_Load_Char(m_face, c, FT_LOAD_RENDER))
 		{
 			std::cout << "ERROR::FREETYTPE: Failed to load Glyph" << std::endl;
 			continue;
@@ -377,12 +378,12 @@ void GLManager::SetFont(const char* fontDir)
 			GL_TEXTURE_2D,
 			0,
 			GL_RED,
-			face->glyph->bitmap.width,
-			face->glyph->bitmap.rows,
+			m_face->glyph->bitmap.width,
+			m_face->glyph->bitmap.rows,
 			0,
 			GL_RED,
 			GL_UNSIGNED_BYTE,
-			face->glyph->bitmap.buffer
+			m_face->glyph->bitmap.buffer
 			);
 		// Set texture options
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
@@ -392,17 +393,17 @@ void GLManager::SetFont(const char* fontDir)
 		// Now store character for later use
 		Character character = {
 			texture,
-			vec2(static_cast<float>(face->glyph->bitmap.width), static_cast<float>(face->glyph->bitmap.rows)),
-			vec2(static_cast<float>(face->glyph->bitmap_left), static_cast<float>(face->glyph->bitmap_top)),
-			face->glyph->advance.x
+			vec2(static_cast<float>(m_face->glyph->bitmap.width), static_cast<float>(m_face->glyph->bitmap.rows)),
+			vec2(static_cast<float>(m_face->glyph->bitmap_left), static_cast<float>(m_face->glyph->bitmap_top)),
+			m_face->glyph->advance.x
 		};
-		m_chars.insert(std::pair<wchar_t, Character>(c, character));
+		m_chars.insert(std::pair<char, Character>(c, character));
 	}
 
 	glBindTexture(GL_TEXTURE_2D, 0);
 
 	// Destroy FreeType once we're finished
-	FT_Done_Face(face);
+	FT_Done_Face(m_face);
 	FT_Done_FreeType(ft);
 }
 
@@ -475,3 +476,36 @@ Texture* GLManager::GetTexture(int key)
 	// Unless, return 0
 	return nullptr;
 }
+
+/******************************************************************************/
+/*!
+\brief - Get freetype face
+\return m_face
+*/
+/******************************************************************************/
+FT_Face& GLManager::GetFT_Face(void)
+{
+	return m_face;
+}
+
+/******************************************************************************/
+/*!
+\brief - Get freetype font size
+\return m_fontSize
+*/
+/******************************************************************************/
+unsigned GLManager::GetFontSize(void) const
+{
+	return m_fontSize;
+}
+
+///******************************************************************************/
+///*!
+//\brief - Set freetype font size
+//\param fontSize
+//*/
+///******************************************************************************/
+//void GLManager::SetFontSize(unsigned fontSize)
+//{
+//	m_fontSize = fontSize;
+//}

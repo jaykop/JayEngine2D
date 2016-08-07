@@ -24,11 +24,11 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 \param fileName - fileName to write
 */
 /******************************************************************************/
-iniWritter::iniWritter(const wchar_t* fileName)
+iniWritter::iniWritter(const char* fileName)
 {
 	// Get file name
-	wmemset(m_fileName, 0x00, 255);
-	wmemcpy(m_fileName, fileName, wcslen(fileName));
+	memset(m_fileName, 0x00, 255);
+	memcpy(m_fileName, fileName, strlen(fileName));
 }
 
 /******************************************************************************/
@@ -39,10 +39,10 @@ iniWritter::iniWritter(const wchar_t* fileName)
 \param DefaultInt - int to write
 */
 /******************************************************************************/
-void iniWritter::WriteInt(wchar_t *section, wchar_t* key, int DefaultInt)
+void iniWritter::WriteInt(char *section, char* key, int DefaultInt)
 {
-	wchar_t value[255];
-	wsprintf(value, L"%d", DefaultInt);
+	char value[255];
+	wsprintf(value, "%d", DefaultInt);
 	WritePrivateProfileString(section, key, value, m_fileName);
 }
 
@@ -54,10 +54,10 @@ void iniWritter::WriteInt(wchar_t *section, wchar_t* key, int DefaultInt)
 \param DefaultFloat - float to write
 */
 /******************************************************************************/
-void iniWritter::WriteFloat(wchar_t *section, wchar_t* key, float DefaultFloat)
+void iniWritter::WriteFloat(char *section, char* key, float DefaultFloat)
 {
-	wchar_t value[255];
-	_stprintf_s(value, L"%f", DefaultFloat);
+	char value[255];
+	_stprintf_s(value, "%f", DefaultFloat);
 	WritePrivateProfileString(section, key, value, m_fileName);
 }
 
@@ -69,10 +69,10 @@ void iniWritter::WriteFloat(wchar_t *section, wchar_t* key, float DefaultFloat)
 \param DefaultBoolean - boolean to write
 */
 /******************************************************************************/
-void iniWritter::WriteBool(wchar_t *section, wchar_t* key, bool DefaultBoolean)
+void iniWritter::WriteBool(char *section, char* key, bool DefaultBoolean)
 {
-	wchar_t value[255];
-	wsprintf(value, L"%s", DefaultBoolean ? L"True" : L"False");
+	char value[255];
+	wsprintf(value, "%s", DefaultBoolean ? "True" : "False");
 	WritePrivateProfileString(section, key, value, m_fileName);
 }
 
@@ -84,7 +84,7 @@ void iniWritter::WriteBool(wchar_t *section, wchar_t* key, bool DefaultBoolean)
 \param DefaultString - string to write
 */
 /******************************************************************************/
-void iniWritter::WriteString(wchar_t *section, wchar_t* key, const wchar_t* DefaultString)
+void iniWritter::WriteString(char *section, char* key, const char* DefaultString)
 {
 	WritePrivateProfileString(section, key, DefaultString, m_fileName);
 }
@@ -97,10 +97,10 @@ void iniWritter::WriteString(wchar_t *section, wchar_t* key, const wchar_t* Defa
 \param DefaultBoolean - vec3 to write
 */
 /******************************************************************************/
-void iniWritter::WriteVec3(wchar_t *section, wchar_t* key, const vec3& DefaultVec3)
+void iniWritter::WriteVec3(char *section, char* key, const vec3& DefaultVec3)
 {
-	wchar_t value[255];
-	_stprintf_s(value, L"[ %f, %f, %f]", DefaultVec3.x, DefaultVec3.y, DefaultVec3.z);
+	char value[255];
+	_stprintf_s(value, "[ %f, %f, %f]", DefaultVec3.x, DefaultVec3.y, DefaultVec3.z);
 	WritePrivateProfileString(section, key, value, m_fileName);
 }
 
@@ -112,9 +112,9 @@ void iniWritter::WriteVec3(wchar_t *section, wchar_t* key, const vec3& DefaultVe
 \param DefaultBoolean - vec4 to write
 */
 /******************************************************************************/
-void iniWritter::WriteVec4(wchar_t *section, wchar_t* key, const vec4& DefaultVec4)
+void iniWritter::WriteVec4(char *section, char* key, const vec4& DefaultVec4)
 {
-	wchar_t value[255];
-	_stprintf_s(value, L"[ %f, %f, %f, %f ]", DefaultVec4.x, DefaultVec4.y, DefaultVec4.z, DefaultVec4.w);
+	char value[255];
+	_stprintf_s(value, "[ %f, %f, %f, %f ]", DefaultVec4.x, DefaultVec4.y, DefaultVec4.z, DefaultVec4.w);
 	WritePrivateProfileString(section, key, value, m_fileName);
 }

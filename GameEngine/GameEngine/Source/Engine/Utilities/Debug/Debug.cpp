@@ -53,7 +53,7 @@ namespace DebugTools
 
 			//dispaly a message to the user
 			returnValue = MessageBox(NULL, LPCTSTR(ss.str().c_str()),
-				L"ASSERT!", MB_TASKMODAL | MB_SETFOREGROUND | MB_YESNO | MB_ICONERROR);
+				"ASSERT!", MB_TASKMODAL | MB_SETFOREGROUND | MB_YESNO | MB_ICONERROR);
 
 			if (returnValue == IDYES)
 				return true;
@@ -75,7 +75,7 @@ namespace DebugTools
 
 		freopen_s(&pFile, "CONOUT$", "wt", stdout);
 		freopen_s(&pFile, "CONOUT$", "wt", stderr);
-		SetConsoleTitle(L"Debug Console");
+		SetConsoleTitle("Debug Console");
 	}
 
 	/******************************************************************************/
@@ -150,7 +150,7 @@ namespace DebugTools
 	/******************************************************************************/
 	void CustomizedMessageBox(const char* outputMessage)
 	{
-		MessageBox(NULL, LPCTSTR(outputMessage), L"Message Alarmed!",
+		MessageBox(NULL, LPCTSTR(outputMessage), "Message Alarmed!",
 			MB_SYSTEMMODAL | MB_SETFOREGROUND | MB_OK | MB_ICONERROR);
 	}
 }

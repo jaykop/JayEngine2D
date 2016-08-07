@@ -894,7 +894,7 @@ TODO:
 [ ] make sure encoder generates no chunks with size > (2^31)-1
 [ ] partial decoding (stream processing)
 [X] let the "isFullyOpaque" function check color keys and transparent palettes too
-[X] better name for the variables "codes", "codesD", "codelengthcodes", "clcl" and "lldl"
+[X] better name for the variables "codes", "codesD", "codelengthcodes", "clc" and "lld"
 [ ] don't stop decoding on errors like 69, 57, 58 (make warnings)
 [ ] let the C++ wrapper catch exceptions coming from the standard library and return LodePNG error codes
 [ ] allow user to provide custom color conversion functions, e.g. for premultiplied alpha, padding bits or not, ...

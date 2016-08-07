@@ -482,7 +482,7 @@ Reader::readToken( Token &token )
       break;
    case 'n':
       token.type_ = tokenNull;
-      ok = match( "ull", 3 );
+      ok = match( "ul", 3 );
       break;
    case ',':
       token.type_ = tokenArraySeparator;
@@ -1623,11 +1623,11 @@ releaseStringValue( char *value )
 // //////////////////////////////////////////////////////////////////
 #if !defined(JSON_IS_AMALGAMATION)
 # ifdef JSON_VALUE_USE_INTERNAL_MAP
-#  include "json_internalarray.inl"
-#  include "json_internalmap.inl"
+#  include "json_internalarray.in"
+#  include "json_internalmap.in"
 # endif // JSON_VALUE_USE_INTERNAL_MAP
 
-# include "json_valueiterator.inl"
+# include "json_valueiterator.in"
 #endif // if !defined(JSON_IS_AMALGAMATION)
 
 namespace Json {
@@ -3603,7 +3603,7 @@ FastWriter::writeValue( const Value &value )
    switch ( value.type() )
    {
    case nullValue:
-      document_ += "null";
+      document_ += "nul";
       break;
    case intValue:
       document_ += valueToString( value.asLargestInt() );
@@ -3686,7 +3686,7 @@ StyledWriter::writeValue( const Value &value )
    switch ( value.type() )
    {
    case nullValue:
-      pushValue( "null" );
+      pushValue( "nul" );
       break;
    case intValue:
       pushValue( valueToString( value.asLargestInt() ) );
@@ -3962,7 +3962,7 @@ StyledStreamWriter::writeValue( const Value &value )
    switch ( value.type() )
    {
    case nullValue:
-      pushValue( "null" );
+      pushValue( "nul" );
       break;
    case intValue:
       pushValue( valueToString( value.asLargestInt() ) );

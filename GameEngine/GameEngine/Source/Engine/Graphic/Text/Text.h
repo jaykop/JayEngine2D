@@ -31,14 +31,15 @@ public:
 	virtual ~Text(void);
 
 	//! Font functions
-	void SetText(const wchar_t* text);
-	const std::wstring& GetText(void) const;
+	void SetText(const char* text);
+	const std::string& GetText(void) const;
+
+	//void SetFontSize(int size);
+	//int GetFontSize(void);
 
 private:
 
-	std::wstring m_text;
-	float m_fontSize;
-
+	std::string m_text;
 };
 
 #endif // _FREETYPE_TEXT_H_

@@ -63,8 +63,8 @@ void SoundManager::ErrorCheck(Application* pApp, FMOD_RESULT result)
 {
 	if (result != FMOD_OK)
 	{
-		MessageBox(NULL, L"Failed to init basic sound system.",
-			L"FMOD Error", MB_OK);
+		MessageBox(NULL, "Failed to init basic sound system.",
+			"FMOD Error", MB_OK);
 		pApp->Quit();
 	}
 }

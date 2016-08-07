@@ -17,7 +17,7 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 #ifndef _LOGICBUILDERLIST_H_
 #define _LOGICBUILDERLIST_H_
 
-#include "../../Engine/Logic/LogicFactory.h"
+#include "../../Engine/Logic/LogicFactory/LogicFactory.h"
 #include "../../Game/GameLogic/SampleLogic.h"
 
 /******************************************************************************/
@@ -29,7 +29,7 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 void BuildLogics(void)
 {
 	// name: SampleLogic -> key: 0
-	LogicFactory::AddBuilder(1, new SampleLogicBuilder);
+	LogicFactory::AddBuilder(0, new SampleLogicBuilder);
 }
 
 #endif // _LOGICBUILDERLIST_H_

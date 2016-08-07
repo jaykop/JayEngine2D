@@ -13,7 +13,9 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 /******************************************************************************/
 
 #include "Text.h"
+#include "../GLManager/GLManager.h"
 #include "../../ObjectManager/ObjectManager.h"
+#include "../../StateManager/GameStateManager/GameStateManager.h"
 
 /******************************************************************************/
 /*!
@@ -21,13 +23,14 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 */
 /******************************************************************************/
 Text::Text(const int id, ObjectManager* obm)
+:Sprite(id, obm)
 {
-	SetID(id);
+	//SetID(id);
 	SetType(TEXT);
-	SetObjectManager(obm); 
+	//SetObjectManager(obm); 
 	SetProjectionType(ORTHOGONAL);
 	SetScale(vec3(1.f, 1.f, 1.f));
-	SetColor(vec4(0.f, 0.0f, 0.0f, 1.f));	
+	SetColor(vec4(0.f, 0.0f, 0.0f, 1.f));
 }
 /******************************************************************************/
 /*!
@@ -37,7 +40,7 @@ Text::Text(const int id, ObjectManager* obm)
 Text::Text(Text& text)
 :Sprite(text)
 {
-	m_fontSize = text.m_fontSize;
+	//m_fontSize = text.m_fontSize;
 	m_text.assign(text.m_text);
 }
 
@@ -57,7 +60,7 @@ Text::~Text(void)
 \param text
 */
 /******************************************************************************/
-void Text::SetText(const wchar_t* text)
+void Text::SetText(const char* text)
 {
 	m_text = text;
 }
@@ -68,7 +71,29 @@ void Text::SetText(const wchar_t* text)
 \return m_text
 */
 /******************************************************************************/
-const std::wstring& Text::GetText(void) const
+const std::string& Text::GetText(void) const
 {
 	return m_text;
 }
+
+///******************************************************************************/
+///*!
+//\brief - Set text font size
+//\param size
+//*/
+///******************************************************************************/
+//void Text::SetFontSize(float size)
+//{
+//	m_fontSize = size;
+//}
+//
+///******************************************************************************/
+///*!
+//\brief - Get text font size
+//\return fontSize
+//*/
+///******************************************************************************/
+//float Text::GetFontSize(void)
+//{
+//	return m_fontSize;
+//}

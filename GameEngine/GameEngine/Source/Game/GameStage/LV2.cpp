@@ -21,7 +21,7 @@ void LV2Stage::Load(GameData& gd)
 	m_OBM.BindGameSystem(m_GSM);
 
 	// Load json data
-	m_OBM.LoadStageData(L"Resource/Data/Sample.json");
+	m_OBM.LoadStageData("Resource/Data/Sample.json");
 }
 
 void LV2Stage::Init(GameData& gd)
@@ -33,21 +33,21 @@ void LV2Stage::Init(GameData& gd)
 	m_OBM.InitGameSystem(gd);
 
 	// Testing ini...
-	iniWritter writter(L"Resource/Data/Sample.ini");
-	writter.WriteInt(L"Setting", L"Age", 24);
-	writter.WriteFloat(L"Setting", L"Grade", 3.14159f);
-	writter.WriteBool(L"Setting", L"Marriage", false);
-	writter.WriteString(L"Setting", L"Name", L"jaykop");
-	writter.WriteVec3(L"Setting", L"Position", vec3(10, 214, 43));
-	writter.WriteVec4(L"Setting", L"Color", vec4(63, 57, 14, 53));
+	iniWritter writter("Resource/Data/Sample.ini");
+	writter.WriteInt("Setting", "Age", 24);
+	writter.WriteFloat("Setting", "Grade", 3.14159f);
+	writter.WriteBool("Setting", "Marriage", false);
+	writter.WriteString("Setting", "Name", "jaykop");
+	writter.WriteVec3("Setting", "Position", vec3(10, 214, 43));
+	writter.WriteVec4("Setting", "Color", vec4(63, 57, 14, 53));
 
-	iniReader reader(L"Resource/Data/Sample.ini");
-	int age = reader.ReadInt(L"Setting", L"Age");
-	float grade = reader.ReadFloat(L"Setting", L"Grade");
-	bool marriage = reader.ReadBool(L"Setting", L"Marriage");
-	wchar_t* name = reader.ReadString(L"Setting", L"Name");
-	vec3 position = reader.ReadVec3(L"Setting", L"Position");
-	vec4 color = reader.ReadVec4(L"Setting", L"Color");
+	iniReader reader("Resource/Data/Sample.ini");
+	int age = reader.ReadInt("Setting", "Age");
+	float grade = reader.ReadFloat("Setting", "Grade");
+	bool marriage = reader.ReadBool("Setting", "Marriage");
+	char* name = reader.ReadString("Setting", "Name");
+	vec3 position = reader.ReadVec3("Setting", "Position");
+	vec4 color = reader.ReadVec4("Setting", "Color");
 
 	std::cout << age << "\n" <<
 		grade << "\n" <<

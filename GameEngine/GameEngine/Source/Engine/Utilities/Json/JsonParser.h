@@ -38,8 +38,8 @@ public:
 	void write_sample(void);
 
 	//! Save and load file containing information
-	void Save(const wchar_t* dir, const Json::Value& contents);
-	void Load(wchar_t* dir);
+	void Save(const char* dir, const Json::Value& contents);
+	void Load(char* dir);
 
 	int  CheckLoadedSounds(void);
 	void InitAssetData(GLManager* GLM, SoundManager* SM);
