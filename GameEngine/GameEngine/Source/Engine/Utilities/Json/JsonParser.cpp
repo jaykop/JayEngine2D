@@ -317,7 +317,22 @@ void JsonParser::LoadObjects(ObjectManager* obm)
 						else if (!strcmp((*it)["Mode"].asCString(), "EXPLOSION"))
 							obm->GetGameObject<Emitter>(id)->SetMode(EXPLOSION);
 						else if (!strcmp((*it)["Mode"].asCString(), "SNOW"))
+						{
 							obm->GetGameObject<Emitter>(id)->SetMode(SNOW);
+							if ((*it).isMember("SnowStart") &&
+								(*it)["SnowStart"].isArray() &&
+								(*it)["SnowStart"].size() == 3 &&
+								(*it)["SnowStart"][0].isNumeric() &&
+								(*it).isMember("SnowEnd") &&
+								(*it)["SnowEnd"].isArray() &&
+								(*it)["SnowEnd"].size() == 3 &&
+								(*it)["SnowEnd"][0].isNumeric())
+							{
+								obm->GetGameObject<Emitter>(id)->SetSnowBoundary(
+									vec3((*it)["SnowStart"][0].asFloat(), (*it)["SnowStart"][1].asFloat(), (*it)["SnowStart"][2].asFloat()),
+									vec3((*it)["SnowEnd"][0].asFloat(), (*it)["SnowEnd"][1].asFloat(), (*it)["SnowEnd"][2].asFloat()));
+							}
+						}
 					}
 
 					if ((*it).isMember("Quantity") &&
