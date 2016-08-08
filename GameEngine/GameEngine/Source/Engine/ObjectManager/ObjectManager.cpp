@@ -149,10 +149,10 @@ void ObjectManager::LoadStageData(char* dir)
 void ObjectManager::InitGameSystem(GameData& gd)
 {
 	// Initialize game system
-	soundPtr->Init();
 	worldPtr->Init(m_ObjectList);
 	scenePtr->Init(m_ObjectList);
 	logicPtr->Init(m_ObjectList, gd);
+	soundPtr->Init();
 }
 
 /******************************************************************************/
@@ -163,9 +163,9 @@ void ObjectManager::InitGameSystem(GameData& gd)
 void ObjectManager::UpdateGameSystem(GameData& gd)
 {
 	// Update game system
-	logicPtr->Update(m_ObjectList, gd);
 	worldPtr->Update(m_ObjectList);
 	scenePtr->Update(m_ObjectList);
+	logicPtr->Update(m_ObjectList, gd);
 	soundPtr->Update();
 }
 

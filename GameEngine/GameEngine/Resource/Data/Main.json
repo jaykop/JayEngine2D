@@ -1,0 +1,54 @@
+{
+	"Stage" : [
+		{
+			"Background" : [ 0, 0, 0, 0 ],
+			"Camera" : [0, 0, 80, 0 ]
+		}
+	],
+	
+	"Object" : [
+		{
+			"ID" : 0, "Type" : "TEXT",
+			"Position" : [ -225, 150, 0 ], "Scale" : [1, 1, 0], "Rotation" : 0,
+			"Projection" : "ORTHOGONAL", "Color" : [1, 1, 1, 1],
+			"Text" : "Game Engine Demo 0.9v",
+			"FontSize" : 48,
+			"Logic" : [
+				{ "key" : 0, "values" : {} }
+			]
+		},
+		{
+			"ID" : 1, "Type" : "TEXT",
+			"Position" : [ -225, 130, 0 ], "Scale" : [1, 1, 0], "Rotation" : 0,
+			"Projection" : "ORTHOGONAL", "Color" : [1, 1, 1, 1],
+			"Text" : "-Main stage\n1: Go to Level1\n2: Go to Level2\n3: Go to Level3\nP: Go to Pause Stage\nR: Restart this level\nESC: Quit the demo\n\nDescription: Basic objects and utilities.",
+			"FontSize" : 36
+		},
+		{
+			"ID" : 10, "Type" : "SPRITE",
+			"Position" : [ -30, -30, 80 ], "Scale" : [5, 5, 0], "Rotation" : 0,
+			"Projection" : "PERSPECTIVE", "Color" : [0, 1, 1, 1]
+		},
+		{
+			"ID" : 20, "Type" : "PARTICLE",
+			"Position" : [ 0, -17.5, 0 ], "Scale" : [2, 2, 0 ], "Rotation" : 0,
+			"Projection" : "PERSPECTIVE", "CenterColor" : [0.5, 0.5, 1], "EdgeColor" : [0, 0, 1],
+			"Direction" : [0, 0, 0],
+			"Quantity" : 100, "Range" : 2.5, "Speed" : 0.5
+		},
+		{
+			"ID" : 30, "Type" : "TEXT",
+			"Position" : [ 15, -15, 0 ], "Scale" : [0.5, 0.5, 0 ], "Rotation" : 0,
+			"Projection" : "PERSPECTIVE", "Color" : [1, 1, 1, 1],
+			"Text" : "Sample Text...",
+			"FontSize" : 30
+		},
+		{
+			"ID" : 40, "Type" : "TEXT",
+			"Position" : [ 0, 0, 0 ], "Scale" : [1, 1, 0], "Rotation" : 0,
+			"Projection" : "ORTHOGONAL", "Color" : [1, 1, 1, 1],
+			"Text" : "Mouse Position",
+			"FontSize" : 30
+		}
+	]
+}

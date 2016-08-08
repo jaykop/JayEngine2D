@@ -1,25 +1,25 @@
-#ifndef _SAMPLELOGIC_H_
-#define _SAMPLELOGIC_H_
+#ifndef _DemoLogic_Pause_H_
+#define _DemoLogic_Pause_H_
 
 #include "../../Engine/Logic/GameLogic/GameLogic.h"
 #include "../../Engine/Logic/LogicBuilder.h"
 
-class SampleLogicBuilder : public LogicBuilder
+class DemoLogic_PauseBuilder : public LogicBuilder
 {
 
 public:
-	SampleLogicBuilder() {};
-	virtual ~SampleLogicBuilder() {};
+	DemoLogic_PauseBuilder() {};
+	virtual ~DemoLogic_PauseBuilder() {};
 	virtual GameLogic* BuildLogic(Object* Owner) const;
 
 };
 
-class SampleLogic : public GameLogic
+class DemoLogic_Pause : public GameLogic
 {
 public:
 
-	SampleLogic(Object* owner);
-	virtual ~SampleLogic(void) {};
+	DemoLogic_Pause(Object* owner);
+	virtual ~DemoLogic_Pause(void) {};
 
 	virtual void Load(const Json::Value& data);
 	virtual void Init(GameData& gd);
@@ -38,4 +38,4 @@ private:
 
 };
 
-#endif // _SAMPLELOGIC_H_
+#endif // _DemoLogic_Pause_H_

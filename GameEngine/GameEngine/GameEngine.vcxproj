@@ -53,7 +53,7 @@
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(SolutionDir)\GameEngine\Include\</AdditionalIncludeDirectories>
       <DisableLanguageExtensions>false</DisableLanguageExtensions>
-      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -72,7 +72,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -134,7 +134,12 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="Source\Engine\WinMain.cpp" />
-    <ClCompile Include="Source\Game\GameLogic\SampleLogic.cpp" />
+    <ClCompile Include="Source\Game\GameLogic\DemoLogic_LV1.cpp" />
+    <ClCompile Include="Source\Game\GameLogic\DemoLogic_LV2.cpp" />
+    <ClCompile Include="Source\Game\GameLogic\DemoLogic_LV3.cpp" />
+    <ClCompile Include="Source\Game\GameLogic\DemoLogic_Pause.cpp" />
+    <ClCompile Include="Source\Game\GameLogic\DemoLogic_GameOver.cpp" />
+    <ClCompile Include="Source\Game\GameLogic\DemoLogic_Main.cpp" />
     <ClCompile Include="Source\Game\GameStage\GameOver.cpp" />
     <ClCompile Include="Source\Game\GameStage\LV1.cpp" />
     <ClCompile Include="Source\Game\GameStage\LV2.cpp" />
@@ -194,7 +199,12 @@
     <ClInclude Include="Source\Engine\StateManager\BaseStage.h" />
     <ClInclude Include="Source\Engine\Utilities\Math\Vector\Vector4.h" />
     <ClInclude Include="Source\Engine\Utilities\Time.h" />
-    <ClInclude Include="Source\Game\GameLogic\SampleLogic.h" />
+    <ClInclude Include="Source\Game\GameLogic\DemoLogic_LV1.h" />
+    <ClInclude Include="Source\Game\GameLogic\DemoLogic_LV2.h" />
+    <ClInclude Include="Source\Game\GameLogic\DemoLogic_LV3.h" />
+    <ClInclude Include="Source\Game\GameLogic\DemoLogic_Pause.h" />
+    <ClInclude Include="Source\Game\GameLogic\DemoLogic_GameOver.h" />
+    <ClInclude Include="Source\Game\GameLogic\DemoLogic_Main.h" />
     <ClInclude Include="Source\Game\GameStage\GameOver.h" />
     <ClInclude Include="Source\Game\GameStage\LV1.h" />
     <ClInclude Include="Source\Game\GameStage\LV2.h" />

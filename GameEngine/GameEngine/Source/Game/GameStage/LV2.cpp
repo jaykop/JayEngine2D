@@ -1,6 +1,6 @@
 #include "LV2.h"
 #include "../BaseData/BaseEnigne.h"
-#include "../GameLogic/SampleLogic.h"
+#include "../GameLogic/DemoLogic_LV2.h"
 
 LV2Stage::LV2Stage(GameStateManager* gsm)
 {
@@ -83,7 +83,7 @@ void LV2Stage::Update(GameData& gd)
 		m_GSM->Restart(true);
 
 	else if (InputManager::GetInstance().KeyTriggered(KEY_SPACE))
-		m_OBM.GetGameObject<Sprite>(0)->RemoveLogic<SampleLogic>();
+		m_OBM.GetGameObject<Sprite>(0)->RemoveLogic<DemoLogic_LV2>();
 
 	m_OBM.UpdateGameSystem(gd);
 }

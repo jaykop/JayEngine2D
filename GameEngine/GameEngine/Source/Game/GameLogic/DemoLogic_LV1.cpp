@@ -1,16 +1,16 @@
-#include "SampleLogic.h"
+#include "DemoLogic_LV1.h"
 #include "../../Engine/Logic/Logic.h"
 
-GameLogic* SampleLogicBuilder::BuildLogic(Object* Owner) const
+GameLogic* DemoLogic_LV1Builder::BuildLogic(Object* Owner) const
 {
-	return new SampleLogic(Owner);
+	return new DemoLogic_LV1(Owner);
 }
 
-SampleLogic::SampleLogic(Object* owner)
+DemoLogic_LV1::DemoLogic_LV1(Object* owner)
 : m_Owner(owner), m_OBM(owner->GetOBM()), m_GSM(owner->GetOBM()->GetGSM())
 {}
 
-void SampleLogic::Load(const Json::Value& data)
+void DemoLogic_LV1::Load(const Json::Value& data)
 {
 	std::cout << "SanpleLogic Load\n";
 	
@@ -34,7 +34,7 @@ void SampleLogic::Load(const Json::Value& data)
 			data["NewSize"][2].asFloat());
 }
 
-void SampleLogic::Init(GameData& gd)
+void DemoLogic_LV1::Init(GameData& gd)
 {
 	UNREFERENCED_PARAMETER(gd);
 	std::cout << "SanpleLogic Inited\n";
@@ -44,19 +44,19 @@ void SampleLogic::Init(GameData& gd)
 	newOwner->SetScale(size);
 }
 
-void SampleLogic::Update(GameData& gd)
+void DemoLogic_LV1::Update(GameData& gd)
 {
 	UNREFERENCED_PARAMETER(gd);
 	std::cout << "SanpleLogic Update\n";
 }
 
-void SampleLogic::Shutdown(GameData& gd)
+void DemoLogic_LV1::Shutdown(GameData& gd)
 {
 	UNREFERENCED_PARAMETER(gd);
 	std::cout << "SanpleLogic Shutdown\n";
 }
 
-void SampleLogic::Unload(void)
+void DemoLogic_LV1::Unload(void)
 {
 	std::cout << "SanpleLogic Unload\n";
 	

@@ -80,9 +80,6 @@
     <ClCompile Include="Source\Engine\App\Application.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Game\GameLogic\SampleLogic.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Engine\Utilities\INI\iniReader.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -129,6 +126,24 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Source\Engine\Sound\SoundManager\SoundManager.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\GameLogic\DemoLogic_Main.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\GameLogic\DemoLogic_LV1.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\GameLogic\DemoLogic_LV2.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\GameLogic\DemoLogic_LV3.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\GameLogic\DemoLogic_Pause.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\GameLogic\DemoLogic_GameOver.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -223,9 +238,6 @@
     <ClInclude Include="Source\Engine\App\Application.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Game\GameLogic\SampleLogic.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Engine\StateManager\BaseStage.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
@@ -284,6 +296,24 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Source\Engine\Sound\SoundManager\SoundManager.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\GameLogic\DemoLogic_Main.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\GameLogic\DemoLogic_LV1.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\GameLogic\DemoLogic_LV2.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\GameLogic\DemoLogic_LV3.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\GameLogic\DemoLogic_Pause.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\GameLogic\DemoLogic_GameOver.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

@@ -93,10 +93,11 @@ public:
 	void SetSnowBoundary(const vec3& start, const vec3& end);
 	const vec3& GetSnowStartingPoint(void) const;
 	const vec3& GetSnowEndingPoint(void) const;
-	//GLfloat *m_particle_buffer_data;
 
 	// Get Particle container
 	ParticleList& GetParticleContainer(void);
+
+	//GLfloat *m_particle_buffer_data;
 
 private:
 

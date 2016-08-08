@@ -17,18 +17,15 @@ public:
 	virtual void Shutdown(GameData& gd);
 	virtual void Unload(GameData& gd);
 
-	void PhysicsTest(void);
-	void BasicControl(void);
-	void SetWallSprites(void);
-	void SetSamllSprites(void);
+	//void PhysicsTest(void);
+	//void SetWallSprites(void);
+	//void SetSamllSprites(void);
 
 private:
 
 	//Obj Manager
 	ObjectManager m_OBM;
 
-	// num of sprites
-	int offset;
 };
 
 class MainMenuBuilder : public StageBuilder
@@ -38,8 +35,7 @@ public:
 
 	virtual ~MainMenuBuilder(){};
 
-	Stage* BuildStage(GameStateManager* GSM)
-	{
+	Stage* BuildStage(GameStateManager* GSM) {
 		return new MenuStage(GSM);
 	}
 

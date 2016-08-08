@@ -68,6 +68,7 @@ struct Character {
 //! type definition for list
 typedef std::map<char, Character> Characters;
 typedef std::map<int, Texture*> TextureMap;
+
 //! GLManager to manage base GL info
 class GLManager
 {

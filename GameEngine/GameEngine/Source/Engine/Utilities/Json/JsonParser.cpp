@@ -254,8 +254,9 @@ void JsonParser::LoadObjects(ObjectManager* obm)
 				// Now set basic info by its type
 				int id = (*it)["ID"].asInt();
 
-				// Sprite case
-				if (!strcmp((*it)["Type"].asCString(), "SPRITE"))
+				// Sprite case or Object case
+				if (!strcmp((*it)["Type"].asCString(), "SPRITE") ||
+					!strcmp((*it)["Type"].asCString(), "OBJECT"))
 				{
 					obm->AddObject(new Sprite(id, obm));
 					LoadBasicObject(it, obm->GetGameObject<Sprite>(id));
@@ -283,6 +284,10 @@ void JsonParser::LoadObjects(ObjectManager* obm)
 				{
 					obm->AddObject(new Emitter(id, obm));
 					LoadBasicObject(it, obm->GetGameObject<Sprite>(id));
+
+					if ((*it).isMember("Quantity") &&
+						(*it)["Quantity"].isNumeric())
+						obm->GetGameObject<Emitter>(id)->SetNumOfParticle((*it)["Quantity"].asInt());
 
 					if ((*it).isMember("CenterColor") &&
 						(*it)["CenterColor"].isArray() &&
@@ -335,10 +340,6 @@ void JsonParser::LoadObjects(ObjectManager* obm)
 						}
 					}
 
-					if ((*it).isMember("Quantity") &&
-						(*it)["Quantity"].isNumeric())
-						obm->GetGameObject<Emitter>(id)->SetNumOfParticle((*it)["Quantity"].asInt());
-
 					if((*it).isMember("Direction") &&
 						(*it)["Direction"].isArray() &&
 						(*it)["Direction"].size() == 3 &&
@@ -359,7 +360,7 @@ void JsonParser::LoadObjects(ObjectManager* obm)
 
 				// Load logics
 				if ((*it).isMember("Logic"))
-					LoadLogics(it, obm->GetGameObject<Sprite>(id));
+					LoadLogics(it, obm->GetGameObject<Object>(id));
 			}
 		}
 	}
@@ -407,7 +408,7 @@ void JsonParser::LoadBasicObject(Json::Value::iterator& it, Sprite* sprite)
 		(*it)["Projection"].isString())
 	{
 		if (!strcmp((*it)["Projection"].asCString(),
-			"ORTHOGONA"))
+			"ORTHOGONAL"))
 			sprite->SetProjectionType(ORTHOGONAL);
 
 		else if (!strcmp((*it)["Projection"].asCString(),
