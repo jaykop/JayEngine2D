@@ -163,14 +163,16 @@ void Scene::DrawTexts(Text* text)
 {
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
+	// Set init values
 	GLfloat new_x = static_cast<GLfloat>(text->GetPosition().x);
-	GLfloat lower_y = 0;
+	GLfloat init_x = new_x, lower_y = 0, nl_offset = 2.f/3.f;
 	int num_newline = 1;
+
 	// Iterate all character
 	std::string::const_iterator c;
 	for (c = text->GetText().begin(); c != text->GetText().end(); ++c)
 	{
-		Character ch = m_GSM->GetGLManager()->GetCharacters()[*c];
+		Character ch = text->GetFontData().m_chars[*c];
 		GLfloat xpos = new_x + ch.Bearing.x * text->GetScale().x;
 		GLfloat ypos = text->GetPosition().y - (ch.Size.y - ch.Bearing.y) * text->GetScale().y - lower_y;
 		GLfloat zpos = text->GetPosition().z;
@@ -193,8 +195,8 @@ void Scene::DrawTexts(Text* text)
 		const char newline = *c;
 		if (newline == '\n')
 		{
-			new_x = 0;
-			lower_y = m_GSM->GetGLManager()->GetFontSize() * (2.f / 3.f) * num_newline;
+			new_x = init_x;
+			lower_y = text->GetFontData().m_fontSize * nl_offset * num_newline;
 			++num_newline;
 		}
 

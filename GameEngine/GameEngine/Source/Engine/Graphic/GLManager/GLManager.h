@@ -86,11 +86,13 @@ public:
 	bool CheckGL(Application* pApp, HWND& window);
 	void InitGL(Application* pApp, HWND& window, int width, int height);
 	
-	// Set font
-	void SetFont(const char* fontDir, unsigned fontSize);
-	FT_Face& GetFT_Face(void);
+	// Manage font info
+	Characters& GetCharacters(void);
 	unsigned GetFontSize(void) const;
-	//void SetFontSize(unsigned fontSize);
+	void SetFontSize(unsigned fontSize);
+	const FT_Face& GetFT_Face(void) const;
+	const FT_Library& GetFT_Lib(void) const;
+	void SetFont(const char* fontDir, unsigned fontSize);
 
 	//! Gettor for GL info
 	HDC  GetHDC(void) const;
@@ -99,7 +101,6 @@ public:
 	GLuint GetVertexBuffer(void) const;
 	GLuint GetVertexAttrib(void) const;
 	GLuint GetInstanceAttrib(void) const;
-	Characters GetCharacters(void) const;
 	ProjectionInfo GetProjectionInfo(void) const;
 
 	//! Manage texture list
@@ -128,11 +129,14 @@ private:
 	GLuint m_vertexAttrib;
 	ProjectionInfo m_info;
 
-	//! Ascii storage
-	Characters m_chars;
+	//! Texture storage
 	TextureMap m_textureList;
-	FT_Face	   m_face;
-	FT_UInt	   m_fontSize;
+
+	// FreeType
+	FT_Library m_ft;			// FreeType
+	FT_Face	   m_face;			// Freetype face
+	FT_UInt	   m_fontSize;		// font size
+	Characters m_chars;			// Ascii storage
 };
 
 #endif // _GLManager_H_

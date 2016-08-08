@@ -64,7 +64,14 @@ void MenuStage::Init(GameData& gd)
 	m_OBM.GetGameObject<Text>(50)->SetText("Text test...\nText test...\nText test...\nText test...ss");
 	m_OBM.GetGameObject<Text>(50)->SetScale(vec3(1, 1));
 	m_OBM.GetGameObject<Text>(50)->SetColor(vec4(1, 1, 1, 1));
-	//m_OBM.GetGameObject<Text>(50)->SetFontSize(50);
+	m_OBM.GetGameObject<Text>(50)->SetFontSize(80);
+
+	m_OBM.AddObject(new Text(55, &m_OBM));
+	m_OBM.GetGameObject<Text>(55)->SetText("Text test2...\nText test2...\nText test2...\nText test2...!!!");
+	m_OBM.GetGameObject<Text>(55)->SetPosition(vec3(-20, -20));
+	m_OBM.GetGameObject<Text>(55)->SetScale(vec3(1, 1));
+	m_OBM.GetGameObject<Text>(55)->SetColor(vec4(1, 0, 0, 1));
+	m_OBM.GetGameObject<Text>(55)->SetFontSize(40);
 
 	m_OBM.AddObject(new Emitter(60, &m_OBM));
 	m_OBM.GetGameObject<Emitter>(60)->SetNumOfParticle(100);

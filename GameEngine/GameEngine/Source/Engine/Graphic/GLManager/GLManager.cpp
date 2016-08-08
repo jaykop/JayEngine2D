@@ -40,8 +40,12 @@ GLManager::GLManager(void)
 /******************************************************************************/
 GLManager::~GLManager(void)
 {
-	// Nothing here
-	ClearTextureMap();
+	m_chars.clear();	// Clear loaded font textures
+	ClearTextureMap();  // Clear loaded textures
+
+	// Destroy FreeType once we're finished
+	FT_Done_Face(m_face);
+	FT_Done_FreeType(m_ft);
 }
 
 /******************************************************************************/
@@ -344,15 +348,13 @@ void GLManager::SetFont(const char* fontDir, unsigned fontSize)
 {
 	m_fontSize = fontSize;
 
-	// FreeType
-	FT_Library ft;
 	// All functions return a value different than 0 whenever an error occurred
-	if (FT_Init_FreeType(&ft))
+	if (FT_Init_FreeType(&m_ft))
 		std::cout << "ERROR::FREETYPE: Could not init FreeType Library" << std::endl;
 
 	// Load font as face
 	//FT_Face face;
-	if (FT_New_Face(ft, fontDir, 0, &m_face))
+	if (FT_New_Face(m_ft, fontDir, 0, &m_face))
 		std::cout << "ERROR::FREETYPE: Failed to load font" << std::endl;
 
 	// Set size to load glyphs as
@@ -401,10 +403,6 @@ void GLManager::SetFont(const char* fontDir, unsigned fontSize)
 	}
 
 	glBindTexture(GL_TEXTURE_2D, 0);
-
-	// Destroy FreeType once we're finished
-	FT_Done_Face(m_face);
-	FT_Done_FreeType(ft);
 }
 
 /******************************************************************************/
@@ -414,7 +412,7 @@ void GLManager::SetFont(const char* fontDir, unsigned fontSize)
 \param m_chars - Ascii storage
 */
 /******************************************************************************/
-Characters GLManager::GetCharacters(void) const
+Characters& GLManager::GetCharacters(void)
 {
 	return m_chars;
 }
@@ -483,9 +481,20 @@ Texture* GLManager::GetTexture(int key)
 \return m_face
 */
 /******************************************************************************/
-FT_Face& GLManager::GetFT_Face(void)
+const FT_Face& GLManager::GetFT_Face(void) const
 {
 	return m_face;
+}
+
+/******************************************************************************/
+/*!
+\brief - Get freetype face
+\return m_face
+*/
+/******************************************************************************/
+const FT_Library& GLManager::GetFT_Lib(void) const
+{
+	return m_ft;
 }
 
 /******************************************************************************/
@@ -499,13 +508,13 @@ unsigned GLManager::GetFontSize(void) const
 	return m_fontSize;
 }
 
-///******************************************************************************/
-///*!
-//\brief - Set freetype font size
-//\param fontSize
-//*/
-///******************************************************************************/
-//void GLManager::SetFontSize(unsigned fontSize)
-//{
-//	m_fontSize = fontSize;
-//}
+/******************************************************************************/
+/*!
+\brief - Set freetype font size
+\param fontSize
+*/
+/******************************************************************************/
+void GLManager::SetFontSize(unsigned fontSize)
+{
+	m_fontSize = fontSize;
+}

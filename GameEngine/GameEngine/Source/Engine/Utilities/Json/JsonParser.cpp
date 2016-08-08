@@ -111,7 +111,7 @@ void JsonParser::InitAssetData(GLManager* GLM, SoundManager* SM)
 				(*it)["size"].isInt() &&
 				(*it).isMember("directory") &&
 				(*it)["directory"].isString())
-				GLM->SetFont((*it)["directory"].asCString(), static_cast<unsigned>((*it)["size"].asInt()));
+				GLM->SetFont((*it)["directory"].asCString(), (*it)["size"].asUInt());
 		}
 	}
 
@@ -271,6 +271,11 @@ void JsonParser::LoadObjects(ObjectManager* obm)
 						(*it)["Text"].isString())
 						obm->GetGameObject<Text>(id)->
 						SetText((*it)["Text"].asCString());
+
+					if ((*it).isMember("FontSize") &&
+						(*it)["FontSize"].isInt())
+						obm->GetGameObject<Text>(id)->
+						SetFontSize((*it)["FontSize"].asUInt());
 				}
 
 				// Particle(Emitter) case
