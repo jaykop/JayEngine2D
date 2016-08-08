@@ -181,28 +181,16 @@
     <ClInclude Include="Source\Engine\Utilities\Time.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Game\GameStage\GameOverBuilder.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Game\GameStage\GameOver.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Source\Game\GameStage\LV1.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Game\GameStage\LV1Builder.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Game\GameStage\LV2.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Game\GameStage\LV2Builder.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Game\GameStage\LV3.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Game\GameStage\LV3Builder.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Source\Game\GameStage\MainMenu.h">
@@ -211,13 +199,7 @@
     <ClInclude Include="Source\Game\BaseData\BaseEnigne.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Game\GameStage\MainMenuBuilder.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Game\GameStage\Pause.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Game\GameStage\PauseBuilder.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Include\LodePNG\lodepng.h">

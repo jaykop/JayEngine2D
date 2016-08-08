@@ -195,19 +195,13 @@
     <ClInclude Include="Source\Engine\Utilities\Math\Vector\Vector4.h" />
     <ClInclude Include="Source\Engine\Utilities\Time.h" />
     <ClInclude Include="Source\Game\GameLogic\SampleLogic.h" />
-    <ClInclude Include="Source\Game\GameStage\GameOverBuilder.h" />
     <ClInclude Include="Source\Game\GameStage\GameOver.h" />
     <ClInclude Include="Source\Game\GameStage\LV1.h" />
-    <ClInclude Include="Source\Game\GameStage\LV1Builder.h" />
     <ClInclude Include="Source\Game\GameStage\LV2.h" />
-    <ClInclude Include="Source\Game\GameStage\LV2Builder.h" />
     <ClInclude Include="Source\Game\GameStage\LV3.h" />
-    <ClInclude Include="Source\Game\GameStage\LV3Builder.h" />
     <ClInclude Include="Source\Game\GameStage\MainMenu.h" />
     <ClInclude Include="Source\Game\BaseData\BaseEnigne.h" />
-    <ClInclude Include="Source\Game\GameStage\MainMenuBuilder.h" />
     <ClInclude Include="Source\Game\GameStage\Pause.h" />
-    <ClInclude Include="Source\Game\GameStage\PauseBuilder.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resource\Texture\Icon\icon.bmp" />

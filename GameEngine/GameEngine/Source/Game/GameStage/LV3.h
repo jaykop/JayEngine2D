@@ -2,6 +2,7 @@
 #define _LV3STAGE_H_
 
 #include "../../Engine/StateManager/BaseStage.h"
+#include "../../Engine/StateManager/StageBuilder.h"
 
 class LV3Stage : public Stage
 {
@@ -19,6 +20,21 @@ public:
 private:
 
 	ObjectManager m_OBM;
+
+};
+
+class LV3Builder : public StageBuilder
+{
+
+public:
+	virtual ~LV3Builder(){};
+
+	Stage* BuildStage(GameStateManager* GSM)
+	{
+		return new LV3Stage(GSM);
+	}
+
+private:
 
 };
 

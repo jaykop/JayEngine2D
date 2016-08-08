@@ -1,4 +1,5 @@
 #include "../../Engine/StateManager/BaseStage.h"
+#include "../../Engine/StateManager/StageBuilder.h"
 
 class PauseStage : public Stage
 {
@@ -17,5 +18,21 @@ private:
 
 	//Obj Manager
 	ObjectManager m_OBM;
+
+};
+
+class PauseBuilder : public StageBuilder
+{
+
+public:
+
+	virtual ~PauseBuilder(){};
+
+	Stage* BuildStage(GameStateManager* GSM)
+	{
+		return new PauseStage(GSM);
+	}
+
+private:
 
 };

@@ -2,6 +2,7 @@
 #define _GAMEOVERSTAGE_H_
 
 #include "../../Engine/StateManager/BaseStage.h"
+#include "../../Engine/StateManager/StageBuilder.h"
 
 class GameOverStage : public Stage
 {
@@ -19,6 +20,21 @@ public:
 private:
 
 	ObjectManager m_OBM;
+
+};
+
+class GameOverBuilder : public StageBuilder
+{
+
+public:
+	virtual ~GameOverBuilder(){};
+
+	Stage* BuildStage(GameStateManager* GSM)
+	{
+		return new GameOverStage(GSM);
+	}
+
+private:
 
 };
 

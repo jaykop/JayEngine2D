@@ -15,7 +15,7 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 #include "Particle.h"
 #include "../../Utilities/Random.h"
 #include "../../Physics//RigidBody/RigidBody.h"
-
+#define DELTA_TIME 0.169F
 /******************************************************************************/
 /*!
 \brief - Particle Constructor
@@ -24,13 +24,22 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 */
 /******************************************************************************/
 Particle::Particle(Emitter* parent, int index)
-:m_parent(parent), m_index(index), m_life(0.f),
-m_fade(0.f), m_speed(vec3())
+:m_parent(parent), m_index(index)
 {
 	SetType(PARTICLE);
-	SetColor(vec4(1.f, 1.f, 1.f, 1.f));
+	m_life = DELTA_TIME;
+	SetColor(vec4(GetColor(), m_life));
+	SetPosition(m_parent->GetPosition());
 	SetRigidBody();
 	GetRigidBody()->ActivateCollider(false);
+	m_speed = parent->GetSpeed() * vec3(
+		Random::GetInstance().GetRandomFloat(0.f, 1.f),
+		Random::GetInstance().GetRandomFloat(0.f, 1.f));
+	m_fade = Random::GetInstance().GetRandomFloat(DELTA_TIME, 1.f);
+	m_velocity = vec3(
+		Random::GetInstance().GetRandomFloat(-1.f, 1.f),
+		Random::GetInstance().GetRandomFloat(-1.f, 1.f));
+	m_velocity = m_velocity.Normalize();
 }
 
 /******************************************************************************/
@@ -271,15 +280,23 @@ void Emitter::Render(Particle* particle)
 	// Set new force (offset)
 	//particle->m_speed += m_emitterSpd;
 
-	vec3 new_force = vec3(
-		particle->m_speed.x * particle->m_velocity.x,
-		particle->m_speed.y * particle->m_velocity.y)
-		* 0.169f + m_emitterDir.Normalize();
+	vec3 norm_dir = m_emitterDir.Normalize();
+	vec3 new_force;
+	
+	if (!m_emitterDir.Length())
+		new_force = vec3(
+		particle->m_velocity.x * particle->m_speed.x,
+		particle->m_velocity.y * particle->m_speed.y) * DELTA_TIME;
+
+	else
+		new_force = vec3(
+		particle->m_speed.x * norm_dir.x + norm_dir.x,
+		particle->m_speed.y * norm_dir.y + norm_dir.y) * DELTA_TIME;
 
 	// Update position by velocity and direction
 	particle->SetPosition(vec3(
-		particle->GetPosition().x + new_force.x ,
-		particle->GetPosition().y + new_force.y ,
+		particle->GetPosition().x + new_force.x,
+		particle->GetPosition().y + new_force.y,
 		particle->GetPosition().z));
 
 	// Set new fade
@@ -322,10 +339,13 @@ void Emitter::Refresh(Particle* particle)
 		particle->m_life));
 
 	// Set Velocity;
-	particle->m_velocity = vec3(
-		Random::GetInstance().GetRandomFloat(-1.f, 1.f),
-		Random::GetInstance().GetRandomFloat(-1.f, 1.f));
-	particle->m_velocity = particle->m_velocity.Normalize();
+	if (!m_emitterDir.Length())
+	{
+		particle->m_velocity = vec3(
+			Random::GetInstance().GetRandomFloat(-1.f, 1.f),
+			Random::GetInstance().GetRandomFloat(-1.f, 1.f));
+		particle->m_velocity = particle->m_velocity.Normalize();
+	}
 
 	// Set speed
 	particle->m_speed =
@@ -334,7 +354,7 @@ void Emitter::Refresh(Particle* particle)
 		Random::GetInstance().GetRandomFloat(0.f, 1.f));
 
 	// Reset vanishing speed
-	particle->m_fade = Random::GetInstance().GetRandomFloat(0.169f, 1.f);
+	particle->m_fade = Random::GetInstance().GetRandomFloat(DELTA_TIME, 1.f);
 }
 
 /******************************************************************************/

@@ -2,6 +2,7 @@
 #define _MAINMENUSTAGE_H_
 
 #include "../../Engine/StateManager/BaseStage.h"
+#include "../../Engine/StateManager/StageBuilder.h"
 
 class MenuStage : public Stage
 {
@@ -28,6 +29,22 @@ private:
 
 	// num of sprites
 	int offset;
+};
+
+class MainMenuBuilder : public StageBuilder
+{
+
+public:
+
+	virtual ~MainMenuBuilder(){};
+
+	Stage* BuildStage(GameStateManager* GSM)
+	{
+		return new MenuStage(GSM);
+	}
+
+private:
+
 };
 
 #endif // _MAINMENUSTAGE_H_
