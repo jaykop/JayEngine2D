@@ -75,11 +75,13 @@ void MenuStage::Init(GameData& gd)
 
 	m_OBM.AddObject(new Emitter(60, &m_OBM));
 	m_OBM.GetGameObject<Emitter>(60)->SetNumOfParticle(100);
+	m_OBM.GetGameObject<Emitter>(60)->SetMode(SNOW);
+	m_OBM.GetGameObject<Emitter>(60)->SetSnowBoundary(vec3(-40, 20), vec3(40, 20));
 	m_OBM.GetGameObject<Emitter>(60)->SetScale(vec3(2.f, 2.f));
-	m_OBM.GetGameObject<Emitter>(60)->SetDirection(vec3(0.f, 0.f));
-	m_OBM.GetGameObject<Emitter>(60)->SetSpeed(10.f);
+	m_OBM.GetGameObject<Emitter>(60)->SetDirection(vec3(0.f, -1.f));
+	m_OBM.GetGameObject<Emitter>(60)->SetSpeed(1.f);
 	m_OBM.GetGameObject<Emitter>(60)->SetBoundary(10.f);
-	m_OBM.GetGameObject<Emitter>(60)->SetColors(vec3(1,1,1), vec3(0,0,1));
+	m_OBM.GetGameObject<Emitter>(60)->SetColors(vec3(1,1,0), vec3(1,0,0));
 	//m_OBM.GetGameObject<Text>(50)->SetPosition(vec3(0, 0, 0));
 	
 	//Set walls and small sprites

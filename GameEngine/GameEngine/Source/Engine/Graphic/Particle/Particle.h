@@ -23,7 +23,7 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 #include "../Sprite/Sprite.h"
 
 //! Particle rendering type
-enum ParticleMode{ NORMAL, FIRE, SMOKE, EXPLOSION };
+enum ParticleMode{ NORMAL, FIRE, EXPLOSION, SNOW };
 
 class Emitter;
 
@@ -90,6 +90,9 @@ public:
 	void Render(Particle* particle);
 	void Refresh(Particle* particle);
 
+	void SetSnowBoundary(const vec3& start, const vec3& end);
+	const vec3& GetSnowStartingPoint(void) const;
+	const vec3& GetSnowEndingPoint(void) const;
 	//GLfloat *m_particle_buffer_data;
 
 	// Get Particle container
@@ -109,6 +112,8 @@ private:
 	vec3 m_edgeColor;
 	ParticleMode m_emitterMode;
 
+	vec3 m_snowStart;
+	vec3 m_snowEnd;
 };
 
 #endif //_PARTICLE_H_

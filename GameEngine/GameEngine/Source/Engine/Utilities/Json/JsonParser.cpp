@@ -310,7 +310,14 @@ void JsonParser::LoadObjects(ObjectManager* obm)
 						(*it)["Mode"].isString())
 					{
 						// Todo: Preparing...
-						//obm->GetGameObject<Emitter>(id)->SetMode();
+						if (!strcmp((*it)["Mode"].asCString(), "NORMAL"))
+							obm->GetGameObject<Emitter>(id)->SetMode(NORMAL);
+						else if (!strcmp((*it)["Mode"].asCString(), "FIRE"))
+							obm->GetGameObject<Emitter>(id)->SetMode(FIRE);
+						else if (!strcmp((*it)["Mode"].asCString(), "EXPLOSION"))
+							obm->GetGameObject<Emitter>(id)->SetMode(EXPLOSION);
+						else if (!strcmp((*it)["Mode"].asCString(), "SNOW"))
+							obm->GetGameObject<Emitter>(id)->SetMode(SNOW);
 					}
 
 					if ((*it).isMember("Quantity") &&

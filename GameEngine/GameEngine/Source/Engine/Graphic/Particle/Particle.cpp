@@ -27,12 +27,12 @@ Particle::Particle(Emitter* parent, int index)
 :m_parent(parent), m_index(index)
 {
 	SetType(PARTICLE);
-	m_life = DELTA_TIME;
+	m_life = 1.f;
 	SetColor(vec4(GetColor(), m_life));
 	SetPosition(m_parent->GetPosition());
 	SetRigidBody();
 	GetRigidBody()->ActivateCollider(false);
-	m_speed = parent->GetSpeed() * vec3(
+	m_speed = vec3(
 		Random::GetInstance().GetRandomFloat(0.f, 1.f),
 		Random::GetInstance().GetRandomFloat(0.f, 1.f));
 	m_fade = Random::GetInstance().GetRandomFloat(DELTA_TIME, 1.f);
@@ -195,6 +195,11 @@ void Emitter::SetSpeed(float speed)
 {
 	if (speed < 0) speed = -speed;
 	m_emitterSpd = speed;
+	for (auto it = ParticleContainer.begin();
+		it != ParticleContainer.end(); ++it)
+		(*it)->m_speed = m_emitterSpd * vec3(
+		Random::GetInstance().GetRandomFloat(0.f, 1.f),
+		Random::GetInstance().GetRandomFloat(0.f, 1.f));
 }
 
 /******************************************************************************/
@@ -277,44 +282,44 @@ void Emitter::Update(Particle* particle)
 /******************************************************************************/
 void Emitter::Render(Particle* particle)
 {
-	// Set new force (offset)
-	//particle->m_speed += m_emitterSpd;
+	//if (m_emitterMode != SNOW)
+	//{
+		vec3 norm_dir = m_emitterDir.Normalize();
+		vec3 new_force;
 
-	vec3 norm_dir = m_emitterDir.Normalize();
-	vec3 new_force;
-	
-	if (!m_emitterDir.Length())
-		new_force = vec3(
-		particle->m_velocity.x * particle->m_speed.x,
-		particle->m_velocity.y * particle->m_speed.y) * DELTA_TIME;
+		if (!m_emitterDir.Length())
+			new_force = vec3(
+			particle->m_velocity.x * particle->m_speed.x,
+			particle->m_velocity.y * particle->m_speed.y) * DELTA_TIME;
 
-	else
-		new_force = vec3(
-		particle->m_speed.x * norm_dir.x + norm_dir.x,
-		particle->m_speed.y * norm_dir.y + norm_dir.y) * DELTA_TIME;
+		else
+			new_force = vec3(
+			particle->m_speed.x * norm_dir.x + norm_dir.x,
+			particle->m_speed.y * norm_dir.y + norm_dir.y) * DELTA_TIME;
 
-	// Update position by velocity and direction
-	particle->SetPosition(vec3(
-		particle->GetPosition().x + new_force.x,
-		particle->GetPosition().y + new_force.y,
-		particle->GetPosition().z));
+		// Update position by velocity and direction
+		particle->SetPosition(vec3(
+			particle->GetPosition().x + new_force.x,
+			particle->GetPosition().y + new_force.y,
+			particle->GetPosition().z));
 
-	// Set new fade
-	float new_fade = particle->m_fade * new_force.Length() / m_boundary;
+		// Set new fade
+		float new_fade = particle->m_fade * new_force.Length() / m_boundary;
 
-	// Reduce particle's life
-	particle->m_life -= new_fade;
+		// Reduce particle's life
+		particle->m_life -= new_fade;
 
-	// Color effect
-	// Change color from inside noe to outside one
-	if (m_edgeColor.Length())
-	{
-		vec3 colorOffset = m_edgeColor - GetColor();
+		// Color effect
+		// Change color from inside noe to outside one
+		if (m_edgeColor.Length())
+		{
+			vec3 colorOffset = m_edgeColor - GetColor();
 
-		particle->SetColor(vec4(
-			particle->GetColor() + colorOffset * new_fade,
-			particle->m_life));
-	}
+			particle->SetColor(vec4(
+				particle->GetColor() + colorOffset * new_fade,
+				particle->m_life));
+		}
+	//}
 }
 
 /******************************************************************************/
@@ -325,36 +330,61 @@ void Emitter::Render(Particle* particle)
 /******************************************************************************/
 void Emitter::Refresh(Particle* particle)
 {
-	// Reset the original position
-	particle->SetPosition(GetPosition());
-
-	// Reset life
-	particle->m_life = 1.f;
-
-	// Reset color
-	particle->SetColor(vec4(
-		GetColor().x,
-		GetColor().y,
-		GetColor().z,
-		particle->m_life));
-
-	// Set Velocity;
-	if (!m_emitterDir.Length())
+	// If the emitter mode is explosion,
+	// there is no more refreshing precess
+	if (m_emitterMode != EXPLOSION)
 	{
-		particle->m_velocity = vec3(
-			Random::GetInstance().GetRandomFloat(-1.f, 1.f),
-			Random::GetInstance().GetRandomFloat(-1.f, 1.f));
-		particle->m_velocity = particle->m_velocity.Normalize();
+		// Reset the original position
+		if (m_emitterMode == FIRE)
+		{
+			m_emitterDir = vec3(0.f, 1.f);
+			float repos_offset = 3.f/5.f;
+			float new_pos = m_boundary * repos_offset;
+			particle->SetPosition(GetPosition() +
+				vec3(
+				Random::GetInstance().GetRandomFloat(-new_pos, new_pos),
+				Random::GetInstance().GetRandomFloat(-new_pos, new_pos)));
+		}
+
+		else if (m_emitterMode == SNOW)
+		{
+			particle->SetPosition(GetPosition() +
+				vec3(
+				Random::GetInstance().GetRandomFloat(m_snowStart.x, m_snowEnd.x),
+				Random::GetInstance().GetRandomFloat(m_snowStart.y, m_snowEnd.y)));
+		}
+
+		else
+			particle->SetPosition(GetPosition());
+
+		// Reset life
+		particle->m_life = 1.f;
+
+		// Reset color
+		particle->SetColor(vec4(
+			GetColor().x,
+			GetColor().y,
+			GetColor().z,
+			particle->m_life));
+
+		// Set Velocity;
+		if (!m_emitterDir.Length())
+		{
+			particle->m_velocity = vec3(
+				Random::GetInstance().GetRandomFloat(-1.f, 1.f),
+				Random::GetInstance().GetRandomFloat(-1.f, 1.f));
+			particle->m_velocity = particle->m_velocity.Normalize();
+		}
+
+		// Set speed
+		particle->m_speed =
+			m_emitterSpd * vec3(
+			Random::GetInstance().GetRandomFloat(0.f, 1.f),
+			Random::GetInstance().GetRandomFloat(0.f, 1.f));
+
+		// Reset vanishing speed
+		particle->m_fade = Random::GetInstance().GetRandomFloat(DELTA_TIME, 1.f);
 	}
-
-	// Set speed
-	particle->m_speed =
-		m_emitterSpd * vec3(
-		Random::GetInstance().GetRandomFloat(0.f, 1.f),
-		Random::GetInstance().GetRandomFloat(0.f, 1.f));
-
-	// Reset vanishing speed
-	particle->m_fade = Random::GetInstance().GetRandomFloat(DELTA_TIME, 1.f);
 }
 
 /******************************************************************************/
@@ -379,4 +409,53 @@ void Emitter::SetColors(vec3 center, vec3 edge)
 {
 	SetColor(center);
 	m_edgeColor = edge;
+	for (auto it = ParticleContainer.begin();
+		it != ParticleContainer.end(); ++it)
+		(*it)->SetColor(center);
+}
+
+/******************************************************************************/
+/*!
+\brief - Set snow mode's starting position boundary
+\param start
+\param end 
+*/
+/******************************************************************************/
+void Emitter::SetSnowBoundary(const vec3& start, const vec3& end)
+{
+	m_snowStart = start;
+	m_snowEnd = end;
+
+	vec3 snowStart = m_snowStart;
+	vec3 snowEnd = m_snowEnd;
+
+	for (auto it = ParticleContainer.begin();
+		it != ParticleContainer.end(); ++it)
+		(*it)->SetPosition(GetPosition() +
+		vec3(
+		Random::GetInstance().GetRandomFloat(snowStart.x, snowEnd.x),
+		Random::GetInstance().GetRandomFloat(snowStart.y, snowEnd.y)));
+
+}
+
+/******************************************************************************/
+/*!
+\brief - Get snow mode's starting point of starting position
+\return m_snowStart 
+*/
+/******************************************************************************/
+const vec3& Emitter::GetSnowStartingPoint(void) const
+{
+	return m_snowStart;
+}
+
+/******************************************************************************/
+/*!
+\brief - Get snow mode's ending point of starting position
+\return m_snowEnd 
+*/
+/******************************************************************************/
+const vec3& Emitter::GetSnowEndingPoint(void) const
+{
+	return m_snowEnd;
 }
