@@ -39,7 +39,7 @@ public:
 	virtual ~Text(void);
 
 	//! Text functions
-	void SetText(const char* text);
+	void SetText(const char* text, ...);
 	const std::string& GetText(void) const;
 
 	//! Font size functions 
@@ -54,6 +54,7 @@ private:
 
 	std::string m_text;
 	FontData m_data;
+	char m_textStorage[256];
 };
 
 #endif // _FREETYPE_TEXT_H_

@@ -459,3 +459,16 @@ const vec3& Emitter::GetSnowEndingPoint(void) const
 {
 	return m_snowEnd;
 }
+
+/******************************************************************************/
+/*!
+\brief - Set emitter's projection type
+\param projection
+*/
+/******************************************************************************/
+void Emitter::SetProjectionType(Projt projection)
+{
+	for (auto it = ParticleContainer.begin();
+		it != ParticleContainer.end(); ++it)
+		(*it)->SetProjectionType(projection);
+}

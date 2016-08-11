@@ -2,7 +2,7 @@
 	"Stage" : [
 		{
 			"Background" : [ 0, 0, 0, 0 ],
-			"Camera" : [0, 0, 80, 0 ]
+			"Camera" : [0, 0, 90, 0 ]
 		}
 	],
 	
@@ -26,29 +26,40 @@
 		},
 		{
 			"ID" : 10, "Type" : "SPRITE",
-			"Position" : [ -30, -30, 80 ], "Scale" : [5, 5, 0], "Rotation" : 0,
+			"Position" : [ -30, -30, 0 ], "Scale" : [5, 5, 0], "Rotation" : 0,
+			"Projection" : "PERSPECTIVE", "Color" : [0, 1, 1, 1]
+		},
+		{
+			"ID" : 11, "Type" : "SPRITE",
+			"Position" : [ -44, 33, 20 ], "Scale" : [5, 5, 0], "Rotation" : 0,
 			"Projection" : "PERSPECTIVE", "Color" : [0, 1, 1, 1]
 		},
 		{
 			"ID" : 20, "Type" : "PARTICLE",
-			"Position" : [ 0, -17.5, 0 ], "Scale" : [2, 2, 0 ], "Rotation" : 0,
+			"Position" : [ 0, -15, 0 ], "Scale" : [2, 2, 0 ], "Rotation" : 0,
 			"Projection" : "PERSPECTIVE", "CenterColor" : [0.5, 0.5, 1], "EdgeColor" : [0, 0, 1],
 			"Direction" : [0, 0, 0],
 			"Quantity" : 100, "Range" : 2.5, "Speed" : 0.5
 		},
 		{
 			"ID" : 30, "Type" : "TEXT",
-			"Position" : [ 15, -15, 0 ], "Scale" : [0.5, 0.5, 0 ], "Rotation" : 0,
+			"Position" : [ 15, -12.5, 0 ], "Scale" : [0.5, 0.5, 0 ], "Rotation" : 0,
 			"Projection" : "PERSPECTIVE", "Color" : [1, 1, 1, 1],
 			"Text" : "Sample Text...",
 			"FontSize" : 30
 		},
 		{
 			"ID" : 40, "Type" : "TEXT",
-			"Position" : [ 0, 0, 0 ], "Scale" : [1, 1, 0], "Rotation" : 0,
+			"Position" : [ -512, 0, 0 ], "Scale" : [1, 1, 0], "Rotation" : 0,
 			"Projection" : "ORTHOGONAL", "Color" : [1, 1, 1, 1],
 			"Text" : "Mouse Position",
 			"FontSize" : 30
+		},
+		{
+			"ID" : 50, "Type" : "TEXT",
+			"Position" : [  100, 130, 0 ], "Scale" : [1, 1, 0], "Rotation" : 0,
+			"Projection" : "ORTHOGONAL", "Color" : [1, 1, 1, 1],
+			"FontSize" : 36
 		}
 	]
 }

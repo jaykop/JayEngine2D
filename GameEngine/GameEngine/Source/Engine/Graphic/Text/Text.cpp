@@ -67,9 +67,20 @@ Text::~Text(void)
 \param text
 */
 /******************************************************************************/
-void Text::SetText(const char* text)
+void Text::SetText(const char* text, ...)
 {
-	m_text = text;
+	va_list ap;
+
+	if (text == NULL)
+		m_text.assign(0);
+
+	else {
+		va_start(ap, text);
+		vsprintf_s(m_textStorage, text, ap);
+		va_end(ap);
+
+		m_text = m_textStorage;
+	}
 }
 
 /******************************************************************************/

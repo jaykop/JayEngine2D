@@ -31,6 +31,7 @@ public:
 	void MovingSprite(void);
 	void ColoredTexts(float dt);
 	void MousePosition(void);
+	void CalculateFPS(float dt);
 
 private:
 
@@ -43,6 +44,8 @@ private:
 	float rotation, m_dt;
 	vec3  position, scale;
 	bool  pos_toggle, scale_toggle;
+
+	Timer m_fps;
 };
 
 #endif // _DemoLogic_Main_H_

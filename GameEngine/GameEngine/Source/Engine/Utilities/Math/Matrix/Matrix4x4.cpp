@@ -471,9 +471,9 @@ Matrix4x4<Type> Matrix4x4<Type>::Perspective(float fovy, float aspectRatio, floa
 
 	result.m_member[0][0] = static_cast<Type>(1) / (aspectRatio * tanHalfFovy);
 	result.m_member[1][1] = static_cast<Type>(1) / (tanHalfFovy);
-	result.m_member[2][2] = -(zFar + zNear) / (zFar - zNear);
+	result.m_member[2][2] = (-(zFar + zNear)) / (zFar - zNear);
 	result.m_member[2][3] = -static_cast<Type>(1);
-	result.m_member[3][2] = -(static_cast<Type>(2) * zFar * zNear) / (zFar - zNear);
+	result.m_member[3][2] = (-static_cast<Type>(2) * zFar * zNear) / (zFar - zNear);
 
 	return result;
 }
@@ -499,9 +499,9 @@ Matrix4x4<Type> Matrix4x4<Type>::Ortho(float left, float right, float bottom, fl
 	result.m_member[1][1] = static_cast<Type>(2) / (top - bottom);
 	result.m_member[2][2] = -static_cast<Type>(2) / (zFar - zNear);
 	
-	result.m_member[3][0] = -(right + left) / (right - left);
-	result.m_member[3][1] = -(top + bottom) / (top - bottom);
-	result.m_member[3][2] = -(zFar + zNear) / (zFar - zNear);
+	result.m_member[3][0] = (-(right + left)) / (right - left);
+	result.m_member[3][1] = (-(top + bottom)) / (top - bottom);
+	result.m_member[3][2] = (-(zFar + zNear)) / (zFar - zNear);
 	result.m_member[3][3] = static_cast<Type>(1);
 
 	return result;
@@ -522,9 +522,8 @@ Matrix4x4<Type> Matrix4x4<Type>::LookAt(Vector3<Type> eye, Vector3<Type> look, V
 
 	Matrix4x4 result;
 	result.SetIdentity();
-	Vector3<Type> F = (look - eye);
 
-	Vector3<Type> f = F.Normalize();
+	Vector3<Type> f = (look - eye).Normalize();
 	Vector3<Type> s = f.CrossProduct(up);
 	Vector3<Type> u = s.CrossProduct(f);
 
@@ -540,8 +539,8 @@ Matrix4x4<Type> Matrix4x4<Type>::LookAt(Vector3<Type> eye, Vector3<Type> look, V
 	result.m_member[1][2] = -f.y;
 	result.m_member[2][2] = -f.z;
 
-	result.m_member[3][0] = -s.DotProduct(eye);
-	result.m_member[3][1] = -u.DotProduct(eye);
+	result.m_member[3][0] = s.DotProduct(-eye);
+	result.m_member[3][1] = u.DotProduct(-eye);
 	result.m_member[3][2] = f.DotProduct(eye);
 
 	return result;

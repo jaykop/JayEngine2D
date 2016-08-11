@@ -289,6 +289,19 @@ void JsonParser::LoadObjects(ObjectManager* obm)
 						(*it)["Quantity"].isNumeric())
 						obm->GetGameObject<Emitter>(id)->SetNumOfParticle((*it)["Quantity"].asInt());
 
+					if ((*it).isMember("Projection") &&
+						(*it)["Projection"].isString())
+					{
+						if (!strcmp((*it)["Projection"].asCString(),
+							"ORTHOGONAL"))
+							obm->GetGameObject<Emitter>(id)->SetProjectionType(ORTHOGONAL);
+
+						else if (!strcmp((*it)["Projection"].asCString(),
+							"PERSPECTIVE"))
+							obm->GetGameObject<Emitter>(id)->SetProjectionType(PERSPECTIVE);
+					}
+
+
 					if ((*it).isMember("CenterColor") &&
 						(*it)["CenterColor"].isArray() &&
 						(*it)["CenterColor"].size() == 3 &&
@@ -404,7 +417,8 @@ void JsonParser::LoadBasicObject(Json::Value::iterator& it, Sprite* sprite)
 		sprite->SetRotation((*it)["Rotation"].asFloat());
 
 	//! Set image(texture)
-	if ((*it).isMember("Projection") &&
+	if (sprite->GetType() != PARTICLE &&
+		(*it).isMember("Projection") &&
 		(*it)["Projection"].isString())
 	{
 		if (!strcmp((*it)["Projection"].asCString(),

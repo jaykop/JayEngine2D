@@ -63,6 +63,8 @@ public:
 	virtual void SetScale(const vec3& scale);
 	virtual vec3 GetScale(void) const;
 
+	virtual void SetProjectionType(Projt projection);
+
 	void SetColors(vec3 center, vec3 edge = vec3());
 
 	// Mode functions

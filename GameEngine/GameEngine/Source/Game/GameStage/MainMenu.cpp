@@ -62,7 +62,7 @@ void MenuStage::Init(GameData& gd)
 void MenuStage::Update(GameData& gd)
 {	
 	UNREFERENCED_PARAMETER(gd);
-	std::cout << "MenuStage::Update\n";
+	//std::cout << "MenuStage::Update\n";
 
 	// Update basic systems
 	m_OBM.UpdateGameSystem(gd);

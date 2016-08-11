@@ -1,6 +1,7 @@
 #include "DemoLogic_Main.h"
 #include "../../Engine/Logic/Logic.h"
 #include "../../Engine/InputManager/InputManager.h"
+#include "../../Engine/Graphic/Scene/Scene.h"
 #include "../../Engine/StateManager/GameStateManager/GameStateManager.h"
 
 GameLogic* DemoLogic_MainBuilder::BuildLogic(Object* Owner) const
@@ -28,6 +29,8 @@ void DemoLogic_Main::Init(GameData& gd)
 {
 	UNREFERENCED_PARAMETER(gd);
 	std::cout << "DemoLogic_Main Inited\n";
+
+	m_fps.StartTime();
 }
 
 void DemoLogic_Main::Update(GameData& gd)
@@ -38,7 +41,8 @@ void DemoLogic_Main::Update(GameData& gd)
 	BasicControl();
 	MovingSprite();
 	ColoredTexts(gd.dt);
-	//MousePosition();
+	MousePosition();
+	CalculateFPS(gd.dt);
 }
 
 void DemoLogic_Main::Shutdown(GameData& gd)
@@ -83,15 +87,15 @@ void DemoLogic_Main::MovingSprite(void)
 
 	if (scale_toggle)
 	{
-		scale.x += 0.5f;
-		scale.y += 0.5f;
+		scale.x += 0.05f;
+		scale.y += 0.05f;
 		if (scale.x > 7.5f) scale_toggle = !scale_toggle;
 	}
 
 	else
 	{
-		scale.x -= 0.5f;
-		scale.y -= 0.5f;
+		scale.x -= 0.05f;
+		scale.y -= 0.05f;
 		if (scale.x < 2.5f) scale_toggle = !scale_toggle;
 	}
 
@@ -153,10 +157,30 @@ void DemoLogic_Main::ColoredTexts(float dt)
 
 void DemoLogic_Main::MousePosition(void)
 {
-	vec3 a = InputManager::GetInstance().GetOrthoPosition();
-	//a.z = 10.9f;
-	m_OBM->GetGameObject<Sprite>(40)->SetPosition(a);
-	//m_OBM->GetGameObject<Sprite>(10)->SetPosition(a);
+	m_OBM->GetGameScene()->GetPerspPosition();
+	vec3 a = InputManager::GetInstance().GetPerspPosition();
+	m_OBM->GetGameObject<Sprite>(11)->SetPosition(a);
 	std::cout << a << std::endl;
-	std::cout << InputManager::GetInstance().GetOrthoPosition();
+
+}
+
+void DemoLogic_Main::CalculateFPS(float dt)
+{
+	static float frameCount = 0;
+	static float timeElapsed = 0.f;
+	static float dt_stack = 0.f;
+
+	dt_stack += dt;
+	frameCount++;
+	timeElapsed += m_fps.GetElapsedTime();;
+
+	if (timeElapsed >= 1.0f)
+	{
+		float fps = frameCount / timeElapsed;
+		m_OBM->GetGameObject<Text>(50)->SetText("FPS: %f\nDelta Time: %f\nTime Stack: %f", fps, dt, dt_stack);
+
+		frameCount = 0;
+		timeElapsed = 0.f;
+		m_fps.StartTime();
+	}
 }

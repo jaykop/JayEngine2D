@@ -48,6 +48,10 @@ public:
 	void AddSprite(Sprite* sprite);
 	void RemoveSprite(const int id);
 
+	// Set mouse position
+	void GetPerspPosition(void);
+	void GetOrthoPosition(void);
+
 private:
 
 	// Private functions
@@ -62,10 +66,6 @@ private:
 	void DrawSprites(Sprite* sprite);
 	void DrawParticle(Emitter* emitter);
 
-	// Set mouse position
-	void GetPerspPosition(void);
-	void GetOrthoPosition(void);
-
 	GLuint particleColors;
 	GLuint particleMVPs;
 	GLuint particleNums;
@@ -77,9 +77,9 @@ private:
 	mat44 m_animation;
 	
 	// Screen info
-	int	m_width, m_height;
-	float aspectRatio;
-	float m_zNear, m_zFar, m_fovy;
+	GLfloat m_width, m_height;
+	GLfloat aspectRatio;
+	GLfloat m_zNear, m_zFar, m_fovy;
 	float m_radius;
 
 	// To get GSM

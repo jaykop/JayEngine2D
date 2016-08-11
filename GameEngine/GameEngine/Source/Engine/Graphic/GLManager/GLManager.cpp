@@ -28,7 +28,7 @@ GLManager::GLManager(void)
 	//Set projection matrix
 	m_info.m_width = 0;
 	m_info.m_height = 0;
-	m_info.m_zNear = 0.1f;
+	m_info.m_zNear = 0.001f;
 	m_info.m_zFar = 100.f;
 	m_info.m_fovy = 45.f;
 }
@@ -59,22 +59,22 @@ GLManager::~GLManager(void)
 void GLManager::Resize(int width, int height)
 {
 	//Resize screen size
+	
+	//Prevent the case height = 0
+	if (height <= 0) height = 1;
 
 	//Save the data
 	m_info.m_width = static_cast<float>(width);
 	m_info.m_height = static_cast<float>(height);
 
-	//Prevent the case height = 0
-	if (m_info.m_height <= 0) m_info.m_height = 1;
-
 	//Get ratio
-	float aspectRatio = (m_info.m_width / m_info.m_height);
+	GLdouble aspectRatio = (static_cast<GLdouble>(m_info.m_width) / static_cast<GLdouble>(m_info.m_height));
 
 	//Temporary stuff
 	glViewport(0, 0, GLsizei(m_info.m_width), GLsizei(m_info.m_height));
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	gluPerspective(45.0f, aspectRatio, 0.1f, 100.f);
+	gluPerspective(m_info.m_fovy, aspectRatio, m_info.m_zNear, m_info.m_zFar);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 }

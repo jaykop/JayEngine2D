@@ -5,7 +5,7 @@ in vec4 fragmentColor;
 in vec2 fragTexCoord;
 flat in int fragmentType;
 
-//Texture ID
+//Texture IDz
 uniform sampler2D Texture;
 
 // Ouput data

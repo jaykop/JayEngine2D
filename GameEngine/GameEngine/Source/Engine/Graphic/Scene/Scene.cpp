@@ -58,13 +58,12 @@ void Scene::Init(const ObjectList& objList)
 	ProjectionInfo temp = m_GSM->GetGLManager()->GetProjectionInfo();
 
 	// Set basic scene infomation
-	m_width = static_cast<int>(temp.m_width);
-	m_height = static_cast<int>(temp.m_height);
+	m_width = temp.m_width;
+	m_height = temp.m_height;
 	m_zNear = temp.m_zNear;
 	m_zFar = temp.m_zFar;
 	m_fovy = temp.m_fovy;
-	aspectRatio = static_cast<float>(m_width) / static_cast<float>(m_height);
-	//m_camera = vec4(0, 0, 80, 0);
+	aspectRatio = m_width / m_height;
 
 	// Init every sprites
 	for (auto it = objList.begin(); it != objList.end(); ++it)
@@ -189,7 +188,7 @@ void Scene::DrawTexts(Text* text)
 		};
 
 		glBindTexture(GL_TEXTURE_2D, ch.TextureID);
-		glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices);
+		glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(m_vertex_buffer_data), vertices);
 		glDrawArrays(GL_QUADS, 0, 4);
 		
 		const char newline = *c;
@@ -219,8 +218,8 @@ void Scene::Update(const ObjectList& objList)
 	glClearColor(m_bgColor.x, m_bgColor.y, m_bgColor.z, m_bgColor.w);
 
 	// Set mouse position
-	GetPerspPosition();
-	GetOrthoPosition();
+	// GetPerspPosition();
+	// GetOrthoPosition();
 
 	//Todo: Lambda loop expression
 	//std::for_each(m_DrawList.begin(), m_DrawList.end(), [&](DrawList::iterator& it)
@@ -493,65 +492,37 @@ void Scene::GetPerspPosition(void)
 {
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-
 	gluPerspective(m_fovy, aspectRatio, m_zNear, m_zFar);
-
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-	
+	if (m_camera.z >= 100) m_camera.z = 100;
 	gluLookAt(m_camera.x, m_camera.y, m_camera.z,
 		m_camera.x, m_camera.y, 0.0,
-		cosf((m_camera.w + 90.f) * RADIAN),
-		sinf((m_camera.w + 90.f) * RADIAN),
+		(double)cosf(Math::DegToRad(m_camera.w + 90.f)),
+		(double)sinf(Math::DegToRad(m_camera.w + 90.f)),
 		0.0);
 
-	glViewport(0, 0, m_width, m_height);
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	gluPerspective(m_fovy, (GLdouble)m_width / (GLdouble)m_height, m_zNear, m_zFar);
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	gluLookAt(0.0, 0.0, m_camera.z, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
-
 	GLint viewport[4];
-	GLdouble modelview[16];
-	GLdouble projection[16];
-	GLfloat winX, winY, winZ;
-	GLdouble posX = 0, posY = 0, posZ = 0;
-
-	glGetDoublev(GL_MODELVIEW_MATRIX, modelview);
-	glGetDoublev(GL_PROJECTION_MATRIX, projection);
 	glGetIntegerv(GL_VIEWPORT, viewport);
 
-	winX = InputManager::GetInstance().GetRawMousePosition().x;
-	winY = (float)viewport[3] - InputManager::GetInstance().GetRawMousePosition().y;
-	glReadPixels(int(InputManager::GetInstance().GetRawMousePosition().x), int(winY), 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &winZ);
+	GLdouble modelview[16];
+	glGetDoublev(GL_MODELVIEW_MATRIX, modelview);
+
+	GLdouble projection[16];
+	glGetDoublev(GL_PROJECTION_MATRIX, projection);
+
+	GLdouble winX = 0, winY = 0, winZ = 0;
+
+	gluProject(0, 0, 0, modelview, projection, viewport, &winX, &winY, &winZ);
+
+	winX = (float)InputManager::GetInstance().GetRawMousePosition().x;
+	winY = (float)viewport[3] - (float)InputManager::GetInstance().GetRawMousePosition().y;
+
+	GLdouble posX = m_camera.x, posY = m_camera.y, posZ = m_camera.z;
 
 	gluUnProject(winX, winY, winZ, modelview, projection, viewport, &posX, &posY, &posZ);
 
-	//GLint viewport[4];
-	//glGetIntegerv(GL_VIEWPORT, viewport);
-
-	//GLdouble modelview[16];
-	//glGetDoublev(GL_MODELVIEW_MATRIX, modelview);
-
-	//GLdouble projection[16];
-	//glGetDoublev(GL_PROJECTION_MATRIX, projection);
-
-	//GLdouble winX = 0, winY = 0, winZ = 0;
-
-	//gluProject(0, 0, 0, modelview, projection, viewport, &winX, &winY, &winZ);
-
-	//winX = InputManager::GetInstance().GetRawMousePosition().x;
-	//winY = InputManager::GetInstance().GetRawMousePosition().y;
-	//winY = viewport[3] - winY;
-
-	//GLdouble posX = m_camera.x, posY = m_camera.y, posZ = m_camera.z;
-
-	//gluUnProject(winX, winY, winZ, modelview, projection, viewport, &posX, &posY, &posZ);
-
-	InputManager::GetInstance().SetPerspMouse(vec3((float)posX, (float)posY, (float)posZ));
-
+	InputManager::GetInstance().SetPerspMouse(vec3((float)posX, (float)posY, (float)0));
 }
 
 /******************************************************************************/
