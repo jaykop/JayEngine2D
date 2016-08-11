@@ -54,7 +54,7 @@ private:
 
 	std::string m_text;
 	FontData m_data;
-	char m_textStorage[256];
+	char m_textStorage[1024];
 };
 
 #endif // _FREETYPE_TEXT_H_

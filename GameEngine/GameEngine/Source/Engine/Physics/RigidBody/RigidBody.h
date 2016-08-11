@@ -97,6 +97,9 @@ public:
 	void ActivateCollider(bool active);
 	bool GetColliderToggle(void) const;
 
+	void ActivateResponse(bool response);
+	bool GetResponseToggle(void) const;
+
 	void  SetFriction(float friction);
 	float GetFriction(void) const;
 
@@ -127,6 +130,7 @@ private:
 	vec3 m_velocity;
 
 	//! Collision info
+	bool m_response;
 	bool m_collider;
 	bool m_move;
 	bool m_isCollided;

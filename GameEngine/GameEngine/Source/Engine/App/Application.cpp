@@ -408,12 +408,12 @@ LRESULT CALLBACK Application::WinProc(HWND win, UINT msg, WPARAM wp, LPARAM lp)
 		break;
 
 	case WM_LBUTTONDOWN:
-		InputManager::GetInstance().PressActivate(MOUSE_LBUTTON);
+		InputManager::GetInstance().PressActivate(MOUSE_LEFT);
 		InputManager::GetInstance().SetPressedStatus(DOWN);
 		break;
 
 	case WM_RBUTTONDOWN:
-		InputManager::GetInstance().PressActivate(MOUSE_RBUTTON);
+		InputManager::GetInstance().PressActivate(MOUSE_RIGHT);
 		InputManager::GetInstance().SetPressedStatus(DOWN);
 		break;
 
@@ -424,12 +424,12 @@ LRESULT CALLBACK Application::WinProc(HWND win, UINT msg, WPARAM wp, LPARAM lp)
 		break;
 
 	case WM_LBUTTONUP:
-		InputManager::GetInstance().PressInactivate(MOUSE_LBUTTON);
+		InputManager::GetInstance().PressInactivate(MOUSE_LEFT);
 		InputManager::GetInstance().SetPressedStatus(UP);
 		break;
 
 	case WM_RBUTTONUP:
-		InputManager::GetInstance().PressInactivate(MOUSE_RBUTTON);
+		InputManager::GetInstance().PressInactivate(MOUSE_RIGHT);
 		InputManager::GetInstance().SetPressedStatus(UP);
 		break;
 

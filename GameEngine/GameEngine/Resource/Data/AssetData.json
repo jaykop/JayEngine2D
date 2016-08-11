@@ -12,6 +12,7 @@
 		{"key" : 0, "directory" : "Resource/Texture/rect.png"},
 		{"key" : 1, "directory" : "Resource/Texture/circle.png"},
 		{"key" : 2, "directory" : "Resource/Texture/particle.png"},
-		{"key" : 3, "directory" : "Resource/Texture/Phantom.png"}
+		{"key" : 3, "directory" : "Resource/Texture/Phantom.png"},
+		{"key" : 4, "directory" : "Resource/Texture/buttons/toggle.png"}
 	]
 }

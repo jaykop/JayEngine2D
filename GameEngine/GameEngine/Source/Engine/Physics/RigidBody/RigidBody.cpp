@@ -21,7 +21,7 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 */
 /******************************************************************************/
 RigidBody::RigidBody(Sprite* owner)
-:m_move(true), m_collider(true), m_isCollided(false),
+:m_move(true), m_collider(true), m_isCollided(false), m_response(true),
 m_speed(vec3()), m_velocity(vec3()), m_lastPos(vec3()),
 m_direction(0), m_scale(0), m_acceleration(0), m_friction(0),
 m_shape(BOX), m_mass(1.f), m_owner(owner),
@@ -39,7 +39,6 @@ RigidBody::~RigidBody()
 /******************************************************************************/
 /*!
 \brief - Activate to move
-
 \param move 
 */
 /******************************************************************************/
@@ -51,7 +50,6 @@ void RigidBody::ActivateMove(bool move)
 /******************************************************************************/
 /*!
 \brief - Get Move Toggle
-
 \return m_move
 */
 /******************************************************************************/
@@ -63,7 +61,6 @@ bool RigidBody::GetMoveToggle(void) const
 /******************************************************************************/
 /*!
 \brief - Set body's collision toggle
-
 \param active
 */
 /******************************************************************************/
@@ -75,7 +72,6 @@ void RigidBody::ActivateCollider(bool active)
 /******************************************************************************/
 /*!
 \brief - Get Collider Toggle
-
 \return m_collider
 */
 /******************************************************************************/
@@ -87,7 +83,6 @@ bool RigidBody::GetColliderToggle(void) const
 /******************************************************************************/
 /*!
 \brief - Set body's acceleration
-
 \param acceleration
 */
 /******************************************************************************/
@@ -98,10 +93,9 @@ void RigidBody::SetAcceleration(float acceleration)
 
 /******************************************************************************/
 /*!
-		\brief - Get Acceleration
-
-		\return m_acceleration
-		*/
+\brief - Get Acceleration
+\return m_acceleration
+*/
 /******************************************************************************/
 float RigidBody::GetAcceleration(void) const
 {
@@ -128,10 +122,9 @@ void RigidBody::SetSpeed(const vec3& speed)
 
 /******************************************************************************/
 /*!
-		\brief - Get speed
-
-		\return m_speed
-		*/
+\brief - Get speed
+\return m_speed
+*/
 /******************************************************************************/
 vec3 RigidBody::GetSpeed(void) const
 {
@@ -140,10 +133,9 @@ vec3 RigidBody::GetSpeed(void) const
 
 /******************************************************************************/
 /*!
-		\brief - Set body's velocity
-
-		\param velocity
-		*/
+\brief - Set body's velocity
+\param velocity
+*/
 /******************************************************************************/
 void RigidBody::SetVelocity(const vec3& velocity)
 {
@@ -153,10 +145,9 @@ void RigidBody::SetVelocity(const vec3& velocity)
 
 /******************************************************************************/
 /*!
-		\brief - Get velocity
-
-		\return m_velocity
-		*/
+\brief - Get velocity
+\return m_velocity
+*/
 /******************************************************************************/
 vec3 RigidBody::GetVelocity(void) const
 {
@@ -165,8 +156,8 @@ vec3 RigidBody::GetVelocity(void) const
 
 /******************************************************************************/
 /*!
-		\brief - Clear all velocity and speed from body
-		*/
+\brief - Clear all velocity and speed from body
+*/
 /******************************************************************************/
 void RigidBody::ClearVelocity(void)
 {
@@ -178,7 +169,6 @@ void RigidBody::ClearVelocity(void)
 /******************************************************************************/
 /*!
 \brief - Set body's scale (! Not sprite's scale !)
-
 \param scale
 */
 /******************************************************************************/
@@ -190,7 +180,6 @@ void RigidBody::SetScale(const vec3& scale)
 /******************************************************************************/
 /*!
 \brief - Get body's scale (! Not sprite's scale !)
-
 \return m_velocity
 */
 /******************************************************************************/
@@ -202,7 +191,6 @@ vec3 RigidBody::GetScale(void) const
 /******************************************************************************/
 /*!
 \brief - Set direction
-
 \param direction
 */
 /******************************************************************************/
@@ -214,7 +202,6 @@ void RigidBody::SetDirectionAngle(float direction)
 /******************************************************************************/
 /*!
 \brief - Get Direction Angle
-
 \return m_direction
 */
 /******************************************************************************/
@@ -226,7 +213,6 @@ float RigidBody::GetDirectionAngle(void) const
 /******************************************************************************/
 /*!
 \brief - Set force
-
 \param force - combine velocity speed
 */
 /******************************************************************************/
@@ -240,7 +226,6 @@ void RigidBody::SetForce(const vec3& force)
 /******************************************************************************/
 /*!
 \brief - Check if body got either collided or not
-
 \return m_isCollided
 */
 /******************************************************************************/
@@ -252,7 +237,6 @@ bool RigidBody::IsCollided(void) const
 /******************************************************************************/
 /*!
 \brief - Set collided status
-
 \param collided
 */
 /******************************************************************************/
@@ -264,7 +248,6 @@ void RigidBody::CheckCollided(bool collided)
 /******************************************************************************/
 /*!
 \brief - Set friction
-
 \param friction
 */
 /******************************************************************************/
@@ -276,7 +259,6 @@ void RigidBody::SetFriction(float friction)
 /******************************************************************************/
 /*!
 \brief - Get friction
-
 \return m_friction
 */
 /******************************************************************************/
@@ -288,7 +270,6 @@ float RigidBody::GetFriction(void) const
 /******************************************************************************/
 /*!
 \brief - Set body's shape
-
 \param shape - body's shape
 */
 /******************************************************************************/
@@ -300,7 +281,6 @@ void RigidBody::SetShape(Shape shape)
 /******************************************************************************/
 /*!
 \brief - Get body's shape
-
 \return m_shape - body's shape
 */
 /******************************************************************************/
@@ -312,7 +292,6 @@ Shape RigidBody::GetShape(void) const
 /******************************************************************************/
 /*!
 \brief - Set opponent's address
-
 \param partner - opponent's address
 */
 /******************************************************************************/
@@ -324,7 +303,6 @@ void RigidBody::SetCollisionWith(Sprite* partner)
 /******************************************************************************/
 /*!
 \brief - Check if specific sprite's been collided to 
-
 \param partner - opponent's address
 \return bool
 */
@@ -341,7 +319,6 @@ bool RigidBody::IsCollisionWith(Sprite* partner)
 /******************************************************************************/
 /*!
 \brief - Get collided one's address
-
 \return m_with - collided one's address
 */
 /******************************************************************************/
@@ -353,7 +330,6 @@ Sprite* RigidBody::GetCollisionWith(void) const
 /******************************************************************************/
 /*!
 \brief - Set body's mass
-
 \param mass - body's mass
 */
 /******************************************************************************/
@@ -369,7 +345,6 @@ void RigidBody::SetMass(float mass)
 /******************************************************************************/
 /*!
 \brief - Get body's mass
-
 \return m_mass - body's mass
 */
 /******************************************************************************/
@@ -458,11 +433,32 @@ Edges RigidBody::GetEdges(void)
 /******************************************************************************/
 /*!
 \brief - Get body's owner sprite
-
 \return m_owner
 */
 /******************************************************************************/
 Sprite* RigidBody::GetOwnerSprite(void) const
 {
 	return m_owner;
+}
+
+/******************************************************************************/
+/*!
+\brief - Set body's response toggle
+\param response
+*/
+/******************************************************************************/
+void RigidBody::ActivateResponse(bool response)
+{
+	m_response = response;
+}
+
+/******************************************************************************/
+/*!
+\brief - Get body's response toggle
+\return m_response
+*/
+/******************************************************************************/
+bool RigidBody::GetResponseToggle(void) const
+{
+	return m_response;
 }

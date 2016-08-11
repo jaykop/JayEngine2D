@@ -20,79 +20,25 @@ void LV1Stage::Load(GameData& gd)
 	m_OBM.BindGameSystem(m_GSM);
 
 	// Load json data
-	// m_OBM.LoadStageData("Resource/Data/Sample.json");
+	m_OBM.LoadStageData("Resource/Data/LV1.json");
 }
 
 void LV1Stage::Init(GameData& gd)
 {
 	UNREFERENCED_PARAMETER(gd);
 	std::cout << "Lv1Stage::Init\n";
-	std::cout << "Sound testing here.\n";
 
-	// Here objects to be init...
-
+	// Init basic systems
 	m_OBM.InitGameSystem(gd);
 }
 
 void LV1Stage::Update(GameData& gd)
 {
 	UNREFERENCED_PARAMETER(gd);
-	//std::cout << "Lv1Stage::Update\n";
+	std::cout << "Lv1Stage::Update\n";	
 
-	static float volume = 0.5f;
-
+	// Update basic systems
 	m_OBM.UpdateGameSystem(gd);
-
-	if (InputManager::GetInstance().KeyPressed(KEY_ESC))
-		m_GSM->SetQuit(true);
-
-	else if (InputManager::GetInstance().KeyPressed(KEY_1))
-		m_GSM->SetNextStage(ST_LV1);
-
-	else if (InputManager::GetInstance().KeyPressed(KEY_2))
-		m_GSM->SetNextStage(ST_LV2);
-
-	else if (InputManager::GetInstance().KeyPressed(KEY_3))
-		m_GSM->SetNextStage(ST_LV3);
-
-	else if (InputManager::GetInstance().KeyPressed(KEY_0))
-		m_GSM->SetNextStage(ST_MENU);
-
-	else if (InputManager::GetInstance().KeyTriggered(KEY_P))
-		m_GSM->Pause();
-
-	if (InputManager::GetInstance().KeyTriggered(KEY_UP))
-	{
-		volume += 0.1f;
-		if (volume > 1) volume = 1;
-		m_OBM.GetGameSound()->SetMasterVolume(volume);
-	}
-
-	if (InputManager::GetInstance().KeyTriggered(KEY_DOWN))
-	{
-		volume -= 0.1f;
-		if (volume < 0) volume = 0;
-		m_OBM.GetGameSound()->SetMasterVolume(volume);
-	}
-
-	if (InputManager::GetInstance().KeyTriggered(KEY_A))
-		m_OBM.GetGameSound()->PlayBGM(0);
-
-	if (InputManager::GetInstance().KeyTriggered(KEY_S))
-		m_OBM.GetGameSound()->StopBGM();
-
-	if (InputManager::GetInstance().KeyTriggered(KEY_Z))
-		m_OBM.GetGameSound()->PlaySE(1);
-
-	if (InputManager::GetInstance().KeyTriggered(KEY_X))
-		m_OBM.GetGameSound()->StopSE();
-
-	if (InputManager::GetInstance().KeyTriggered(KEY_SPACE))
-		m_OBM.GetGameSound()->SetMasterMuteToggle(true);
-
-	if (InputManager::GetInstance().KeyTriggered(KEY_ENTER))
-		m_OBM.GetGameSound()->SetMasterMuteToggle(false);
-
 }
 
 void LV1Stage::Shutdown(GameData& gd)
@@ -100,7 +46,11 @@ void LV1Stage::Shutdown(GameData& gd)
 	UNREFERENCED_PARAMETER(gd);
 	std::cout << "Lv1Stage::Shutdown\n";
 
+	// Shutdown basic systems
 	m_OBM.ShutdownGameSystem(gd);
+
+	// Cleare all Objects of the list
+	m_OBM.ClearObjectList();
 }
 
 void LV1Stage::Unload(GameData& gd)
@@ -108,5 +58,6 @@ void LV1Stage::Unload(GameData& gd)
 	UNREFERENCED_PARAMETER(gd);
 	std::cout << "LV1Stage::Unload\n";
 
-	// m_OBM.UnloadStageData();
+	// Unload stage data
+	m_OBM.UnloadStageData();
 }

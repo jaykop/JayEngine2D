@@ -1,8 +1,5 @@
 #include "DemoLogic_Main.h"
-#include "../../Engine/Logic/Logic.h"
-#include "../../Engine/InputManager/InputManager.h"
-#include "../../Engine/Graphic/Scene/Scene.h"
-#include "../../Engine/StateManager/GameStateManager/GameStateManager.h"
+#include "../BaseData/BaseEnigne.h"
 
 GameLogic* DemoLogic_MainBuilder::BuildLogic(Object* Owner) const
 {

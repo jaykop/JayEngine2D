@@ -2,7 +2,7 @@
 	"Stage" : [
 		{
 			"Background" : [ 0, 0, 0, 0 ],
-			"Camera" : [0, 0, 90, 0 ]
+			"Camera" : [0, 0, 80, 0 ]
 		}
 	],
 	
@@ -30,11 +30,6 @@
 			"Projection" : "PERSPECTIVE", "Color" : [0, 1, 1, 1]
 		},
 		{
-			"ID" : 11, "Type" : "SPRITE",
-			"Position" : [ -44, 33, 20 ], "Scale" : [5, 5, 0], "Rotation" : 0,
-			"Projection" : "PERSPECTIVE", "Color" : [0, 1, 1, 1]
-		},
-		{
 			"ID" : 20, "Type" : "PARTICLE",
 			"Position" : [ 0, -15, 0 ], "Scale" : [2, 2, 0 ], "Rotation" : 0,
 			"Projection" : "PERSPECTIVE", "CenterColor" : [0.5, 0.5, 1], "EdgeColor" : [0, 0, 1],
@@ -57,7 +52,7 @@
 		},
 		{
 			"ID" : 50, "Type" : "TEXT",
-			"Position" : [  100, 130, 0 ], "Scale" : [1, 1, 0], "Rotation" : 0,
+			"Position" : [ 100, 130, 0 ], "Scale" : [1, 1, 0], "Rotation" : 0,
 			"Projection" : "ORTHOGONAL", "Color" : [1, 1, 1, 1],
 			"FontSize" : 36
 		}

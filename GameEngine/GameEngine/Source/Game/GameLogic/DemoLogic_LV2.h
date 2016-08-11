@@ -27,15 +27,18 @@ public:
 	virtual void Shutdown(GameData& gd);
 	virtual void Unload(void);
 
+	void BasicControl(void);
+	void SountTest(void);
+	void ToggleAnimation(void);
+
 private:
 
 	Object* m_Owner;
 	ObjectManager* m_OBM;
 	GameStateManager* m_GSM;
 
-	vec4 color;
-	vec3 size;
-
+	bool bgm_toggle, se_toggle;
+	float volume;
 };
 
 #endif // _DemoLogic_LV2_H_

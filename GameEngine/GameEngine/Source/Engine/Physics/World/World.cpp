@@ -87,7 +87,9 @@ void World::Update(const ObjectList& objList)
 						if (collisionIntersect)
 						{
 							// Collision response
-							CollisionResponse(it1->second, it2->second);
+							if (it1->second->GetRigidBody()->GetResponseToggle() ||
+								it2->second->GetRigidBody()->GetResponseToggle())
+									CollisionResponse(it1->second, it2->second);
 
 							// Refresh the collision with info
 							CollisionRelation(it1->second, it2->second);

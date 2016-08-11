@@ -17,15 +17,10 @@ public:
 	virtual void Shutdown(GameData& gd);
 	virtual void Unload(GameData& gd);
 
-	//void PhysicsTest(void);
-	//void SetWallSprites(void);
-	//void SetSamllSprites(void);
-
 private:
 
 	//Obj Manager
 	ObjectManager m_OBM;
-
 };
 
 class MainMenuBuilder : public StageBuilder

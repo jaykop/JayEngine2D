@@ -22,6 +22,7 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 #include "../../Logic/GameLogic/GameLogic.h"
 #include "../../Logic/LogicFactory/LogicFactory.h"
 #include "../../Sound/SoundManager/SoundManager.h"
+#include "../../StateManager/GameStateManager/GameStateManager.h"
 
 /******************************************************************************/
 /*!
@@ -430,6 +431,11 @@ void JsonParser::LoadBasicObject(Json::Value::iterator& it, Sprite* sprite)
 			sprite->SetProjectionType(PERSPECTIVE);
 	}
 
+	if (sprite->GetType() != TEXT &&
+		(*it).isMember("Texture") &&
+		(*it)["Texture"].isInt())
+		sprite->SetTexture(sprite->GetOBM()->GetGSM()->GetGLManager()->GetTexture((*it)["Texture"].asInt()));
+
 	if (sprite->GetType() != PARTICLE &&
 		(*it).isMember("Color") &&
 		(*it)["Color"].isArray() &&
@@ -472,6 +478,12 @@ void JsonParser::LoadBasicObject(Json::Value::iterator& it, Sprite* sprite)
 			(*it)["Move"].isBool())
 			sprite->GetRigidBody()
 			->ActivateMove((*it)["Move"].asBool());
+
+		//! Body collider toggle
+		if ((*it).isMember("Response") &&
+			(*it)["Response"].isBool())
+			sprite->GetRigidBody()
+			->ActivateResponse((*it)["Response"].asBool());
 
 		//! Body accel
 		if ((*it).isMember("Acce") &&
@@ -527,9 +539,12 @@ void JsonParser::LoadBasicObject(Json::Value::iterator& it, Sprite* sprite)
 		if ((*it).isMember("Shape") &&
 			(*it)["Shape"].isString())
 		{
-			if (!strcmp("BAL", (*it)["Shape"].asCString()))
+			if (!strcmp("BALL", (*it)["Shape"].asCString()))
+			{
 				sprite->GetRigidBody()
-				->SetShape(BALL);
+					->SetShape(BALL);
+				sprite->SetTexture(sprite->GetOBM()->GetGSM()->GetGLManager()->GetTexture(1));
+			}
 
 			else if (!strcmp("BOX", (*it)["Shape"].asCString()))
 				sprite->GetRigidBody()

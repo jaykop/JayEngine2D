@@ -19,8 +19,8 @@ public:
 
 private:
 
+	//Obj Manager
 	ObjectManager m_OBM;
-
 };
 
 class LV1Builder : public StageBuilder

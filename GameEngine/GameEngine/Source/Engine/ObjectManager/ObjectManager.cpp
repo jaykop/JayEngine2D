@@ -149,9 +149,9 @@ void ObjectManager::LoadStageData(char* dir)
 void ObjectManager::InitGameSystem(GameData& gd)
 {
 	// Initialize game system
+	logicPtr->Init(m_ObjectList, gd);
 	worldPtr->Init(m_ObjectList);
 	scenePtr->Init(m_ObjectList);
-	logicPtr->Init(m_ObjectList, gd);
 	soundPtr->Init();
 }
 
