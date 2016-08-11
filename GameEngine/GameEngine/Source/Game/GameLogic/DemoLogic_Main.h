@@ -46,6 +46,8 @@ private:
 	bool  pos_toggle, scale_toggle;
 
 	Timer m_fps;
+	float frameCount;
+	float timeElapsed, dt_stack, deltaTime;
 };
 
 #endif // _DemoLogic_Main_H_

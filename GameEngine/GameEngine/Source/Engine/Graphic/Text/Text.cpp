@@ -31,9 +31,7 @@ Text::Text(const int id, ObjectManager* obm)
 	m_data.m_chars = GetOBM()->GetGSM()->GetGLManager()->GetCharacters();
 	m_data.m_fontSize = GetOBM()->GetGSM()->GetGLManager()->GetFontSize();
 
-	//SetID(id);
 	SetType(TEXT);
-	//SetObjectManager(obm); 
 	SetProjectionType(ORTHOGONAL);
 	SetScale(vec3(1.f, 1.f, 1.f));
 	SetColor(vec4(0.f, 0.0f, 0.0f, 1.f));

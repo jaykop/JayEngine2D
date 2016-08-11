@@ -303,9 +303,21 @@ void Scene::Pipeline(Sprite* sprite)
 			0));
 
 	//Transform model mat
-	model = model * mat44::Scale(sprite->GetScale())
-		* mat44::Rotate(Math::DegToRad(sprite->GetRotation()), vec3(.0f, .0f, 1.f))
-		* mat44::Translate(sprite->GetPosition());
+
+	if (sprite->GetType() == TEXT)
+	{
+		float text_offset = .5f;
+		model = model * mat44::Scale(sprite->GetScale())
+			* mat44::Rotate(Math::DegToRad(sprite->GetRotation()), vec3(.0f, .0f, 1.f))
+			* mat44::Translate(sprite->GetPosition());
+	}
+
+	else
+	{
+		model = model * mat44::Scale(sprite->GetScale())
+			* mat44::Rotate(Math::DegToRad(sprite->GetRotation()), vec3(.0f, .0f, 1.f))
+			* mat44::Translate(sprite->GetPosition());
+	}
 
 	//calculate fined final matrix
 	m_mvp = projection.Transpose() * camera.Transpose() * model.Transpose();

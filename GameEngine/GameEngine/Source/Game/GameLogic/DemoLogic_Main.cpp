@@ -30,6 +30,7 @@ void DemoLogic_Main::Init(GameData& gd)
 	UNREFERENCED_PARAMETER(gd);
 	std::cout << "DemoLogic_Main Inited\n";
 
+	deltaTime = frameCount = timeElapsed = dt_stack = 0.f;
 	m_fps.StartTime();
 }
 
@@ -157,28 +158,24 @@ void DemoLogic_Main::ColoredTexts(float dt)
 
 void DemoLogic_Main::MousePosition(void)
 {
-	m_OBM->GetGameScene()->GetPerspPosition();
-	vec3 a = InputManager::GetInstance().GetPerspPosition();
-	m_OBM->GetGameObject<Sprite>(11)->SetPosition(a);
-	std::cout << a << std::endl;
-
+	m_OBM->GetGameScene()->GetOrthoPosition();
+	vec3 mouse_pos = InputManager::GetInstance().GetOrthoPosition();
+	m_OBM->GetGameObject<Text>(40)->SetPosition(mouse_pos / 2.f);
+	m_OBM->GetGameObject<Text>(40)->SetText("Mouse Position: [ %.2f, %.2f ]", mouse_pos.x, mouse_pos.y);
 }
 
 void DemoLogic_Main::CalculateFPS(float dt)
 {
-	static float frameCount = 0;
-	static float timeElapsed = 0.f;
-	static float dt_stack = 0.f;
-
-	dt_stack += dt;
 	frameCount++;
-	timeElapsed += m_fps.GetElapsedTime();;
+	dt_stack += deltaTime;
+	timeElapsed += dt;
 
+	float fps = frameCount / m_fps.GetElapsedTime();
+	m_OBM->GetGameObject<Text>(50)->SetText("FPS: %f\nDelta Time: %f\nTime Stack: %f", fps, deltaTime, dt_stack);
+	
 	if (timeElapsed >= 1.0f)
 	{
-		float fps = frameCount / timeElapsed;
-		m_OBM->GetGameObject<Text>(50)->SetText("FPS: %f\nDelta Time: %f\nTime Stack: %f", fps, dt, dt_stack);
-
+		deltaTime = m_fps.GetElapsedTime() / 60.f;
 		frameCount = 0;
 		timeElapsed = 0.f;
 		m_fps.StartTime();
