@@ -490,39 +490,85 @@ void Scene::RemoveSprite(const int id)
 /******************************************************************************/
 void Scene::GetPerspPosition(void)
 {
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	gluPerspective(m_fovy, aspectRatio, m_zNear, m_zFar);
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	if (m_camera.z >= 100) m_camera.z = 100;
-	gluLookAt(m_camera.x, m_camera.y, m_camera.z,
-		m_camera.x, m_camera.y, 0.0,
-		(double)cosf(Math::DegToRad(m_camera.w + 90.f)),
-		(double)sinf(Math::DegToRad(m_camera.w + 90.f)),
-		0.0);
+	//glMatrixMode(GL_PROJECTION);
+	//glLoadIdentity();
+	//gluPerspective(m_fovy, aspectRatio, m_zNear, m_zFar);
+	//glMatrixMode(GL_MODELVIEW);
+	//glLoadIdentity();
+	//if (m_camera.z >= 100) m_camera.z = 100;
+	//gluLookAt(m_camera.x, m_camera.y, m_camera.z,
+	//	m_camera.x, m_camera.y, 0.0,
+	//	(double)cosf(Math::DegToRad(m_camera.w + 90.f)),
+	//	(double)sinf(Math::DegToRad(m_camera.w + 90.f)),
+	//	0.0);
 
-	GLint viewport[4];
-	glGetIntegerv(GL_VIEWPORT, viewport);
+	//GLint viewport[4];
+	//glGetIntegerv(GL_VIEWPORT, viewport);
 
-	GLdouble modelview[16];
-	glGetDoublev(GL_MODELVIEW_MATRIX, modelview);
+	//GLdouble modelview[16];
+	//glGetDoublev(GL_MODELVIEW_MATRIX, modelview);
 
-	GLdouble projection[16];
-	glGetDoublev(GL_PROJECTION_MATRIX, projection);
+	//GLdouble projection[16];
+	//glGetDoublev(GL_PROJECTION_MATRIX, projection);
 
-	GLdouble winX = 0, winY = 0, winZ = 0;
+	//GLdouble winX = 0, winY = 0, winZ = 0;
 
-	gluProject(0, 0, 0, modelview, projection, viewport, &winX, &winY, &winZ);
+	//gluProject(0, 0, 0, modelview, projection, viewport, &winX, &winY, &winZ);
+
+	//winX = (float)InputManager::GetInstance().GetRawMousePosition().x;
+	//winY = (float)viewport[3] - (float)InputManager::GetInstance().GetRawMousePosition().y;
+
+	//GLdouble posX = m_camera.x, posY = m_camera.y, posZ = m_camera.z;
+
+	//gluUnProject(winX, winY, winZ, modelview, projection, viewport, &posX, &posY, &posZ);
+
+	//glMatrixMode(GL_PROJECTION);
+	//glLoadIdentity();
+	//glOrtho(-m_width / 2.f, m_width / 2.f, m_height / 2.f, -m_height / 2.f, m_zNear, m_zFar);
+	//glMatrixMode(GL_MODELVIEW);
+	//glLoadIdentity();
+
+	//GLint viewport[4];
+	//glGetIntegerv(GL_VIEWPORT, viewport);
+
+	//GLdouble modelview[16];
+	//glGetDoublev(GL_MODELVIEW_MATRIX, modelview);
+
+	//GLdouble projection[16];
+	//glGetDoublev(GL_PROJECTION_MATRIX, projection);
+
+	//GLdouble winX = 0, winY = 0, winZ = 0;
+
+	//gluProject(0, 0, 0, modelview, projection, viewport, &winX, &winY, &winZ);
+
+	//winX = (float)InputManager::GetInstance().GetRawMousePosition().x;
+	//winY = (float)InputManager::GetInstance().GetRawMousePosition().y;
+	//winY = (float)viewport[3] - winY;
+
+	//GLdouble posX = 0, posY = 0, posZ = 0;
+
+	//gluUnProject(winX, winY, winZ, modelview, projection, viewport, &posX, &posY, &posZ);
+
+	//InputManager::GetInstance().SetPerspMouse(vec3((float)posX * m_camera.z / (m_width / 2.f), (float)posY * m_camera.z / (m_height / 2.f), (float)0));
+
+	GLint viewport[4]; //var to hold the viewport info
+	GLdouble modelview[16]; //var to hold the modelview info
+	GLdouble projection[16]; //var to hold the projection matrix info
+	GLfloat winX, winY, winZ; //variables to hold screen x,y,z coordinates
+	GLdouble worldX, worldY, worldZ = 0.f; //variables to hold world x,y,z coordinates
+
+	glGetDoublev(GL_MODELVIEW_MATRIX, modelview); //get the modelview info
+	glGetDoublev(GL_PROJECTION_MATRIX, projection); //get the projection matrix info
+	glGetIntegerv(GL_VIEWPORT, viewport); //get the viewport info
 
 	winX = (float)InputManager::GetInstance().GetRawMousePosition().x;
 	winY = (float)viewport[3] - (float)InputManager::GetInstance().GetRawMousePosition().y;
+	winZ = 1.f;
 
-	GLdouble posX = m_camera.x, posY = m_camera.y, posZ = m_camera.z;
+	//get the world coordinates from the screen coordinates
+	gluUnProject(winX, winY, winZ, modelview, projection, viewport, &worldX, &worldY, &worldZ);
 
-	gluUnProject(winX, winY, winZ, modelview, projection, viewport, &posX, &posY, &posZ);
-
-	InputManager::GetInstance().SetPerspMouse(vec3((float)posX, (float)posY, (float)0));
+	std::cout << vec3(worldX * 2.f / (m_zFar + m_camera.z * m_width), (worldY / (m_zFar + m_camera.z))* (m_height / 2.f), 0.f) << std::endl;
 }
 
 /******************************************************************************/

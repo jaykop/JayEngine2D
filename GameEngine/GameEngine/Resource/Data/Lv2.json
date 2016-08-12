@@ -2,7 +2,7 @@
 	"Stage" : [
 		{
 			"Background" : [ 0, 0, 0, 0 ],
-			"Camera" : [0, 0, 80, 0 ]
+			"Camera" : [0, 0, 100, 0 ]
 		}
 	],
 	
@@ -29,33 +29,33 @@
 			"Position" : [ -250, -175, 0 ], "Scale" : [100, 100, 0], "Rotation" : 0,
 			"Projection" : "ORTHOGONAL", "Color" : [1, 1, 1, 1],
 			"Texture" : 4,
-			"Body" : true
+			"Body" : true, "Collider" : true, "Response" : false
 		},
 		{
 			"ID" : 11, "Type" : "SPRITE",
 			"Position" : [ 250, -175, 0 ], "Scale" : [100, 100, 0], "Rotation" : 0,
 			"Projection" : "ORTHOGONAL", "Color" : [1, 1, 1, 1],
 			"Texture" : 4,
-			"Body" : true
+			"Body" : true, "Collider" : true, "Response" : false
 		},
 		{
 			"ID" : 12, "Type" : "SPRITE",
 			"Position" : [ 0, 0, 0 ], "Scale" : [1, 1, 0], "Rotation" : 0,
-			"Projection" : "ORTHOGONAL", "Color" : [1, 1, 1, 1],
-			"Body" : true, "Collider" : false, "Response" : false
+			"Projection" : "PERSPECTIVE", "Color" : [1, 1, 1, 1],
+			"Body" : true, "Collider" : true, "Response" : false
 		},
 		{
 			"ID" : 13, "Type" : "TEXT",
-			"Position" : [ -30, -17.5, 0 ], "Scale" : [1, 1, 0], "Rotation" : 0,
+			"Position" : [ -160, -50, 0 ], "Scale" : [1, 1, 0], "Rotation" : 0,
 			"Projection" : "ORTHOGONAL", "Color" : [1, 1, 1, 1],
-			"Text" : "",
+			"Text" : "BGM Toggle",
 			"FontSize" : 36
 		},
 		{
 			"ID" : 14, "Type" : "TEXT",
-			"Position" : [ 30, -17.5, 0 ], "Scale" : [1, 1, 0], "Rotation" : 0,
+			"Position" : [ 90, -50, 0 ], "Scale" : [1, 1, 0], "Rotation" : 0,
 			"Projection" : "ORTHOGONAL", "Color" : [1, 1, 1, 1],
-			"Text" : "",
+			"Text" : "SE Toggle",
 			"FontSize" : 36
 		},
 		{
@@ -64,6 +64,21 @@
 			"Projection" : "ORTHOGONAL", "Color" : [1, 1, 1, 1],
 			"Text" : "",
 			"FontSize" : 36
+		},
+		{
+			"ID" : 100, "Type" : "SPRITE",
+			"Position" : [ -80, 80, 0 ], "Scale" : [1, 1, 0], "Rotation" : 0,
+			"Projection" : "PERSPECTIVE", "Color" : [1, 1, 1, 1]
+		},
+		{
+			"ID" : 101, "Type" : "SPRITE",
+			"Position" : [ -74, 55, 0 ], "Scale" : [1, 1, 0], "Rotation" : 0,
+			"Projection" : "PERSPECTIVE", "Color" : [1, 1, 1, 1]
+		},		
+		{
+			"ID" : 102, "Type" : "SPRITE",
+			"Position" : [ -54, 41, 0 ], "Scale" : [10, 10, 0], "Rotation" : 0,
+			"Projection" : "ORTHOGONAL", "Color" : [1, 1, 1, 1]
 		}
 	]
 }

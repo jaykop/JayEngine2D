@@ -60,7 +60,7 @@ void LV2Stage::Init(GameData& gd)
 void LV2Stage::Update(GameData& gd)
 {
 	UNREFERENCED_PARAMETER(gd);
-	std::cout << "Lv2Stage::Update\n";
+	//std::cout << "Lv2Stage::Update\n";
 
 	// Update basic systems
 	m_OBM.UpdateGameSystem(gd);

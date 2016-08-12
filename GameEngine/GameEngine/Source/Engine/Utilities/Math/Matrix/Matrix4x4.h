@@ -59,6 +59,7 @@ public:
 	// Transforming functions
 	// Matrix settor
 	Matrix4x4 Transpose(void);
+	Matrix4x4 Inverse(void);
 	void SetIdentity(void);
 
 	// To use graphic
