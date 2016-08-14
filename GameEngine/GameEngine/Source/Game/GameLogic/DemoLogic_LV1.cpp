@@ -19,7 +19,7 @@ void DemoLogic_LV1::Load(const Json::Value& data)
 void DemoLogic_LV1::Init(GameData& gd)
 {
 	UNREFERENCED_PARAMETER(gd);
-	std::cout << "DemoLogic_LV1 Inited\n";
+	std::cout << "DemoLogic_LV1 Init\n";
 
 	qunatity = 10;
 

@@ -38,6 +38,7 @@ private:
 	GameStateManager* m_GSM;
 
 	bool bgm_toggle, se_toggle;
+	bool pause_toggle;
 	float volume;
 };
 

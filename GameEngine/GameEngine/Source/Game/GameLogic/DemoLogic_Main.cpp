@@ -25,7 +25,7 @@ void DemoLogic_Main::Load(const Json::Value& data)
 void DemoLogic_Main::Init(GameData& gd)
 {
 	UNREFERENCED_PARAMETER(gd);
-	std::cout << "DemoLogic_Main Inited\n";
+	std::cout << "DemoLogic_Main Init\n";
 
 	deltaTime = frameCount = timeElapsed = dt_stack = 0.f;
 	m_fps.StartTime();
@@ -34,7 +34,7 @@ void DemoLogic_Main::Init(GameData& gd)
 void DemoLogic_Main::Update(GameData& gd)
 {
 	UNREFERENCED_PARAMETER(gd);
-	//std::cout << "DemoLogic_Main Update\n";
+	std::cout << "DemoLogic_Main Update\n";
 
 	BasicControl();
 	MovingSprite();

@@ -13,12 +13,13 @@ DemoLogic_LV2::DemoLogic_LV2(Object* owner)
 void DemoLogic_LV2::Load(const Json::Value& data)
 {
 	UNREFERENCED_PARAMETER(data);
+	std::cout << "DemoLogic_LV2 Load\n";
 }
 
 void DemoLogic_LV2::Init(GameData& gd)
 {
 	UNREFERENCED_PARAMETER(gd);
-	std::cout << "DemoLogic_LV2 Inited\n";
+	std::cout << "DemoLogic_LV2 Init\n";
 
 	m_OBM->GetGameObject<Sprite>(10)->SetAnimation(2, 0);
 	m_OBM->GetGameObject<Sprite>(10)->FixAnimation(0);
@@ -26,30 +27,18 @@ void DemoLogic_LV2::Init(GameData& gd)
 	m_OBM->GetGameObject<Sprite>(11)->SetAnimation(2, 0);
 	m_OBM->GetGameObject<Sprite>(11)->FixAnimation(0);
 
-	bgm_toggle = se_toggle = false;
+	bgm_toggle = se_toggle = pause_toggle = false;
 	volume = 0.5f;
 }
 
 void DemoLogic_LV2::Update(GameData& gd)
 {
 	UNREFERENCED_PARAMETER(gd);
-	//std::cout << "DemoLogic_LV2 Update\n";
+	std::cout << "DemoLogic_LV2 Update\n";
 
 	BasicControl();
 	SountTest();
 	ToggleAnimation();
-	//UnprojectSample();
-	//m_OBM->GetGameScene()->GetPerspPosition();
-	
-	//mat44 pos;
-	//pos.SetIdentity();
-	//pos.m_member[0][0] = 2.f;
-	//pos.m_member[1][1] = 10.f;
-	//pos.m_member[3][3] = 5.f;
-	//std::cout << pos << std::endl;
-
-	//sprintf(strTitle, "%f %f %f / %f,%f,%f ", m_pCamera->m_vPosition.x, m_pCamera->m_vPosition.y, m_pCamera->m_vPosition.z, pos.x, pos.y, pos.z);
-
 }
 
 void DemoLogic_LV2::Shutdown(GameData& gd)
@@ -93,16 +82,14 @@ void DemoLogic_LV2::SountTest(void)
 	{
 		volume += 0.1f;
 		if (volume > 1) volume = 1;
-		m_OBM->GetGameSound()->GetAudio(0)->SetVolume(volume);
-		m_OBM->GetGameSound()->GetAudio(1)->SetVolume(volume);
+		m_OBM->GetGameSound()->SetMasterVolume(volume);
 	}
 
 	if (InputManager::GetInstance().KeyTriggered(KEY_DOWN))
 	{
 		volume -= 0.1f;
 		if (volume < 0) volume = 0;
-		m_OBM->GetGameSound()->GetAudio(0)->SetVolume(volume);
-		m_OBM->GetGameSound()->GetAudio(1)->SetVolume(volume);
+		m_OBM->GetGameSound()->SetMasterVolume(volume);
 	}
 
 	if (InputManager::GetInstance().KeyTriggered(KEY_SPACE))
@@ -126,7 +113,7 @@ void DemoLogic_LV2::ToggleAnimation(void)
 		{
 			if (!bgm_toggle)
 			{
-				m_OBM->GetGameObject<Text>(13)->SetText("Stop BGM");
+				m_OBM->GetGameObject<Text>(13)->SetText("Stop Sample1");
 				m_OBM->GetGameSound()->GetAudio(0)->Play();
 				bgm_toggle = true;
 				m_OBM->GetGameObject<Sprite>(10)->FixAnimation(1);
@@ -134,8 +121,8 @@ void DemoLogic_LV2::ToggleAnimation(void)
 
 			else
 			{
-				m_OBM->GetGameObject<Text>(13)->SetText("Play BGM");
-				m_OBM->GetGameSound()->GetAudio(0)->Play();
+				m_OBM->GetGameObject<Text>(13)->SetText("Play Sample1");
+				m_OBM->GetGameSound()->GetAudio(0)->Stop();
 				bgm_toggle = false;
 				m_OBM->GetGameObject<Sprite>(10)->FixAnimation(0);
 			}
@@ -146,16 +133,29 @@ void DemoLogic_LV2::ToggleAnimation(void)
 		{
 			if (!se_toggle)
 			{
-				m_OBM->GetGameObject<Text>(14)->SetText("Stop Sound effect");
-				m_OBM->GetGameSound()->GetAudio(1)->Play();
-				se_toggle = true;
-				m_OBM->GetGameObject<Sprite>(11)->FixAnimation(1);
+				if (pause_toggle)
+				{
+					pause_toggle = false;
+					se_toggle = false;
+					m_OBM->GetGameObject<Text>(14)->SetText("Play Sample2");
+					m_OBM->GetGameSound()->GetAudio(1)->Pause(pause_toggle);
+					m_OBM->GetGameObject<Sprite>(11)->FixAnimation(1);
+				}
+
+				else
+				{
+					m_OBM->GetGameObject<Text>(14)->SetText("Stop Sample2");
+					m_OBM->GetGameSound()->GetAudio(1)->Play();
+					se_toggle = true;
+					m_OBM->GetGameObject<Sprite>(11)->FixAnimation(1);
+				}
 			}
 
 			else
 			{
-				m_OBM->GetGameObject<Text>(14)->SetText("Play Sound effect");
-				m_OBM->GetGameSound()->GetAudio(1)->Stop();
+				pause_toggle = true;
+				m_OBM->GetGameObject<Text>(14)->SetText("Play Sample2");
+				m_OBM->GetGameSound()->GetAudio(1)->Pause(pause_toggle);
 				se_toggle = false;
 				m_OBM->GetGameObject<Sprite>(11)->FixAnimation(0);
 			}
