@@ -165,8 +165,8 @@ void ObjectManager::UpdateGameSystem(GameData& gd)
 	// Update game system
 	worldPtr->Update(m_ObjectList);
 	scenePtr->Update(m_ObjectList);
-	logicPtr->Update(m_ObjectList, gd);
 	soundPtr->Update();
+	logicPtr->Update(m_ObjectList, gd);
 }
 
 /******************************************************************************/

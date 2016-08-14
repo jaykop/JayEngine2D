@@ -155,10 +155,10 @@ void DemoLogic_Main::ColoredTexts(float dt)
 
 void DemoLogic_Main::MousePosition(void)
 {
-	m_OBM->GetGameScene()->GetOrthoPosition();
-	vec3 mouse_pos = InputManager::GetInstance().GetOrthoPosition();
-	m_OBM->GetGameObject<Text>(40)->SetPosition(mouse_pos / 2.f);
-	m_OBM->GetGameObject<Text>(40)->SetText("Mouse Position: [ %.2f, %.2f ]", mouse_pos.x, mouse_pos.y);
+	vec3 ortho_mpos = InputManager::GetInstance().GetOrthoPosition();
+	vec3 world_mpos = InputManager::GetInstance().GetPerspPosition();
+	m_OBM->GetGameObject<Text>(40)->SetPosition(ortho_mpos / 2.f);
+	m_OBM->GetGameObject<Text>(40)->SetText("Ortho Position: [ %.2f, %.2f ]\nWorld Position: [ %.2f, %.2f ]", ortho_mpos.x, ortho_mpos.y, world_mpos.x, world_mpos.y);
 }
 
 void DemoLogic_Main::CalculateFPS(float dt)

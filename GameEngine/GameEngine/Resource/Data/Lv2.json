@@ -41,7 +41,7 @@
 		{
 			"ID" : 12, "Type" : "SPRITE",
 			"Position" : [ 0, 0, 0 ], "Scale" : [1, 1, 0], "Rotation" : 0,
-			"Projection" : "PERSPECTIVE", "Color" : [1, 1, 1, 1],
+			"Projection" : "ORTHOGONAL", "Color" : [1, 1, 1, 0],
 			"Body" : true, "Collider" : true, "Response" : false
 		},
 		{
@@ -64,21 +64,6 @@
 			"Projection" : "ORTHOGONAL", "Color" : [1, 1, 1, 1],
 			"Text" : "",
 			"FontSize" : 36
-		},
-		{
-			"ID" : 100, "Type" : "SPRITE",
-			"Position" : [ -80, 80, 0 ], "Scale" : [1, 1, 0], "Rotation" : 0,
-			"Projection" : "PERSPECTIVE", "Color" : [1, 1, 1, 1]
-		},
-		{
-			"ID" : 101, "Type" : "SPRITE",
-			"Position" : [ -74, 55, 0 ], "Scale" : [1, 1, 0], "Rotation" : 0,
-			"Projection" : "PERSPECTIVE", "Color" : [1, 1, 1, 1]
-		},		
-		{
-			"ID" : 102, "Type" : "SPRITE",
-			"Position" : [ -54, 41, 0 ], "Scale" : [10, 10, 0], "Rotation" : 0,
-			"Projection" : "ORTHOGONAL", "Color" : [1, 1, 1, 1]
 		}
 	]
 }

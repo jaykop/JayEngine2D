@@ -218,8 +218,8 @@ void Scene::Update(const ObjectList& objList)
 	glClearColor(m_bgColor.x, m_bgColor.y, m_bgColor.z, m_bgColor.w);
 
 	// Set mouse position
-	// GetPerspPosition();
-	// GetOrthoPosition();
+	GetPerspPosition();
+	GetOrthoPosition();
 
 	//Todo: Lambda loop expression
 	//std::for_each(m_DrawList.begin(), m_DrawList.end(), [&](DrawList::iterator& it)
@@ -551,24 +551,38 @@ void Scene::GetPerspPosition(void)
 
 	//InputManager::GetInstance().SetPerspMouse(vec3((float)posX * m_camera.z / (m_width / 2.f), (float)posY * m_camera.z / (m_height / 2.f), (float)0));
 
-	GLint viewport[4]; //var to hold the viewport info
-	GLdouble modelview[16]; //var to hold the modelview info
-	GLdouble projection[16]; //var to hold the projection matrix info
-	GLfloat winX, winY, winZ; //variables to hold screen x,y,z coordinates
-	GLdouble worldX, worldY, worldZ = 0.f; //variables to hold world x,y,z coordinates
+	mat44 matProjection = mat44::Perspective(
+		m_GSM->GetGLManager()->GetProjectionInfo().m_fovy,
+		m_GSM->GetGLManager()->GetProjectionInfo().m_width / m_GSM->GetGLManager()->GetProjectionInfo().m_height,
+		m_GSM->GetGLManager()->GetProjectionInfo().m_zNear,
+		m_GSM->GetGLManager()->GetProjectionInfo().m_zFar).Transpose()
+		* mat44::LookAt(
+		vec3(m_camera),
+		vec3(m_camera.x, m_camera.y, 0),
+		vec3(cosf(Math::DegToRad((m_camera.w + 90.f))),
+		sinf(Math::DegToRad((m_camera.w + 90.f))),
+		0)).Transpose();
 
-	glGetDoublev(GL_MODELVIEW_MATRIX, modelview); //get the modelview info
-	glGetDoublev(GL_PROJECTION_MATRIX, projection); //get the projection matrix info
-	glGetIntegerv(GL_VIEWPORT, viewport); //get the viewport info
+	mat44 matInverse = matProjection.Inverse();
 
-	winX = (float)InputManager::GetInstance().GetRawMousePosition().x;
-	winY = (float)viewport[3] - (float)InputManager::GetInstance().GetRawMousePosition().y;
-	winZ = 1.f;
+	float in[4];
+	float winZ = 1.0;
 
-	//get the world coordinates from the screen coordinates
-	gluUnProject(winX, winY, winZ, modelview, projection, viewport, &worldX, &worldY, &worldZ);
+	in[0] = (2.f * (InputManager::GetInstance().GetRawMousePosition().x / m_width)) - 1.0f;
+	in[1] = 1.f - (2.f * (InputManager::GetInstance().GetRawMousePosition().y / m_height));
+	in[2] = 2.f * winZ - 1.f;
+	in[3] = 1.f;
 
-	std::cout << vec3(worldX * 2.f / (m_zFar + m_camera.z * m_width), (worldY / (m_zFar + m_camera.z))* (m_height / 2.f), 0.f) << std::endl;
+	vec4 vIn = vec4(in[0], in[1], in[2], in[3]);
+	vec4 pos = matInverse * vIn;
+
+	pos.w = 1.f / pos.w;
+
+	pos.x *= pos.w;
+	pos.y *= pos.w;
+	pos.z = 0.f;
+
+	InputManager::GetInstance().SetPerspMouse(pos);
 }
 
 /******************************************************************************/
@@ -605,5 +619,24 @@ void Scene::GetOrthoPosition(void)
 
 	gluUnProject(winX, winY, winZ, modelview, projection, viewport, &posX, &posY, &posZ);
 
-	InputManager::GetInstance().SetOrthoMouse(vec3((float)posX, -(float)posY, (float)posZ));
+	InputManager::GetInstance().SetOrthoMouse(vec3((float)posX, -(float)posY, 0.f));
+
+	//GLint viewport[4]; //var to hold the viewport info
+	//GLdouble modelview[16]; //var to hold the modelview info
+	//GLdouble projection[16]; //var to hold the projection matrix info
+	//GLfloat winX, winY, winZ; //variables to hold screen x,y,z coordinates
+	//GLdouble worldX, worldY, worldZ = 0.f; //variables to hold world x,y,z coordinates
+
+	//glGetDoublev(GL_MODELVIEW_MATRIX, modelview); //get the modelview info
+	//glGetDoublev(GL_PROJECTION_MATRIX, projection); //get the projection matrix info
+	//glGetIntegerv(GL_VIEWPORT, viewport); //get the viewport info
+
+	//winX = (float)InputManager::GetInstance().GetRawMousePosition().x;
+	//winY = (float)viewport[3] - (float)InputManager::GetInstance().GetRawMousePosition().y;
+	//winZ = 1.f;
+
+	////get the world coordinates from the screen coordinates
+	//gluUnProject(winX, winY, winZ, modelview, projection, viewport, &worldX, &worldY, &worldZ);
+
+	//InputManager::GetInstance().SetPerspMouse(vec3(static_cast<float>(worldX), static_cast<float>(worldY), 0.f));
 }

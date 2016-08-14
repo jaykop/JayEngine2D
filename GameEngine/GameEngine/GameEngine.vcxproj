@@ -94,6 +94,7 @@
     <ClCompile Include="Source\Engine\Graphic\Text\Text.cpp" />
     <ClCompile Include="Source\Engine\Graphic\Texture\Texture.cpp" />
     <ClCompile Include="Source\Engine\Logic\Logic.cpp" />
+    <ClCompile Include="Source\Engine\Sound\Audio.cpp" />
     <ClCompile Include="Source\Engine\Sound\Sound.cpp" />
     <ClCompile Include="Source\Engine\Sound\SoundManager\SoundManager.cpp" />
     <ClCompile Include="Source\Engine\StateManager\StageFactory\StageFactory.cpp" />

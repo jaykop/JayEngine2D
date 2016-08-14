@@ -41,9 +41,11 @@ public:
 	void AddSound(int key, const char* SoundDir);
 	void ClearSoundMap(void);
 	void ErrorCheck(Application* pApp, FMOD_RESULT result);
+	AudioMap& GetAudioMap(void);
 
 	FMOD::System*	GetSystem(void);
 	FMOD::Sound*	GetSound(int key);
+	FMOD::Channel*  GetChannel(int key);
 
 private:
 

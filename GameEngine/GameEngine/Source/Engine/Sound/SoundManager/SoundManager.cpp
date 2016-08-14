@@ -99,6 +99,23 @@ FMOD::Sound* SoundManager::GetSound(int key)
 
 /******************************************************************************/
 /*!
+\brief - Get pointer to channel
+\param key - sound key
+\return m_channel
+*/
+/******************************************************************************/
+FMOD::Channel*  SoundManager::GetChannel(int key)
+{
+	auto found = m_audioMap.find(key)->second;
+
+	if (found)
+		return m_audioMap[key]->m_channel;
+
+	return nullptr;
+}
+
+/******************************************************************************/
+/*!
 \brief - Get pointer to sound
 \param key - sound key
 \param SoundDir - sound type
@@ -111,7 +128,7 @@ void SoundManager::AddSound(int key, const char* SoundDir)
 	DEBUG_ASSERT(m_audioMap.find(key) == m_audioMap.end(), "Error: Logic Duplication!");
 
 	//Unless, make new builder
-	m_audioMap[key] = new Audio;
+	m_audioMap[key] = new Audio(m_system);
 	m_system->createSound(SoundDir, FMOD_HARDWARE, 0, &m_audioMap[key]->m_sound);
 }
 
@@ -129,4 +146,15 @@ void SoundManager::ClearSoundMap(void)
 	}
 
 	m_audioMap.clear();
+}
+
+/******************************************************************************/
+/*!
+\brief - Get Audio Map
+\return m_audioMap
+*/
+/******************************************************************************/
+AudioMap& SoundManager::GetAudioMap(void)
+{
+	return m_audioMap;
 }

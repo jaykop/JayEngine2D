@@ -1,136 +1,114 @@
 /******************************************************************************/
 /*!
-\file   Sound.cpp
+\file   Audio.cpp
 \author Jeong Juyong
 \par    email: jeykop14\@gmail.com
-\date   2016/06/26(yy/mm/dd)
+\date   2016/08/14(yy/mm/dd)
 
 \description
-Contains Sound class member and functions
+Contains Audio class member and functions
 
 All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 */
 /******************************************************************************/
 
-#include "Sound.h"
 #include "Audio.h"
-#include "../StateManager/GameStateManager/GameStateManager.h"
 
 /******************************************************************************/
 /*!
-\brief - Sound Constructor
-\param gsm - pointer to gamestate manager
+\brief - Audio Constructor
+\param system - pointer to fmod main system
 */
 /******************************************************************************/
-Sound::Sound(GameStateManager* gsm)
-: m_GSM(gsm), m_SM(gsm->GetSoundManager()),
-m_system(gsm->GetSoundManager()->GetSystem()),
-m_MasterToggle(true), m_MasterVolume(.5f)
-{
-	// Get audiomap form manager
-	m_audioMap = &m_SM->GetAudioMap();
-}
-
-/******************************************************************************/
-/*!
-\brief - Sound Destructor
-*/
-/******************************************************************************/
-Sound::~Sound(void)
-{}
-
-/******************************************************************************/
-/*!
-\brief - Initialize Sound 
-*/
-/******************************************************************************/
-void Sound::Init(void)
+Audio::Audio(FMOD::System* system)
+:m_channel(0), m_sound(0), m_system(system),
+m_volume(0.5f), m_pause(false), m_play(true)
 {
 
 }
 
 /******************************************************************************/
 /*!
-\brief - Update Sound
+\brief - Audio Destructor
 */
 /******************************************************************************/
-void Sound::Update(void)
-{
-	//Update all audios' volume
-	for (auto it = m_audioMap->begin();
-		it != m_audioMap->end(); ++it)
-		it->second->m_channel->setVolume(it->second->GetVolume());
-
-	m_GSM->GetSoundManager()->GetSystem()->update();
-}
-
-/******************************************************************************/
-/*!
-\brief - Shutdown Sound
-*/
-/******************************************************************************/
-void Sound::Shutdown(void)
+Audio::~Audio() 
 {
 
 }
 
 /******************************************************************************/
 /*!
-\brief - Get audio
+\brief - Play audio
 */
 /******************************************************************************/
-Audio* Sound::GetAudio(int key)
+void Audio::Play(void)
 {
-	auto found = m_audioMap->find(key)->second;
-	return found;
+	if (m_play)
+		m_system->playSound(FMOD_CHANNEL_FREE, m_sound, false, &m_channel);
 }
 
 /******************************************************************************/
 /*!
-\brief - Set all audios' play toggle
-\param toggle
+\brief - Stop audio
 */
 /******************************************************************************/
-void Sound::SetMasterMuteToggle(bool toggle)
+void Audio::Stop(void)
 {
-	m_MasterToggle = toggle;
-	for (auto it = m_audioMap->begin();
-		it != m_audioMap->end(); ++it)
-		it->second->SetMuteToggle(m_MasterToggle);
+	m_channel->stop();
 }
 
 /******************************************************************************/
 /*!
-\brief - Get master play toggle
-\return m_MasterToggle
+\brief - Pause audio
+\param boolean - toggle
 */
 /******************************************************************************/
-bool  Sound::GetMasterMuteToggle(void) const
+void Audio::Pause(bool boolean)
 {
-	return m_MasterToggle;
+	m_channel->setPaused(boolean);
 }
 
 /******************************************************************************/
 /*!
-\brief - Set all audios' volume
+\brief - Set Mute Toggle
+\param boolean - toggle
+*/
+/******************************************************************************/
+void Audio::SetMuteToggle(bool toggle)
+{
+	m_play = toggle;
+}
+
+/******************************************************************************/
+/*!
+\brief - Get Mute Toggle
+\return m_play
+*/
+/******************************************************************************/
+bool Audio::GetMuteToggle(void) const
+{
+	return m_play;
+}
+
+/******************************************************************************/
+/*!
+\brief - Get Volume
+\return m_volume
+*/
+/******************************************************************************/
+float Audio::GetVolume(void) const
+{
+	return m_volume;
+}
+
+/******************************************************************************/
+/*!
+\brief - Set Volume
 \param volume
 */
 /******************************************************************************/
-void Sound::SetMasterVolume(float volume)
+void Audio::SetVolume(float volume)
 {
-	m_MasterVolume = volume;
-	for (auto it = m_audioMap->begin();
-		it != m_audioMap->end(); ++it)
-		it->second->m_channel->setVolume(m_MasterVolume);
-}
-
-/******************************************************************************/
-/*!
-\brief - Get master volume
-\return m_MasterVolume
-*/
-/******************************************************************************/
-float Sound::GetMasterVolume(void) const
-{
-	return m_MasterVolume;
+	m_volume = volume;
 }
