@@ -38,7 +38,7 @@ class Texture;
 class Application;
 
 //! Uniform type
-enum UniformType{TEXTURE, TRANSFORM, UV, COLOR, TYPE, UNIFORM_END};
+enum UniformType{ TEXTURE, TRANSFORM, UV, COLOR, TYPE, WAVE, PHASE, TIME, UNIFORM_END };
 
 //! vectext buffer information
 static const GLfloat m_vertex_buffer_data[] =

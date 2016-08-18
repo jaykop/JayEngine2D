@@ -168,7 +168,7 @@ void DemoLogic_Main::CalculateFPS(float dt)
 	timeElapsed += dt;
 
 	float fps = frameCount / m_fps.GetElapsedTime();
-	m_OBM->GetGameObject<Text>(50)->SetText("FPS: %f\nDelta Time: %f\nTime Stack: %f", fps, deltaTime, dt_stack);
+	m_OBM->GetGameObject<Text>(50)->SetText("FPS: %f\nDelta Time: %f\nTime Stack: %f", fps, dt, dt_stack);
 	
 	if (timeElapsed >= 1.0f)
 	{

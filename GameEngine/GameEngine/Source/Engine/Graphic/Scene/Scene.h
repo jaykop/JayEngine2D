@@ -37,7 +37,7 @@ public:
 	~Scene();
 
 	void Init(const ObjectList& objList);
-	void Update(const ObjectList& objList);
+	void Update(const ObjectList& objList, float dt);
 	void Shutdown(const ObjectList& objList);
 
 	void SetBackgroundColor(const vec4& background);
@@ -56,7 +56,7 @@ private:
 
 	// Private functions
 	// Manage transform and animation info
-	void Pipeline(Sprite* sprite);
+	void Pipeline(Sprite* sprite, float dt);
 
 	// Reorder sprites by z orders
 	void ReorderSprites(void);
@@ -64,7 +64,7 @@ private:
 	// Draw sprites
 	void DrawTexts(Text* text);
 	void DrawSprites(Sprite* sprite);
-	void DrawParticle(Emitter* emitter);
+	void DrawParticle(Emitter* emitter, float dt);
 
 	GLuint particleColors;
 	GLuint particleMVPs;
@@ -74,6 +74,7 @@ private:
 	mat44 m_mvp;	
 	vec4  m_camera;
 	vec4  m_bgColor;
+	vec2  m_phase;
 	mat44 m_animation;
 	
 	// Screen info

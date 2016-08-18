@@ -18,6 +18,7 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 #include "../Text/Text.h"
 #include "../Sprite/Sprite.h"
 #include "../Particle/Particle.h"
+#include "../../Utilities/Random.h"
 #include "../../InputManager/InputManager.h"
 #include "../../ObjectManager/ObjectManager.h"
 #include "../../StateManager/GameStateManager/GameStateManager.h"
@@ -112,7 +113,7 @@ void Scene::DrawSprites(Sprite* sprite)
 \param particle - particle to be drawn
 */
 /******************************************************************************/
-void Scene::DrawParticle(Emitter* emitter)
+void Scene::DrawParticle(Emitter* emitter, float dt)
 {
 	// Simulate all particles
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE);
@@ -124,12 +125,14 @@ void Scene::DrawParticle(Emitter* emitter)
 		it != emitter->GetParticleContainer().end(); ++it)
 	{
 		// Update pipeline
-		Pipeline(*it);
+		Pipeline(*it, dt);
 		vec4 sptColor = (*it)->GetColor();
-		
+
 		glUniformMatrix4fv(m_GSM->GetGLManager()->GetUnifrom(TRANSFORM), 1, GL_FALSE, &m_mvp.m_member[0][0]);
 		glUniformMatrix4fv(m_GSM->GetGLManager()->GetUnifrom(UV), 1, GL_FALSE, &m_animation.m_member[0][0]);
 		glUniform4f(m_GSM->GetGLManager()->GetUnifrom(COLOR), sptColor.x, sptColor.y, sptColor.z, (*it)->m_life);
+		glUniform1d(m_GSM->GetGLManager()->GetUnifrom(WAVE), (*it)->GetWaveToggle());
+		glUniform2f(m_GSM->GetGLManager()->GetUnifrom(PHASE), m_phase.x, m_phase.y);
 
 		emitter->Update((*it));
 
@@ -209,7 +212,7 @@ void Scene::DrawTexts(Text* text)
 \brief - Draw Scene
 */
 /******************************************************************************/
-void Scene::Update(const ObjectList& objList)
+void Scene::Update(const ObjectList& objList, float dt)
 {
 	UNREFERENCED_PARAMETER(objList);
 
@@ -230,14 +233,17 @@ void Scene::Update(const ObjectList& objList)
 		if ((*it)->GetType() != PARTICLE)
 		{
 			//Update pipeline
-			Pipeline((*it));
-			vec4 sptColor = ((*it)->GetColor());
+			Pipeline((*it), dt);
+			vec4 sptColor = (*it)->GetColor();
 
 			glUniformMatrix4fv(m_GSM->GetGLManager()->GetUnifrom(TRANSFORM), 1, GL_FALSE, &m_mvp.m_member[0][0]);
 			glUniformMatrix4fv(m_GSM->GetGLManager()->GetUnifrom(UV), 1, GL_FALSE, &m_animation.m_member[0][0]);
 			glUniform4f(m_GSM->GetGLManager()->GetUnifrom(COLOR), sptColor.x, sptColor.y, sptColor.z, sptColor.w);
 			glUniform1i(m_GSM->GetGLManager()->GetUnifrom(TYPE), (*it)->GetType());
-
+			glUniform1f(m_GSM->GetGLManager()->GetUnifrom(TIME), dt);
+			glUniform1d(m_GSM->GetGLManager()->GetUnifrom(WAVE), (*it)->GetWaveToggle());
+			glUniform2f(m_GSM->GetGLManager()->GetUnifrom(PHASE), m_phase.x, m_phase.y);
+			
 			//Todo: high quality?
 			//glUniformMatrix4fv();
 
@@ -248,12 +254,11 @@ void Scene::Update(const ObjectList& objList)
 			// Draw Sprites
 			else if ((*it)->GetType() == SPRITE)
 				DrawSprites(*it);
-
 		}
 
 		// Draw Particles
 		else 
-			DrawParticle(static_cast<Emitter*>(*it));
+			DrawParticle(static_cast<Emitter*>(*it), dt);
 		
 	}
 
@@ -281,7 +286,7 @@ void Scene::Shutdown(const ObjectList& objList)
 \param sprite - sprite to be drawed
 */
 /******************************************************************************/
-void Scene::Pipeline(Sprite* sprite)
+void Scene::Pipeline(Sprite* sprite, float dt)
 {
 	//Init model matrix
 	mat44 model;
@@ -335,12 +340,14 @@ void Scene::Pipeline(Sprite* sprite)
 	}
 
 	// Animation pipeline
-	mat44 animation;
-	animation.SetIdentity();
-	animation = animation * mat44::Scale(vec3(sprite->GetDividedFrame(), 1.f));
-	animation = animation * mat44::Translate(vec3(sprite->GetCurrentScene(), 0.f));
+	m_animation.SetIdentity();
+	m_animation = m_animation * mat44::Scale(vec3(sprite->GetDividedFrame(), 1.f));
+	m_animation = m_animation * mat44::Translate(vec3(sprite->GetCurrentScene(), 0.f));
 
-	m_animation = animation;
+	m_phase.x -= sprite->GetWavePhase().x * dt;
+	m_phase.y += sprite->GetWavePhase().y * dt;
+	if (m_phase.x < -1.f || m_phase.y > 1.f)
+		m_phase.x = m_phase.y = 0.f;
 
 }
 
@@ -490,67 +497,6 @@ void Scene::RemoveSprite(const int id)
 /******************************************************************************/
 void Scene::GetPerspPosition(void)
 {
-	//glMatrixMode(GL_PROJECTION);
-	//glLoadIdentity();
-	//gluPerspective(m_fovy, aspectRatio, m_zNear, m_zFar);
-	//glMatrixMode(GL_MODELVIEW);
-	//glLoadIdentity();
-	//if (m_camera.z >= 100) m_camera.z = 100;
-	//gluLookAt(m_camera.x, m_camera.y, m_camera.z,
-	//	m_camera.x, m_camera.y, 0.0,
-	//	(double)cosf(Math::DegToRad(m_camera.w + 90.f)),
-	//	(double)sinf(Math::DegToRad(m_camera.w + 90.f)),
-	//	0.0);
-
-	//GLint viewport[4];
-	//glGetIntegerv(GL_VIEWPORT, viewport);
-
-	//GLdouble modelview[16];
-	//glGetDoublev(GL_MODELVIEW_MATRIX, modelview);
-
-	//GLdouble projection[16];
-	//glGetDoublev(GL_PROJECTION_MATRIX, projection);
-
-	//GLdouble winX = 0, winY = 0, winZ = 0;
-
-	//gluProject(0, 0, 0, modelview, projection, viewport, &winX, &winY, &winZ);
-
-	//winX = (float)InputManager::GetInstance().GetRawMousePosition().x;
-	//winY = (float)viewport[3] - (float)InputManager::GetInstance().GetRawMousePosition().y;
-
-	//GLdouble posX = m_camera.x, posY = m_camera.y, posZ = m_camera.z;
-
-	//gluUnProject(winX, winY, winZ, modelview, projection, viewport, &posX, &posY, &posZ);
-
-	//glMatrixMode(GL_PROJECTION);
-	//glLoadIdentity();
-	//glOrtho(-m_width / 2.f, m_width / 2.f, m_height / 2.f, -m_height / 2.f, m_zNear, m_zFar);
-	//glMatrixMode(GL_MODELVIEW);
-	//glLoadIdentity();
-
-	//GLint viewport[4];
-	//glGetIntegerv(GL_VIEWPORT, viewport);
-
-	//GLdouble modelview[16];
-	//glGetDoublev(GL_MODELVIEW_MATRIX, modelview);
-
-	//GLdouble projection[16];
-	//glGetDoublev(GL_PROJECTION_MATRIX, projection);
-
-	//GLdouble winX = 0, winY = 0, winZ = 0;
-
-	//gluProject(0, 0, 0, modelview, projection, viewport, &winX, &winY, &winZ);
-
-	//winX = (float)InputManager::GetInstance().GetRawMousePosition().x;
-	//winY = (float)InputManager::GetInstance().GetRawMousePosition().y;
-	//winY = (float)viewport[3] - winY;
-
-	//GLdouble posX = 0, posY = 0, posZ = 0;
-
-	//gluUnProject(winX, winY, winZ, modelview, projection, viewport, &posX, &posY, &posZ);
-
-	//InputManager::GetInstance().SetPerspMouse(vec3((float)posX * m_camera.z / (m_width / 2.f), (float)posY * m_camera.z / (m_height / 2.f), (float)0));
-
 	mat44 matProjection = mat44::Perspective(
 		m_GSM->GetGLManager()->GetProjectionInfo().m_fovy,
 		m_GSM->GetGLManager()->GetProjectionInfo().m_width / m_GSM->GetGLManager()->GetProjectionInfo().m_height,
@@ -620,23 +566,4 @@ void Scene::GetOrthoPosition(void)
 	gluUnProject(winX, winY, winZ, modelview, projection, viewport, &posX, &posY, &posZ);
 
 	InputManager::GetInstance().SetOrthoMouse(vec3((float)posX, -(float)posY, 0.f));
-
-	//GLint viewport[4]; //var to hold the viewport info
-	//GLdouble modelview[16]; //var to hold the modelview info
-	//GLdouble projection[16]; //var to hold the projection matrix info
-	//GLfloat winX, winY, winZ; //variables to hold screen x,y,z coordinates
-	//GLdouble worldX, worldY, worldZ = 0.f; //variables to hold world x,y,z coordinates
-
-	//glGetDoublev(GL_MODELVIEW_MATRIX, modelview); //get the modelview info
-	//glGetDoublev(GL_PROJECTION_MATRIX, projection); //get the projection matrix info
-	//glGetIntegerv(GL_VIEWPORT, viewport); //get the viewport info
-
-	//winX = (float)InputManager::GetInstance().GetRawMousePosition().x;
-	//winY = (float)viewport[3] - (float)InputManager::GetInstance().GetRawMousePosition().y;
-	//winZ = 1.f;
-
-	////get the world coordinates from the screen coordinates
-	//gluUnProject(winX, winY, winZ, modelview, projection, viewport, &worldX, &worldY, &worldZ);
-
-	//InputManager::GetInstance().SetPerspMouse(vec3(static_cast<float>(worldX), static_cast<float>(worldY), 0.f));
 }

@@ -20,7 +20,6 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 /******************************************************************************/
 /*!
 \brief - Sprite consturctor
-
 \param id - Sprite's id
 
 */
@@ -29,7 +28,8 @@ Sprite::Sprite(const int id, ObjectManager* obm)
 :m_texture(0), ani_frame(1), ani_speed(0), m_curScene(0),
 m_degree(0), m_color(vec4(1.f, 1.f, 1.f, 1.f)),
 m_HasBody(false), m_body(0), m_prjt(PERSPECTIVE), ani_play(false),
-m_position(vec3(0.f, 0.f, 0.f)), m_scale(vec3(5.f, 5.f, 0.f))
+m_position(vec3(0.f, 0.f, 0.f)), m_scale(vec3(5.f, 5.f, 0.f)),
+m_wave(false), m_phase(vec2(0, 0))
 {
 	SetID(id);
 	SetType(SPRITE);
@@ -92,7 +92,6 @@ Sprite::~Sprite(void)
 /******************************************************************************/
 /*!
 \brief - Set Sprite;s position
-
 \param position - sprite's position
 */
 /******************************************************************************/
@@ -104,7 +103,6 @@ void Sprite::SetPosition(const vec3& position)
 /******************************************************************************/
 /*!
 \brief - Set Sprite;s scale
-
 \param scale - sprite's scale
 */
 /******************************************************************************/
@@ -116,7 +114,6 @@ void Sprite::SetScale(const vec3& scale)
 /******************************************************************************/
 /*!
 \brief - Set Sprite;s degree
-
 \param degree - sprite's degree
 */
 /******************************************************************************/
@@ -129,7 +126,6 @@ void Sprite::SetRotation(float degree)
 /******************************************************************************/
 /*!
 \brief - Get Sprite;s position
-
 \return m_position - sprite's position
 */
 /******************************************************************************/
@@ -153,7 +149,6 @@ vec3 Sprite::GetScale(void) const
 /******************************************************************************/
 /*!
 \brief - Get Sprite;s m_degree
-
 \return m_degree - sprite's degree
 */
 /******************************************************************************/
@@ -165,7 +160,6 @@ float Sprite::GetRotation(void) const
 /******************************************************************************/
 /*!
 \brief - Set Sprite;s color
-
 \param color - sprite's color
 */
 /******************************************************************************/
@@ -177,7 +171,6 @@ void Sprite::SetColor(const vec4& color)
 /******************************************************************************/
 /*!
 \brief - Get Sprite;s color
-
 \return m_color - sprite's color
 */
 /******************************************************************************/
@@ -207,7 +200,6 @@ void Sprite::SetRigidBody(void)
 /******************************************************************************/
 /*!
 \brief - Get Sprite;s body
-
 \return m_body - pointer to sprite's body
 */
 /******************************************************************************/
@@ -237,7 +229,6 @@ void Sprite::RemoveRigidBody(void)
 /******************************************************************************/
 /*!
 \brief - Check sprite has body or not
-
 \return m_HasBody
 */
 /******************************************************************************/
@@ -249,7 +240,6 @@ bool Sprite::HasRigidBody(void) const
 /******************************************************************************/
 /*!
 \brief - Set Sprite;s Texture
-
 \param texture - sprite's texture
 */
 /******************************************************************************/
@@ -261,7 +251,6 @@ void Sprite::SetTexture(Texture* texture)
 /******************************************************************************/
 /*!
 \brief - Get Sprite;s Texture
-
 \return m_texture - sprite's texture
 */
 /******************************************************************************/
@@ -285,7 +274,6 @@ void Sprite::SetProjectionType(Projt projection)
 /******************************************************************************/
 /*!
 \brief - Get Sprite;s  projection type
-
 \return m_prjt - sprite's projection type
 */
 /******************************************************************************/
@@ -297,7 +285,6 @@ Projt Sprite::GetProjectionType(void) const
 /******************************************************************************/
 /*!
 \brief - Set animaton information
-
 \param frame - the number of frame to be animated
 \param speed - animation's speed
 */
@@ -316,7 +303,6 @@ void Sprite::SetAnimation(int frame, float speed)
 /******************************************************************************/
 /*!
 \brief - Fix aniamtion
-
 \param frame_number - frame number to be fixed
 */
 /******************************************************************************/
@@ -330,7 +316,6 @@ void Sprite::FixAnimation(int frame_number)
 /******************************************************************************/
 /*!
 \brief - Get animation's speed
-
 \return ani_speed - animation's speed
 */
 /******************************************************************************/
@@ -342,7 +327,6 @@ float Sprite::GetAnimationSpeed(void) const
 /******************************************************************************/
 /*!
 \brief - Get the number of frames
-
 \return ani_frame - the divided frames
 */
 /******************************************************************************/
@@ -354,7 +338,6 @@ float Sprite::GetDividedFrame(void) const
 /******************************************************************************/
 /*!
 \brief - Get the number of frames
-
 \return ani_frame - the number of frame to be animated
 */
 /******************************************************************************/
@@ -366,7 +349,6 @@ int Sprite::GetAnimationFrame(void) const
 /******************************************************************************/
 /*!
 \brief - Get current animation scene 
-
 \return m_scene - current animation scene 
 */
 /******************************************************************************/
@@ -378,7 +360,6 @@ float Sprite::GetCurrentScene(void) const
 /******************************************************************************/
 /*!
 \brief - Set curremt scene
-
 \param currnet - frame to be current
 */
 /******************************************************************************/
@@ -390,7 +371,6 @@ void Sprite::SetCurrentScene(float currnet)
 /******************************************************************************/
 /*!
 \brief - Get the number of frames
-
 \return ani_frame - the number of frame to be animated
 */
 /******************************************************************************/
@@ -402,7 +382,6 @@ Timer& Sprite::GetTimer(void)
 /******************************************************************************/
 /*!
 \brief - Get the divided speed
-
 \return ani_speed - the divided speed
 */
 /******************************************************************************/
@@ -414,7 +393,6 @@ float Sprite::GetDividedSpeed(void) const
 /******************************************************************************/
 /*!
 \brief - Set play toggle
-
 \return play - tplay toggle
 */
 /******************************************************************************/
@@ -426,11 +404,54 @@ void Sprite::PlayAnimation(bool play)
 /******************************************************************************/
 /*!
 \brief - Get play toggle
-
 \return ani_play - play toggle
 */
 /******************************************************************************/
 bool Sprite::GetPlayToggle(void) const
 {
 	return ani_play;
+}
+
+/******************************************************************************/
+/*!
+\brief - Activate wave toggle
+\param toggle - wave toggle
+*/
+/******************************************************************************/
+void Sprite::ActivateWaveToggle(bool toggle)
+{
+	m_wave = toggle;
+}
+
+/******************************************************************************/
+/*!
+\brief - Get wave toggle
+\return m_wave - wave toggle
+*/
+/******************************************************************************/
+bool Sprite::GetWaveToggle(void) const
+{
+	return m_wave;
+}
+
+/******************************************************************************/
+/*!
+\brief - Set vector2 phase
+\param phase - vector phase
+*/
+/******************************************************************************/
+void Sprite::SetWavePhase(vec2 phase)
+{
+	m_phase = phase;
+}
+
+/******************************************************************************/
+/*!
+\brief - Get phase vector
+\return m_phase 
+*/
+/******************************************************************************/
+const vec2& Sprite::GetWavePhase(void) const
+{
+	return m_phase;
 }

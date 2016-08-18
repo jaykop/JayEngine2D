@@ -5,14 +5,31 @@ in vec4 fragmentColor;
 in vec2 fragTexCoord;
 flat in int fragmentType;
 
-//Texture IDz
+//Texture ID
 uniform sampler2D Texture;
+uniform float Tme;		// Timer	
+uniform	vec2 Phase;	// x,y waves phase
+uniform bool Wave;
 
 // Ouput data
 out vec4 finalColor;
 
+// Wave function
+vec2 SineWave( vec2 p ) {
+	if(Wave)
+	{
+		// wave distortion
+		float x = sin( 25.0*p.y + 30.0*p.x + 6.28*Phase.x) * 0.05;
+		float y = sin( 25.0*p.y + 30.0*p.x + 6.28*Phase.y) * 0.05;
+		return vec2(p.x+x, p.y+y);
+	}
+	else p;
+}
+
 void main()
 {
+	vec2 resolution = vec2(1024, 768);
+
 	// If type is text,
 	if (fragmentType == 0) {
 		finalColor = fragmentColor * texture(Texture, fragTexCoord).r;
@@ -20,6 +37,6 @@ void main()
 	
 	// If not,
 	else	{
-		finalColor = fragmentColor * texture(Texture, fragTexCoord);
+		finalColor = fragmentColor * texture(Texture, SineWave(fragTexCoord));
 	}
 }

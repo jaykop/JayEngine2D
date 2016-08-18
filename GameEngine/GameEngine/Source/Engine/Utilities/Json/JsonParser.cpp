@@ -449,6 +449,20 @@ void JsonParser::LoadBasicObject(Json::Value::iterator& it, Sprite* sprite)
 			(*it)["Color"][3].asFloat()));
 	}
 
+	if ((*it).isMember("Wave") &&
+		(*it)["Wave"].isBool())
+		sprite->ActivateWaveToggle((*it)["Wave"].asBool());	
+
+	if ((*it).isMember("Phase") &&
+		(*it)["Phase"].isArray() &&
+		(*it)["Phase"].size() == 2 &&
+		(*it)["Phase"][0].isNumeric())
+	{
+		sprite->SetWavePhase(vec2(
+			(*it)["Phase"][0].asFloat(),
+			(*it)["Phase"][1].asFloat()));
+	}
+
 	if ((*it).isMember("Animation") &&
 		(*it)["Animation"].isArray() &&
 		(*it)["Animation"].size() == 2 &&

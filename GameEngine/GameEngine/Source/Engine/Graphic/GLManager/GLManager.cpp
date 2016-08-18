@@ -250,7 +250,10 @@ void GLManager::InitGL(Application* pApp, HWND& window, int width, int height)
 			m_uniform[TRANSFORM] = glGetUniformLocation(m_shader.m_programID, "MVP");	//Trasnform Matrix
 			m_uniform[UV] = glGetUniformLocation(m_shader.m_programID, "Animation");	//UV
 			m_uniform[COLOR] = glGetUniformLocation(m_shader.m_programID, "Color");		//Coloring
-			m_uniform[TYPE] = glGetUniformLocation(m_shader.m_programID, "Type");	
+			m_uniform[TIME] = glGetUniformLocation(m_shader.m_programID, "Time");		//Timer
+			m_uniform[TYPE] = glGetUniformLocation(m_shader.m_programID, "Type");		//Object Type
+			m_uniform[PHASE] = glGetUniformLocation(m_shader.m_programID, "Phase");		//Wave phase
+			m_uniform[WAVE] = glGetUniformLocation(m_shader.m_programID, "Wave");		//Wave boolean
 
 			// Set "Texture" sampler to user Texture Unit 0
 			m_uniform[TEXTURE] = glGetUniformLocation(m_shader.m_programID, "Texture");

@@ -62,6 +62,12 @@ public:
 	void SetProjectionType(Projt projection);
 	Projt GetProjectionType(void) const;
 
+	// Wave effect function
+	void ActivateWaveToggle(bool toggle);
+	bool GetWaveToggle(void) const;
+	void SetWavePhase(vec2 phase);
+	const vec2& GetWavePhase(void) const;
+
 	// Animation functions
 	// For users
 	void PlayAnimation(bool play);				// Set play toggle
@@ -98,6 +104,10 @@ private:
 	float ani_speed;
 	float m_curScene;
 	Texture* m_texture;
+
+	// Wave info
+	bool m_wave;
+	vec2 m_phase;
 
 	// Physics Info
 	bool m_HasBody;

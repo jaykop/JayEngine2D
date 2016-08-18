@@ -17,9 +17,13 @@ public:
 	virtual void Shutdown(GameData& gd);
 	virtual void Unload(GameData& gd);
 
+	void SampleRender(void);
+
 private:
 
 	ObjectManager m_OBM;
+	GLuint depthMapFBO;
+	GLuint depthMap;
 
 };
 

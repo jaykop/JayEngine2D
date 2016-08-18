@@ -28,6 +28,7 @@
 			"ID" : 10, "Type" : "SPRITE",
 			"Position" : [ -250, -175, 0 ], "Scale" : [100, 100, 0], "Rotation" : 0,
 			"Projection" : "ORTHOGONAL", "Color" : [1, 1, 1, 1],
+			"Wave" : true, "Phase" : [0.5, 0.5],
 			"Texture" : 4,
 			"Body" : true, "Collider" : true, "Response" : false
 		},
@@ -35,6 +36,7 @@
 			"ID" : 11, "Type" : "SPRITE",
 			"Position" : [ 250, -175, 0 ], "Scale" : [100, 100, 0], "Rotation" : 0,
 			"Projection" : "ORTHOGONAL", "Color" : [1, 1, 1, 1],
+			"Wave" : false, "Phase" : [0.5, 0.5],
 			"Texture" : 4,
 			"Body" : true, "Collider" : true, "Response" : false
 		},
