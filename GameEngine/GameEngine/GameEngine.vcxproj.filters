@@ -140,9 +140,6 @@
     <ClCompile Include="Source\Game\GameLogic\DemoLogic_LV3.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Game\GameLogic\DemoLogic_Pause.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Game\GameLogic\DemoLogic_GameOver.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -311,9 +308,6 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Source\Game\GameLogic\DemoLogic_LV3.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Game\GameLogic\DemoLogic_Pause.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Source\Game\GameLogic\DemoLogic_GameOver.h">

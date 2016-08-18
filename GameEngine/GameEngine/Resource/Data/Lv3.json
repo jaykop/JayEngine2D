@@ -21,7 +21,7 @@
 			"ID" : 1, "Type" : "TEXT",
 			"Position" : [ -225, 130, 0 ], "Scale" : [1, 1, 0], "Rotation" : 0,
 			"Projection" : "ORTHOGONAL", "Color" : [1, 1, 1, 1],
-			"Text" : "-LV3 stage\n0: Go to Main\n1: Go to Level1\n2: Go to Level2\nP: Go to Pause Stage\nR: Restart this level\nESC: Quit the demo\n\nDescription: Test visual effect.\n4 Particle modes, animation functions, wave effect.",
+			"Text" : "-LV3 stage\n0: Go to Main\n1: Go to Level1\n2: Go to Level2\n4: Go to GameOver Stage\nP: Go to Pause Stage\nR: Restart this level\nESC: Quit the demo\n\nDescription: Test visual effect.\n4 Particle modes, animation functions, wave effect.",
 			"FontSize" : 36
 		},
 		{
@@ -49,7 +49,7 @@
 			"ID" : 13, "Type" : "PARTICLE",
 			"Texture" : 5,
 			"Scale" : [2.5, 2.5, 0 ], "Rotation" : 0,
-			"Projection" : "PERSPECTIVE", "CenterColor" : [0.5, 0.5, 1], "EdgeColor" : [0, 0, 1],
+			"Projection" : "PERSPECTIVE", "CenterColor" : [0.25, 0.25, 0.5], "EdgeColor" : [0, 0, 0.5],
 			"Mode":"SNOW", "Direction" : [0, -1, 0],
 			"Quantity" : 100, "Range" : 5, "Speed" : 0.5,
 			"Spin": true, "SnowStart" : [-30, -25, 0], "SnowEnd" : [-10, -25, 0]

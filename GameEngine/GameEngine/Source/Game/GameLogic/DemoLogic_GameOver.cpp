@@ -1,5 +1,5 @@
 #include "DemoLogic_GameOver.h"
-#include "../../Engine/Logic/Logic.h"
+#include "../BaseData/BaseEnigne.h"
 
 GameLogic* DemoLogic_GameOverBuilder::BuildLogic(Object* Owner) const
 {
@@ -12,42 +12,22 @@ DemoLogic_GameOver::DemoLogic_GameOver(Object* owner)
 
 void DemoLogic_GameOver::Load(const Json::Value& data)
 {
+	UNREFERENCED_PARAMETER(data);
 	std::cout << "SanpleLogic Load\n";
-	
-	if (data.isMember("NewColor") &&
-		data["NewColor"].isArray() &&
-		data["NewColor"].size() == 4 &&
-		data["NewColor"][0].isNumeric())
-		color = vec4(
-			data["NewColor"][0].asFloat(),
-			data["NewColor"][1].asFloat(),
-			data["NewColor"][2].asFloat(),
-			data["NewColor"][3].asFloat());
-
-	if (data.isMember("NewSize") &&
-		data["NewSize"].isArray() &&
-		data["NewSize"].size() == 3 &&
-		data["NewSize"][0].isNumeric())
-		size = vec3(
-			data["NewSize"][0].asFloat(),
-			data["NewSize"][1].asFloat(),
-			data["NewSize"][2].asFloat());
 }
 
 void DemoLogic_GameOver::Init(GameData& gd)
 {
 	UNREFERENCED_PARAMETER(gd);
 	std::cout << "SanpleLogic Inited\n";
-
-	Sprite* newOwner = static_cast<Sprite*>(m_Owner);
-	newOwner->SetColor(color);
-	newOwner->SetScale(size);
 }
 
 void DemoLogic_GameOver::Update(GameData& gd)
 {
 	UNREFERENCED_PARAMETER(gd);
 	std::cout << "SanpleLogic Update\n";
+
+	BasicControl();
 }
 
 void DemoLogic_GameOver::Shutdown(GameData& gd)
@@ -59,5 +39,31 @@ void DemoLogic_GameOver::Shutdown(GameData& gd)
 void DemoLogic_GameOver::Unload(void)
 {
 	std::cout << "SanpleLogic Unload\n";
-	
+}
+
+void DemoLogic_GameOver::BasicControl(void)
+{
+	if (InputManager::GetInstance().KeyTriggered(KEY_ESC))
+		m_GSM->SetQuit(true);
+
+	else if (InputManager::GetInstance().KeyTriggered(KEY_1))
+		m_GSM->SetNextStage(ST_LV1);
+
+	else if (InputManager::GetInstance().KeyPressed(KEY_2))
+		m_GSM->SetNextStage(ST_LV2);
+
+	else if (InputManager::GetInstance().KeyTriggered(KEY_3))
+		m_GSM->SetNextStage(ST_LV3);
+
+	else if (InputManager::GetInstance().KeyTriggered(KEY_4))
+		m_GSM->SetNextStage(ST_GAMEOVER);
+
+	else if (InputManager::GetInstance().KeyTriggered(KEY_0))
+		m_GSM->SetNextStage(ST_MENU);
+
+	else if (InputManager::GetInstance().KeyTriggered(KEY_R))
+		m_GSM->Restart(true);
+
+	if (InputManager::GetInstance().KeyTriggered(KEY_P))
+		m_GSM->Pause();
 }

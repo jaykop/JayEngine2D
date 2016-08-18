@@ -16,7 +16,11 @@ void GameOverStage::Load(GameData& gd)
 	UNREFERENCED_PARAMETER(gd);
 	std::cout << "GameOverStage::Load\n";
 
+	//Bind basic systems
 	m_OBM.BindGameSystem(m_GSM);
+
+	// Load json data
+	m_OBM.LoadStageData("Resource/Data/GameOver.json");
 }
 
 void GameOverStage::Init(GameData& gd)
@@ -24,6 +28,7 @@ void GameOverStage::Init(GameData& gd)
 	UNREFERENCED_PARAMETER(gd);
 	std::cout << "GameOverStage::Init\n";
 
+	// Init basic systems
 	m_OBM.InitGameSystem(gd);
 }
 
@@ -32,33 +37,20 @@ void GameOverStage::Update(GameData& gd)
 	UNREFERENCED_PARAMETER(gd);
 	std::cout << "GameOverStage::Update\n";
 
-	if (InputManager::GetInstance().KeyPressed(KEY_ESC))
-		m_GSM->SetQuit(true);
-
-	else if (InputManager::GetInstance().KeyPressed(KEY_1))
-		m_GSM->SetNextStage(ST_LV1);
-
-	else if (InputManager::GetInstance().KeyPressed(KEY_2))
-		m_GSM->SetNextStage(ST_LV2);
-
-	else if (InputManager::GetInstance().KeyPressed(KEY_3))
-		m_GSM->SetNextStage(ST_LV3);
-
-	else if (InputManager::GetInstance().KeyPressed(KEY_0))
-		m_GSM->SetNextStage(ST_MENU);
-
-	else if (InputManager::GetInstance().KeyTriggered(KEY_R))
-		m_GSM->Restart(true);
-
+	// Update basic systems
 	m_OBM.UpdateGameSystem(gd);
 }
 
 void GameOverStage::Shutdown(GameData& gd)
 {
 	UNREFERENCED_PARAMETER(gd);
-	DEBUG_PRINT("GameOverStage::Shutdown\n");
+	std::cout << "GameOverStage::Shutdown\n";
 
+	// Shutdown basic systems
 	m_OBM.ShutdownGameSystem(gd);
+
+	// Cleare all Objects of the list
+	m_OBM.ClearObjectList();
 }
 
 void GameOverStage::Unload(GameData& gd)
@@ -66,5 +58,6 @@ void GameOverStage::Unload(GameData& gd)
 	UNREFERENCED_PARAMETER(gd);
 	std::cout << "GameOverStage::Unload\n";
 
+	// Unload stage data
 	m_OBM.UnloadStageData();
 }

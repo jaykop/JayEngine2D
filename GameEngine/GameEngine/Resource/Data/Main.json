@@ -21,7 +21,7 @@
 			"ID" : 1, "Type" : "TEXT",
 			"Position" : [ -225, 130, 0 ], "Scale" : [1, 1, 0], "Rotation" : 0,
 			"Projection" : "ORTHOGONAL", "Color" : [1, 1, 1, 1],
-			"Text" : "-Main stage\n1: Go to Level1\n2: Go to Level2\n3: Go to Level3\nP: Go to Pause Stage\nR: Restart this level\nESC: Quit the demo\n\nDescription: Basic objects and utilities.",
+			"Text" : "-Main stage\n1: Go to Level1\n2: Go to Level2\n3: Go to Level3\n4: Go to GameOver Stage\nP: Go to Pause Stage\nR: Restart this level\nESC: Quit the demo\n\nDescription: Basic objects and utilities.\nShow frame per second, delta time, and time stack.\nMouse position, sprite's transform, particle, text...",
 			"FontSize" : 36
 		},
 		{
@@ -31,14 +31,14 @@
 		},
 		{
 			"ID" : 20, "Type" : "PARTICLE",
-			"Position" : [ 0, -15, 0 ], "Scale" : [5, 5, 0 ], "Rotation" : 0,
+			"Position" : [ 0, -20, 0 ], "Scale" : [5, 5, 0 ], "Rotation" : 0,
 			"Projection" : "PERSPECTIVE", "CenterColor" : [0.5, 0.5, 1], "EdgeColor" : [0, 0, 1],
 			"Direction" : [0, 0, 0],
 			"Quantity" : 100, "Range" : 2.5, "Speed" : 0.5
 		},
 		{
 			"ID" : 30, "Type" : "TEXT",
-			"Position" : [ 15, -12.5, 0 ], "Scale" : [0.5, 0.5, 0 ], "Rotation" : 0,
+			"Position" : [ 15, -15, 0 ], "Scale" : [0.5, 0.5, 0 ], "Rotation" : 0,
 			"Projection" : "PERSPECTIVE", "Color" : [1, 1, 1, 1],
 			"Text" : "Sample Text...",
 			"FontSize" : 30

@@ -1,37 +1,25 @@
 {
 	"Stage" : [
 		{
-			"Background" : [ 0.0, 0.0, 0.0, 0.0 ],
-			"Camera" : [0.0, 0.0, 80.0, 0 ]
+			"Background" : [ 0, 0, 0, 0 ],
+			"Camera" : [0, 0, 80, 0 ]
 		}
 	],
 	
 	"Object" : [
 		{
-			"ID" : 0, "Type" : "SPRITE",
-			"Position" : [ 0.0, 0.0, 0.0 ], "Scale" : [5.0, 5.0, 0.0], "Rotation" : 0.0,
-			"Projection" : "PERSPECTIVE", "Color" : [0.0, 1.0, 1.0, 1.0],
-			"Body" : true, "Collider" : false, "Move" : true,
-			"Shape" : "BOX",
-			"Accel" : 0, "Friction": 5, "Mass" : 10,
-			"Force" : [1, 1, 0], "BodyScale" : [5, 5, 0],
-			"Logic" : [
-							{"key" : 0, "values" : { "NewColor" : [1, 0, 0, 1], "NewSize" : [15, 15, 0] }}
-						]
+			"ID" : 200, "Type" : "TEXT",
+			"Position" : [ -225, 150, 0 ], "Scale" : [1, 1, 0], "Rotation" : 0,
+			"Projection" : "ORTHOGONAL", "Color" : [1, 1, 1, 1],
+			"Text" : "Game Engine Demo 0.9v",
+			"FontSize" : 48
 		},
 		{
-			"ID" : 1, "Type" : "TEXT",
-			"Position" : [ -300.0, 150.0, 0.0 ], "Scale" : [1.0, 1.0, 0.0], "Rotation" : 10.0,
-			"Projection" : "ORTHOGONAL", "Color" : [0.0, 0, 1, 1.0],
-			"Text" : "Crowtit Engine...",
-			"FontSize" : 30
-		},
-		{
-			"ID" : 2, "Type" : "PARTICLE",
-			"Position" : [ -2.0, -2.0, -1.0 ], "Scale" : [2.0, 2.0, 0.0], "Rotation" : 10.0,
-			"Projection" : "PERSPECTIVE", "CenterColor" : [0.5, 0.5, 0], "EdgeColor" : [1, 0, 0],
-			"Direction" : [-1, -1, 0],
-			"Quantity" : 100, "Range" : 5, "Speed" : 0.5
+			"ID" : 201, "Type" : "TEXT",
+			"Position" : [ -225, 130, 0 ], "Scale" : [1, 1, 0], "Rotation" : 0,
+			"Projection" : "ORTHOGONAL", "Color" : [1, 1, 1, 1],
+			"Text" : "-Pause stage\nP: Go back to last stage\nESC: Quit the demo\nDescription: This pause stage. Nothing special demo here...\n",
+			"FontSize" : 36
 		}
 	]
 }

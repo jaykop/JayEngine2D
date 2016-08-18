@@ -66,6 +66,9 @@ void DemoLogic_LV2::BasicControl(void)
 	else if (InputManager::GetInstance().KeyTriggered(KEY_3))
 		m_GSM->SetNextStage(ST_LV3);
 
+	else if (InputManager::GetInstance().KeyTriggered(KEY_4))
+		m_GSM->SetNextStage(ST_GAMEOVER);
+
 	else if (InputManager::GetInstance().KeyTriggered(KEY_0))
 		m_GSM->SetNextStage(ST_MENU);
 

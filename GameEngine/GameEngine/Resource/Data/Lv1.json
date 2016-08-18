@@ -21,7 +21,7 @@
 			"ID" : 201, "Type" : "TEXT",
 			"Position" : [ -225, 130, 0 ], "Scale" : [1, 1, 0], "Rotation" : 0,
 			"Projection" : "ORTHOGONAL", "Color" : [1, 1, 1, 1],
-			"Text" : "-LV1 stage\n0: Go to Main\n2: Go to Level2\n3: Go to Level3\nP: Go to Pause Stage\nR: Restart this level\nESC: Quit the demo\n\nDescription: Basic topdown physics test.\n*Enter: Activates random force to every objects.\n*Space: Remove force from all objects.\n*Still has a bug on ball-to-box collision...",
+			"Text" : "-LV1 stage\n0: Go to Main\n2: Go to Level2\n3: Go to Level3\n4: Go to GameOver Stage\nP: Go to Pause Stage\nR: Restart this level\nESC: Quit the demo\n\nDescription: Basic topdown physics test.\n*Enter: Activates random force to every objects.\n*Space: Remove force from all objects.\n*Still has a bug on ball-to-box collision...",
 			"FontSize" : 36
 		}
 	]

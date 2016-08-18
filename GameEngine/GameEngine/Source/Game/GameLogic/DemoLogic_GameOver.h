@@ -27,14 +27,13 @@ public:
 	virtual void Shutdown(GameData& gd);
 	virtual void Unload(void);
 
+	void BasicControl(void);
+
 private:
 
 	Object* m_Owner;
 	ObjectManager* m_OBM;
 	GameStateManager* m_GSM;
-
-	vec4 color;
-	vec3 size;
 
 };
 

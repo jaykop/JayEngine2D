@@ -138,7 +138,6 @@
     <ClCompile Include="Source\Game\GameLogic\DemoLogic_LV1.cpp" />
     <ClCompile Include="Source\Game\GameLogic\DemoLogic_LV2.cpp" />
     <ClCompile Include="Source\Game\GameLogic\DemoLogic_LV3.cpp" />
-    <ClCompile Include="Source\Game\GameLogic\DemoLogic_Pause.cpp" />
     <ClCompile Include="Source\Game\GameLogic\DemoLogic_GameOver.cpp" />
     <ClCompile Include="Source\Game\GameLogic\DemoLogic_Main.cpp" />
     <ClCompile Include="Source\Game\GameStage\GameOver.cpp" />
@@ -203,7 +202,6 @@
     <ClInclude Include="Source\Game\GameLogic\DemoLogic_LV1.h" />
     <ClInclude Include="Source\Game\GameLogic\DemoLogic_LV2.h" />
     <ClInclude Include="Source\Game\GameLogic\DemoLogic_LV3.h" />
-    <ClInclude Include="Source\Game\GameLogic\DemoLogic_Pause.h" />
     <ClInclude Include="Source\Game\GameLogic\DemoLogic_GameOver.h" />
     <ClInclude Include="Source\Game\GameLogic\DemoLogic_Main.h" />
     <ClInclude Include="Source\Game\GameStage\GameOver.h" />

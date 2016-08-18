@@ -23,7 +23,6 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 #include "../../Game/GameLogic/DemoLogic_LV1.h"
 #include "../../Game/GameLogic/DemoLogic_LV2.h"
 #include "../../Game/GameLogic/DemoLogic_LV3.h"
-#include "../../Game/GameLogic/DemoLogic_Pause.h"
 #include "../../Game/GameLogic/DemoLogic_GameOver.h"
 
 /******************************************************************************/
@@ -39,8 +38,7 @@ void BuildLogics(void)
 	LogicFactory::AddBuilder(1, new DemoLogic_LV1Builder);
 	LogicFactory::AddBuilder(2, new DemoLogic_LV2Builder);
 	LogicFactory::AddBuilder(3, new DemoLogic_LV3Builder);
-	LogicFactory::AddBuilder(4, new DemoLogic_PauseBuilder);
-	LogicFactory::AddBuilder(5, new DemoLogic_GameOverBuilder);
+	LogicFactory::AddBuilder(4, new DemoLogic_GameOverBuilder);
 }
 
 #endif // _LOGICBUILDERLIST_H_

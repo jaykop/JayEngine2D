@@ -21,7 +21,7 @@
 			"ID" : 1, "Type" : "TEXT",
 			"Position" : [ -225, 130, 0 ], "Scale" : [1, 1, 0], "Rotation" : 0,
 			"Projection" : "ORTHOGONAL", "Color" : [1, 1, 1, 1],
-			"Text" : "-LV2 stage\n0: Go to Main\n1: Go to Level1\n3: Go to Level3\nP: Go to Pause Stage\nR: Restart this level\nESC: Quit the demo\n\nDescription: Test sound functions.\n*Enter: Activates master play toggle\n*Space: Inactivates master play toggle\n*Keyboard Up/Down: Set master volume(0.0 ~ 1.0)\n*Mouse: Can play sounds by clicking the textures with left button\n Sample1 will be stopped, and Sample2 will be paused.",
+			"Text" : "-LV2 stage\n0: Go to Main\n1: Go to Level1\n3: Go to Level3\n4: Go to GameOver Stage\nP: Go to Pause Stage\nR: Restart this level\nESC: Quit the demo\n\nDescription: Test sound functions.\n*Enter: Activates master play toggle\n*Space: Inactivates master play toggle\n*Keyboard Up/Down: Set master volume(0.0 ~ 1.0)\n*Mouse: Can play sounds by clicking the textures with left button\n Sample1 will be stopped, and Sample2 will be paused.",
 			"FontSize" : 36
 		},
 		{
