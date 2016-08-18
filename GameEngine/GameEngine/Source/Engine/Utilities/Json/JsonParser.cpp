@@ -302,6 +302,16 @@ void JsonParser::LoadObjects(ObjectManager* obm)
 							obm->GetGameObject<Emitter>(id)->SetProjectionType(PERSPECTIVE);
 					}
 
+					if ((*it).isMember("Scale") &&
+						(*it)["Scale"].isArray() &&
+						(*it)["Scale"].size() == 3 &&
+						(*it)["Scale"][0].isNumeric())
+					{
+						obm->GetGameObject<Emitter>(id)->SetScale(vec3(
+							(*it)["Scale"][0].asFloat(),
+							(*it)["Scale"][1].asFloat(),
+							(*it)["Scale"][2].asFloat()));
+					}
 
 					if ((*it).isMember("CenterColor") &&
 						(*it)["CenterColor"].isArray() &&
@@ -325,10 +335,13 @@ void JsonParser::LoadObjects(ObjectManager* obm)
 						obm->GetGameObject<Emitter>(id)->SetColors(centre, edge);
 					}
 
+					if ((*it).isMember("Spin") &&
+						(*it)["Spin"].isBool())
+						obm->GetGameObject<Emitter>(id)->ActivateRotate((*it)["Spin"].asBool());
+
 					if ((*it).isMember("Mode") &&
 						(*it)["Mode"].isString())
 					{
-						// Todo: Preparing...
 						if (!strcmp((*it)["Mode"].asCString(), "NORMAL"))
 							obm->GetGameObject<Emitter>(id)->SetMode(NORMAL);
 						else if (!strcmp((*it)["Mode"].asCString(), "FIRE"))

@@ -92,9 +92,17 @@ public:
 	void Render(Particle* particle);
 	void Refresh(Particle* particle);
 
+	// Snow mode functions
 	void SetSnowBoundary(const vec3& start, const vec3& end);
 	const vec3& GetSnowStartingPoint(void) const;
 	const vec3& GetSnowEndingPoint(void) const;
+
+	void ActivateRotate(bool spin);
+	bool GetRotateToggle(void) const;
+
+	// Explosion toggle
+	void ActivateExplosion(bool toggle);
+	bool GetExplosionToggle(void) const;
 
 	// Get Particle container
 	ParticleList& GetParticleContainer(void);
@@ -117,6 +125,10 @@ private:
 
 	vec3 m_snowStart;
 	vec3 m_snowEnd;
+
+	bool m_spin;
+	bool m_explosion;
+	bool m_refreshing;
 };
 
 #endif //_PARTICLE_H_

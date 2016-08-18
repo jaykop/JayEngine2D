@@ -61,8 +61,8 @@ Particle::~Particle(void)
 /******************************************************************************/
 Emitter::Emitter(const int id, ObjectManager* obm)
 : m_boundary(5.f), m_emitterScl(vec3(1.f, 1.f)),
-m_emitterDir(vec3(0, 0)), m_emitterSpd(1.f),
-m_emitterMode(NORMAL), m_quantity(0)
+m_emitterDir(vec3(0, 0)), m_emitterSpd(1.f), m_refreshing(true),
+m_emitterMode(NORMAL), m_quantity(0), m_spin(false), m_explosion(true)
 {
 	SetID(id);
 	SetType(PARTICLE);
@@ -282,44 +282,44 @@ void Emitter::Update(Particle* particle)
 /******************************************************************************/
 void Emitter::Render(Particle* particle)
 {
-	//if (m_emitterMode != SNOW)
-	//{
-		vec3 norm_dir = m_emitterDir.Normalize();
-		vec3 new_force;
+	vec3 norm_dir = m_emitterDir.Normalize();
+	vec3 new_force;
 
-		if (!m_emitterDir.Length())
-			new_force = vec3(
-			particle->m_velocity.x * particle->m_speed.x,
-			particle->m_velocity.y * particle->m_speed.y) * DELTA_TIME;
+	if (!m_emitterDir.Length())
+		new_force = vec3(
+		particle->m_velocity.x * particle->m_speed.x,
+		particle->m_velocity.y * particle->m_speed.y) * DELTA_TIME;
 
-		else
-			new_force = vec3(
-			particle->m_speed.x * norm_dir.x + norm_dir.x,
-			particle->m_speed.y * norm_dir.y + norm_dir.y) * DELTA_TIME;
+	else
+		new_force = vec3(
+		particle->m_speed.x * norm_dir.x + norm_dir.x,
+		particle->m_speed.y * norm_dir.y + norm_dir.y) * DELTA_TIME;
 
-		// Update position by velocity and direction
-		particle->SetPosition(vec3(
-			particle->GetPosition().x + new_force.x,
-			particle->GetPosition().y + new_force.y,
-			particle->GetPosition().z));
+	// Update position by velocity and direction
+	particle->SetPosition(vec3(
+		particle->GetPosition().x + new_force.x,
+		particle->GetPosition().y + new_force.y,
+		particle->GetPosition().z));
 
-		// Set new fade
-		float new_fade = particle->m_fade * new_force.Length() / m_boundary;
+	// Set new fade
+	float new_fade = particle->m_fade * new_force.Length() / m_boundary;
 
-		// Reduce particle's life
-		particle->m_life -= new_fade;
+	// Reduce particle's life
+	particle->m_life -= new_fade;
 
-		// Color effect
-		// Change color from inside noe to outside one
-		if (m_edgeColor.Length())
-		{
-			vec3 colorOffset = m_edgeColor - GetColor();
+	// Update rotation
+	particle->SetRotation(particle->GetRotation() + m_emitterSpd);
 
-			particle->SetColor(vec4(
-				particle->GetColor() + colorOffset * new_fade,
-				particle->m_life));
-		}
-	//}
+	// Color effect
+	// Change color from inside noe to outside one
+	if (m_edgeColor.Length())
+	{
+		vec3 colorOffset = m_edgeColor - GetColor();
+
+		particle->SetColor(vec4(
+			particle->GetColor() + colorOffset * new_fade,
+			particle->m_life));
+	}
 }
 
 /******************************************************************************/
@@ -332,7 +332,7 @@ void Emitter::Refresh(Particle* particle)
 {
 	// If the emitter mode is explosion,
 	// there is no more refreshing precess
-	if (m_emitterMode != EXPLOSION)
+	if (m_explosion)
 	{
 		// Reset the original position
 		if (m_emitterMode == FIRE)
@@ -384,6 +384,9 @@ void Emitter::Refresh(Particle* particle)
 
 		// Reset vanishing speed
 		particle->m_fade = Random::GetInstance().GetRandomFloat(DELTA_TIME, 1.f);
+	
+		if (m_emitterMode == EXPLOSION && m_refreshing)
+			m_explosion = false;
 	}
 }
 
@@ -471,4 +474,56 @@ void Emitter::SetProjectionType(Projt projection)
 	for (auto it = ParticleContainer.begin();
 		it != ParticleContainer.end(); ++it)
 		(*it)->SetProjectionType(projection);
+}
+
+/******************************************************************************/
+/*!
+\brief - Set emitter's spin toggle
+\param spin
+*/
+/******************************************************************************/
+void Emitter::ActivateRotate(bool spin)
+{
+	m_spin = spin;
+}
+
+/******************************************************************************/
+/*!
+\brief - Get emitter's  spin toggle
+\return m_spin
+*/
+/******************************************************************************/
+bool Emitter::GetRotateToggle(void) const
+{
+	return m_spin;
+}
+
+/******************************************************************************/
+/*!
+\brief - Set emitter's explosion toggle
+\param toggle
+*/
+/******************************************************************************/
+void Emitter::ActivateExplosion(bool toggle)
+{
+	m_explosion = toggle;
+	m_refreshing = false;
+	if (m_explosion)
+	{
+		for (auto it = ParticleContainer.begin();
+			it != ParticleContainer.end(); ++it)
+			Refresh((*it));
+	}
+	m_refreshing = true;
+}
+
+/******************************************************************************/
+/*!
+\brief - Get emitter's explosion toggle
+\return m_spin
+*/
+/******************************************************************************/
+bool Emitter::GetExplosionToggle(void) const
+{
+	return m_explosion;
 }

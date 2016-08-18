@@ -139,7 +139,6 @@ void DemoLogic_LV2::ToggleAnimation(void)
 					se_toggle = false;
 					m_OBM->GetGameObject<Text>(14)->SetText("Play Sample2");
 					m_OBM->GetGameSound()->GetAudio(1)->Pause(pause_toggle);
-					m_OBM->GetGameObject<Sprite>(11)->FixAnimation(1);
 				}
 
 				else
@@ -149,6 +148,7 @@ void DemoLogic_LV2::ToggleAnimation(void)
 					se_toggle = true;
 					m_OBM->GetGameObject<Sprite>(11)->FixAnimation(1);
 				}
+				
 			}
 
 			else

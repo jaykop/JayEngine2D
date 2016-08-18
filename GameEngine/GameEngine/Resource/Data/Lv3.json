@@ -1,37 +1,76 @@
 {
 	"Stage" : [
 		{
-			"Background" : [ 0.0, 0.0, 0.0, 0.0 ],
-			"Camera" : [0.0, 0.0, 80.0, 0 ]
+			"Background" : [ 0, 0, 0, 0 ],
+			"Camera" : [0, 0, 100, 0 ]
 		}
 	],
 	
 	"Object" : [
 		{
-			"ID" : 0, "Type" : "SPRITE",
-			"Position" : [ 0.0, 0.0, 0.0 ], "Scale" : [5.0, 5.0, 0.0], "Rotation" : 0.0,
-			"Projection" : "PERSPECTIVE", "Color" : [0.0, 1.0, 1.0, 1.0],
-			"Body" : true, "Collider" : false, "Move" : true,
-			"Shape" : "BOX",
-			"Accel" : 0, "Friction": 5, "Mass" : 10,
-			"Force" : [1, 1, 0], "BodyScale" : [5, 5, 0],
+			"ID" : 0, "Type" : "TEXT",
+			"Position" : [ -225, 150, 0 ], "Scale" : [1, 1, 0], "Rotation" : 0,
+			"Projection" : "ORTHOGONAL", "Color" : [1, 1, 1, 1],
+			"Text" : "Game Engine Demo 0.9v",
+			"FontSize" : 48,
 			"Logic" : [
-							{"key" : 0, "values" : { "NewColor" : [1, 0, 0, 1], "NewSize" : [15, 15, 0] }}
-						]
+				{ "key" : 3, "values" : {} }
+			]
 		},
 		{
 			"ID" : 1, "Type" : "TEXT",
-			"Position" : [ -300.0, 150.0, 0.0 ], "Scale" : [1.0, 1.0, 0.0], "Rotation" : 10.0,
-			"Projection" : "ORTHOGONAL", "Color" : [0.0, 0, 1, 1.0],
-			"Text" : "Crowtit Engine...",
-			"FontSize" : 30
+			"Position" : [ -225, 130, 0 ], "Scale" : [1, 1, 0], "Rotation" : 0,
+			"Projection" : "ORTHOGONAL", "Color" : [1, 1, 1, 1],
+			"Text" : "-LV3 stage\n0: Go to Main\n1: Go to Level1\n2: Go to Level2\nP: Go to Pause Stage\nR: Restart this level\nESC: Quit the demo\n\nDescription: Test visual effect.\n4 Particle modes, animation functions, wave effect.",
+			"FontSize" : 36
 		},
 		{
-			"ID" : 2, "Type" : "PARTICLE",
-			"Position" : [ -2.0, -2.0, -1.0 ], "Scale" : [2.0, 2.0, 0.0], "Rotation" : 10.0,
-			"Projection" : "PERSPECTIVE", "CenterColor" : [0.5, 0.5, 0], "EdgeColor" : [1, 0, 0],
-			"Direction" : [-1, -1, 0],
-			"Quantity" : 100, "Range" : 5, "Speed" : 0.5
+			"ID" : 10, "Type" : "PARTICLE",
+			"Position" : [ -50, -10, 0 ], "Scale" : [5, 5, 0 ], "Rotation" : 0,
+			"Projection" : "PERSPECTIVE", "Color" : [1, 1, 1, 1],
+			"Mode":"NORMAL", "Direction" : [0, 0, 0],
+			"Quantity" : 100, "Range" : 2.5, "Speed" : 0.5
+		},
+		{
+			"ID" : 11, "Type" : "PARTICLE",
+			"Position" : [ -20, -15, 0 ], "Scale" : [5, 5, 0 ], "Rotation" : 0,
+			"Projection" : "PERSPECTIVE", "CenterColor" : [1, 0.5, 0], "EdgeColor" : [1, 0, 0],
+			"Mode":"FIRE", "Direction" : [0, 0, 0],
+			"Quantity" : 100, "Range" : 3.75, "Speed" : 0.5
+		},
+		{
+			"ID" : 12, "Type" : "PARTICLE",
+			"Position" : [ -50, -35, 0 ], "Scale" : [1.5, 1.5, 0 ], "Rotation" : 0,
+			"Projection" : "PERSPECTIVE", "CenterColor" : [0.5, 1, 0.5], "EdgeColor" : [1, 1, 1],
+			"Mode":"EXPLOSION", "Direction" : [0, 0, 0],
+			"Quantity" : 100, "Range" : 2.5, "Speed" : 10
+		},
+		{
+			"ID" : 13, "Type" : "PARTICLE",
+			"Texture" : 5,
+			"Scale" : [2.5, 2.5, 0 ], "Rotation" : 0,
+			"Projection" : "PERSPECTIVE", "CenterColor" : [0.5, 0.5, 1], "EdgeColor" : [0, 0, 1],
+			"Mode":"SNOW", "Direction" : [0, -1, 0],
+			"Quantity" : 100, "Range" : 5, "Speed" : 0.5,
+			"Spin": true, "SnowStart" : [-30, -25, 0], "SnowEnd" : [-10, -25, 0]
+		},
+		{
+			"ID" : 14, "Type" : "SPRITE",
+			"Position" : [ 15, -22.5, 0 ], "Scale" : [20, 30, 0], "Rotation" : 0,
+			"Projection" : "PERSPECTIVE", "Color" : [1, 1, 1, 1],
+			"Texture" : 7,	"Animation" : [8, 12]
+		},
+		{
+			"ID" : 15, "Type" : "SPRITE",
+			"Position" : [ 50, 0., 0 ], "Scale" : [25, 25, 0], "Rotation" : 0,
+			"Projection" : "PERSPECTIVE", "Color" : [1, 1, 1, 1],
+			"Texture" : 6
+		},
+		{
+			"ID" : 16, "Type" : "SPRITE",
+			"Position" : [ 50, -30, 0 ], "Scale" : [25, 25, 0], "Rotation" : 0,
+			"Projection" : "PERSPECTIVE", "Color" : [1, 1, 1, 1],
+			"Texture" : 6,	"Wave" : true, "Phase" : [0.5, 0]
 		}
 	]
 }

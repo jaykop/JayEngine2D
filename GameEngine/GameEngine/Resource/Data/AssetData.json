@@ -12,7 +12,10 @@
 		{"key" : 0, "directory" : "Resource/Texture/rect.png"},
 		{"key" : 1, "directory" : "Resource/Texture/circle.png"},
 		{"key" : 2, "directory" : "Resource/Texture/particle.png"},
-		{"key" : 3, "directory" : "Resource/Texture/Phantom.png"},
-		{"key" : 4, "directory" : "Resource/Texture/buttons/toggle.png"}
+		{"key" : 3, "directory" : "Resource/Texture/image.png"},
+		{"key" : 4, "directory" : "Resource/Texture/buttons/toggle.png"},
+		{"key" : 5, "directory" : "Resource/Texture/snowflake.png"},
+		{"key" : 6, "directory" : "Resource/Texture/test.png"},
+		{"key" : 7, "directory" : "Resource/Texture/animation.png"}
 	]
 }
