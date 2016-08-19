@@ -104,6 +104,12 @@ public:
 	void ActivateExplosion(bool toggle);
 	bool GetExplosionToggle(void) const;
 
+	// Random scale functions
+	void SetRandomScaleRange(const vec2& range);
+	const vec2& SetRandomScaleRange(void) const;
+	void ActivateRandomScale(bool toggle);
+	bool GetRandomScaleToggle(void) const;
+
 	// Get Particle container
 	ParticleList& GetParticleContainer(void);
 
@@ -125,10 +131,12 @@ private:
 
 	vec3 m_snowStart;
 	vec3 m_snowEnd;
+	vec2 m_rangeScl;
 
 	bool m_spin;
 	bool m_explosion;
 	bool m_refreshing;
+	bool m_randomScl;
 };
 
 #endif //_PARTICLE_H_

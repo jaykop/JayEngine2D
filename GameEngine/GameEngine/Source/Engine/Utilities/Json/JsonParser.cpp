@@ -376,6 +376,23 @@ void JsonParser::LoadObjects(ObjectManager* obm)
 							(*it)["Direction"][1].asFloat(),
 							(*it)["Direction"][2].asFloat()));
 
+					if ((*it).isMember("RandomScale") &&
+						(*it)["RandomScale"].isBool())
+					{
+						bool randomScaleToggle = (*it)["RandomScale"].asBool();
+						obm->GetGameObject<Emitter>(id)->ActivateRandomScale(
+							randomScaleToggle);
+
+						if (randomScaleToggle &&
+							(*it).isMember("RandomRange") &&
+							(*it)["RandomRange"].isArray() &&
+							(*it)["RandomRange"].size() == 2 &&
+							(*it)["RandomRange"][0].isNumeric())
+							obm->GetGameObject<Emitter>(id)->SetRandomScaleRange(vec2(
+							(*it)["RandomRange"][0].asFloat(),
+							(*it)["RandomRange"][1].asFloat()));
+					}
+
 					if ((*it).isMember("Speed") &&
 						(*it)["Speed"].isNumeric())
 						obm->GetGameObject<Emitter>(id)->SetSpeed((*it)["Speed"].asFloat());

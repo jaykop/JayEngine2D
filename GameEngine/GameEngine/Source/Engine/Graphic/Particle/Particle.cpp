@@ -62,7 +62,8 @@ Particle::~Particle(void)
 Emitter::Emitter(const int id, ObjectManager* obm)
 : m_boundary(5.f), m_emitterScl(vec3(1.f, 1.f)),
 m_emitterDir(vec3(0, 0)), m_emitterSpd(1.f), m_refreshing(true),
-m_emitterMode(NORMAL), m_quantity(0), m_spin(false), m_explosion(true)
+m_emitterMode(NORMAL), m_quantity(0), m_spin(false), m_explosion(true),
+m_randomScl(false), m_rangeScl(vec2())
 {
 	SetID(id);
 	SetType(PARTICLE);
@@ -106,6 +107,51 @@ Emitter::~Emitter()
 
 	ParticleContainer.clear();
 	ClearLogicList();
+}
+
+/******************************************************************************/
+/*!
+\brief - Set Random Scale's Range
+\param range
+*/
+/******************************************************************************/
+void Emitter::SetRandomScaleRange(const vec2& range)
+{
+	// init total information
+	m_rangeScl = range;
+}
+
+/******************************************************************************/
+/*!
+\brief - Get Random Scale's Range
+\return m_rangeScl
+*/
+/******************************************************************************/
+const vec2& Emitter::SetRandomScaleRange(void) const
+{
+	return m_rangeScl;
+}
+
+/******************************************************************************/
+/*!
+\brief - Set Random Scale's Range
+\param range
+*/
+/******************************************************************************/
+void Emitter::ActivateRandomScale(bool toggle)
+{
+	m_randomScl = toggle;
+}
+
+/******************************************************************************/
+/*!
+\brief - Set Random Scale's Range
+\param range
+*/
+/******************************************************************************/
+bool Emitter::GetRandomScaleToggle(void) const
+{
+	return m_randomScl;
 }
 
 /******************************************************************************/
@@ -356,6 +402,14 @@ void Emitter::Refresh(Particle* particle)
 
 		else
 			particle->SetPosition(GetPosition());
+
+		// Rescale?
+		if (m_randomScl)
+		{
+			particle->SetScale(vec3(
+				Random::GetInstance().GetRandomFloat(m_rangeScl.x, m_rangeScl.y),
+				Random::GetInstance().GetRandomFloat(m_rangeScl.x, m_rangeScl.y)));
+		}
 
 		// Reset life
 		particle->m_life = 1.f;
