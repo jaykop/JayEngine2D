@@ -53,7 +53,7 @@
 			"Mode":"SNOW", "Direction" : [0, -1, 0],
 			"Quantity" : 100, "Range" : 5, "Speed" : 0.5,
 			"Spin": true, "SnowStart" : [-30, -25, 0], "SnowEnd" : [-10, -25, 0],
-			"RandomScale" : true, "RandomRange" : [1, 5]
+			"RandomScale" : true, "RandomRange" : [0, 2]
 		},
 		{
 			"ID" : 14, "Type" : "SPRITE",

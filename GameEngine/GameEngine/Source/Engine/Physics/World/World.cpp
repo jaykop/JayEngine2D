@@ -73,8 +73,8 @@ void World::Update(const ObjectList& objList)
 				it1->second->GetRigidBody()->CheckCollided(false);
 				it1->second->GetRigidBody()->SetCollisionWith(nullptr);
 
-				//auto new_begin = std::next(it1,1);
-				for (auto it2 = objList.begin(); it2 != objList.end(); ++it2)
+				auto new_begin = it1;
+				for (auto it2 = new_begin; it2 != objList.end(); ++it2)
 				{
 					// 3. If both objs are differenct and both bodies has own body, 
 					// activated body and collider body,
@@ -383,7 +383,7 @@ bool World::IntersectBoxToBall(Sprite* box, Sprite* ball)
 
 	vec3 relPos =  ball->GetPosition() - box->GetPosition();
 	float relDIs = sqrt(relPos.x * relPos.x + relPos.y * relPos.y);
-	float relDeg = atan2(relPos.y, relPos.x) - Math::DegToRad(box->GetRotation());
+	float relDeg = Math::DegToRad(box->GetRotation()) - atan2(relPos.y, relPos.x);
 
 	vec3 new_xy = vec3(cosf(relDeg), sinf(relDeg)) * relDIs;
 	vec3 halfSize = box->GetRigidBody()->GetScale() / 2.f;
@@ -414,7 +414,7 @@ bool World::IntersectBoxToBall(Sprite* box, Sprite* ball)
 	vec3 dt = new_xy - closest;
 	float distance_sq = dt.DotProduct(dt);
 	
-	// 
+	// Get mtd
 	if (distance_sq <= radius * radius)
 	{
 		float dist = sqrt(distance_sq);
@@ -464,8 +464,8 @@ void World::CollisionResponse(Sprite* spt1, Sprite* spt2)
 			ResponseBoxToBall(spt2, spt1);
 	}
 
-	// Refresh global mtd
-	mtd = 0;
+	// Refresh global minimum transition distance
+	mtd = 0.f;
 }
 
 /******************************************************************************/
@@ -479,58 +479,47 @@ void World::CollisionResponse(Sprite* spt1, Sprite* spt2)
 /******************************************************************************/
 void World::ResponseBallToBall(Sprite* ball1, Sprite* ball2)
 {			
+	// Get pointer to collided 2 rigid bodies
+	RigidBody *body1 = ball1->GetRigidBody();
+	RigidBody *body2 = ball2->GetRigidBody();
+
 	// Subtract to balls position
 	vec3 dt = ball1->GetPosition() - ball2->GetPosition();
 	float d = dt.Length();
 
 	// Get minumum transition distance
-	mtd = dt * ((ball1->GetRigidBody()->GetScale().x / 2.f + ball2->GetRigidBody()->GetScale().x / 2.f) - d) / d;
+	mtd = dt * ((body1->GetScale().x / 2.f + body2->GetScale().x / 2.f) - d) / d;
 
 	// Get reflection velocity
-	float ball1_ci = ball1->GetRigidBody()->GetVelocity().DotProduct(dt);
-	float ball2_ci = ball2->GetRigidBody()->GetVelocity().DotProduct(dt);
+	float ball1_ci = body1->GetVelocity().DotProduct(dt);
+	float ball2_ci = body2->GetVelocity().DotProduct(dt);
 
 	// If 2nd ball is movable, refresh the 2nd ball's body info too
-	if (ball2->GetRigidBody()->GetMoveToggle())
+	if (body2->GetMoveToggle())
 	{
 		// Move to the uncollided last position
 		ball1->SetPosition(ball1->GetPosition() + .5f * mtd);
 		ball2->SetPosition(ball2->GetPosition() - .5f * mtd);
 
 		// Set new velocity
-		ball1->GetRigidBody()->SetVelocity(ball1->GetRigidBody()->GetVelocity() +
+		body1->SetVelocity(body1->GetVelocity() +
 			(ball2_ci - ball1_ci) * dt );
 
-		ball2->GetRigidBody()->SetVelocity(ball2->GetRigidBody()->GetVelocity() +
+		body2->SetVelocity(body2->GetVelocity() +
 			(ball1_ci - ball2_ci) * dt );
 
 		// Save new speeds of two boxes
-		new_speed[0] = ball1->GetRigidBody()->GetSpeed() *
-			(ball1->GetRigidBody()->GetMass() /
-			(ball2->GetRigidBody()->GetMass() + ball1->GetRigidBody()->GetMass()));
+		new_speed[0] = body1->GetSpeed() *
+			(body1->GetMass() /
+			(body2->GetMass() + body1->GetMass()));
 
-		new_speed[1] = ball2->GetRigidBody()->GetSpeed() *
-			(ball2->GetRigidBody()->GetMass() /
-			(ball2->GetRigidBody()->GetMass() + ball1->GetRigidBody()->GetMass()));
-
-		// Todo: use this new speed or delete
-		/*new_speed[0].x = (ball1->GetRigidBody()->GetSpeed().x * (ball1->GetRigidBody()->GetMass() - ball2->GetRigidBody()->GetMass())
-		+ (2 * ball2->GetRigidBody()->GetMass() * ball2->GetRigidBody()->GetSpeed().x))
-		/ (ball1->GetRigidBody()->GetMass() + ball2->GetRigidBody()->GetMass());
-		new_speed[0].y = (ball1->GetRigidBody()->GetSpeed().y * (ball1->GetRigidBody()->GetMass() - ball2->GetRigidBody()->GetMass())
-		+ (2 * ball2->GetRigidBody()->GetMass() * ball2->GetRigidBody()->GetSpeed().y))
-		/ (ball1->GetRigidBody()->GetMass() + ball2->GetRigidBody()->GetMass());
-
-		new_speed[1].x = (ball2->GetRigidBody()->GetSpeed().x * (ball2->GetRigidBody()->GetMass() - ball1->GetRigidBody()->GetMass())
-		+ (2 * ball1->GetRigidBody()->GetMass() * ball1->GetRigidBody()->GetSpeed().x))
-		/ (ball1->GetRigidBody()->GetMass() + ball2->GetRigidBody()->GetMass());
-		new_speed[1].y = (ball2->GetRigidBody()->GetSpeed().y * (ball2->GetRigidBody()->GetMass() - ball1->GetRigidBody()->GetMass())
-		+ (2 * ball1->GetRigidBody()->GetMass() * ball1->GetRigidBody()->GetSpeed().y))
-		/ (ball1->GetRigidBody()->GetMass() + ball2->GetRigidBody()->GetMass());*/
+		new_speed[1] = body2->GetSpeed() *
+			(body2->GetMass() /
+			(body2->GetMass() + body1->GetMass()));
 
 		// Reset the speed
-		ball1->GetRigidBody()->SetSpeed((new_speed[0] + new_speed[1]) / ball2->GetRigidBody()->GetMass());
-		ball2->GetRigidBody()->SetSpeed((new_speed[0] + new_speed[1]) / ball1->GetRigidBody()->GetMass());
+		body1->SetSpeed(new_speed[0] + new_speed[1] / body2->GetMass());
+		body2->SetSpeed(new_speed[1] + new_speed[0] / body1->GetMass());
 	}
 
 	else
@@ -539,25 +528,16 @@ void World::ResponseBallToBall(Sprite* ball1, Sprite* ball2)
 		ball1->SetPosition(ball1->GetPosition() + mtd);
 
 		// Set new velocity
-		ball1->GetRigidBody()->SetVelocity((ball1->GetRigidBody()->GetVelocity() +
+		body1->SetVelocity((body1->GetVelocity() +
 			(ball2_ci - ball1_ci) * dt / d));
 
 		// Save new speeds of two boxes
-		new_speed[0] = ball1->GetRigidBody()->GetSpeed() *
-			(ball1->GetRigidBody()->GetMass() /
-			(ball2->GetRigidBody()->GetMass() + ball1->GetRigidBody()->GetMass()));
-
-		// Todo: use this new speed or delete
-		/*new_speed[0].x = (ball1->GetRigidBody()->GetSpeed().x * (ball1->GetRigidBody()->GetMass() - ball2->GetRigidBody()->GetMass())
-		+ (2 * ball2->GetRigidBody()->GetMass() * ball2->GetRigidBody()->GetSpeed().x)) 
-		/ (ball1->GetRigidBody()->GetMass() + ball2->GetRigidBody()->GetMass());]
-
-		new_speed[0].y = (ball1->GetRigidBody()->GetSpeed().y * (ball1->GetRigidBody()->GetMass() - ball2->GetRigidBody()->GetMass())
-		+ (2 * ball2->GetRigidBody()->GetMass() * ball2->GetRigidBody()->GetSpeed().y))
-		/ (ball1->GetRigidBody()->GetMass() + ball2->GetRigidBody()->GetMass());*/
+		new_speed[0] = body1->GetSpeed() *
+			(body1->GetMass() /
+			(body2->GetMass() + body1->GetMass()));
 
 		// Set new speed
-		ball1->GetRigidBody()->SetSpeed(new_speed[0] / ball2->GetRigidBody()->GetMass());
+		body1->SetSpeed(new_speed[0] / body2->GetMass());
 	}
 }
 
@@ -572,8 +552,12 @@ void World::ResponseBallToBall(Sprite* ball1, Sprite* ball2)
 /******************************************************************************/
 void World::ResponseBoxToBox(Sprite* box1, Sprite* box2)
 {			
+	// Get pointer to collided 2 rigid bodies
+	RigidBody *body1 = box1->GetRigidBody();
+	RigidBody *body2 = box2->GetRigidBody();
+
 	// If 2nd box is movable, refresh both 2 bodies info
-	if (box2->GetRigidBody()->GetMoveToggle())
+	if (body2->GetMoveToggle())
 	{
 		// Move both onjects to be proper position
 		// after the colliding
@@ -581,31 +565,33 @@ void World::ResponseBoxToBox(Sprite* box1, Sprite* box2)
 		box1->SetPosition(box1->GetPosition() + .5f * mtd);
 
 		// Calculate new velocity
-		box1->GetRigidBody()->SetVelocity(
-			box1->GetRigidBody()->GetVelocity().Reflection(
+		body1->SetVelocity(
+			body1->GetVelocity().Reflection(
 			collided_edge));
 
 		// if 1st body's force is stronger than 2nd.
 		// 2nd sprite's velocity to be set same as the 1st
+		if (body1->GetMass() > body2->GetMass())
+			body2->SetVelocity(body1->GetVelocity());
 
 		// else if (the 2nd stronger, than set opposite velocity)
 		// Set opposite velocity
-		box2->GetRigidBody()->SetVelocity(-box1->GetRigidBody()->GetVelocity());
+		else
+			body2->SetVelocity(-body1->GetVelocity());
 
 		// Reset the speed
 		// Save new speeds of two boxes
-		new_speed[0] = box1->GetRigidBody()->GetSpeed() *
-			(box1->GetRigidBody()->GetMass() /
-			(box2->GetRigidBody()->GetMass() + box1->GetRigidBody()->GetMass()));
+		new_speed[0] = body1->GetSpeed() *
+			(body1->GetMass() /
+			(body2->GetMass() + body1->GetMass()));
 
-		new_speed[1] = box2->GetRigidBody()->GetSpeed() *
-			(box2->GetRigidBody()->GetMass() /
-			(box2->GetRigidBody()->GetMass() + box1->GetRigidBody()->GetMass()));
+		new_speed[1] = body2->GetSpeed() *
+			(body2->GetMass() /
+			(body2->GetMass() + body1->GetMass()));
 
 		// Reset the speeds
-		box1->GetRigidBody()->SetSpeed((new_speed[0] + new_speed[1]) / box2->GetRigidBody()->GetMass());
-		box2->GetRigidBody()->SetSpeed((new_speed[0] + new_speed[1]) / box1->GetRigidBody()->GetMass());
-
+		body1->SetSpeed(new_speed[0] + new_speed[1] / body2->GetMass());
+		body2->SetSpeed(new_speed[1] + new_speed[0] / body1->GetMass());
 	}
 
 	// 2nd sprite is unmovable,
@@ -615,17 +601,17 @@ void World::ResponseBoxToBox(Sprite* box1, Sprite* box2)
 		box1->SetPosition(box1->GetPosition() + mtd);
 
 		// Calculate new reflected velocity
-		box1->GetRigidBody()->SetVelocity(
-			box1->GetRigidBody()->GetVelocity().Reflection(
+		body1->SetVelocity(
+			body1->GetVelocity().Reflection(
 			collided_edge));
 
 		// Reset the speed
-		new_speed[0] = box1->GetRigidBody()->GetSpeed() *
-			(box1->GetRigidBody()->GetMass() /
-			(box2->GetRigidBody()->GetMass() + box1->GetRigidBody()->GetMass()));
+		new_speed[0] = body1->GetSpeed() *
+			(body1->GetMass() /
+			(body2->GetMass() + body1->GetMass()));
 
 		// Reset the speeds
-		box1->GetRigidBody()->SetSpeed(new_speed[0] / box2->GetRigidBody()->GetMass());
+		body1->SetSpeed(new_speed[0]);
 	}
 }
 
@@ -640,68 +626,66 @@ void World::ResponseBoxToBox(Sprite* box1, Sprite* box2)
 /******************************************************************************/
 void World::ResponseBoxToBall(Sprite* box, Sprite* ball)
 {		
-	// Get Inverse mass of 2 sprites
-	float iMass_ball = ball->GetRigidBody()->GetMass();
-	float iMass_box = box->GetRigidBody()->GetMass();
-	float iMass = iMass_ball + iMass_box;
-	if (iMass < 0.000001f) iMass = 1.0f;
+	// Get pointer to collided 2 rigid bodies
+	RigidBody *body1 = box->GetRigidBody();
+	RigidBody *body2 = ball->GetRigidBody();
 
 	vec3 n = mtd.Normalize();
 	
 	// Save new velocities
 	vec3 new_vel[2];
-	new_vel[0] = box->GetRigidBody()->GetVelocity() - n ;
-	new_vel[1] = ball->GetRigidBody()->GetVelocity() + n ;
+	new_vel[0] = body1->GetVelocity() - n ;
+	new_vel[1] = body2->GetVelocity() + n ;
 
 	// Save new speed
-	new_speed[0] = box->GetRigidBody()->GetSpeed() *
-		(box->GetRigidBody()->GetMass() /
-		(ball->GetRigidBody()->GetMass() + box->GetRigidBody()->GetMass()));
+	new_speed[0] = body1->GetSpeed() *
+		(body1->GetMass() /
+		(body2->GetMass() + body1->GetMass()));
 
-	new_speed[1] = ball->GetRigidBody()->GetSpeed() *
-		(ball->GetRigidBody()->GetMass() /
-		(ball->GetRigidBody()->GetMass() + box->GetRigidBody()->GetMass()));
+	new_speed[1] = body2->GetSpeed() *
+		(body2->GetMass() /
+		(body2->GetMass() + body1->GetMass()));
 
 	// If both 2 sprites are movable...
-	if (box->GetRigidBody()->GetMoveToggle() && ball->GetRigidBody()->GetMoveToggle())
+	if (body1->GetMoveToggle() && body2->GetMoveToggle())
 	{
 		// Set sprites' position with mtd
-		box->SetPosition(box->GetPosition() - mtd * .5f *(iMass_box / iMass) );
-		ball->SetPosition(ball->GetPosition() + mtd * .5f *(iMass_ball / iMass));
+		box->SetPosition(box->GetPosition() - mtd * .5f);
+		ball->SetPosition(ball->GetPosition() + mtd * .5f);
 
 		// Set new velocity
-		box->GetRigidBody()->SetVelocity(new_vel[0]);
-		ball->GetRigidBody()->SetVelocity(new_vel[1]);
+		body1->SetVelocity(new_vel[0]);
+		body2->SetVelocity(new_vel[1]);
 
 		// Set new speed
-		box->GetRigidBody()->SetSpeed(new_speed[0] + new_speed[1] / ball->GetRigidBody()->GetMass());
-		ball->GetRigidBody()->SetSpeed(new_speed[1] + new_speed[0] / box->GetRigidBody()->GetMass());
+		body1->SetSpeed(new_speed[0] + new_speed[1] / body2->GetMass());
+		body2->SetSpeed(new_speed[1] + new_speed[0] / body1->GetMass());
 	}
 
 	// If only box sprite is movable...
-	else if (!ball->GetRigidBody()->GetMoveToggle() && box->GetRigidBody()->GetMoveToggle())
+	else if (!body2->GetMoveToggle() && body1->GetMoveToggle())
 	{
 		// Set sprites' position with mtd
-		box->SetPosition(box->GetPosition() - mtd * (iMass_box / iMass));
+		box->SetPosition(box->GetPosition() - mtd);
 
 		// Set new velocity
-		box->GetRigidBody()->SetVelocity(new_vel[0]);
+		body1->SetVelocity(new_vel[0]);
 
 		// Set new speed
-		box->GetRigidBody()->SetSpeed(new_speed[0] + new_speed[1] / ball->GetRigidBody()->GetMass());
+		body1->SetSpeed(new_speed[0] + new_speed[1] / body2->GetMass());
 	}
 
 	// If only ball sprite is movable...
-	else if (!box->GetRigidBody()->GetMoveToggle() && ball->GetRigidBody()->GetMoveToggle())
+	else if (!body1->GetMoveToggle() && body2->GetMoveToggle())
 	{
 		// Set sprites' position with mtd
-		ball->SetPosition(ball->GetPosition() + mtd * (iMass_ball / iMass));
+		ball->SetPosition(ball->GetPosition() + mtd);
 
 		// Set new velocity
-		ball->GetRigidBody()->SetVelocity(new_vel[1]);
+		body2->SetVelocity(new_vel[1]);
 
 		// Set new speed
-		ball->GetRigidBody()->SetSpeed(new_speed[1] + new_speed[0] / box->GetRigidBody()->GetMass());
+		body2->SetSpeed(new_speed[1] + new_speed[0] / body1->GetMass());
 	}
 }
 

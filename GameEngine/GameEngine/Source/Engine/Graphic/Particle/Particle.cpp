@@ -406,9 +406,8 @@ void Emitter::Refresh(Particle* particle)
 		// Rescale?
 		if (m_randomScl)
 		{
-			particle->SetScale(vec3(
-				Random::GetInstance().GetRandomFloat(m_rangeScl.x, m_rangeScl.y),
-				Random::GetInstance().GetRandomFloat(m_rangeScl.x, m_rangeScl.y)));
+			float randomSize = Random::GetInstance().GetRandomFloat(m_rangeScl.x, m_rangeScl.y);
+			particle->SetScale(vec3(randomSize,	randomSize));
 		}
 
 		// Reset life

@@ -15,7 +15,7 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 #ifndef _AUDIO_H_
 #define _AUDIO_H_
 
-#include "SoundManager/SoundManager.h"
+#include "../SoundManager/SoundManager.h"
 
 //! Audio class
 class Audio

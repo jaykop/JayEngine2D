@@ -28,7 +28,7 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 
 // Sound Header
 #include "../../Engine/Sound/Sound.h"
-#include "../../Engine/Sound/Audio.h"
+#include "../../Engine/Sound/Audio/Audio.h"
 
 // Logic Header
 #include "../../Engine/Logic/Logic.h"

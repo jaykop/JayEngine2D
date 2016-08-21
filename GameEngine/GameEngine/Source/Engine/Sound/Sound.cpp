@@ -13,7 +13,7 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 /******************************************************************************/
 
 #include "Sound.h"
-#include "Audio.h"
+#include "Audio/Audio.h"
 #include "../StateManager/GameStateManager/GameStateManager.h"
 
 /******************************************************************************/

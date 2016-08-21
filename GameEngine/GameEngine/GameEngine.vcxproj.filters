@@ -143,7 +143,7 @@
     <ClCompile Include="Source\Game\GameLogic\DemoLogic_GameOver.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Engine\Sound\Audio.cpp">
+    <ClCompile Include="Source\Engine\Sound\Audio\Audio.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -256,9 +256,6 @@
     <ClInclude Include="Source\Engine\Logic\LogicBuilder.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Engine\Sound\Audio.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Game\BaseData\LoadLogics.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
@@ -311,6 +308,9 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Source\Game\GameLogic\DemoLogic_GameOver.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Sound\Audio\Audio.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
