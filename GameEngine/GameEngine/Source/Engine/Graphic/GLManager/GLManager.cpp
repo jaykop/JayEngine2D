@@ -247,7 +247,10 @@ void GLManager::InitGL(Application* pApp, HWND& window, int width, int height)
 			glUseProgram(m_shader.m_programID);
 
 			// Normal uniforms
-			m_uniform[TRANSFORM] = glGetUniformLocation(m_shader.m_programID, "MVP");	//Trasnform Matrix
+			//m_uniform[TRANSFORM] = glGetUniformLocation(m_shader.m_programID, "MVP");	//Trasnform Matrix
+			m_uniform[CAMERA] = glGetUniformLocation(m_shader.m_programID, "Camera");	//Trasnform Matrix
+			m_uniform[PROJECTION] = glGetUniformLocation(m_shader.m_programID, "Projection");	//Trasnform Matrix
+			m_uniform[MODEL] = glGetUniformLocation(m_shader.m_programID, "Model");		//Trasnform Matrix
 			m_uniform[UV] = glGetUniformLocation(m_shader.m_programID, "Animation");	//UV
 			m_uniform[COLOR] = glGetUniformLocation(m_shader.m_programID, "Color");		//Coloring
 			m_uniform[TIME] = glGetUniformLocation(m_shader.m_programID, "Time");		//Timer

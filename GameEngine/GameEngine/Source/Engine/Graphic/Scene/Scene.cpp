@@ -236,13 +236,9 @@ void Scene::Update(const ObjectList& objList, float dt)
 			Pipeline((*it), dt);
 			vec4 sptColor = (*it)->GetColor();
 
-			glUniformMatrix4fv(m_GSM->GetGLManager()->GetUnifrom(TRANSFORM), 1, GL_FALSE, &m_mvp.m_member[0][0]);
-			glUniformMatrix4fv(m_GSM->GetGLManager()->GetUnifrom(UV), 1, GL_FALSE, &m_animation.m_member[0][0]);
 			glUniform4f(m_GSM->GetGLManager()->GetUnifrom(COLOR), sptColor.x, sptColor.y, sptColor.z, sptColor.w);
 			glUniform1i(m_GSM->GetGLManager()->GetUnifrom(TYPE), (*it)->GetType());
 			glUniform1f(m_GSM->GetGLManager()->GetUnifrom(TIME), dt);
-			glUniform1d(m_GSM->GetGLManager()->GetUnifrom(WAVE), (*it)->GetWaveToggle());
-			glUniform2f(m_GSM->GetGLManager()->GetUnifrom(PHASE), m_phase.x, m_phase.y);
 			
 			//Todo: high quality?
 			//glUniformMatrix4fv();
@@ -313,15 +309,14 @@ void Scene::Pipeline(Sprite* sprite, float dt)
 		* mat44::Translate(sprite->GetPosition());
 
 	//calculate fined final matrix
+	//glUniformMatrix4fv(m_GSM->GetGLManager()->GetUnifrom(CAMERA), 1, GL_FALSE, &camera.m_member[0][0]);
+	//glUniformMatrix4fv(m_GSM->GetGLManager()->GetUnifrom(PROJECTION), 1, GL_FALSE, &projection.m_member[0][0]);
+	//glUniformMatrix4fv(m_GSM->GetGLManager()->GetUnifrom(MODEL), 1, GL_FALSE, &model.m_member[0][0]);
+
 	m_mvp = projection.Transpose() * camera.Transpose() * model.Transpose();
 	m_mvp = m_mvp.Transpose();
 
-	// Todo: Delete or not
-	//if (sprite->GetType() == PARTICLE)
-	//{
-	//	auto new_particle = static_cast<Particle*>(sprite); 
-	//	new_particle->m_mvp = m_mvp;
-	//}
+	glUniformMatrix4fv(m_GSM->GetGLManager()->GetUnifrom(TRANSFORM), 1, GL_FALSE, &m_mvp.m_member[0][0]);
 
 	// Refresh the animation scene
 	if (sprite->GetPlayToggle())
@@ -343,11 +338,18 @@ void Scene::Pipeline(Sprite* sprite, float dt)
 	m_animation.SetIdentity();
 	m_animation = m_animation * mat44::Scale(vec3(sprite->GetDividedFrame(), 1.f));
 	m_animation = m_animation * mat44::Translate(vec3(sprite->GetCurrentScene(), 0.f));
+	glUniformMatrix4fv(m_GSM->GetGLManager()->GetUnifrom(UV), 1, GL_FALSE, &m_animation.m_member[0][0]);
 
-	m_phase.x -= sprite->GetWavePhase().x * dt;
-	m_phase.y += sprite->GetWavePhase().y * dt;
-	if (m_phase.x < -1.f || m_phase.y > 1.f)
-		m_phase.x = m_phase.y = 0.f;
+	if (sprite->GetWaveToggle())
+	{
+		m_phase.x -= sprite->GetWavePhase().x * dt;
+		m_phase.y += sprite->GetWavePhase().y * dt;
+		if (m_phase.x < -1.f || m_phase.y > 1.f)
+			m_phase.x = m_phase.y = 0.f;
+
+		glUniform1d(m_GSM->GetGLManager()->GetUnifrom(WAVE), sprite->GetWaveToggle());
+		glUniform2f(m_GSM->GetGLManager()->GetUnifrom(PHASE), m_phase.x, m_phase.y);
+	}
 
 }
 

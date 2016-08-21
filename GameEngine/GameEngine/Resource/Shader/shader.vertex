@@ -4,9 +4,14 @@
 layout(location = 0) in vec3 vertexPosition;
 layout(location = 1) in vec2 vertTexCoord;
 
-// Values that stay constant for the whole mesh.
-uniform vec4 Color ;
+// Basic pipeline uniform
 uniform mat4 MVP;
+//uniform mat4 Camera;
+//uniform mat4 Projection;
+//uniform mat4 Model;
+
+// Texture render uniform
+uniform vec4 Color ;
 uniform mat4 Animation;
 uniform int Type;
 
@@ -16,6 +21,8 @@ out vec2 fragTexCoord;
 flat out int fragmentType;
 
 void main(){
+
+	//mat4 MVP = Projection * Camera * Model;
 
 	// Set model vertex
 	gl_Position = MVP * vec4(vertexPosition, 1);

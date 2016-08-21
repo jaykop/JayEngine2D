@@ -107,18 +107,18 @@ void DemoLogic_LV1::PhysicsTest(void)
 		std::cout << InputManager::GetInstance().GetPerspPosition() << "\n";
 	}
 
-	//// Collided with Opponent
-	//if (m_OBM->GetGameObject<Sprite>(0)->GetRigidBody()->IsCollided())
-	//{
-	//	std::cout << "Sprite0's colliding?: " << m_OBM->GetGameObject<Sprite>(0)->GetRigidBody()->IsCollided() << "\n";
-	//	std::cout << "Sprite0's colliding opponent?: " << m_OBM->GetGameObject<Sprite>(0)->GetRigidBody()->GetCollisionWith() << "\n";
-	//	std::cout << "Sprite0's colliding with Sprite101?(Sprite info): " << m_OBM->GetGameObject<Sprite>(0)->GetRigidBody()->IsCollisionWith(
-	//		m_OBM->GetGameObject<Sprite>(101)) << "\n";
+	// Collided with Opponent
+	if (m_OBM->GetGameObject<Sprite>(0)->GetRigidBody()->IsCollided())
+	{
+		std::cout << "Sprite0's colliding?: " << m_OBM->GetGameObject<Sprite>(0)->GetRigidBody()->IsCollided() << "\n";
+		std::cout << "Sprite0's colliding opponent?: " << m_OBM->GetGameObject<Sprite>(0)->GetRigidBody()->GetCollisionWith() << "\n";
+		std::cout << "Sprite0's colliding with Sprite101?(Sprite info): " << m_OBM->GetGameObject<Sprite>(0)->GetRigidBody()->IsCollisionWith(
+			m_OBM->GetGameObject<Sprite>(101)) << "\n";
 
-	//	std::cout << "Sprite0's colliding with Sprite101?(World info): " << m_OBM->GetGameWorld()->GetCollisionRelation(
-	//		m_OBM->GetGameObject<Sprite>(0),
-	//		m_OBM->GetGameObject<Sprite>(101)) << "\n";
-	//}
+		std::cout << "Sprite0's colliding with Sprite101?(World info): " << m_OBM->GetGameWorld()->GetCollisionRelation(
+			m_OBM->GetGameObject<Sprite>(0),
+			m_OBM->GetGameObject<Sprite>(101)) << "\n";
+	}
 }
 
 void DemoLogic_LV1::SetSamllSprites(void)

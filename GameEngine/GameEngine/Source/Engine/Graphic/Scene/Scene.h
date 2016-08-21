@@ -66,9 +66,10 @@ private:
 	void DrawSprites(Sprite* sprite);
 	void DrawParticle(Emitter* emitter, float dt);
 
-	GLuint particleColors;
-	GLuint particleMVPs;
-	GLuint particleNums;
+	GLuint  instancedVBO;
+	GLint location;
+	GLint location2;
+	GLint location3;
 
 	// Math(by sprites) info
 	mat44 m_mvp;	

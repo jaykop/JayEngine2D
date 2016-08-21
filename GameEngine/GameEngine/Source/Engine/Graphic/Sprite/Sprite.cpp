@@ -296,7 +296,7 @@ void Sprite::SetAnimation(int frame, float speed)
 		ani_frame = 1.f / frame;
 		m_curScene = 0;
 	}
-	ani_speed = 1 / speed;
+	if (speed) ani_speed = 1 / speed;
 	ani_play = true;
 }
 

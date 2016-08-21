@@ -118,3 +118,32 @@ void iniWritter::WriteVec4(char *section, char* key, const vec4& DefaultVec4)
 	_stprintf_s(value, "[ %f, %f, %f, %f ]", DefaultVec4.x, DefaultVec4.y, DefaultVec4.z, DefaultVec4.w);
 	WritePrivateProfileString(section, key, value, m_fileName);
 }
+
+void iniWritter::WirteSample(void)
+{
+	// Testing ini...
+	iniWritter writter("Resource/Data/Sample.ini");
+	writter.WriteInt("Setting", "Age", 24);
+	writter.WriteFloat("Setting", "Grade", 3.14159f);
+	writter.WriteBool("Setting", "Marriage", false);
+	writter.WriteString("Setting", "Name", "jaykop");
+	writter.WriteVec3("Setting", "Position", vec3(10, 214, 43));
+	writter.WriteVec4("Setting", "Color", vec4(63, 57, 14, 53));
+
+	// Todo: Delete this sample code later..
+	// Check after including reader
+	//iniReader reader("Resource/Data/Sample.ini");
+	//int age = reader.ReadInt("Setting", "Age");
+	//float grade = reader.ReadFloat("Setting", "Grade");
+	//bool marriage = reader.ReadBool("Setting", "Marriage");
+	//char* name = reader.ReadString("Setting", "Name");
+	//vec3 position = reader.ReadVec3("Setting", "Position");
+	//vec4 color = reader.ReadVec4("Setting", "Color");
+
+	//std::cout << age << "\n" <<
+	//	grade << "\n" <<
+	//	marriage << "\n";
+	//std::cout << position << "\n";
+	//std::cout << color << "\n";
+	//std::wcout << name << "\n";
+}

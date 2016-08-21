@@ -34,6 +34,10 @@ public:
 	void WriteVec3(char *section, char* key, const vec3& DefaultVec3);
 	void WriteVec4(char *section, char* key, const vec4& DefaultVec4);
 
+	// Todo: Delete this sample code later..
+	// Writter sample function
+	void WirteSample(void);
+
 private:
 	
 	// ini file name to write
