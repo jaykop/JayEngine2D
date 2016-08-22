@@ -12,7 +12,7 @@ Some parts will be used to Digipen GAM250(project class).
 
 2) Graphic:
  - Matt A.Casanova
- - Sven Olsen
+ - //Sven Olsen
  - Arnaud Masserann
 
 3) Physics
