@@ -8,7 +8,7 @@ layout(location = 1) in vec2 vertTexCoord;
 uniform mat4 MVP;
 
 // Texture render uniform
-uniform vec4 Color ;
+uniform vec4 Color;
 uniform mat4 Animation;
 uniform int Type;
 

@@ -250,11 +250,15 @@ void GLManager::InitGL(Application* pApp, HWND& window, int width, int height)
 			m_uniform[TRANSFORM] = glGetUniformLocation(m_shader.m_programID, "MVP");	//Trasnform Matrix
 			m_uniform[UV] = glGetUniformLocation(m_shader.m_programID, "Animation");	//UV
 			m_uniform[COLOR] = glGetUniformLocation(m_shader.m_programID, "Color");		//Coloring
-			m_uniform[TYPE] = glGetUniformLocation(m_shader.m_programID, "Type");		//Object Type
 			
+			// Sub info
+			m_uniform[TYPE] = glGetUniformLocation(m_shader.m_programID, "Type");		//Object Type
+			m_uniform[TIME] = glGetUniformLocation(m_shader.m_programID, "Time");		//Engine time
+
 			// Wave info
-			m_uniform[PHASE] = glGetUniformLocation(m_shader.m_programID, "Phase");		//Wave phase
-			m_uniform[WAVE] = glGetUniformLocation(m_shader.m_programID, "Wave");		//Wave boolean
+			m_uniform[WAVE_PHASE] = glGetUniformLocation(m_shader.m_programID, "WavePhase");		//Wave phase
+			m_uniform[WAVE_TOGGLE] = glGetUniformLocation(m_shader.m_programID, "WaveToggle");		//Wave boolean
+			m_uniform[WAVE_TYPE] = glGetUniformLocation(m_shader.m_programID, "WaveType");		//Wave boolean
 
 			// Light info
 			m_uniform[LIGHT_DIFFUSE] = glGetUniformLocation(m_shader.m_programID, "LightDiff");		// Light Diffuse	

@@ -13,12 +13,12 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 /******************************************************************************/
 
 #include <algorithm>
-#include <sstream>
-#include "../Scene/Scene.h"
 #include "../Text/Text.h"
-#include "../Sprite/Sprite.h"
 #include "../Light/Light.h"
+#include "../Scene/Scene.h"
+#include "../Sprite/Sprite.h"
 #include "../Particle/Particle.h"
+//#include "../../Utilities/Time.h"
 #include "../../Utilities/Random.h"
 #include "../../InputManager/InputManager.h"
 #include "../../ObjectManager/ObjectManager.h"
@@ -88,6 +88,9 @@ void Scene::Init(const ObjectList& objList)
 				it->second->SetTexture(m_GSM->GetGLManager()->GetTexture(8));
 		}
 	}
+
+	// Time runs
+	Timer::GetInstance().StartTime();
 }
 
 /******************************************************************************/
@@ -271,6 +274,7 @@ void Scene::Update(const ObjectList& objList, float dt)
 
 			glUniform4f(m_GSM->GetGLManager()->GetUnifrom(COLOR), sptColor.x, sptColor.y, sptColor.z, sptColor.w);
 			glUniform1i(m_GSM->GetGLManager()->GetUnifrom(TYPE), (*it)->GetType());
+			glUniform1f(m_GSM->GetGLManager()->GetUnifrom(TIME), Timer::GetInstance().GetElapsedTime());
 
 			//Todo: high quality?
 			//glUniformMatrix4fv();
@@ -377,8 +381,8 @@ void Scene::Pipeline(Sprite* sprite, float dt)
 			m_phase.x = m_phase.y = 0.f;
 	}
 	
-	glUniform1d(m_GSM->GetGLManager()->GetUnifrom(WAVE), sprite->GetWaveToggle());
-	glUniform2f(m_GSM->GetGLManager()->GetUnifrom(PHASE), m_phase.x, m_phase.y);
+	glUniform1d(m_GSM->GetGLManager()->GetUnifrom(WAVE_TOGGLE), sprite->GetWaveToggle());
+	glUniform2f(m_GSM->GetGLManager()->GetUnifrom(WAVE_PHASE), m_phase.x, m_phase.y);
 	
 }
 

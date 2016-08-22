@@ -38,8 +38,12 @@ class Texture;
 class Application;
 
 //! Uniform type
-enum UniformType{ TEXTURE, TRANSFORM, UV, COLOR, TYPE, WAVE, PHASE, 
-	LIGHT_RADIUS, LIGHT_DIFFUSE, LIGHT_DISTANCE, UNIFORM_END
+enum UniformType{ 
+	TEXTURE, TRANSFORM, UV, COLOR, 
+	TYPE, TIME, 
+	WAVE_TOGGLE, WAVE_TYPE, WAVE_PHASE, 
+	LIGHT_RADIUS, LIGHT_DIFFUSE, LIGHT_DISTANCE, 
+	UNIFORM_END
 };
 
 //! vectext buffer information
