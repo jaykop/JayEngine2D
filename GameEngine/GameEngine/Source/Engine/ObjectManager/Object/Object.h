@@ -18,7 +18,7 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 #include <hash_map>
 #include "../../Utilities/Math/MathUtils.h"
 
-enum ObjectType{ TEXT, SPRITE, PARTICLE, LIGHT };
+enum ObjectType{ TEXT, SPRITE, PARTICLE, LIGHT, DARKNESS };
 
 class GameLogic;
 class ObjectManager;

@@ -89,6 +89,10 @@ private:
 	GLfloat m_zNear, m_zFar, m_fovy;
 	float m_radius;
 
+	// Darkness toggle
+	bool m_darkness;
+	float m_maxlightZ;
+
 	// To get GSM
 	GameStateManager* m_GSM;
 

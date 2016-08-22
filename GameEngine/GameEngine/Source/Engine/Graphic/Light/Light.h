@@ -26,17 +26,17 @@ public:
 
 	// Manage light info
 	void SetDiffuse(const vec3& diffuse);
-	void SetDirection(const vec3& direction);
+	void SetDistance(float distance);
 	void SetRadius(float radius);
 
 	const vec3& GetDiffuse(void) const;
-	const vec3& GetDirection(void) const;
+	float GetDistance(void) const;
 	float GetRadius(void) const;
 
 private:
 
 	vec3 m_diffuse;
-	vec3 m_direction;
+	float m_distance;
 	float m_radius;
 
 };

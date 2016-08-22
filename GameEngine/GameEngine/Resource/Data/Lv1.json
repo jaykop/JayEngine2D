@@ -11,7 +11,7 @@
 			"ID" : 200, "Type" : "TEXT",
 			"Position" : [ -225, 150, 0 ], "Scale" : [1, 1, 0], "Rotation" : 0,
 			"Projection" : "ORTHOGONAL", "Color" : [1, 1, 1, 1],
-			"Text" : "Game Engine Demo 0.9v",
+			"Text" : "Game Engine Demo 0.95v",
 			"FontSize" : 48,
 			"Logic" : [
 				{ "key" : 1, "values" : {} }

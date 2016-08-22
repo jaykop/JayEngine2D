@@ -35,7 +35,8 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 Scene::Scene(GameStateManager* gsm)
 : m_width(0), m_height(0), m_zNear(0),
 m_zFar(0), m_fovy(0), aspectRatio(0), m_radius(0),
-m_camera(vec4()), m_bgColor(vec4(0,0,0,0))
+m_camera(vec4()), m_bgColor(vec4(0, 0, 0, 0)), 
+m_darkness(false), m_maxlightZ(0.f)
 {
 	m_GSM = gsm;
 	m_DrawList.clear();
@@ -75,7 +76,7 @@ void Scene::Init(const ObjectList& objList)
 		{
 			// If object is normal sprite,
 			// Set basic texture; box
-			if (it->second->GetType() == SPRITE)
+			if (it->second->GetType() == SPRITE || it->second->GetType() == DARKNESS)
 				it->second->SetTexture(m_GSM->GetGLManager()->GetTexture(0));
 
 			// If object is particle
@@ -97,7 +98,7 @@ void Scene::Init(const ObjectList& objList)
 /******************************************************************************/
 void Scene::DrawSprites(Sprite* sprite)
 {
-	if (sprite->GetID() == 17)
+	if (sprite->GetType() == DARKNESS)
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_DST_ALPHA);
 
 	else
@@ -213,18 +214,22 @@ void Scene::DrawTexts(Text* text)
 /******************************************************************************/
 void Scene::DrawLights(Light* light)
 {
-	vec3 direction = light->GetDirection(), diffuse = light->GetDiffuse();
+	// Get diffuse
+	vec3 diffuse = light->GetDiffuse();
 
-	glUniform3f(m_GSM->GetGLManager()->GetUnifrom(LIGHT_DIRECTION), direction.x, direction.y, direction.z);
 	glUniform3f(m_GSM->GetGLManager()->GetUnifrom(LIGHT_DIFFUSE), diffuse.x, diffuse.y, diffuse.z);
+	glUniform1f(m_GSM->GetGLManager()->GetUnifrom(LIGHT_DISTANCE), light->GetDistance());
 	glUniform1f(m_GSM->GetGLManager()->GetUnifrom(LIGHT_RADIUS), light->GetRadius());
 
-	//glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE);
-	//glBlendFuncSeparate(GL_ZERO, GL_ONE, GL_DST_COLOR, GL_ZERO);
-	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_DST_ALPHA);
-	//glBlendFuncSeparate(GL_DST_ALPHA, GL_ONE,GL_ZERO,GL_ONE_MINUS_SRC_ALPHA);
-	
+	glEnable(GL_BLEND);
+	// If ther is darkness sprite,
+	if (m_darkness)
+		glBlendFuncSeparate(GL_DST_ALPHA, GL_ONE, GL_ZERO, GL_ONE_MINUS_SRC_ALPHA);
+
+	// If not,
+	else
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+
 	//Refresh the buffer data
 	glBufferData(GL_ARRAY_BUFFER, sizeof(m_vertex_buffer_data), m_vertex_buffer_data, GL_STATIC_DRAW);
 
@@ -278,7 +283,8 @@ void Scene::Update(const ObjectList& objList, float dt)
 				DrawLights(static_cast<Light*>(*it));
 
 			// Draw Sprites
-			else if ((*it)->GetType() == SPRITE)
+			else if ((*it)->GetType() == SPRITE ||
+				(*it)->GetType() == DARKNESS)
 				DrawSprites(*it);
 
 		}
@@ -472,7 +478,17 @@ void Scene::ReorderSprites(void)
 void Scene::AddSprite(Sprite* sprite)
 {
 	// Add sprite by Zorder and Projection type
-	auto it = m_DrawList.begin();
+	auto it = m_DrawList.begin();	// Declare outside
+
+	// If there is darkness sprite,
+	// turn the toggle on...
+	if (sprite->GetType() == DARKNESS)
+		m_darkness = true;
+
+	// Set max light z order...
+	else if (sprite->GetType() == LIGHT &&
+		m_maxlightZ < sprite->GetPosition().z)
+		m_maxlightZ = sprite->GetPosition().z;
 
 	for (; it != m_DrawList.end(); ++it)
 	{
@@ -482,12 +498,18 @@ void Scene::AddSprite(Sprite* sprite)
 			break;
 	}
 
+	// Set Darkness's z order;
+	if (m_darkness)
+		sprite->SetPosition(vec3(
+		sprite->GetPosition().x,
+		sprite->GetPosition().y,
+		m_maxlightZ + 1.f));
+
 	// Add sprite to the place where stopped
 	m_DrawList.insert(it, sprite);
 
 	// Sort Sprites by projection type and z Order
 	ReorderSprites();
-
 }
 
 /******************************************************************************/
@@ -505,6 +527,9 @@ void Scene::RemoveSprite(const int id)
 		// If found same id that client want to get
 		if ((*it)->GetID() == id)
 		{
+			if ((*it)->GetType() == DARKNESS)
+				m_darkness = false;
+
 			// Delete it
 			m_DrawList.erase(it);
 			break;

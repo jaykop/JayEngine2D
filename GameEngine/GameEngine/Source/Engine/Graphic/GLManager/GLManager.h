@@ -39,7 +39,8 @@ class Application;
 
 //! Uniform type
 enum UniformType{ TEXTURE, TRANSFORM, UV, COLOR, TYPE, WAVE, PHASE, 
-	LIGHT_RADIUS, LIGHT_DIFFUSE, LIGHT_DIRECTION, UNIFORM_END };
+	LIGHT_RADIUS, LIGHT_DIFFUSE, LIGHT_DISTANCE, UNIFORM_END
+};
 
 //! vectext buffer information
 static const GLfloat m_vertex_buffer_data[] =

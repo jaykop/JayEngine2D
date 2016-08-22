@@ -28,6 +28,8 @@ public:
 	virtual void Unload(void);
 
 	void BasicControl(void);
+	void LightControl(void);
+	void ParticleExplosion(float dt);
 
 private:
 

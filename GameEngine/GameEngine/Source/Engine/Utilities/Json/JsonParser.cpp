@@ -17,12 +17,13 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 
 //#include "JsonParser.h"
 #include "../../Graphic/Scene/Scene.h"
+#include "../../Graphic/Light/Light.h"
+#include "../../Graphic/Light/Darkness.h"
 #include "../../Graphic/Particle/Particle.h"
 #include "../../Physics/RigidBody/RigidBody.h"
 #include "../../Logic/GameLogic/GameLogic.h"
 #include "../../Logic/LogicFactory/LogicFactory.h"
 #include "../../Sound/SoundManager/SoundManager.h"
-#include "../../StateManager/GameStateManager/GameStateManager.h"
 
 /******************************************************************************/
 /*!
@@ -256,50 +257,83 @@ void JsonParser::LoadObjects(ObjectManager* obm)
 				int id = (*it)["ID"].asInt();
 
 				// Sprite case or Object case
-				if (!strcmp((*it)["Type"].asCString(), "SPRITE") ||
-					!strcmp((*it)["Type"].asCString(), "OBJECT"))
+				if (!strcmp((*it)["Type"].asCString(), "SPRITE"))
 				{
 					obm->AddObject(new Sprite(id, obm));
 					LoadBasicObject(it, obm->GetGameObject<Sprite>(id));
 				}
 
+				// Darkness case
+				else if (!strcmp((*it)["Type"].asCString(), "DARKNESS"))
+				{
+					obm->AddObject(new Darkness(id, obm));
+					LoadBasicObject(it, obm->GetGameObject<Darkness>(id));
+				}
+
+				// Light case
+				else if (!strcmp((*it)["Type"].asCString(), "LIGHT"))
+				{
+					auto new_Light = new Light(id, obm);
+
+					if ((*it).isMember("Diffuse") &&
+						(*it)["Diffuse"].isArray() &&
+						(*it)["Diffuse"].size() == 3 &&
+						(*it)["Diffuse"][0].isNumeric())
+					{
+						new_Light->SetDiffuse(vec3(
+							(*it)["Diffuse"][0].asFloat(),
+							(*it)["Diffuse"][1].asFloat(),
+							(*it)["Diffuse"][2].asFloat()));
+					}
+
+					if ((*it).isMember("Distance") &&
+						(*it)["Distance"].isNumeric())
+						new_Light->SetDistance((*it)["Distance"].asFloat());
+
+					if ((*it).isMember("Radius") &&
+						(*it)["Radius"].isNumeric())
+						new_Light->SetRadius((*it)["Radius"].asFloat());
+					
+					LoadBasicObject(it, new_Light);
+					obm->AddObject(new_Light);
+				}
+
 				// Text case
 				else if (!strcmp((*it)["Type"].asCString(), "TEXT"))
 				{
-					obm->AddObject(new Text(id, obm));
-					LoadBasicObject(it, obm->GetGameObject<Sprite>(id));
+					auto new_Text = new Text(id, obm);
 					
 					if ((*it).isMember("Text") &&
 						(*it)["Text"].isString())
-						obm->GetGameObject<Text>(id)->
-						SetText((*it)["Text"].asCString());
+						new_Text->SetText((*it)["Text"].asCString());
 
 					if ((*it).isMember("FontSize") &&
 						(*it)["FontSize"].isInt())
-						obm->GetGameObject<Text>(id)->
-						SetFontSize((*it)["FontSize"].asUInt());
+						new_Text->SetFontSize((*it)["FontSize"].asUInt());
+
+					LoadBasicObject(it, new_Text);
+					obm->AddObject(new_Text);
 				}
 
 				// Particle(Emitter) case
 				else if (!strcmp((*it)["Type"].asCString(), "PARTICLE"))
 				{
-					obm->AddObject(new Emitter(id, obm));
-					LoadBasicObject(it, obm->GetGameObject<Sprite>(id));
+					auto new_Emitter = new Emitter(id, obm);
 
 					if ((*it).isMember("Quantity") &&
 						(*it)["Quantity"].isNumeric())
-						obm->GetGameObject<Emitter>(id)->SetNumOfParticle((*it)["Quantity"].asInt());
+						new_Emitter->SetNumOfParticle((*it)["Quantity"].asInt());
 
 					if ((*it).isMember("Projection") &&
 						(*it)["Projection"].isString())
 					{
 						if (!strcmp((*it)["Projection"].asCString(),
 							"ORTHOGONAL"))
-							obm->GetGameObject<Emitter>(id)->SetProjectionType(ORTHOGONAL);
+							new_Emitter->SetProjectionType(ORTHOGONAL);
 
 						else if (!strcmp((*it)["Projection"].asCString(),
 							"PERSPECTIVE"))
-							obm->GetGameObject<Emitter>(id)->SetProjectionType(PERSPECTIVE);
+							new_Emitter->SetProjectionType(PERSPECTIVE);
 					}
 
 					if ((*it).isMember("Scale") &&
@@ -307,7 +341,7 @@ void JsonParser::LoadObjects(ObjectManager* obm)
 						(*it)["Scale"].size() == 3 &&
 						(*it)["Scale"][0].isNumeric())
 					{
-						obm->GetGameObject<Emitter>(id)->SetScale(vec3(
+						new_Emitter->SetScale(vec3(
 							(*it)["Scale"][0].asFloat(),
 							(*it)["Scale"][1].asFloat(),
 							(*it)["Scale"][2].asFloat()));
@@ -332,25 +366,26 @@ void JsonParser::LoadObjects(ObjectManager* obm)
 							(*it)["EdgeColor"][1].asFloat(),
 							(*it)["EdgeColor"][2].asFloat());
 
-						obm->GetGameObject<Emitter>(id)->SetColors(centre, edge);
+						new_Emitter->SetColors(centre, edge);
+
 					}
 
 					if ((*it).isMember("Spin") &&
 						(*it)["Spin"].isBool())
-						obm->GetGameObject<Emitter>(id)->ActivateRotate((*it)["Spin"].asBool());
+						new_Emitter->ActivateRotate((*it)["Spin"].asBool());
 
 					if ((*it).isMember("Mode") &&
 						(*it)["Mode"].isString())
 					{
 						if (!strcmp((*it)["Mode"].asCString(), "NORMAL"))
-							obm->GetGameObject<Emitter>(id)->SetMode(NORMAL);
+							new_Emitter->SetMode(NORMAL);
 						else if (!strcmp((*it)["Mode"].asCString(), "FIRE"))
-							obm->GetGameObject<Emitter>(id)->SetMode(FIRE);
+							new_Emitter->SetMode(FIRE);
 						else if (!strcmp((*it)["Mode"].asCString(), "EXPLOSION"))
-							obm->GetGameObject<Emitter>(id)->SetMode(EXPLOSION);
+							new_Emitter->SetMode(EXPLOSION);
 						else if (!strcmp((*it)["Mode"].asCString(), "SNOW"))
 						{
-							obm->GetGameObject<Emitter>(id)->SetMode(SNOW);
+							new_Emitter->SetMode(SNOW);
 							if ((*it).isMember("SnowStart") &&
 								(*it)["SnowStart"].isArray() &&
 								(*it)["SnowStart"].size() == 3 &&
@@ -360,7 +395,7 @@ void JsonParser::LoadObjects(ObjectManager* obm)
 								(*it)["SnowEnd"].size() == 3 &&
 								(*it)["SnowEnd"][0].isNumeric())
 							{
-								obm->GetGameObject<Emitter>(id)->SetSnowBoundary(
+								new_Emitter->SetSnowBoundary(
 									vec3((*it)["SnowStart"][0].asFloat(), (*it)["SnowStart"][1].asFloat(), (*it)["SnowStart"][2].asFloat()),
 									vec3((*it)["SnowEnd"][0].asFloat(), (*it)["SnowEnd"][1].asFloat(), (*it)["SnowEnd"][2].asFloat()));
 							}
@@ -371,7 +406,7 @@ void JsonParser::LoadObjects(ObjectManager* obm)
 						(*it)["Direction"].isArray() &&
 						(*it)["Direction"].size() == 3 &&
 						(*it)["Direction"][0].isNumeric())
-						obm->GetGameObject<Emitter>(id)->SetDirection(vec3(
+						new_Emitter->SetDirection(vec3(
 							(*it)["Direction"][0].asFloat(),
 							(*it)["Direction"][1].asFloat(),
 							(*it)["Direction"][2].asFloat()));
@@ -380,7 +415,7 @@ void JsonParser::LoadObjects(ObjectManager* obm)
 						(*it)["RandomScale"].isBool())
 					{
 						bool randomScaleToggle = (*it)["RandomScale"].asBool();
-						obm->GetGameObject<Emitter>(id)->ActivateRandomScale(
+						new_Emitter->ActivateRandomScale(
 							randomScaleToggle);
 
 						if (randomScaleToggle &&
@@ -388,18 +423,21 @@ void JsonParser::LoadObjects(ObjectManager* obm)
 							(*it)["RandomRange"].isArray() &&
 							(*it)["RandomRange"].size() == 2 &&
 							(*it)["RandomRange"][0].isNumeric())
-							obm->GetGameObject<Emitter>(id)->SetRandomScaleRange(vec2(
+							new_Emitter->SetRandomScaleRange(vec2(
 							(*it)["RandomRange"][0].asFloat(),
 							(*it)["RandomRange"][1].asFloat()));
 					}
 
 					if ((*it).isMember("Speed") &&
 						(*it)["Speed"].isNumeric())
-						obm->GetGameObject<Emitter>(id)->SetSpeed((*it)["Speed"].asFloat());
+						new_Emitter->SetSpeed((*it)["Speed"].asFloat());
 
 					if ((*it).isMember("Range") &&
 						(*it)["Range"].isNumeric())
-						obm->GetGameObject<Emitter>(id)->SetBoundary((*it)["Range"].asFloat());
+						new_Emitter->SetBoundary((*it)["Range"].asFloat());
+
+					LoadBasicObject(it, new_Emitter);
+					obm->AddObject(new_Emitter);
 				}	
 
 				// Load logics

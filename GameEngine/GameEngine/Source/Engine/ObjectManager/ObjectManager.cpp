@@ -42,7 +42,6 @@ ObjectManager::~ObjectManager(void)
 /******************************************************************************/
 /*!
 \brief - Delete Object from the list
-
 \param SpriteID - sprite's id
 */
 /******************************************************************************/
@@ -67,7 +66,6 @@ void ObjectManager::RemoveObject(const int id)
 /******************************************************************************/
 /*!
 \brief - Check if list has the obhect or not
-
 \param SpriteID - sprite's id
 */
 /******************************************************************************/
@@ -77,8 +75,8 @@ bool ObjectManager::HasObject(const int id)
 	auto it = m_ObjectList.find(id);
 
 	//Compare the id from user input
-	if (it->second->GetID() == id)
-			return true;
+	if (it != m_ObjectList.end())
+		return true;
 
 	return false;
 }

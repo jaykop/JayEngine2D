@@ -17,7 +17,7 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 
 Light::Light(const int id, ObjectManager* obm)
 :Sprite(id, obm), 
-m_diffuse(vec3()), m_direction(vec3()), m_radius(0.f)
+m_diffuse(vec3()), m_distance(0.f), m_radius(0.f)
 {
 	SetType(LIGHT);
 }
@@ -25,9 +25,9 @@ m_diffuse(vec3()), m_direction(vec3()), m_radius(0.f)
 Light::Light(Light& light)
 :Sprite(light)
 {
+	m_radius = light.m_radius; 
 	m_diffuse = light.m_diffuse;
-	m_direction = light.m_direction;
-	m_radius = light.m_radius;
+	m_distance = light.m_distance;
 }
 
 Light::~Light()
@@ -40,9 +40,9 @@ void Light::SetDiffuse(const vec3& diffuse)
 	m_diffuse = diffuse;
 }
 
-void Light::SetDirection(const vec3& direction)
+void Light::SetDistance(float direction)
 {
-	m_direction = direction;
+	m_distance = direction;
 }
 
 void Light::SetRadius(float radius)
@@ -56,9 +56,9 @@ const vec3& Light::GetDiffuse(void) const
 	return m_diffuse;
 }
 
-const vec3& Light::GetDirection(void) const
+float Light::GetDistance(void) const
 {
-	return m_direction;
+	return m_distance;
 }
 
 float Light::GetRadius(void) const

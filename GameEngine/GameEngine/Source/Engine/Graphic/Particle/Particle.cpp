@@ -27,7 +27,7 @@ Particle::Particle(Emitter* parent, int index)
 :m_parent(parent), m_index(index)
 {
 	SetType(PARTICLE);
-	m_life = 1.f;
+	m_life = 0.f;
 	SetColor(vec4(GetColor(), m_life));
 	SetPosition(m_parent->GetPosition());
 	SetRigidBody();

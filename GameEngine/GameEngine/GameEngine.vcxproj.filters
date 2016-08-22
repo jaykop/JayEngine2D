@@ -149,6 +149,9 @@
     <ClCompile Include="Source\Engine\Graphic\GLManager\GLManager.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Engine\Graphic\Light\Darkness.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -317,6 +320,9 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Source\Engine\Graphic\GLManager\GLManager.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Graphic\Light\Darkness.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

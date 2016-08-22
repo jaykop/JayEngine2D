@@ -257,9 +257,9 @@ void GLManager::InitGL(Application* pApp, HWND& window, int width, int height)
 			m_uniform[WAVE] = glGetUniformLocation(m_shader.m_programID, "Wave");		//Wave boolean
 
 			// Light info
-			m_uniform[LIGHT_DIFFUSE] = glGetUniformLocation(m_shader.m_programID, "LightDiff");			// Light Diffuse
-			m_uniform[LIGHT_DIRECTION] = glGetUniformLocation(m_shader.m_programID, "LightPosition");	// Light Position
-			m_uniform[LIGHT_RADIUS] = glGetUniformLocation(m_shader.m_programID, "LightRadius");		// Light Radius
+			m_uniform[LIGHT_DIFFUSE] = glGetUniformLocation(m_shader.m_programID, "LightDiff");		// Light Diffuse	
+			m_uniform[LIGHT_RADIUS] = glGetUniformLocation(m_shader.m_programID, "LightRadius");	// Light Radius
+			m_uniform[LIGHT_DISTANCE] = glGetUniformLocation(m_shader.m_programID, "LightDistance");// Light Distance
 
 			// Set "Texture" sampler to user Texture Unit 0
 			m_uniform[TEXTURE] = glGetUniformLocation(m_shader.m_programID, "Texture");
