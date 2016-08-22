@@ -15,10 +15,25 @@ uniform vec4 Color ;
 uniform mat4 Animation;
 uniform int Type;
 
+// Light Info
+uniform vec3 LightPosition;
+uniform vec3 LightDiff;
+uniform float LightRadius;
+
 //Output data
 out vec4 fragmentColor;
 out vec2 fragTexCoord;
 flat out int fragmentType;
+
+// Light function
+float n3ddistance(vec3 first_point, vec3 second_point)
+{
+	float x = first_point.x-second_point.x;
+	float y = first_point.y-second_point.y;
+	float z = first_point.z-second_point.z;
+	float val = x*x + y*y + z*z;
+	return sqrt(val);
+}
 
 void main(){
 
@@ -28,7 +43,17 @@ void main(){
 	gl_Position = MVP * vec4(vertexPosition, 1);
 	
 	// Set Color
-	fragmentColor = Color;
+	// If type is light,
+	if (Type == 3) {
+		float dst = n3ddistance(LightPosition, vertexPosition);
+		float intensity = clamp(1.0 - dst / LightRadius, 0.0, 1.0);
+		fragmentColor = vec4(LightDiff.x, LightDiff.y, LightDiff.z, 1.0) * intensity;
+	}
+	
+	// Unless,
+	else {
+		fragmentColor = Color;
+	}
 	
 	// Set texture coordinate
 	vec4 newTexCoord = Animation * vec4(vertTexCoord, 0, 1);

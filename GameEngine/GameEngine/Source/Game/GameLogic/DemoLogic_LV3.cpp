@@ -22,6 +22,12 @@ void DemoLogic_LV3::Init(GameData& gd)
 	std::cout << "DemoLogic_LV3 Inited\n";
 
 	dt_Stack = 0.f;
+
+	m_OBM->AddObject(new Light(200, m_OBM));
+	m_OBM->GetGameObject<Light>(200)->SetDiffuse(vec3(1.f, 1.f, 1.f));
+	m_OBM->GetGameObject<Light>(200)->SetDirection(vec3(10.f, 10.f));
+	m_OBM->GetGameObject<Light>(200)->SetRadius(25.f);
+	//m_OBM->GetGameObject<Light>(200)->SetColor(vec4(0,0,0,0));
 }
 
 void DemoLogic_LV3::Update(GameData& gd)
@@ -30,6 +36,11 @@ void DemoLogic_LV3::Update(GameData& gd)
 	std::cout << "DemoLogic_LV3 Update\n";
 
 	BasicControl();
+
+	m_OBM->GetGameObject<Light>(200)->SetPosition(vec3(
+		InputManager::GetInstance().GetPerspPosition().x,
+		InputManager::GetInstance().GetPerspPosition().y, 
+		.5f));
 
 	// Refresh explosion
 	dt_Stack += gd.dt;

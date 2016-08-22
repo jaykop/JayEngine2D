@@ -19,7 +19,11 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 #include <hash_map>
 #include "../Texture/Texture.h"
 
+class TinyFont;
+class FTPixmapFont;
+
 class Text;
+class Light;
 class Sprite;
 class Emitter;
 class ObjectManager;
@@ -63,6 +67,7 @@ private:
 
 	// Draw sprites
 	void DrawTexts(Text* text);
+	void DrawLights(Light* light);
 	void DrawSprites(Sprite* sprite);
 	void DrawParticle(Emitter* emitter, float dt);
 

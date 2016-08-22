@@ -9,7 +9,7 @@
 	"Object" : [
 		{
 			"ID" : 0, "Type" : "TEXT",
-			"Position" : [ -225, 150, 0 ], "Scale" : [1, 1, 0], "Rotation" : 0,
+			"Position" : [ -225, 150, 5 ], "Scale" : [1, 1, 0], "Rotation" : 0,
 			"Projection" : "ORTHOGONAL", "Color" : [1, 1, 1, 1],
 			"Text" : "Game Engine Demo 0.9v",
 			"FontSize" : 48,
@@ -19,7 +19,7 @@
 		},
 		{
 			"ID" : 1, "Type" : "TEXT",
-			"Position" : [ -225, 130, 0 ], "Scale" : [1, 1, 0], "Rotation" : 0,
+			"Position" : [ -225, 130, 5 ], "Scale" : [1, 1, 0], "Rotation" : 0,
 			"Projection" : "ORTHOGONAL", "Color" : [1, 1, 1, 1],
 			"Text" : "-LV3 stage\n0: Go to Main\n1: Go to Level1\n2: Go to Level2\n4: Go to GameOver Stage\nP: Go to Pause Stage\nR: Restart this level\nESC: Quit the demo\n\nDescription: Test visual effect.\n4 Particle modes, animation functions, wave effect.",
 			"FontSize" : 36

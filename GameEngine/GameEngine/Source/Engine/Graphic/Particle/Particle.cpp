@@ -345,7 +345,7 @@ void Emitter::Render(Particle* particle)
 	particle->SetPosition(vec3(
 		particle->GetPosition().x + new_force.x,
 		particle->GetPosition().y + new_force.y,
-		particle->GetPosition().z));
+		GetPosition().z));
 
 	// Set new fade
 	float new_fade = particle->m_fade * new_force.Length() / m_boundary;

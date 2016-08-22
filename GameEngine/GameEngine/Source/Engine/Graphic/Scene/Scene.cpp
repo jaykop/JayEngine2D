@@ -17,6 +17,7 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 #include "../Scene/Scene.h"
 #include "../Text/Text.h"
 #include "../Sprite/Sprite.h"
+#include "../Light/Light.h"
 #include "../Particle/Particle.h"
 #include "../../Utilities/Random.h"
 #include "../../InputManager/InputManager.h"
@@ -79,8 +80,11 @@ void Scene::Init(const ObjectList& objList)
 
 			// If object is particle
 			// Set basic texture; basic particle
-			if (it->second->GetType() == PARTICLE)
+			else if (it->second->GetType() == PARTICLE)
 				it->second->SetTexture(m_GSM->GetGLManager()->GetTexture(2));
+
+			else if (it->second->GetType() == LIGHT)
+				it->second->SetTexture(m_GSM->GetGLManager()->GetTexture(8));
 		}
 	}
 }
@@ -88,13 +92,16 @@ void Scene::Init(const ObjectList& objList)
 /******************************************************************************/
 /*!
 \brief - Draw sprites
-
 \param sprite - sprite to be drawn
 */
 /******************************************************************************/
 void Scene::DrawSprites(Sprite* sprite)
 {
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	if (sprite->GetID() == 17)
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_DST_ALPHA);
+
+	else
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	//Refresh the buffer data
 	glBufferData(GL_ARRAY_BUFFER, sizeof(m_vertex_buffer_data), m_vertex_buffer_data, GL_STATIC_DRAW);
@@ -109,7 +116,6 @@ void Scene::DrawSprites(Sprite* sprite)
 /******************************************************************************/
 /*!
 \brief - Draw particles
-
 \param particle - particle to be drawn
 */
 /******************************************************************************/
@@ -145,19 +151,11 @@ void Scene::DrawParticle(Emitter* emitter, float dt)
 		// Draw the quad
 		glDrawArrays(GL_QUADS, 0, 4);
 	}
-
-	//Todo: How to make this worked by GPU
-	//Refresh the buffer data
-	//glBufferData(GL_ARRAY_BUFFER, emitter->GetNumOfParticle() * sizeof(emitter->m_particle_buffer_data), NULL, GL_STREAM_DRAW);
-	//glBufferSubData(GL_ARRAY_BUFFER, 0, emitter->GetNumOfParticle() * sizeof(emitter->m_particle_buffer_data), emitter->m_particle_buffer_data);
-	//glBindTexture(GL_TEXTURE_2D, emitter->GetTexture()->GetTexId());
-	//glDrawArraysInstanced(GL_QUADS, 0, 4, emitter->GetNumOfParticle());
 }
 
 /******************************************************************************/
 /*!
 \brief - Draw texts
-
 \param text - text to be drawn
 */
 /******************************************************************************/
@@ -209,6 +207,36 @@ void Scene::DrawTexts(Text* text)
 
 /******************************************************************************/
 /*!
+\brief - Draw light
+\param light - light to be drawn
+*/
+/******************************************************************************/
+void Scene::DrawLights(Light* light)
+{
+	vec3 direction = light->GetDirection(), diffuse = light->GetDiffuse();
+
+	glUniform3f(m_GSM->GetGLManager()->GetUnifrom(LIGHT_DIRECTION), direction.x, direction.y, direction.z);
+	glUniform3f(m_GSM->GetGLManager()->GetUnifrom(LIGHT_DIFFUSE), diffuse.x, diffuse.y, diffuse.z);
+	glUniform1f(m_GSM->GetGLManager()->GetUnifrom(LIGHT_RADIUS), light->GetRadius());
+
+	//glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+	//glBlendFuncSeparate(GL_ZERO, GL_ONE, GL_DST_COLOR, GL_ZERO);
+	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_DST_ALPHA);
+	//glBlendFuncSeparate(GL_DST_ALPHA, GL_ONE,GL_ZERO,GL_ONE_MINUS_SRC_ALPHA);
+	
+	//Refresh the buffer data
+	glBufferData(GL_ARRAY_BUFFER, sizeof(m_vertex_buffer_data), m_vertex_buffer_data, GL_STATIC_DRAW);
+
+	// Bind our texture in Texture Unit 0
+	glBindTexture(GL_TEXTURE_2D, light->GetTexture()->GetTexId());
+
+	// Draw the triangle
+	glDrawArrays(GL_QUADS, 0, 4);
+}
+
+/******************************************************************************/
+/*!
 \brief - Draw Scene
 */
 /******************************************************************************/
@@ -238,18 +266,21 @@ void Scene::Update(const ObjectList& objList, float dt)
 
 			glUniform4f(m_GSM->GetGLManager()->GetUnifrom(COLOR), sptColor.x, sptColor.y, sptColor.z, sptColor.w);
 			glUniform1i(m_GSM->GetGLManager()->GetUnifrom(TYPE), (*it)->GetType());
-			glUniform1f(m_GSM->GetGLManager()->GetUnifrom(TIME), dt);
-			
+
 			//Todo: high quality?
 			//glUniformMatrix4fv();
 
 			// Draw Texts 
 			if ((*it)->GetType() == TEXT)
 				DrawTexts(static_cast<Text*>(*it));
+			
+			else if ((*it)->GetType() == LIGHT)
+				DrawLights(static_cast<Light*>(*it));
 
 			// Draw Sprites
 			else if ((*it)->GetType() == SPRITE)
 				DrawSprites(*it);
+
 		}
 
 		// Draw Particles
@@ -257,9 +288,6 @@ void Scene::Update(const ObjectList& objList, float dt)
 			DrawParticle(static_cast<Emitter*>(*it), dt);
 		
 	}
-
-	//std::cout <<  "\n";
-	//}); //Lambda loop expression
 }
 
 /******************************************************************************/
@@ -308,11 +336,6 @@ void Scene::Pipeline(Sprite* sprite, float dt)
 		* mat44::Rotate(Math::DegToRad(sprite->GetRotation()), vec3(.0f, .0f, 1.f))
 		* mat44::Translate(sprite->GetPosition());
 
-	//calculate fined final matrix
-	//glUniformMatrix4fv(m_GSM->GetGLManager()->GetUnifrom(CAMERA), 1, GL_FALSE, &camera.m_member[0][0]);
-	//glUniformMatrix4fv(m_GSM->GetGLManager()->GetUnifrom(PROJECTION), 1, GL_FALSE, &projection.m_member[0][0]);
-	//glUniformMatrix4fv(m_GSM->GetGLManager()->GetUnifrom(MODEL), 1, GL_FALSE, &model.m_member[0][0]);
-
 	m_mvp = projection.Transpose() * camera.Transpose() * model.Transpose();
 	m_mvp = m_mvp.Transpose();
 
@@ -346,11 +369,11 @@ void Scene::Pipeline(Sprite* sprite, float dt)
 		m_phase.y += sprite->GetWavePhase().y * dt;
 		if (m_phase.x < -1.f || m_phase.y > 1.f)
 			m_phase.x = m_phase.y = 0.f;
-
-		glUniform1d(m_GSM->GetGLManager()->GetUnifrom(WAVE), sprite->GetWaveToggle());
-		glUniform2f(m_GSM->GetGLManager()->GetUnifrom(PHASE), m_phase.x, m_phase.y);
 	}
-
+	
+	glUniform1d(m_GSM->GetGLManager()->GetUnifrom(WAVE), sprite->GetWaveToggle());
+	glUniform2f(m_GSM->GetGLManager()->GetUnifrom(PHASE), m_phase.x, m_phase.y);
+	
 }
 
 /******************************************************************************/

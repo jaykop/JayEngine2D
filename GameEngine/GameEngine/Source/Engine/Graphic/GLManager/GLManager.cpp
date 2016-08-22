@@ -176,7 +176,7 @@ bool GLManager::CheckGL(Application* pApp, HWND& window)
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glDepthFunc(GL_LEQUAL);
-	
+
 	return true;
 }
 
@@ -247,16 +247,19 @@ void GLManager::InitGL(Application* pApp, HWND& window, int width, int height)
 			glUseProgram(m_shader.m_programID);
 
 			// Normal uniforms
-			//m_uniform[TRANSFORM] = glGetUniformLocation(m_shader.m_programID, "MVP");	//Trasnform Matrix
-			m_uniform[CAMERA] = glGetUniformLocation(m_shader.m_programID, "Camera");	//Trasnform Matrix
-			m_uniform[PROJECTION] = glGetUniformLocation(m_shader.m_programID, "Projection");	//Trasnform Matrix
-			m_uniform[MODEL] = glGetUniformLocation(m_shader.m_programID, "Model");		//Trasnform Matrix
+			m_uniform[TRANSFORM] = glGetUniformLocation(m_shader.m_programID, "MVP");	//Trasnform Matrix
 			m_uniform[UV] = glGetUniformLocation(m_shader.m_programID, "Animation");	//UV
 			m_uniform[COLOR] = glGetUniformLocation(m_shader.m_programID, "Color");		//Coloring
-			m_uniform[TIME] = glGetUniformLocation(m_shader.m_programID, "Time");		//Timer
 			m_uniform[TYPE] = glGetUniformLocation(m_shader.m_programID, "Type");		//Object Type
+			
+			// Wave info
 			m_uniform[PHASE] = glGetUniformLocation(m_shader.m_programID, "Phase");		//Wave phase
 			m_uniform[WAVE] = glGetUniformLocation(m_shader.m_programID, "Wave");		//Wave boolean
+
+			// Light info
+			m_uniform[LIGHT_DIFFUSE] = glGetUniformLocation(m_shader.m_programID, "LightDiff");			// Light Diffuse
+			m_uniform[LIGHT_DIRECTION] = glGetUniformLocation(m_shader.m_programID, "LightPosition");	// Light Position
+			m_uniform[LIGHT_RADIUS] = glGetUniformLocation(m_shader.m_programID, "LightRadius");		// Light Radius
 
 			// Set "Texture" sampler to user Texture Unit 0
 			m_uniform[TEXTURE] = glGetUniformLocation(m_shader.m_programID, "Texture");

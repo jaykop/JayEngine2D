@@ -16,6 +16,7 @@
 		{"key" : 4, "directory" : "Resource/Texture/buttons/toggle.png"},
 		{"key" : 5, "directory" : "Resource/Texture/snowflake.png"},
 		{"key" : 6, "directory" : "Resource/Texture/test.png"},
-		{"key" : 7, "directory" : "Resource/Texture/animation.png"}
+		{"key" : 7, "directory" : "Resource/Texture/animation.png"},
+		{"key" : 8, "directory" : "Resource/Texture/light.png"}
 	]
 }

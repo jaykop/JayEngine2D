@@ -18,9 +18,11 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 #include "../../Engine/App/Application.h"
 
 // Graphic Header
+#include "../../Engine/Graphic/Scene/Scene.h"
+#include "../../Engine/Graphic/Light/Light.h"
 #include "../../Engine/Graphic/Sprite/Sprite.h"
 #include "../../Engine/Graphic/Particle/Particle.h"
-#include "../../Engine/Graphic/Scene/Scene.h"
+
 
 // Physics Header
 #include "../../Engine/Physics/World/World.h"

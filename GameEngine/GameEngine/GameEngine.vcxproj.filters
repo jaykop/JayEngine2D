@@ -110,9 +110,6 @@
     <ClCompile Include="Source\Engine\Graphic\Particle\Particle.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Engine\Graphic\GLManager\GLManager.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Engine\Logic\LogicFactory\LogicFactory.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -144,6 +141,12 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Source\Engine\Sound\Audio\Audio.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Graphic\Light\Light.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Graphic\GLManager\GLManager.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -277,9 +280,6 @@
     <ClInclude Include="Source\Engine\Graphic\Particle\Particle.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Engine\Graphic\GLManager\GLManager.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Engine\Logic\LogicFactory\LogicFactory.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
@@ -311,6 +311,12 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Source\Engine\Sound\Audio\Audio.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Graphic\Light\Light.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Graphic\GLManager\GLManager.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
