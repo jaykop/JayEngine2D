@@ -149,7 +149,7 @@
     <ClCompile Include="Source\Engine\Graphic\GLManager\GLManager.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Engine\Graphic\Light\Darkness.cpp">
+    <ClCompile Include="Source\Engine\Graphic\Effect\Effect.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -323,6 +323,9 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Source\Engine\Graphic\Light\Darkness.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Graphic\Effect\Effect.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

@@ -9,7 +9,7 @@
 Contains stages' headers.
 This will be called at application files
 
-All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
+All codes are written by Jaykop Jeong...
 */
 /******************************************************************************/
 

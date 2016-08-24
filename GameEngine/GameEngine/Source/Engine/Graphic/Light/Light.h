@@ -8,9 +8,12 @@
 \description
 Contains Light's class and member
 
-All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
+All codes are written by Jaykop Jeong...
 */
 /******************************************************************************/
+#ifndef _LIGHT_H_
+#define _LIGHT_H_
+
 #include "../Sprite/Sprite.h"
 
 //! Light class
@@ -40,3 +43,5 @@ private:
 	float m_radius;
 
 };
+
+#endif // _LIGHT_H_

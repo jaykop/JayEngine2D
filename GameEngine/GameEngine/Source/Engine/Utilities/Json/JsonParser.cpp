@@ -8,7 +8,7 @@
 \description
 Contains JsonParser's class and member function
 
-All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
+All codes are written by Jaykop Jeong...
 */
 /******************************************************************************/
 
@@ -443,6 +443,10 @@ void JsonParser::LoadObjects(ObjectManager* obm)
 				// Load logics
 				if ((*it).isMember("Logic"))
 					LoadLogics(it, obm->GetGameObject<Object>(id));
+
+				// Load effects
+				if ((*it).isMember("Effect"))
+					LoadEffects(it, obm->GetGameObject<Sprite>(id));
 			}
 		}
 	}
@@ -515,20 +519,6 @@ void JsonParser::LoadBasicObject(Json::Value::iterator& it, Sprite* sprite)
 			(*it)["Color"][1].asFloat(),
 			(*it)["Color"][2].asFloat(),
 			(*it)["Color"][3].asFloat()));
-	}
-
-	if ((*it).isMember("Wave") &&
-		(*it)["Wave"].isBool())
-		sprite->ActivateWaveToggle((*it)["Wave"].asBool());	
-
-	if ((*it).isMember("Phase") &&
-		(*it)["Phase"].isArray() &&
-		(*it)["Phase"].size() == 2 &&
-		(*it)["Phase"][0].isNumeric())
-	{
-		sprite->SetWavePhase(vec2(
-			(*it)["Phase"][0].asFloat(),
-			(*it)["Phase"][1].asFloat()));
 	}
 
 	if ((*it).isMember("Animation") &&
@@ -644,24 +634,97 @@ void JsonParser::LoadBasicObject(Json::Value::iterator& it, Sprite* sprite)
 /******************************************************************************/
 void JsonParser::LoadLogics(Json::Value::iterator& it, Object* object)
 {
-	if ((*it).isMember("Logic"))
+	for (auto logic = (*it)["Logic"].begin();
+		logic != (*it)["Logic"].end(); ++logic)
 	{
-		for (auto logic = (*it)["Logic"].begin();
-			logic != (*it)["Logic"].end(); ++logic)
+		if ((*logic).isMember("key"))
 		{
-			if ((*logic).isMember("key"))
+			GameLogic* newLogic = LogicFactory::CreateLogic((*logic)["key"].asInt(), object);
+			if (newLogic)
 			{
-				GameLogic* newLogic = LogicFactory::CreateLogic((*logic)["key"].asInt(), object);
-				if (newLogic)
+				if ((*logic).isMember("values"))
 				{
-					if ((*logic).isMember("values"))
+					newLogic->Load((*logic)["values"]);
+					object->AddLogic(newLogic);
+				}
+			}
+			else std::cerr << "Error: Cannot make new logic" << (*logic)["key"].asInt() << std::endl;
+		}
+	}
+}
+
+/******************************************************************************/
+/*!
+\brief - Init effects to sprite
+\parma it - iterator from json value
+\param Object - pointer to Object to set
+*/
+/******************************************************************************/
+void JsonParser::LoadEffects(Json::Value::iterator& it, Sprite* sprite)
+{
+	for (auto effect = (*it)["Effect"].begin();
+		effect != (*it)["Effect"].end(); ++effect)
+	{
+		if ((*effect).isMember("type") &&
+			(*effect)["type"].isString())
+		{
+			if (!strcmp((*effect)["type"].asCString(), "WAVE"))
+			{
+				sprite->AddEffect(WAVE);
+				sprite->GetEffect(WAVE)->ActivateWaveToggle(true);
+
+				if ((*effect).isMember("values"))
+				{
+					auto value = (*effect)["values"];
+					if (value.isMember("Phase") &&
+						value["Phase"].isArray() &&
+						value["Phase"].size() == 2 &&
+						value["Phase"][0].isNumeric())
 					{
-						newLogic->Load((*logic)["values"]);
-						object->AddLogic(newLogic);
+						sprite->GetEffect(WAVE)->SetWavePhase(vec2(
+							value["Phase"][0].asFloat(),
+							value["Phase"][1].asFloat()));
 					}
 				}
-				else std::cerr << "Error: Cannot make new logic" << (*logic)["key"].asInt() << std::endl;
 			}
+
+			else if (!strcmp((*effect)["type"].asCString(), "BLUR"))
+			{
+				sprite->AddEffect(BLUR);
+				sprite->GetEffect(BLUR)->ActivateWaveToggle(true);
+
+				//Todo: Other effect..
+				if ((*effect).isMember("values"))
+				{
+					auto value = (*effect)["values"];
+				}
+			}
+
+			else if (!strcmp((*effect)["type"].asCString(), "SOBEL"))
+			{
+				sprite->AddEffect(SOBEL);
+				sprite->GetEffect(SOBEL)->ActivateWaveToggle(true);
+
+				//Todo: Other effect..
+				if ((*effect).isMember("values"))
+				{
+					auto value = (*effect)["values"];
+				}
+			}
+
+			else if (!strcmp((*effect)["type"].asCString(), "MANIPULATION"))
+			{
+				sprite->AddEffect(MANIPULATION);
+				sprite->GetEffect(MANIPULATION)->ActivateWaveToggle(true);
+
+				//Todo: Other effect..
+				if ((*effect).isMember("values"))
+				{
+					auto value = (*effect)["values"];
+				}
+			}
+
+			else std::cerr << "Error: Cannot make new effect" << (*effect)["type"].asCString() << std::endl;
 		}
 	}
 }

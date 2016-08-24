@@ -8,7 +8,7 @@
 \description
 Contains JsonParser's class and members
 
-All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
+All codes are written by Jaykop Jeong...
 */
 /******************************************************************************/
 
@@ -53,6 +53,7 @@ private:
 	void LoadObjects(ObjectManager* obm);
 	void LoadBasicObject(Json::Value::iterator& it, Sprite* sprite);
 	void LoadLogics(Json::Value::iterator& it, Object* object);
+	void LoadEffects(Json::Value::iterator& it, Sprite* sprite);
 
 	std::string str;
 	Converter m_converter;

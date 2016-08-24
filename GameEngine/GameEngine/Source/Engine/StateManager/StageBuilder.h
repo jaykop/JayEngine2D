@@ -7,7 +7,7 @@
 
 \description
 Contains Builder's class and members
-All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
+All codes are written by Jaykop Jeong...
 */
 /******************************************************************************/
 #ifndef _BUILDER_H_

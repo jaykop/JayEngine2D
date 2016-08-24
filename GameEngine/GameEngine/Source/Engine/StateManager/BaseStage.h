@@ -8,7 +8,7 @@
 \description
 Contains base stage, base utils' header files consists of stage(state)
 
-All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
+All codes are written by Jaykop Jeong...
 */
 /******************************************************************************/
 

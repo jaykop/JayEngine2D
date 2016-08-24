@@ -8,7 +8,7 @@
 \description
 Contains Scene's class functions
 
-All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
+All codes are written by Jaykop Jeong...
 */
 /******************************************************************************/
 
@@ -141,8 +141,8 @@ void Scene::DrawParticle(Emitter* emitter, float dt)
 		glUniformMatrix4fv(m_GSM->GetGLManager()->GetUnifrom(TRANSFORM), 1, GL_FALSE, &m_mvp.m_member[0][0]);
 		glUniformMatrix4fv(m_GSM->GetGLManager()->GetUnifrom(UV), 1, GL_FALSE, &m_animation.m_member[0][0]);
 		glUniform4f(m_GSM->GetGLManager()->GetUnifrom(COLOR), sptColor.x, sptColor.y, sptColor.z, (*it)->m_life);
-		glUniform1d(m_GSM->GetGLManager()->GetUnifrom(WAVE), (*it)->GetWaveToggle());
-		glUniform2f(m_GSM->GetGLManager()->GetUnifrom(PHASE), m_phase.x, m_phase.y);
+		//glUniform1d(m_GSM->GetGLManager()->GetUnifrom(WAVE_TOGGLE), (*it)->GetWaveToggle());
+		//glUniform2f(m_GSM->GetGLManager()->GetUnifrom(WAVE_PHASE), m_phase.x, m_phase.y);
 
 		emitter->Update((*it));
 
@@ -373,17 +373,30 @@ void Scene::Pipeline(Sprite* sprite, float dt)
 	m_animation = m_animation * mat44::Translate(vec3(sprite->GetCurrentScene(), 0.f));
 	glUniformMatrix4fv(m_GSM->GetGLManager()->GetUnifrom(UV), 1, GL_FALSE, &m_animation.m_member[0][0]);
 
-	if (sprite->GetWaveToggle())
+	if (sprite->HasEffect())
 	{
-		m_phase.x -= sprite->GetWavePhase().x * dt;
-		m_phase.y += sprite->GetWavePhase().y * dt;
-		if (m_phase.x < -1.f || m_phase.y > 1.f)
-			m_phase.x = m_phase.y = 0.f;
+		// Wave effect part...
+		auto wave_effect = sprite->GetEffect(WAVE);
+		if (wave_effect->GetWaveToggle())
+		{
+			m_phase.x -= wave_effect->GetWavePhase().x * dt;
+			m_phase.y += wave_effect->GetWavePhase().y * dt;
+			if (m_phase.x < -1.f || m_phase.y > 1.f)
+				m_phase.x = m_phase.y = 0.f;
+
+			glUniform1d(m_GSM->GetGLManager()->GetUnifrom(WAVE_TOGGLE), sprite->GetEffect(WAVE)->GetWaveToggle());
+		}
 	}
-	
-	glUniform1d(m_GSM->GetGLManager()->GetUnifrom(WAVE_TOGGLE), sprite->GetWaveToggle());
+
+	else
+	{
+		glUniform1d(m_GSM->GetGLManager()->GetUnifrom(WAVE_TOGGLE), sprite->HasEffect());
+		//glUniform1d(m_GSM->GetGLManager()->GetUnifrom(SOBEL_TOGGLE), sprite->HasEffect());
+		//glUniform1d(m_GSM->GetGLManager()->GetUnifrom(BLUR_TOGGLE), sprite->HasEffect());
+		//glUniform1d(m_GSM->GetGLManager()->GetUnifrom(MANIP_TOGGLE), sprite->HasEffect());
+	}
+
 	glUniform2f(m_GSM->GetGLManager()->GetUnifrom(WAVE_PHASE), m_phase.x, m_phase.y);
-	
 }
 
 /******************************************************************************/

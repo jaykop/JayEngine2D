@@ -8,7 +8,7 @@
 \description
 Contains Sprite's class functions
 
-All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
+All codes are written by Jaykop Jeong...
 */
 /******************************************************************************/
 
@@ -28,8 +28,7 @@ Sprite::Sprite(const int id, ObjectManager* obm)
 :m_texture(0), ani_frame(1), ani_speed(0), m_curScene(0),
 m_degree(0), m_color(vec4(1.f, 1.f, 1.f, 1.f)),
 m_HasBody(false), m_body(0), m_prjt(PERSPECTIVE), ani_play(false),
-m_position(vec3(0.f, 0.f, 0.f)), m_scale(vec3(5.f, 5.f, 0.f)),
-m_wave(false), m_phase(vec2(0, 0))
+m_position(vec3(0.f, 0.f, 0.f)), m_scale(vec3(5.f, 5.f, 0.f))
 {
 	SetID(id);
 	SetType(SPRITE);
@@ -86,6 +85,7 @@ Sprite::~Sprite(void)
 		m_body = 0;
 	}
 
+	ClearEffectMap();
 	ClearLogicList();
 }
 
@@ -414,44 +414,111 @@ bool Sprite::GetPlayToggle(void) const
 
 /******************************************************************************/
 /*!
-\brief - Activate wave toggle
-\param toggle - wave toggle
+\brief - Add effect to sprite's effect map
+\param effect
 */
 /******************************************************************************/
-void Sprite::ActivateWaveToggle(bool toggle)
+void Sprite::AddEffect(EffectType effect)
 {
-	m_wave = toggle;
+	//Get object
+	auto it = m_effectMap.find(effect);
+
+	//Compare the id from user input
+	if (it == m_effectMap.end())
+		m_effectMap.insert(EffectMap::value_type(
+		effect, new Effect(this)));
 }
 
 /******************************************************************************/
 /*!
-\brief - Get wave toggle
-\return m_wave - wave toggle
+\brief - Get specific Effect
+\param effect
+\return m_phase
 */
 /******************************************************************************/
-bool Sprite::GetWaveToggle(void) const
+Effect* Sprite::GetEffect(EffectType effect) const
 {
-	return m_wave;
+	//Get object
+	auto it = m_effectMap.find(effect);
+
+	//Compare the id from user input
+	if (it != m_effectMap.end())
+		return (*it).second;
+
+	return nullptr;
 }
 
 /******************************************************************************/
 /*!
-\brief - Set vector2 phase
-\param phase - vector phase
+\brief - Check if there is specifc effect
+\param effect
+\return boolean
 */
 /******************************************************************************/
-void Sprite::SetWavePhase(vec2 phase)
+bool Sprite::HasEffect(EffectType effect) const
 {
-	m_phase = phase;
+	// If there is specific input,
+	if (effect)
+	{
+		//Get object
+		auto it = m_effectMap.find(effect);
+
+		//Compare the id from user input
+		if (it != m_effectMap.end())
+			return true;
+
+		return false;
+	}
+
+	// Unless...
+	else
+		return (m_effectMap.size() == 0) ? false : true;
 }
 
 /******************************************************************************/
 /*!
-\brief - Get phase vector
-\return m_phase 
+\brief - Delete effect
+\param effect
 */
 /******************************************************************************/
-const vec2& Sprite::GetWavePhase(void) const
+void Sprite::RemoveEffect(EffectType effect)
 {
-	return m_phase;
+	//Delete it
+	auto found = m_effectMap.find(effect)->second;
+	if (found)
+	{
+		delete found;
+		found = 0;
+		m_effectMap.erase(effect);
+	}
+}
+
+/******************************************************************************/
+/*!
+\brief - Get the number of effect belongs to the sprite
+\return m_effectMap.size();
+*/
+/******************************************************************************/
+int Sprite::GetNumOfEffect(void) const
+{
+	return m_effectMap.size();
+}
+
+/******************************************************************************/
+/*!
+\brief - Clear all effect in the map
+*/
+/******************************************************************************/
+void Sprite::ClearEffectMap(void)
+{
+	for (auto it = m_effectMap.begin(); it != m_effectMap.end(); ++it)
+	{
+		if (it->second)
+		{
+			delete it->second;
+			it->second = 0;
+		}
+	}
+
+	m_effectMap.clear();
 }

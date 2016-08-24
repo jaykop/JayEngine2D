@@ -33,7 +33,7 @@ vec4 RippleEffect( vec2 texCoord )
 		vec2 cPos = -1.0 + 2.0 * texCoord.xy / vec2(1, 1).xy;
 		float cLength = length(cPos);
 
-		vec2 uv = texCoord.xy/vec2(1, 1).xy+(cPos/cLength)*cos(cLength*12.0-Time*4.0)*0.03;
+		vec2 uv = texCoord.xy/vec2(1, 1).xy+(cPos/cLength)*cos(cLength*63.0-Time*4.0)*0.03;
 		vec3 col = texture2D(Texture,uv).xyz;
 
 		return vec4(col,1.0);
@@ -54,7 +54,7 @@ void main()
 	
 	// If not,
 	else	{
-		//finalColor = fragmentColor * texture(Texture, SineWave(fragTexCoord));
-		finalColor = RippleEffect(fragTexCoord);
+		finalColor = fragmentColor * texture(Texture, SineWave(fragTexCoord));
+		//finalColor = RippleEffect(fragTexCoord);
 	}
 }

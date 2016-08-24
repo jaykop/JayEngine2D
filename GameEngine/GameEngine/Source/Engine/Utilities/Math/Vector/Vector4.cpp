@@ -8,7 +8,7 @@
 \description
 Contains Vector4's template class and member function
 
-All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
+All codes are written by Jaykop Jeong...
 */
 /******************************************************************************/
 #include "Vector3.h"

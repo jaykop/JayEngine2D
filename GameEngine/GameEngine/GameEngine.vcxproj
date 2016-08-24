@@ -87,9 +87,7 @@
     <ClCompile Include="Include\jsoncpp.cpp" />
     <ClCompile Include="Include\LodePNG\lodepng.cpp" />
     <ClCompile Include="Source\Engine\App\Application.cpp" />
-    <ClCompile Include="Source\Engine\Graphic\Light\Darkness.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
+    <ClCompile Include="Source\Engine\Graphic\Effect\Effect.cpp" />
     <ClCompile Include="Source\Engine\Graphic\Light\Light.cpp" />
     <ClCompile Include="Source\Engine\Graphic\Particle\Particle.cpp" />
     <ClCompile Include="Source\Engine\Logic\GameLogic\GameLogic.cpp" />
@@ -156,6 +154,7 @@
     <ClInclude Include="Include\LodePNG\lodepng.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Source\Engine\App\Application.h" />
+    <ClInclude Include="Source\Engine\Graphic\Effect\Effect.h" />
     <ClInclude Include="Source\Engine\Graphic\Light\Darkness.h" />
     <ClInclude Include="Source\Engine\Graphic\Light\Light.h" />
     <ClInclude Include="Source\Engine\Graphic\Particle\Particle.h" />

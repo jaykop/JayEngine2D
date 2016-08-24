@@ -13,7 +13,7 @@ Custom Matrix looks like this...
 0	[ 00 10 ]
 1	[ 01 11 ]
 
-All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
+All codes are written by Jaykop Jeong...
 */
 /******************************************************************************/
 

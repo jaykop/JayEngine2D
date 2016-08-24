@@ -63,7 +63,7 @@
 		},
 		{
 			"ID" : 15, "Type" : "SPRITE",
-			"Position" : [ 50, 0., 0 ], "Scale" : [25, 25, 0], "Rotation" : 0,
+			"Position" : [ 50, 0, 0 ], "Scale" : [25, 25, 0], "Rotation" : 0,
 			"Projection" : "PERSPECTIVE", "Color" : [1, 1, 1, 1],
 			"Texture" : 6
 		},
@@ -71,13 +71,16 @@
 			"ID" : 16, "Type" : "SPRITE",
 			"Position" : [ 50, -30, 0 ], "Scale" : [25, 25, 0], "Rotation" : 0,
 			"Projection" : "PERSPECTIVE", "Color" : [1, 1, 1, 1],
-			"Texture" : 6,	"Wave" : true, "Phase" : [0, 0.5]
+			"Texture" : 6,
+			"Effect" : [
+				{ "type" : "WAVE", "values" : {"Phase" : [1, 1]} }
+			]
 		},
 		{
 			"ID" : 17, "Type" : "LIGHT",
-			"Position" : [ 0, 0, 0 ], "Scale" : [25, 25, 0],
+			"Position" : [ 0, 0, 0 ], "Scale" : [100, 100, 0],
 			"Projection" : "PERSPECTIVE",
-			"Diffuse" : [0, 0, 0], "Radius" : 25, "Distance" : 5
+			"Diffuse" : [0, 0, 0], "Radius" : 100, "Distance" : 0
 		},
 		{
 			"ID" : 18, "Type" : "DARKNESS"

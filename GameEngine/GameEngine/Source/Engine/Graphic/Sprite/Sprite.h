@@ -8,13 +8,14 @@
 \description
 Contains Sprite's class and members
 
-All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
+All codes are written by Jaykop Jeong...
 */
 /******************************************************************************/
 
 #ifndef _SPRITE_H_
 #define _SPRITE_H_
 
+#include "../Effect/Effect.h"
 #include "../Texture/Texture.h"
 #include "../../Utilities/Time.h"
 #include "../../ObjectManager/Object/Object.h"
@@ -22,7 +23,10 @@ All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
 //! Sprite's prohection type
 enum Projt { PERSPECTIVE, ORTHOGONAL };
 
+class Effect;
 class RigidBody;
+
+typedef std::hash_map<EffectType, Effect*> EffectMap;
 
 //! Sprite class
 class Sprite : public Object
@@ -62,12 +66,6 @@ public:
 	void SetProjectionType(Projt projection);
 	Projt GetProjectionType(void) const;
 
-	// Wave effect function
-	void ActivateWaveToggle(bool toggle);
-	bool GetWaveToggle(void) const;
-	void SetWavePhase(vec2 phase);
-	const vec2& GetWavePhase(void) const;
-
 	// Animation functions
 	// For users
 	void PlayAnimation(bool play);				// Set play toggle
@@ -76,6 +74,14 @@ public:
 	void FixAnimation(int fixed_frame);			// Set fixed scene
 	int GetAnimationFrame(void) const;			// Get the nimber of scene  
 	float GetAnimationSpeed(void) const;		// Get the animation speed
+
+	// Effect functions
+	void AddEffect(EffectType effect);
+	Effect* GetEffect(EffectType effect) const;
+	bool HasEffect(EffectType effect = NONE) const;
+	void RemoveEffect(EffectType effect);
+	int GetNumOfEffect(void) const;
+	void ClearEffectMap(void);
 
 	// For developers
 	float GetDividedSpeed(void) const;		// Get divided speed 
@@ -105,13 +111,12 @@ private:
 	float m_curScene;
 	Texture* m_texture;
 
-	// Wave info
-	bool m_wave;
-	vec2 m_phase;
-
 	// Physics Info
 	bool m_HasBody;
 	RigidBody* m_body;
+
+	// Effect info
+	EffectMap m_effectMap;
 
 };
 

@@ -8,9 +8,11 @@
 \description
 Contains Darkness's class and member
 
-All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
+All codes are written by Jaykop Jeong...
 */
 /******************************************************************************/
+#ifndef _DARKNESS_H_
+#define _DARKNESS_H_
 
 #include "../Sprite/Sprite.h"
 #include "../../ObjectManager/ObjectManager.h"
@@ -39,3 +41,5 @@ public:
 private:
 
 };
+
+#endif // _DARKNESS_H_

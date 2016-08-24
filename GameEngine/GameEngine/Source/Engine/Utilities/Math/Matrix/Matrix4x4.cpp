@@ -15,7 +15,7 @@ Custom Matrix looks like this...
 	2	[ 02 12 22 32 ]
 	3	[ 03 13 23 33 ]
 
-All content (C) 2016 DigiPen (USA) Corporation, all rights reserved.
+All codes are written by Jaykop Jeong...
 */
 /******************************************************************************/
 
