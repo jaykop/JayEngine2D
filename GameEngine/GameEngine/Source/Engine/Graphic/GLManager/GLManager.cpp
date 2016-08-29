@@ -17,6 +17,8 @@ All codes are written by Jaykop Jeong...
 #include "../../App/Application.h"
 #include "../../Utilities/Debug/Debug.h"
 
+GLuint	base;				// Base Display List For The Font Set
+
 /******************************************************************************/
 /*!
 \brief - GLManager Constructor
@@ -531,3 +533,78 @@ void GLManager::SetFontSize(unsigned fontSize)
 {
 	m_fontSize = fontSize;
 }
+
+//GLvoid GLManager::BuildFont(GLvoid)								// Build Our Bitmap Font
+//{
+//	HFONT	font;										// Windows Font ID
+//	HFONT	oldfont;									// Used For Good House Keeping
+//
+//	base = glGenLists(96);								// Storage For 96 Characters
+//
+//	font = CreateFont(-24,							// Height Of Font
+//		0,								// Width Of Font
+//		0,								// Angle Of Escapement
+//		0,								// Orientation Angle
+//		FW_BOLD,						// Font Weight
+//		FALSE,							// Italic
+//		FALSE,							// Underline
+//		FALSE,							// Strikeout
+//		ANSI_CHARSET,					// Character Set Identifier
+//		OUT_TT_PRECIS,					// Output Precision
+//		CLIP_DEFAULT_PRECIS,			// Clipping Precision
+//		ANTIALIASED_QUALITY,			// Output Quality
+//		FF_DONTCARE | DEFAULT_PITCH,		// Family And Pitch
+//		L"Times New Roman");					// Font Name
+//
+//	oldfont = (HFONT)SelectObject(m_hdc, font);           // Selects The Font We Want
+//	wglUseFontBitmaps(m_hdc, 32, 96, base);				// Builds 96 Characters Starting At Character 32
+//	SelectObject(m_hdc, oldfont);							// Selects The Font We Want
+//	DeleteObject(font);									// Delete The Font
+//}
+//
+//GLvoid GLManager::KillFont(GLvoid)									// Delete The Font List
+//{
+//	glDeleteLists(base, 96);							// Delete All 96 Characters
+//}
+//
+//GLvoid GLManager::glPrint(const char *fmt, ...)					// Custom GL "Print" Routine
+//{
+//	glLoadIdentity();									// Reset The Current Modelview Matrix
+//	glTranslatef(0.0f, 0.0f, -1.0f);						// Move One Unit Into The Screen
+//
+//	// Blue Text
+//	glColor3ub(0, 0, 0xff);
+//
+//	// Position The WGL Text On The Screen
+//	glRasterPos2f(-0.40f, 0.35f);
+//
+//	// Here We Print Some Text Using Our FreeType Font
+//	// The only really important command is the actual print() call,
+//	// but for the sake of making the results a bit more interesting
+//	// I have put in some code to rotate and scale the text.
+//
+//	// Red text
+//	glColor3ub(0xff, 0, 0);
+//
+//	glPushMatrix();
+//	glLoadIdentity();
+//	glRotatef(0, 0, 0, 1);
+//	glScalef(1, 1, 1);
+//	glTranslatef(-180, 0, 0);
+//
+//	char		text[256];								// Holds Our String
+//	va_list		ap;										// Pointer To List Of Arguments
+//
+//	if (fmt == NULL)									// If There's No Text
+//		return;											// Do Nothing
+//
+//	va_start(ap, fmt);									// Parses The String For Variables
+//	vsprintf_s(text, fmt, ap);						// And Converts Symbols To Actual Numbers
+//	va_end(ap);											// Results Are Stored In Text
+//
+//	glPushAttrib(GL_LIST_BIT);							// Pushes The Display List Bits
+//	glListBase(base - 32);								// Sets The Base Character to 32
+//	glCallLists(strlen(text), GL_UNSIGNED_BYTE, text);	// Draws The Display List Text
+//	glPopAttrib();										// Pops The Display List Bits
+//	glPopMatrix();
+//}

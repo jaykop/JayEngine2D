@@ -122,6 +122,10 @@ public:
 		return gl_app;
 	}
 
+	//GLvoid BuildFont(GLvoid);								// Build Our Bitmap Font
+	//GLvoid KillFont(GLvoid);								// Delete The Font List
+	//GLvoid glPrint(const char *fmt, ...);
+
 private:
 
 	//! Basic info

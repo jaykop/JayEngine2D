@@ -152,6 +152,9 @@
     <ClCompile Include="Source\Engine\Graphic\Effect\Effect.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Engine\Graphic\NewText\NewText.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -326,6 +329,9 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Source\Engine\Graphic\Effect\Effect.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Graphic\NewText\NewText.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

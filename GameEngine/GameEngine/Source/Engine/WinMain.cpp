@@ -48,7 +48,8 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE /*prev*/,
 	//! Load ini setting values
 	iniReader LoadSetting("Resource/Data/Settings.ini");
 	Title = LoadSetting.ReadString("Setting", "Title");
-	Resolution = LoadSetting.ReadInt("Setting", "Resolution");
+	Resolution = LoadSetting.ReadInt
+		("Setting", "Resolution");
 	ScreenMode = LoadSetting.ReadBool("Setting", "FullScreen");
 	
 	//! Values to init my application from main, these could be read from a file

@@ -3,6 +3,7 @@
 
 #include "../../Engine/StateManager/BaseStage.h"
 #include "../../Engine/StateManager/StageBuilder.h"
+//#include "../../Engine/Graphic/NewText/NewText.h"
 
 class MenuStage : public Stage
 {

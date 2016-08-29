@@ -55,6 +55,36 @@ void main()
 	// If not,
 	else	{
 		finalColor = fragmentColor * texture(Texture, SineWave(fragTexCoord));
+		
+		// Manipulation effect...
+		//vec3 manip = vec3(1.0, 1.0, 1.0) - finalColor.xyz;
+		//finalColor = vec4(manip, finalColor.w);
+		
+		// Ripple Effect...
 		//finalColor = RippleEffect(fragTexCoord);
+		
+		// Blur effect...
+		//const float blurH = 1.0 / 300.0;
+		//const float blurV = 1.0 / 300.0;
+		//vec4 sum = vec4(0.0);
+		//for (int x = -4; x <= 4; x++)
+			//for (int y = -4; y <= 4; y++)
+				//sum += texture(
+					//Texture, vec2(fragTexCoord.x + x * blurH, fragTexCoord.y + y * blurV)) / 81.0;
+		//finalColor = sum;
+		
+		// Sobel effect...
+		//vec4 top         = texture(Texture, vec2(fragTexCoord.x, fragTexCoord.y + 1.0 / 200.0));
+		//vec4 bottom      = texture(Texture, vec2(fragTexCoord.x, fragTexCoord.y - 1.0 / 200.0));
+		//vec4 left        = texture(Texture, vec2(fragTexCoord.x - 1.0 / 300.0, fragTexCoord.y));
+		//vec4 right       = texture(Texture, vec2(fragTexCoord.x + 1.0 / 300.0, fragTexCoord.y));
+		//vec4 topLeft     = texture(Texture, vec2(fragTexCoord.x - 1.0 / 300.0, fragTexCoord.y + 1.0 / 200.0));
+		//vec4 topRight    = texture(Texture, vec2(fragTexCoord.x + 1.0 / 300.0, fragTexCoord.y + 1.0 / 200.0));
+		//vec4 bottomLeft  = texture(Texture, vec2(fragTexCoord.x - 1.0 / 300.0, fragTexCoord.y - 1.0 / 200.0));
+		//vec4 bottomRight = texture(Texture, vec2(fragTexCoord.x + 1.0 / 300.0, fragTexCoord.y - 1.0 / 200.0));
+		//vec4 sx = -topLeft - 2 * left - bottomLeft + topRight   + 2 * right  + bottomRight;
+		//vec4 sy = -topLeft - 2 * top  - topRight   + bottomLeft + 2 * bottom + bottomRight;
+		//vec4 sobel = sqrt(sx * sx + sy * sy);
+		//finalColor = sobel;
 	}
 }

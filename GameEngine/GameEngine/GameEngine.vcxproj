@@ -89,6 +89,10 @@
     <ClCompile Include="Source\Engine\App\Application.cpp" />
     <ClCompile Include="Source\Engine\Graphic\Effect\Effect.cpp" />
     <ClCompile Include="Source\Engine\Graphic\Light\Light.cpp" />
+    <ClCompile Include="Source\Engine\Graphic\NewText\NewText.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="Source\Engine\Graphic\Particle\Particle.cpp" />
     <ClCompile Include="Source\Engine\Logic\GameLogic\GameLogic.cpp" />
     <ClCompile Include="Source\Engine\Logic\LogicFactory\LogicFactory.cpp" />
@@ -157,6 +161,10 @@
     <ClInclude Include="Source\Engine\Graphic\Effect\Effect.h" />
     <ClInclude Include="Source\Engine\Graphic\Light\Darkness.h" />
     <ClInclude Include="Source\Engine\Graphic\Light\Light.h" />
+    <ClInclude Include="Source\Engine\Graphic\NewText\NewText.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="Source\Engine\Graphic\Particle\Particle.h" />
     <ClInclude Include="Source\Engine\Logic\GameLogic\GameLogic.h" />
     <ClInclude Include="Source\Engine\Logic\LogicBuilder.h" />
