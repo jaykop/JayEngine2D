@@ -77,7 +77,6 @@ private:
 	GLint location3;
 
 	// Math(by sprites) info
-	mat44 m_mvp;	
 	vec4  m_camera;
 	vec4  m_bgColor;
 	vec2  m_phase;

@@ -5,7 +5,9 @@ layout(location = 0) in vec3 vertexPosition;
 layout(location = 1) in vec2 vertTexCoord;
 
 // Basic pipeline uniform
-uniform mat4 MVP;
+uniform mat4 Model;
+uniform mat4 Viewport;
+uniform mat4 Projection;
 
 // Texture render uniform
 uniform vec4 Color;
@@ -24,7 +26,8 @@ flat out int fragmentType;
 
 void main(){
 
-	//mat4 MVP = Projection * Camera * Model;
+	// Get MVP
+	mat4 MVP = Projection * Viewport * Model;
 
 	// Set model vertex
 	gl_Position = MVP * vec4(vertexPosition, 1);

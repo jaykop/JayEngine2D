@@ -138,11 +138,8 @@ void Scene::DrawParticle(Emitter* emitter, float dt)
 		Pipeline(*it, dt);
 		vec4 sptColor = (*it)->GetColor();
 
-		glUniformMatrix4fv(m_GSM->GetGLManager()->GetUnifrom(TRANSFORM), 1, GL_FALSE, &m_mvp.m_member[0][0]);
 		glUniformMatrix4fv(m_GSM->GetGLManager()->GetUnifrom(UV), 1, GL_FALSE, &m_animation.m_member[0][0]);
 		glUniform4f(m_GSM->GetGLManager()->GetUnifrom(COLOR), sptColor.x, sptColor.y, sptColor.z, (*it)->m_life);
-		//glUniform1d(m_GSM->GetGLManager()->GetUnifrom(WAVE_TOGGLE), (*it)->GetWaveToggle());
-		//glUniform2f(m_GSM->GetGLManager()->GetUnifrom(WAVE_PHASE), m_phase.x, m_phase.y);
 
 		emitter->Update((*it));
 
@@ -346,10 +343,9 @@ void Scene::Pipeline(Sprite* sprite, float dt)
 		* mat44::Rotate(Math::DegToRad(sprite->GetRotation()), vec3(.0f, .0f, 1.f))
 		* mat44::Translate(sprite->GetPosition());
 
-	m_mvp = projection.Transpose() * camera.Transpose() * model.Transpose();
-	m_mvp = m_mvp.Transpose();
-
-	glUniformMatrix4fv(m_GSM->GetGLManager()->GetUnifrom(TRANSFORM), 1, GL_FALSE, &m_mvp.m_member[0][0]);
+	glUniformMatrix4fv(m_GSM->GetGLManager()->GetUnifrom(MODEL), 1, GL_FALSE, &model.m_member[0][0]);
+	glUniformMatrix4fv(m_GSM->GetGLManager()->GetUnifrom(VIEWPORT), 1, GL_FALSE, &camera.m_member[0][0]);
+	glUniformMatrix4fv(m_GSM->GetGLManager()->GetUnifrom(PROJECTION), 1, GL_FALSE, &projection.m_member[0][0]);
 
 	// Refresh the animation scene
 	if (sprite->GetPlayToggle())
