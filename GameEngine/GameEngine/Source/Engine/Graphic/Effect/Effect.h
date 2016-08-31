@@ -44,10 +44,14 @@ public:
 	// Blur effect function
 	void ActivateBlurToggle(bool toggle);
 	bool GetBlurToggle(void) const;
+	void SetBlurAmount(float amount);
+	float GetBlurAmount(void) const;
 
 	// Sobel effect function
 	void ActivateSobelToggle(bool toggle);
 	bool GetSobelToggle(void) const;
+	void SetSobelAmount(float amount);
+	float GetSobelAmount(void) const;
 
 	// Manipulation effect function
 	void ActivateManipToggle(bool toggle);
@@ -64,9 +68,11 @@ private:
 
 	// Blur info..
 	bool m_blur;
+	float m_blurAmount;
 
 	// Sobel info..
 	bool m_sobel;
+	float m_sobelAmount;
 
 	// Manipulation Info..
 	bool m_manip;

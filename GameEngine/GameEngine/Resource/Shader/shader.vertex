@@ -19,10 +19,89 @@ uniform vec3 LightDiff;
 uniform float LightRadius;
 uniform float LightDistance;
 
+// Mother emitter info+
+uniform int  Emitter_Type;
+uniform bool Emitter_Explo;
+uniform vec3 Emitter_Dir;
+uniform vec3 Emitter_Color;
+uniform vec3 Emitter_EdgeColor;
+uniform float Emitter_Spd;
+uniform float Emitter_Bound;
+
+// Particle info
+uniform vec3 Particle_Vel;
+uniform vec3 Particle_Spd;
+uniform vec3 Particle_Pos;
+uniform float Particle_Rot;
+uniform float Particle_Life;
+uniform float Particle_Fade;
+uniform bool Particle_RndScl;
+
 //Output data
 out vec4 fragmentColor;
 out vec2 fragTexCoord;
 flat out int fragmentType;
+
+highp float rand(vec2 co)
+{
+    highp float a = 12.9898;
+    highp float b = 78.233;
+    highp float c = 43758.5453;
+    highp float dt= dot(co.xy ,vec2(a,b));
+    highp float sn= mod(dt,3.14);
+    return fract(sin(sn) * c);
+}
+
+void RenderParticle(void)
+{
+	vec3 norm_dir = normalize(Emitter_Dir);
+	vec3 new_force;
+	if (length(norm_dir) == 0){
+		new_force = vec3(Particle_Vel.x * Particle_Spd.x,
+		Particle_Vel.y * Particle_Spd.y, 0);
+	}
+	
+	else {
+		new_force = vec3(Particle_Vel.x * norm_dir.x + norm_dir.x,
+		Particle_Vel.y * norm_dir.y + norm_dir.y, 0);
+	}
+	
+	float new_fade = Particle_Fade * length(new_force) / Emitter_Bound;
+	
+	float new_life = Particle_Life;
+	new_life -= new_fade;
+	
+	// Roatation...
+	
+	if (length(Emitter_EdgeColor) != 0) {
+		vec3 colorEffect = Emitter_EdgeColor - Emitter_Color;
+		fragmentColor = vec4((Color + colorEffect * new_fade).xyz, Particle_Life);
+	}
+}
+
+void RefreshParticle(void)
+{
+	if (Emitter_Explo) {
+		vec3 new_dir;
+		float repos_offset = 3.0 / 5.0;
+		float new_pos = Emitter_Bound * repos_offset;
+		if (Emitter_Type == 1) {
+			vec3 base_position = Particle_Pos;
+			base_position += vec3(rand(vec2(-new_pos, new_pos)), rand(vec2(-new_pos, new_pos)), 0);
+		}
+		else if (Emitter_Type == 3) {
+			
+		}
+		else {
+			
+		}
+		
+		if (Particle_RndScl) {
+		}
+		
+		fragmentColor = vec4(Color.xyz, 1.0);
+	}
+}
 
 void main(){
 
@@ -31,6 +110,14 @@ void main(){
 
 	// Set model vertex
 	gl_Position = MVP * vec4(vertexPosition, 1);
+	
+	if(false)
+	{
+		if (Particle_Life > 0.f)
+			RenderParticle();
+		else 
+			RefreshParticle();
+	}
 	
 	// Set Color
 	// If type is light,

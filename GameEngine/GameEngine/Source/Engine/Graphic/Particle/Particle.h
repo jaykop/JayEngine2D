@@ -66,6 +66,7 @@ public:
 	virtual void SetProjectionType(Projt projection);
 
 	void SetColors(vec3 center, vec3 edge = vec3());
+	const vec3& GetEdgeColor(void) const;
 
 	// Mode functions
 	void SetMode(ParticleMode mode);
@@ -77,7 +78,7 @@ public:
 	
 	// direction functions
 	void SetDirection(const vec3& dir);
-	vec3 GetDirection(void) const;
+	const vec3& GetDirection(void) const;
 
 	// speed function
 	void SetSpeed(float speed);
@@ -87,10 +88,10 @@ public:
 	void SetBoundary(float range);
 	float GetBoundary(void) const;
 
-	// Renderer functions
-	void Update(Particle* particle);
-	void Render(Particle* particle);
-	void Refresh(Particle* particle);
+	//// Renderer functions
+	//void Update(Particle* particle);
+	//void Render(Particle* particle);
+	//void Refresh(Particle* particle);
 
 	// Snow mode functions
 	void SetSnowBoundary(const vec3& start, const vec3& end);
@@ -103,19 +104,21 @@ public:
 	// Explosion toggle
 	void ActivateExplosion(bool toggle);
 	bool GetExplosionToggle(void) const;
+	bool GetRefreshingToggle(void) const;
 
 	// Random scale functions
 	void SetRandomScaleRange(const vec2& range);
-	const vec2& SetRandomScaleRange(void) const;
+	void SetRandomScaleRange(void) const;
+	const vec2& GetRandomScaleRange(void) const;
 	void ActivateRandomScale(bool toggle);
 	bool GetRandomScaleToggle(void) const;
 
 	// Get Particle container
 	ParticleList& GetParticleContainer(void);
 
-	//GLfloat *m_particle_buffer_data;
-
 private:
+
+	void Refresh(Particle* particle);
 
 	// Particle container
 	ParticleList ParticleContainer;

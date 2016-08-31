@@ -23,7 +23,7 @@ All codes are written by Jaykop Jeong...
 #include "../../InputManager/InputManager.h"
 #include "../../ObjectManager/ObjectManager.h"
 #include "../../StateManager/GameStateManager/GameStateManager.h"
-
+#define DELTA_TIME 0.169F
 /******************************************************************************/
 /*!
 \brief - Scene Constructor
@@ -141,7 +141,26 @@ void Scene::DrawParticle(Emitter* emitter, float dt)
 		glUniformMatrix4fv(m_GSM->GetGLManager()->GetUnifrom(UV), 1, GL_FALSE, &m_animation.m_member[0][0]);
 		glUniform4f(m_GSM->GetGLManager()->GetUnifrom(COLOR), sptColor.x, sptColor.y, sptColor.z, (*it)->m_life);
 
-		emitter->Update((*it));
+		//emitter->GetDirection();
+		//emitter->GetSpeed();
+		//emitter->GetPosition();
+		//emitter->GetBoundary();
+		//(*it)->m_life;
+		//(*it)->m_fade;
+
+
+		//glUniform3f(m_GSM->GetGLManager()->GetUnifrom(PARTICLE_DIR), "Particle_Dir");
+		//glUniform3f(m_GSM->GetGLManager()->GetUnifrom(PARTICLE_SPD), "Particle_Spd");
+		//glUniform3f(m_GSM->GetGLManager()->GetUnifrom(PARTICLE_POS), "Particle_Pos");
+		//glUniform3f(m_GSM->GetGLManager()->GetUnifrom(PARTICLE_FORCE), "Particle_Force");	
+		//glUniform1f(m_GSM->GetGLManager()->GetUnifrom(PARTICLE_FADE), "Particle_Fade");	
+		//glUniform1f(m_GSM->GetGLManager()->GetUnifrom(PARTICLE_BOUND), "Particle_Bound");
+		//glUniform1f(m_GSM->GetGLManager()->GetUnifrom(PARTICLE_LIFE), "Particle_Life");		
+		//glUniform1f(m_GSM->GetGLManager()->GetUnifrom(PARTICLE_ROT), "Particle_Rot");	
+		//glUniform4f(m_GSM->GetGLManager()->GetUnifrom(PARTICLE_COLOR), "Particle_Color");
+		//glUniform4f(m_GSM->GetGLManager()->GetUnifrom(PARTICLE_EDGE), "Particle_edgeColor");
+
+		UpdateParticle((*it));
 
 		//Refresh the buffer data
 		glBufferData(GL_ARRAY_BUFFER, sizeof(m_vertex_buffer_data), m_vertex_buffer_data, GL_STATIC_DRAW);
@@ -373,7 +392,7 @@ void Scene::Pipeline(Sprite* sprite, float dt)
 	{
 		// Wave effect part...
 		auto wave_effect = sprite->GetEffect(WAVE);
-		if (wave_effect->GetWaveToggle())
+		if (wave_effect && wave_effect->GetWaveToggle())
 		{
 			m_phase.x -= wave_effect->GetWavePhase().x * dt;
 			m_phase.y += wave_effect->GetWavePhase().y * dt;
@@ -382,14 +401,36 @@ void Scene::Pipeline(Sprite* sprite, float dt)
 
 			glUniform1d(m_GSM->GetGLManager()->GetUnifrom(WAVE_TOGGLE), sprite->GetEffect(WAVE)->GetWaveToggle());
 		}
+
+		auto sobel_effect = sprite->GetEffect(SOBEL);
+		if (sobel_effect && sobel_effect->GetSobelToggle())
+		{
+			glUniform1d(m_GSM->GetGLManager()->GetUnifrom(SOBEL_TOGGLE), sprite->GetEffect(SOBEL)->GetSobelToggle());
+			glUniform1f(m_GSM->GetGLManager()->GetUnifrom(SOBEL_AMOUNT), sprite->GetEffect(SOBEL)->GetSobelAmount());
+
+		}
+
+		auto manip_effect = sprite->GetEffect(MANIPULATION);
+		if (manip_effect && manip_effect->GetManipToggle())
+		{
+			glUniform1d(m_GSM->GetGLManager()->GetUnifrom(MANIP_TOGGLE), sprite->GetEffect(MANIPULATION)->GetManipToggle());
+			
+		}
+
+		auto blur_effect = sprite->GetEffect(BLUR);
+		if (blur_effect && blur_effect->GetBlurToggle())
+		{
+			glUniform1d(m_GSM->GetGLManager()->GetUnifrom(BLUR_TOGGLE), sprite->GetEffect(BLUR)->GetBlurToggle());
+			glUniform1f(m_GSM->GetGLManager()->GetUnifrom(BLUR_AMOUNT), sprite->GetEffect(BLUR)->GetBlurAmount());
+		}
 	}
 
 	else
 	{
 		glUniform1d(m_GSM->GetGLManager()->GetUnifrom(WAVE_TOGGLE), sprite->HasEffect());
-		//glUniform1d(m_GSM->GetGLManager()->GetUnifrom(SOBEL_TOGGLE), sprite->HasEffect());
-		//glUniform1d(m_GSM->GetGLManager()->GetUnifrom(BLUR_TOGGLE), sprite->HasEffect());
-		//glUniform1d(m_GSM->GetGLManager()->GetUnifrom(MANIP_TOGGLE), sprite->HasEffect());
+		glUniform1d(m_GSM->GetGLManager()->GetUnifrom(SOBEL_TOGGLE), sprite->HasEffect());
+		glUniform1d(m_GSM->GetGLManager()->GetUnifrom(BLUR_TOGGLE), sprite->HasEffect());
+		glUniform1d(m_GSM->GetGLManager()->GetUnifrom(MANIP_TOGGLE), sprite->HasEffect());
 	}
 
 	glUniform2f(m_GSM->GetGLManager()->GetUnifrom(WAVE_PHASE), m_phase.x, m_phase.y);
@@ -629,4 +670,150 @@ void Scene::GetOrthoPosition(void)
 	gluUnProject(winX, winY, winZ, modelview, projection, viewport, &posX, &posY, &posZ);
 
 	InputManager::GetInstance().SetOrthoMouse(vec3((float)posX, -(float)posY, 0.f));
+}
+
+/******************************************************************************/
+/*!
+\brief - Main update function
+\param particle
+*/
+/******************************************************************************/
+void Scene::UpdateParticle(Particle* particle)
+{
+	// Render usual particle
+	if (particle->m_life > 0.f)
+		RenderParticle(particle);
+
+	// refresh particle's info
+	else
+		RefreshParticle(particle);
+}
+
+
+/******************************************************************************/
+/*!
+\brief - Render each particle
+\param particle
+*/
+/******************************************************************************/
+void Scene::RenderParticle(Particle* particle)
+{
+	Emitter* parent = particle->m_parent;
+
+	vec3 norm_dir = parent->GetDirection();
+	norm_dir = norm_dir.Normalize();
+	vec3 new_force;
+
+	if (!parent->GetDirection().Length())
+		new_force = vec3(
+		particle->m_velocity.x * particle->m_speed.x,
+		particle->m_velocity.y * particle->m_speed.y) * DELTA_TIME;
+
+	else
+		new_force = vec3(
+		particle->m_speed.x * norm_dir.x + norm_dir.x,
+		particle->m_speed.y * norm_dir.y + norm_dir.y) * DELTA_TIME;
+
+	// Update position by velocity and direction
+	particle->SetPosition(vec3(
+		particle->GetPosition().x + new_force.x,
+		particle->GetPosition().y + new_force.y,
+		parent->GetPosition().z));
+
+	// Set new fade
+	float new_fade = particle->m_fade * new_force.Length() / parent->GetBoundary();
+
+	// Reduce particle's life
+	particle->m_life -= new_fade;
+
+	// Update rotation
+	particle->SetRotation(particle->GetRotation() + parent->GetSpeed());
+
+	// Color effect
+	// Change color from inside noe to outside one
+	if (parent->GetEdgeColor().Length())
+	{
+		vec3 colorOffset = parent->GetEdgeColor() - parent->GetColor();
+
+		particle->SetColor(vec4(
+			particle->GetColor() + colorOffset * new_fade,
+			particle->m_life));
+	}
+}
+
+/******************************************************************************/
+/*!
+\brief - Refresh each particle
+\param particle
+*/
+/******************************************************************************/
+void Scene::RefreshParticle(Particle* particle)
+{
+	Emitter* parent = particle->m_parent;
+
+	// If the emitter mode is explosion,
+	// there is no more refreshing precess
+	if (parent->GetExplosionToggle())
+	{
+		// Reset the original position
+		if (parent->GetMode() == FIRE)
+		{
+			parent->SetDirection(vec3(0.f, 1.f));
+			float repos_offset = 3.f / 5.f;
+			float new_pos = parent->GetBoundary() * repos_offset;
+			particle->SetPosition(parent->GetPosition() +
+				vec3(
+				Random::GetInstance().GetRandomFloat(-new_pos, new_pos),
+				Random::GetInstance().GetRandomFloat(-new_pos, new_pos)));
+		}
+
+		else if (parent->GetMode() == SNOW)
+		{
+			particle->SetPosition(parent->GetPosition() +
+				vec3(
+				Random::GetInstance().GetRandomFloat(parent->GetSnowStartingPoint().x, parent->GetSnowEndingPoint().x),
+				Random::GetInstance().GetRandomFloat(parent->GetSnowStartingPoint().y, parent->GetSnowEndingPoint().y)));
+		}
+
+		else
+			particle->SetPosition(parent->GetPosition());
+
+		// Rescale?
+		if (parent->GetRandomScaleToggle())
+		{
+			float randomSize = Random::GetInstance().GetRandomFloat(parent->GetRandomScaleRange().x, parent->GetRandomScaleRange().y);
+			particle->SetScale(vec3(randomSize, randomSize));
+		}
+
+		// Reset life
+		particle->m_life = 1.f;
+
+		// Reset color
+		particle->SetColor(vec4(
+			parent->GetColor().x,
+			parent->GetColor().y,
+			parent->GetColor().z,
+			particle->m_life));
+
+		// Set Velocity;
+		if (!parent->GetDirection().Length())
+		{
+			particle->m_velocity = vec3(
+				Random::GetInstance().GetRandomFloat(-1.f, 1.f),
+				Random::GetInstance().GetRandomFloat(-1.f, 1.f));
+			particle->m_velocity = particle->m_velocity.Normalize();
+		}
+
+		// Set speed
+		particle->m_speed =
+			parent->GetSpeed() * vec3(
+			Random::GetInstance().GetRandomFloat(0.f, 1.f),
+			Random::GetInstance().GetRandomFloat(0.f, 1.f));
+
+		// Reset vanishing speed
+		particle->m_fade = Random::GetInstance().GetRandomFloat(DELTA_TIME, 1.f);
+
+		if (parent->GetMode() == EXPLOSION && parent->GetRefreshingToggle())
+			parent->ActivateExplosion(false);
+	}
 }

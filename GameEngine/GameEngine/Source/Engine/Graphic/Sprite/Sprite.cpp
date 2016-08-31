@@ -425,8 +425,12 @@ void Sprite::AddEffect(EffectType effect)
 
 	//Compare the id from user input
 	if (it == m_effectMap.end())
+	{
+		auto new_effect = new Effect(this);
+		new_effect->SetMode(effect);
 		m_effectMap.insert(EffectMap::value_type(
-		effect, new Effect(this)));
+			effect, new_effect));
+	}
 }
 
 /******************************************************************************/

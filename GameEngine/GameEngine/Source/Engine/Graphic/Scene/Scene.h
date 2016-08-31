@@ -19,13 +19,11 @@ All codes are written by Jaykop Jeong...
 #include <hash_map>
 #include "../Texture/Texture.h"
 
-class TinyFont;
-class FTPixmapFont;
-
 class Text;
 class Light;
 class Sprite;
 class Emitter;
+class Particle;
 class ObjectManager;
 class GameStateManager;
 
@@ -70,6 +68,10 @@ private:
 	void DrawLights(Light* light);
 	void DrawSprites(Sprite* sprite);
 	void DrawParticle(Emitter* emitter, float dt);
+
+	void UpdateParticle(Particle* particle);
+	void RenderParticle(Particle* particle);
+	void RefreshParticle(Particle* particle);
 
 	GLuint  instancedVBO;
 	GLint location;

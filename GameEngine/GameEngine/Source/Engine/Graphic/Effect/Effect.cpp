@@ -16,8 +16,8 @@ All codes are written by Jaykop Jeong...
 
 Effect::Effect(Sprite* owner)
 : m_wave(false), m_phase(vec2()),
-m_blur(false),
-m_sobel(false),
+m_blur(false), m_blurAmount(100.f),
+m_sobel(false), m_sobelAmount(300.f),
 m_manip(false)
 {
 	m_owner = owner;
@@ -92,6 +92,17 @@ bool Effect::GetBlurToggle(void) const
 	return m_blur;
 }
 
+void Effect::SetBlurAmount(float amount)
+{
+	if (amount) m_blurAmount = amount;
+	else m_blurAmount = 1.f;
+}
+
+float Effect::GetBlurAmount(void) const
+{
+	return m_blurAmount;
+}
+
 void Effect::ActivateSobelToggle(bool toggle)
 {
 	m_sobel = toggle;
@@ -100,6 +111,17 @@ void Effect::ActivateSobelToggle(bool toggle)
 bool Effect::GetSobelToggle(void) const
 {
 	return m_sobel;
+}
+
+void Effect::SetSobelAmount(float amount)
+{
+	if (amount) m_sobelAmount = amount;
+	else m_sobelAmount = 1.f;
+}
+
+float Effect::GetSobelAmount(void) const
+{
+	return m_sobelAmount;
 }
 
 void Effect::ActivateManipToggle(bool toggle)

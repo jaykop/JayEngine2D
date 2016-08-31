@@ -1,12 +1,21 @@
 #version 330 core
 
 // Uniform values
-uniform sampler2D Texture;// Texture ID
-uniform float Tme;				// Timer	
-uniform	vec2 WavePhase;	// x,y waves phase
+uniform sampler2D Texture;	// Texture ID
+uniform float Time;			// Delta time
+
+// Wave uniforms
+uniform	vec2 WavePhase;		// x,y waves phase
 uniform bool WaveToggle;	// Wave toggle
 uniform int WaveType;		// Wave type
-uniform float Time;				// Delta time
+
+uniform bool BlurToggle;	// Blur toggle
+uniform float BlurAmount;	// Blur amount
+
+uniform bool SobelToggle;	// Sobel toggle
+uniform float SobelAmount;	// Sobel amount
+
+uniform bool ManipToggle;	//
 
 // interpolated valuse form the vertex shaders
 in vec4 fragmentColor;
@@ -16,32 +25,15 @@ flat in int fragmentType;
 // Ouput data
 out vec4 finalColor;
 
-// Wave functions
-vec2 SineWave( vec2 phase ) {
-	if(WaveToggle) {
-		// wave distortion
-		float x = cos( 25.0*phase.y + 30.0*phase.x + 6.28*WavePhase.x) * 0.05;
-		float y = sin( 25.0*phase.y + 30.0*phase.x + 6.28*WavePhase.y) * 0.05;
-		return vec2(phase.x+x, phase.y+y);
-	}
-	else phase;
-}
-
 vec4 RippleEffect( vec2 texCoord )
 {
-	if(WaveToggle) {
-		vec2 cPos = -1.0 + 2.0 * texCoord.xy / vec2(1, 1).xy;
-		float cLength = length(cPos);
+	vec2 cPos = -1.0 + 2.0 * texCoord.xy / vec2(1, 1).xy;
+	float cLength = length(cPos);
 
-		vec2 uv = texCoord.xy/vec2(1, 1).xy+(cPos/cLength)*cos(cLength*63.0-Time*4.0)*0.03;
-		vec3 col = texture2D(Texture,uv).xyz;
+	vec2 uv = texCoord.xy/vec2(1, 1).xy+(cPos/cLength)*cos(cLength*63.0-Time*4.0)*0.03;
+	vec3 col = texture2D(Texture,uv).xyz;
 
-		return vec4(col,1.0);
-	}
-	
-	else{
-		finalColor = fragmentColor * texture(Texture, fragTexCoord);
-	}
+	return vec4(col,1.0);
 }
 
 void main()
@@ -53,38 +45,58 @@ void main()
 	}	
 	
 	// If not,
-	else	{
-		finalColor = fragmentColor * texture(Texture, SineWave(fragTexCoord));
-		
-		// Manipulation effect...
-		//vec3 manip = vec3(1.0, 1.0, 1.0) - finalColor.xyz;
-		//finalColor = vec4(manip, finalColor.w);
+	else {
+			
+		vec2 new_tex = fragTexCoord;	
+	
+		// Wave effect...
+		if(WaveToggle) {
+			float x = cos( 25.0*new_tex.y + 30.0*new_tex.x + 6.28*WavePhase.x) * 0.05;
+			float y = sin( 25.0*new_tex.y + 30.0*new_tex.x + 6.28*WavePhase.y) * 0.05;
+			new_tex = vec2(new_tex.x+x, new_tex.y+y);
+		}
 		
 		// Ripple Effect...
 		//finalColor = RippleEffect(fragTexCoord);
 		
+		// Set final color
+		finalColor = fragmentColor * texture(Texture, new_tex);
+		
+		// Manipulation effect...
+		if (ManipToggle)
+		{
+			vec3 manip = vec3(1.0, 1.0, 1.0) - finalColor.xyz;
+			finalColor = vec4(manip, finalColor.w);
+		}
+		
 		// Blur effect...
-		//const float blurH = 1.0 / 300.0;
-		//const float blurV = 1.0 / 300.0;
-		//vec4 sum = vec4(0.0);
-		//for (int x = -4; x <= 4; x++)
-			//for (int y = -4; y <= 4; y++)
-				//sum += texture(
-					//Texture, vec2(fragTexCoord.x + x * blurH, fragTexCoord.y + y * blurV)) / 81.0;
-		//finalColor = sum;
+		if (BlurToggle)
+		{
+			const float blurH = 1.0 / 300.0;
+			const float blurV = 1.0 / 300.0;
+			vec4 sum = vec4(0.0);
+			for (int x = -4; x <= 4; x++)
+				for (int y = -4; y <= 4; y++)
+					sum += texture(
+						Texture, vec2(new_tex.x + x * blurH, new_tex.y + y * blurV)) / BlurAmount;
+			finalColor = sum;
+		}
 		
 		// Sobel effect...
-		//vec4 top         = texture(Texture, vec2(fragTexCoord.x, fragTexCoord.y + 1.0 / 200.0));
-		//vec4 bottom      = texture(Texture, vec2(fragTexCoord.x, fragTexCoord.y - 1.0 / 200.0));
-		//vec4 left        = texture(Texture, vec2(fragTexCoord.x - 1.0 / 300.0, fragTexCoord.y));
-		//vec4 right       = texture(Texture, vec2(fragTexCoord.x + 1.0 / 300.0, fragTexCoord.y));
-		//vec4 topLeft     = texture(Texture, vec2(fragTexCoord.x - 1.0 / 300.0, fragTexCoord.y + 1.0 / 200.0));
-		//vec4 topRight    = texture(Texture, vec2(fragTexCoord.x + 1.0 / 300.0, fragTexCoord.y + 1.0 / 200.0));
-		//vec4 bottomLeft  = texture(Texture, vec2(fragTexCoord.x - 1.0 / 300.0, fragTexCoord.y - 1.0 / 200.0));
-		//vec4 bottomRight = texture(Texture, vec2(fragTexCoord.x + 1.0 / 300.0, fragTexCoord.y - 1.0 / 200.0));
-		//vec4 sx = -topLeft - 2 * left - bottomLeft + topRight   + 2 * right  + bottomRight;
-		//vec4 sy = -topLeft - 2 * top  - topRight   + bottomLeft + 2 * bottom + bottomRight;
-		//vec4 sobel = sqrt(sx * sx + sy * sy);
-		//finalColor = sobel;
+		if (SobelToggle)
+		{
+			vec4 top         = texture(Texture, vec2(new_tex.x, new_tex.y + 1.0 / SobelAmount));
+			vec4 bottom      = texture(Texture, vec2(new_tex.x, new_tex.y - 1.0 / SobelAmount));
+			vec4 left        = texture(Texture, vec2(new_tex.x - 1.0 / SobelAmount, new_tex.y));
+			vec4 right       = texture(Texture, vec2(new_tex.x + 1.0 / SobelAmount, new_tex.y));
+			vec4 topLeft     = texture(Texture, vec2(new_tex.x - 1.0 / SobelAmount, new_tex.y + 1.0 / SobelAmount));
+			vec4 topRight    = texture(Texture, vec2(new_tex.x + 1.0 / SobelAmount, new_tex.y + 1.0 / SobelAmount));
+			vec4 bottomLeft  = texture(Texture, vec2(new_tex.x - 1.0 / SobelAmount, new_tex.y - 1.0 / SobelAmount));
+			vec4 bottomRight = texture(Texture, vec2(new_tex.x + 1.0 / SobelAmount, new_tex.y - 1.0 / SobelAmount));
+			vec4 sx = -topLeft - 2 * left - bottomLeft + topRight   + 2 * right  + bottomRight;
+			vec4 sy = -topLeft - 2 * top  - topRight   + bottomLeft + 2 * bottom + bottomRight;
+			vec4 sobel = sqrt(sx * sx + sy * sy);
+			finalColor = sobel;
+		}
 	}
 }

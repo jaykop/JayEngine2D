@@ -671,11 +671,13 @@ void JsonParser::LoadEffects(Json::Value::iterator& it, Sprite* sprite)
 			if (!strcmp((*effect)["type"].asCString(), "WAVE"))
 			{
 				sprite->AddEffect(WAVE);
-				sprite->GetEffect(WAVE)->ActivateWaveToggle(true);
-
 				if ((*effect).isMember("values"))
 				{
 					auto value = (*effect)["values"];
+					if (value.isMember("Toggle") &&
+						value["Toggle"].isNumeric())
+						sprite->GetEffect(WAVE)->ActivateWaveToggle(value["Toggle"].asBool());
+
 					if (value.isMember("Phase") &&
 						value["Phase"].isArray() &&
 						value["Phase"].size() == 2 &&
@@ -691,31 +693,45 @@ void JsonParser::LoadEffects(Json::Value::iterator& it, Sprite* sprite)
 			else if (!strcmp((*effect)["type"].asCString(), "BLUR"))
 			{
 				sprite->AddEffect(BLUR);
-				sprite->GetEffect(BLUR)->ActivateWaveToggle(true);
 
 				//Todo: Other effect..
 				if ((*effect).isMember("values"))
 				{
 					auto value = (*effect)["values"];
+					if (value.isMember("Toggle") &&
+						value["Toggle"].isNumeric())
+						sprite->GetEffect(BLUR)->ActivateBlurToggle(value["Toggle"].asBool());
+
+					if (value.isMember("Amount") &&
+						value["Amount"].isNumeric())
+						sprite->GetEffect(BLUR)->SetBlurAmount(value["Amount"].asFloat());
+					
 				}
 			}
 
 			else if (!strcmp((*effect)["type"].asCString(), "SOBEL"))
 			{
 				sprite->AddEffect(SOBEL);
-				sprite->GetEffect(SOBEL)->ActivateWaveToggle(true);
+				sprite->GetEffect(SOBEL)->ActivateSobelToggle(true);
 
 				//Todo: Other effect..
 				if ((*effect).isMember("values"))
 				{
 					auto value = (*effect)["values"];
+					if (value.isMember("Toggle") &&
+						value["Toggle"].isNumeric())
+						sprite->GetEffect(SOBEL)->ActivateSobelToggle(value["Toggle"].asBool());
+
+					if (value.isMember("Amount") &&
+						value["Amount"].isNumeric())
+						sprite->GetEffect(SOBEL)->SetSobelAmount(value["Amount"].asFloat());
 				}
 			}
 
 			else if (!strcmp((*effect)["type"].asCString(), "MANIPULATION"))
 			{
 				sprite->AddEffect(MANIPULATION);
-				sprite->GetEffect(MANIPULATION)->ActivateWaveToggle(true);
+				sprite->GetEffect(MANIPULATION)->ActivateManipToggle(true);
 
 				//Todo: Other effect..
 				if ((*effect).isMember("values"))

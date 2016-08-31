@@ -127,7 +127,7 @@ void Emitter::SetRandomScaleRange(const vec2& range)
 \return m_rangeScl
 */
 /******************************************************************************/
-const vec2& Emitter::SetRandomScaleRange(void) const
+const vec2& Emitter::GetRandomScaleRange(void) const
 {
 	return m_rangeScl;
 }
@@ -156,7 +156,7 @@ bool Emitter::GetRandomScaleToggle(void) const
 
 /******************************************************************************/
 /*!
-\brief - Set all particle's scale 
+\brief - Set all particle's scale
 \param scale
 */
 /******************************************************************************/
@@ -168,7 +168,7 @@ void Emitter::SetScale(const vec3& scale)
 	// Refresh all particles
 	for (auto it = ParticleContainer.begin();
 		it != ParticleContainer.end(); ++it)
-			(*it)->SetScale(m_emitterScl);
+		(*it)->SetScale(m_emitterScl);
 }
 
 /******************************************************************************/
@@ -185,7 +185,7 @@ vec3 Emitter::GetScale(void) const
 /******************************************************************************/
 /*!
 \brief - Set emitter's render mode
-\param mode 
+\param mode
 */
 /******************************************************************************/
 void Emitter::SetMode(ParticleMode mode)
@@ -234,7 +234,7 @@ int Emitter::GetNumOfParticle(void) const
 /******************************************************************************/
 /*!
 \brief - Set particles' render speed
-\param speed 
+\param speed
 */
 /******************************************************************************/
 void Emitter::SetSpeed(float speed)
@@ -276,7 +276,7 @@ void Emitter::SetDirection(const vec3& dir)
 \return m_emitterDir
 */
 /******************************************************************************/
-vec3 Emitter::GetDirection(void) const
+const vec3& Emitter::GetDirection(void) const
 {
 	return m_emitterDir;
 }
@@ -305,67 +305,162 @@ float Emitter::GetBoundary(void) const
 
 /******************************************************************************/
 /*!
-\brief - Main update function
-\param particle
+\brief - Get emitter's particle container
+\return ParticleContainer
 */
 /******************************************************************************/
-void Emitter::Update(Particle* particle)
+ParticleList& Emitter::GetParticleContainer(void)
 {
-	// Render usual particle
-	if (particle->m_life > 0.f)
-		Render(particle);
-
-	// refresh particle's info
-	else
-		Refresh(particle);
+	return ParticleContainer;
 }
 
 /******************************************************************************/
 /*!
-\brief - Render each particle
-\param particle
+\brief - Set emitter's color
+\param center - center color
+\param edge - edge color
 */
 /******************************************************************************/
-void Emitter::Render(Particle* particle)
+void Emitter::SetColors(vec3 center, vec3 edge)
 {
-	vec3 norm_dir = m_emitterDir.Normalize();
-	vec3 new_force;
+	SetColor(center);
+	m_edgeColor = edge;
+	for (auto it = ParticleContainer.begin();
+		it != ParticleContainer.end(); ++it)
+		(*it)->SetColor(center);
+}
 
-	if (!m_emitterDir.Length())
-		new_force = vec3(
-		particle->m_velocity.x * particle->m_speed.x,
-		particle->m_velocity.y * particle->m_speed.y) * DELTA_TIME;
+/******************************************************************************/
+/*!
+\brief - Set snow mode's starting position boundary
+\param start
+\param end
+*/
+/******************************************************************************/
+void Emitter::SetSnowBoundary(const vec3& start, const vec3& end)
+{
+	m_snowStart = start;
+	m_snowEnd = end;
 
-	else
-		new_force = vec3(
-		particle->m_speed.x * norm_dir.x + norm_dir.x,
-		particle->m_speed.y * norm_dir.y + norm_dir.y) * DELTA_TIME;
+	vec3 snowStart = m_snowStart;
+	vec3 snowEnd = m_snowEnd;
 
-	// Update position by velocity and direction
-	particle->SetPosition(vec3(
-		particle->GetPosition().x + new_force.x,
-		particle->GetPosition().y + new_force.y,
-		GetPosition().z));
+	for (auto it = ParticleContainer.begin();
+		it != ParticleContainer.end(); ++it)
+		(*it)->SetPosition(GetPosition() +
+		vec3(
+		Random::GetInstance().GetRandomFloat(snowStart.x, snowEnd.x),
+		Random::GetInstance().GetRandomFloat(snowStart.y, snowEnd.y)));
 
-	// Set new fade
-	float new_fade = particle->m_fade * new_force.Length() / m_boundary;
+}
 
-	// Reduce particle's life
-	particle->m_life -= new_fade;
+/******************************************************************************/
+/*!
+\brief - Get snow mode's starting point of starting position
+\return m_snowStart
+*/
+/******************************************************************************/
+const vec3& Emitter::GetSnowStartingPoint(void) const
+{
+	return m_snowStart;
+}
 
-	// Update rotation
-	particle->SetRotation(particle->GetRotation() + m_emitterSpd);
+/******************************************************************************/
+/*!
+\brief - Get snow mode's ending point of starting position
+\return m_snowEnd
+*/
+/******************************************************************************/
+const vec3& Emitter::GetSnowEndingPoint(void) const
+{
+	return m_snowEnd;
+}
 
-	// Color effect
-	// Change color from inside noe to outside one
-	if (m_edgeColor.Length())
+/******************************************************************************/
+/*!
+\brief - Set emitter's projection type
+\param projection
+*/
+/******************************************************************************/
+void Emitter::SetProjectionType(Projt projection)
+{
+	for (auto it = ParticleContainer.begin();
+		it != ParticleContainer.end(); ++it)
+		(*it)->SetProjectionType(projection);
+}
+
+/******************************************************************************/
+/*!
+\brief - Set emitter's spin toggle
+\param spin
+*/
+/******************************************************************************/
+void Emitter::ActivateRotate(bool spin)
+{
+	m_spin = spin;
+}
+
+/******************************************************************************/
+/*!
+\brief - Get emitter's  spin toggle
+\return m_spin
+*/
+/******************************************************************************/
+bool Emitter::GetRotateToggle(void) const
+{
+	return m_spin;
+}
+
+/******************************************************************************/
+/*!
+\brief - Set emitter's explosion toggle
+\param toggle
+*/
+/******************************************************************************/
+void Emitter::ActivateExplosion(bool toggle)
+{
+	m_explosion = toggle;
+	m_refreshing = false;
+	if (m_explosion)
 	{
-		vec3 colorOffset = m_edgeColor - GetColor();
-
-		particle->SetColor(vec4(
-			particle->GetColor() + colorOffset * new_fade,
-			particle->m_life));
+		for (auto it = ParticleContainer.begin();
+			it != ParticleContainer.end(); ++it)
+			Refresh((*it));
 	}
+	m_refreshing = true;
+}
+
+/******************************************************************************/
+/*!
+\brief - Get emitter's explosion toggle
+\return m_spin
+*/
+/******************************************************************************/
+bool Emitter::GetExplosionToggle(void) const
+{
+	return m_explosion;
+}
+
+/******************************************************************************/
+/*!
+\brief - Get emitter's refreshing toggle
+\return m_spin
+*/
+/******************************************************************************/
+bool Emitter::GetRefreshingToggle(void) const
+{
+	return m_refreshing;
+}
+
+/******************************************************************************/
+/*!
+\brief - Get emitter's edgeColor
+\return m_edgeColor
+*/
+/******************************************************************************/
+const vec3& Emitter::GetEdgeColor(void) const
+{
+	return m_edgeColor;
 }
 
 /******************************************************************************/
@@ -441,142 +536,4 @@ void Emitter::Refresh(Particle* particle)
 		if (m_emitterMode == EXPLOSION && m_refreshing)
 			m_explosion = false;
 	}
-}
-
-/******************************************************************************/
-/*!
-\brief - Get emitter's particle container
-\return ParticleContainer
-*/
-/******************************************************************************/
-ParticleList& Emitter::GetParticleContainer(void)
-{
-	return ParticleContainer;
-}
-
-/******************************************************************************/
-/*!
-\brief - Set emitter's color
-\param center - center color
-\param edge - edge color
-*/
-/******************************************************************************/
-void Emitter::SetColors(vec3 center, vec3 edge)
-{
-	SetColor(center);
-	m_edgeColor = edge;
-	for (auto it = ParticleContainer.begin();
-		it != ParticleContainer.end(); ++it)
-		(*it)->SetColor(center);
-}
-
-/******************************************************************************/
-/*!
-\brief - Set snow mode's starting position boundary
-\param start
-\param end 
-*/
-/******************************************************************************/
-void Emitter::SetSnowBoundary(const vec3& start, const vec3& end)
-{
-	m_snowStart = start;
-	m_snowEnd = end;
-
-	vec3 snowStart = m_snowStart;
-	vec3 snowEnd = m_snowEnd;
-
-	for (auto it = ParticleContainer.begin();
-		it != ParticleContainer.end(); ++it)
-		(*it)->SetPosition(GetPosition() +
-		vec3(
-		Random::GetInstance().GetRandomFloat(snowStart.x, snowEnd.x),
-		Random::GetInstance().GetRandomFloat(snowStart.y, snowEnd.y)));
-
-}
-
-/******************************************************************************/
-/*!
-\brief - Get snow mode's starting point of starting position
-\return m_snowStart 
-*/
-/******************************************************************************/
-const vec3& Emitter::GetSnowStartingPoint(void) const
-{
-	return m_snowStart;
-}
-
-/******************************************************************************/
-/*!
-\brief - Get snow mode's ending point of starting position
-\return m_snowEnd 
-*/
-/******************************************************************************/
-const vec3& Emitter::GetSnowEndingPoint(void) const
-{
-	return m_snowEnd;
-}
-
-/******************************************************************************/
-/*!
-\brief - Set emitter's projection type
-\param projection
-*/
-/******************************************************************************/
-void Emitter::SetProjectionType(Projt projection)
-{
-	for (auto it = ParticleContainer.begin();
-		it != ParticleContainer.end(); ++it)
-		(*it)->SetProjectionType(projection);
-}
-
-/******************************************************************************/
-/*!
-\brief - Set emitter's spin toggle
-\param spin
-*/
-/******************************************************************************/
-void Emitter::ActivateRotate(bool spin)
-{
-	m_spin = spin;
-}
-
-/******************************************************************************/
-/*!
-\brief - Get emitter's  spin toggle
-\return m_spin
-*/
-/******************************************************************************/
-bool Emitter::GetRotateToggle(void) const
-{
-	return m_spin;
-}
-
-/******************************************************************************/
-/*!
-\brief - Set emitter's explosion toggle
-\param toggle
-*/
-/******************************************************************************/
-void Emitter::ActivateExplosion(bool toggle)
-{
-	m_explosion = toggle;
-	m_refreshing = false;
-	if (m_explosion)
-	{
-		for (auto it = ParticleContainer.begin();
-			it != ParticleContainer.end(); ++it)
-			Refresh((*it));
-	}
-	m_refreshing = true;
-}
-
-/******************************************************************************/
-/*!
-\brief - Get emitter's explosion toggle
-\return m_spin
-*/
-/******************************************************************************/
-bool Emitter::GetExplosionToggle(void) const
-{
-	return m_explosion;
 }

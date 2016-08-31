@@ -59,7 +59,11 @@
 			"ID" : 14, "Type" : "SPRITE",
 			"Position" : [ 15, -22.5, 0 ], "Scale" : [20, 30, 0], "Rotation" : 0,
 			"Projection" : "PERSPECTIVE", "Color" : [1, 1, 1, 1],
-			"Texture" : 7,	"Animation" : [8, 12]
+			"Texture" : 7,	"Animation" : [8, 12],
+			"Effect" : [
+				{ "type" : "BLUR", "values" : {"Toggle": false, "Amount": 100} },
+				{ "type" : "SOBEL", "values" : {"Toggle": true, "Amount": 800} }
+			]
 		},
 		{
 			"ID" : 15, "Type" : "SPRITE",
@@ -73,7 +77,8 @@
 			"Projection" : "PERSPECTIVE", "Color" : [1, 1, 1, 1],
 			"Texture" : 6,
 			"Effect" : [
-				{ "type" : "WAVE", "values" : {"Phase" : [1, 1]} }
+				{ "type" : "WAVE", "values" : {"Toggle": true, "Phase" : [1, 1]} },
+				{ "type" : "BLUR", "values" : {"Toggle": true, "Amount": 100} }
 			]
 		},
 		{
