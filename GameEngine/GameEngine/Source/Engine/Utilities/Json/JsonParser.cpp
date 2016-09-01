@@ -728,10 +728,10 @@ void JsonParser::LoadEffects(Json::Value::iterator& it, Sprite* sprite)
 				}
 			}
 
-			else if (!strcmp((*effect)["type"].asCString(), "MANIPULATION"))
+			else if (!strcmp((*effect)["type"].asCString(), "INVERSE"))
 			{
-				sprite->AddEffect(MANIPULATION);
-				sprite->GetEffect(MANIPULATION)->ActivateManipToggle(true);
+				sprite->AddEffect(INVERSE);
+				sprite->GetEffect(INVERSE)->ActivateInverseToggle(true);
 
 				//Todo: Other effect..
 				if ((*effect).isMember("values"))

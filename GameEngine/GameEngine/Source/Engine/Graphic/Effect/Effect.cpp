@@ -124,12 +124,12 @@ float Effect::GetSobelAmount(void) const
 	return m_sobelAmount;
 }
 
-void Effect::ActivateManipToggle(bool toggle)
+void Effect::ActivateInverseToggle(bool toggle)
 {
 	m_manip = toggle;
 }
 
-bool Effect::GetManipToggle(void) const
+bool Effect::GetInverseToggle(void) const
 {
 	return m_manip;
 }

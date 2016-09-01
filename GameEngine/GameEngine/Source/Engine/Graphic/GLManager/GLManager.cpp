@@ -267,7 +267,7 @@ void GLManager::InitGL(Application* pApp, HWND& window, int width, int height)
 			m_uniform[WAVE_TYPE] = glGetUniformLocation(m_shader.m_programID, "WaveType");		//Wave boolean
 
 			// Manipulation info
-			m_uniform[MANIP_TOGGLE] = glGetUniformLocation(m_shader.m_programID, "ManipToggle");	//Wave boolean
+			m_uniform[INVERSE_TOGGLE] = glGetUniformLocation(m_shader.m_programID, "InverseToggle");	//Wave boolean
 
 			// Sobel info
 			m_uniform[SOBEL_TOGGLE] = glGetUniformLocation(m_shader.m_programID, "SobelToggle");	//Wave boolean
@@ -282,17 +282,23 @@ void GLManager::InitGL(Application* pApp, HWND& window, int width, int height)
 			m_uniform[LIGHT_RADIUS] = glGetUniformLocation(m_shader.m_programID, "LightRadius");	// Light Radius
 			m_uniform[LIGHT_DISTANCE] = glGetUniformLocation(m_shader.m_programID, "LightDistance");// Light Distance
 
+			// Emitter info
+			m_uniform[EMITTER_TYPE] = glGetUniformLocation(m_shader.m_programID, "Emitter_Type");		// Light Diffuse	
+			m_uniform[EMITTER_EXPLO] = glGetUniformLocation(m_shader.m_programID, "Emitter_Explo");	// Light Radius
+			m_uniform[EMITTER_BOUND] = glGetUniformLocation(m_shader.m_programID, "Emitter_Bound");// Light Distance
+			m_uniform[EMITTER_COLOR] = glGetUniformLocation(m_shader.m_programID, "Emitter_Color");		// Light Diffuse	
+			m_uniform[EMITTER_EDGE] = glGetUniformLocation(m_shader.m_programID, "Emitter_EdgeColor");	// Light Radius
+			m_uniform[EMITTER_SPD] = glGetUniformLocation(m_shader.m_programID, "Emitter_Spd");// Light Distance
+			m_uniform[EMITTER_DIR] = glGetUniformLocation(m_shader.m_programID, "Emitter_Dir");		// Light Diffuse	
+
 			// Particle info
-			m_uniform[PARTICLE_DIR] = glGetUniformLocation(m_shader.m_programID, "Particle_Dir");		// Light Diffuse	
-			m_uniform[PARTICLE_SPD] = glGetUniformLocation(m_shader.m_programID, "Particle_Spd");	// Light Radius
-			m_uniform[PARTICLE_POS] = glGetUniformLocation(m_shader.m_programID, "Particle_Pos");// Light Distance
-			m_uniform[PARTICLE_FORCE] = glGetUniformLocation(m_shader.m_programID, "Particle_Force");		// Light Diffuse	
-			m_uniform[PARTICLE_FADE] = glGetUniformLocation(m_shader.m_programID, "Particle_Fade");	// Light Radius
-			m_uniform[PARTICLE_BOUND] = glGetUniformLocation(m_shader.m_programID, "Particle_Bound");// Light Distance
+			m_uniform[PARTICLE_SPD] = glGetUniformLocation(m_shader.m_programID, "Particle_Spd");		// Light Diffuse	
+			m_uniform[PARTICLE_POS] = glGetUniformLocation(m_shader.m_programID, "Particle_Pos");	// Light Radius
+			m_uniform[PARTICLE_VEL] = glGetUniformLocation(m_shader.m_programID, "Particle_Vel");// Light Distance
 			m_uniform[PARTICLE_LIFE] = glGetUniformLocation(m_shader.m_programID, "Particle_Life");		// Light Diffuse	
-			m_uniform[PARTICLE_ROT] = glGetUniformLocation(m_shader.m_programID, "Particle_Rot");	// Light Radius
-			m_uniform[PARTICLE_COLOR] = glGetUniformLocation(m_shader.m_programID, "Particle_Color");// Light Distance
-			m_uniform[PARTICLE_EDGE] = glGetUniformLocation(m_shader.m_programID, "Particle_edgeColor");// Light Distance
+			m_uniform[PARTICLE_FADE] = glGetUniformLocation(m_shader.m_programID, "Particle_Fade");	// Light Radius
+			m_uniform[PARTICLE_ROT] = glGetUniformLocation(m_shader.m_programID, "Particle_Rot");// Light Distance
+			m_uniform[EMITTER_RNDSCL] = glGetUniformLocation(m_shader.m_programID, "Emitter_RndScl");		// Light Diffuse	
 
 			// Set "Texture" sampler to user Texture Unit 0
 			m_uniform[TEXTURE] = glGetUniformLocation(m_shader.m_programID, "Texture");

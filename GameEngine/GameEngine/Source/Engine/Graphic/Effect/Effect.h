@@ -16,7 +16,7 @@ All codes are written by Jaykop Jeong...
 
 #include "../../Utilities/Math/MathUtils.h"
 
-enum EffectType{NONE, WAVE, BLUR, SOBEL, MANIPULATION};
+enum EffectType{NONE, WAVE, BLUR, SOBEL, INVERSE};
 
 class Sprite;
 
@@ -54,8 +54,8 @@ public:
 	float GetSobelAmount(void) const;
 
 	// Manipulation effect function
-	void ActivateManipToggle(bool toggle);
-	bool GetManipToggle(void) const;
+	void ActivateInverseToggle(bool toggle);
+	bool GetInverseToggle(void) const;
 
 private:
 

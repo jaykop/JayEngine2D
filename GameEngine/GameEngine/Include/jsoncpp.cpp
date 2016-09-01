@@ -1064,7 +1064,7 @@ std::istream& operator>>( std::istream &sin, Value &root )
 }
 
 
-} // namespace Json
+} // namespace Json54
 
 // //////////////////////////////////////////////////////////////////////
 // End of content of file: src/lib_json/json_reader.cpp

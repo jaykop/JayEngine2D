@@ -15,7 +15,7 @@ uniform float BlurAmount;	// Blur amount
 uniform bool SobelToggle;	// Sobel toggle
 uniform float SobelAmount;	// Sobel amount
 
-uniform bool ManipToggle;	//
+uniform bool InverseToggle;	//
 
 // interpolated valuse form the vertex shaders
 in vec4 fragmentColor;
@@ -62,26 +62,6 @@ void main()
 		// Set final color
 		finalColor = fragmentColor * texture(Texture, new_tex);
 		
-		// Manipulation effect...
-		if (ManipToggle)
-		{
-			vec3 manip = vec3(1.0, 1.0, 1.0) - finalColor.xyz;
-			finalColor = vec4(manip, finalColor.w);
-		}
-		
-		// Blur effect...
-		if (BlurToggle)
-		{
-			const float blurH = 1.0 / 300.0;
-			const float blurV = 1.0 / 300.0;
-			vec4 sum = vec4(0.0);
-			for (int x = -4; x <= 4; x++)
-				for (int y = -4; y <= 4; y++)
-					sum += texture(
-						Texture, vec2(new_tex.x + x * blurH, new_tex.y + y * blurV)) / BlurAmount;
-			finalColor = sum;
-		}
-		
 		// Sobel effect...
 		if (SobelToggle)
 		{
@@ -97,6 +77,26 @@ void main()
 			vec4 sy = -topLeft - 2 * top  - topRight   + bottomLeft + 2 * bottom + bottomRight;
 			vec4 sobel = sqrt(sx * sx + sy * sy);
 			finalColor = sobel;
+		}
+		
+		// Blur effect...
+		if (BlurToggle)
+		{
+			const float blurH = 1.0 / 300.0;
+			const float blurV = 1.0 / 300.0;
+			vec4 sum = vec4(0.0);
+			for (int x = -4; x <= 4; x++)
+				for (int y = -4; y <= 4; y++)
+					sum += texture(
+						Texture, vec2(new_tex.x + x * blurH, new_tex.y + y * blurV)) / BlurAmount;
+			finalColor = sum;
+		}
+		
+		// Inverse effect...
+		if (InverseToggle)
+		{
+			vec3 manip = vec3(1.0, 1.0, 1.0) - finalColor.xyz;
+			finalColor = vec4(manip, finalColor.w);
 		}
 	}
 }

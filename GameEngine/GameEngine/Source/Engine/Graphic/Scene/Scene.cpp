@@ -128,38 +128,33 @@ void Scene::DrawParticle(Emitter* emitter, float dt)
 	// Simulate all particles
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE);
 	
-	// Get type "particle"
+	// Get info from emitter and send them to shader
+	//vec3 centreColor = emitter->GetColor();
+	//vec3 edgeColor = emitter->GetEdgeColor();
+	//vec3 direction = emitter->GetDirection();
+	
+	
 	glUniform1i(m_GSM->GetGLManager()->GetUnifrom(TYPE), emitter->GetType());
 
+	//glUniform3f(m_GSM->GetGLManager()->GetUnifrom(EMITTER_COLOR), centreColor.x, centreColor.y, centreColor.z);
+	//glUniform3f(m_GSM->GetGLManager()->GetUnifrom(EMITTER_EDGE), edgeColor.x, edgeColor.y, edgeColor.z);
+	//glUniform3f(m_GSM->GetGLManager()->GetUnifrom(EMITTER_DIR), direction.x, direction.y, direction.z);
+
+	//glUniform1d(m_GSM->GetGLManager()->GetUnifrom(EMITTER_RNDSCL), emitter->GetRandomScaleToggle());
+	//glUniform1d(m_GSM->GetGLManager()->GetUnifrom(EMITTER_EXPLO), emitter->GetExplosionToggle());
+	//glUniform1f(m_GSM->GetGLManager()->GetUnifrom(EMITTER_BOUND), emitter->GetBoundary());
+	//glUniform1i(m_GSM->GetGLManager()->GetUnifrom(EMITTER_TYPE), emitter->GetMode());
+	
 	for (auto it = emitter->GetParticleContainer().begin();
 		it != emitter->GetParticleContainer().end(); ++it)
 	{
 		// Update pipeline
 		Pipeline(*it, dt);
-		vec4 sptColor = (*it)->GetColor();
 
+		vec3 centreColor = emitter->GetColor();
+		glUniform4f(m_GSM->GetGLManager()->GetUnifrom(COLOR), centreColor.x, centreColor.y, centreColor.z, (*it)->m_life);
 		glUniformMatrix4fv(m_GSM->GetGLManager()->GetUnifrom(UV), 1, GL_FALSE, &m_animation.m_member[0][0]);
-		glUniform4f(m_GSM->GetGLManager()->GetUnifrom(COLOR), sptColor.x, sptColor.y, sptColor.z, (*it)->m_life);
-
-		//emitter->GetDirection();
-		//emitter->GetSpeed();
-		//emitter->GetPosition();
-		//emitter->GetBoundary();
-		//(*it)->m_life;
-		//(*it)->m_fade;
-
-
-		//glUniform3f(m_GSM->GetGLManager()->GetUnifrom(PARTICLE_DIR), "Particle_Dir");
-		//glUniform3f(m_GSM->GetGLManager()->GetUnifrom(PARTICLE_SPD), "Particle_Spd");
-		//glUniform3f(m_GSM->GetGLManager()->GetUnifrom(PARTICLE_POS), "Particle_Pos");
-		//glUniform3f(m_GSM->GetGLManager()->GetUnifrom(PARTICLE_FORCE), "Particle_Force");	
-		//glUniform1f(m_GSM->GetGLManager()->GetUnifrom(PARTICLE_FADE), "Particle_Fade");	
-		//glUniform1f(m_GSM->GetGLManager()->GetUnifrom(PARTICLE_BOUND), "Particle_Bound");
-		//glUniform1f(m_GSM->GetGLManager()->GetUnifrom(PARTICLE_LIFE), "Particle_Life");		
-		//glUniform1f(m_GSM->GetGLManager()->GetUnifrom(PARTICLE_ROT), "Particle_Rot");	
-		//glUniform4f(m_GSM->GetGLManager()->GetUnifrom(PARTICLE_COLOR), "Particle_Color");
-		//glUniform4f(m_GSM->GetGLManager()->GetUnifrom(PARTICLE_EDGE), "Particle_edgeColor");
-
+		
 		UpdateParticle((*it));
 
 		//Refresh the buffer data
@@ -410,11 +405,10 @@ void Scene::Pipeline(Sprite* sprite, float dt)
 
 		}
 
-		auto manip_effect = sprite->GetEffect(MANIPULATION);
-		if (manip_effect && manip_effect->GetManipToggle())
+		auto inverse_effect = sprite->GetEffect(INVERSE);
+		if (inverse_effect && inverse_effect->GetInverseToggle())
 		{
-			glUniform1d(m_GSM->GetGLManager()->GetUnifrom(MANIP_TOGGLE), sprite->GetEffect(MANIPULATION)->GetManipToggle());
-			
+			glUniform1d(m_GSM->GetGLManager()->GetUnifrom(INVERSE_TOGGLE), sprite->GetEffect(INVERSE)->GetInverseToggle());
 		}
 
 		auto blur_effect = sprite->GetEffect(BLUR);
@@ -430,7 +424,7 @@ void Scene::Pipeline(Sprite* sprite, float dt)
 		glUniform1d(m_GSM->GetGLManager()->GetUnifrom(WAVE_TOGGLE), sprite->HasEffect());
 		glUniform1d(m_GSM->GetGLManager()->GetUnifrom(SOBEL_TOGGLE), sprite->HasEffect());
 		glUniform1d(m_GSM->GetGLManager()->GetUnifrom(BLUR_TOGGLE), sprite->HasEffect());
-		glUniform1d(m_GSM->GetGLManager()->GetUnifrom(MANIP_TOGGLE), sprite->HasEffect());
+		glUniform1d(m_GSM->GetGLManager()->GetUnifrom(INVERSE_TOGGLE), sprite->HasEffect());
 	}
 
 	glUniform2f(m_GSM->GetGLManager()->GetUnifrom(WAVE_PHASE), m_phase.x, m_phase.y);
@@ -680,6 +674,18 @@ void Scene::GetOrthoPosition(void)
 /******************************************************************************/
 void Scene::UpdateParticle(Particle* particle)
 {
+	//vec3 speed = particle->m_speed;
+	//vec3 position = particle->GetPosition();
+	//vec3 velocity = particle->m_velocity;
+
+	//glUniform3f(m_GSM->GetGLManager()->GetUnifrom(PARTICLE_SPD), speed.x, speed.y, speed.z);
+	//glUniform3f(m_GSM->GetGLManager()->GetUnifrom(PARTICLE_POS), position.x, position.y, position.z);
+	//glUniform3f(m_GSM->GetGLManager()->GetUnifrom(PARTICLE_VEL), velocity.x, velocity.y, velocity.z);
+
+	//glUniform1f(m_GSM->GetGLManager()->GetUnifrom(PARTICLE_LIFE), particle->m_life);
+	//glUniform1f(m_GSM->GetGLManager()->GetUnifrom(PARTICLE_FADE), particle->m_fade);
+	//glUniform1f(m_GSM->GetGLManager()->GetUnifrom(PARTICLE_ROT), particle->GetRotation());
+
 	// Render usual particle
 	if (particle->m_life > 0.f)
 		RenderParticle(particle);

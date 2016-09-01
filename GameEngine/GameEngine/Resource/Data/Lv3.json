@@ -62,7 +62,8 @@
 			"Texture" : 7,	"Animation" : [8, 12],
 			"Effect" : [
 				{ "type" : "BLUR", "values" : {"Toggle": false, "Amount": 100} },
-				{ "type" : "SOBEL", "values" : {"Toggle": true, "Amount": 800} }
+				{ "type" : "SOBEL", "values" : {"Toggle": true, "Amount": 800} },
+				{ "type" : "INVERSE", "values" : {"Toggle": true }}
 			]
 		},
 		{
