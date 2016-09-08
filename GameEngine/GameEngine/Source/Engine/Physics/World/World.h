@@ -15,7 +15,7 @@ All codes are written by Jaykop Jeong...
 #ifndef _WORLD_H_
 #define _WORLD_G_
 
-#include <hash_map>
+#include <unordered_map>
 #include "../../Utilities/Math/MathUtils.h"
 
 class Sprite;
@@ -24,7 +24,7 @@ class RigidBody;
 class ObjectManager;
 
 //! Type definition for list
-typedef std::hash_map<int, Sprite*> ObjectList;
+typedef std::unordered_map<int, Sprite*> ObjectList;
 
 //! class Physics World
 class World

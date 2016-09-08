@@ -25,8 +25,8 @@ class World;
 class GameStateManager;
 
 //! type definition for the list
-typedef std::hash_map<int, bool> Relation;
-typedef std::hash_map<int, Sprite*> ObjectList;
+typedef std::unordered_map<int, bool> Relation;
+typedef std::unordered_map<int, Sprite*> ObjectList;
 
 //! ObjectManager class
 class ObjectManager
@@ -52,7 +52,7 @@ public:
 		Type* new_sprite = type;
 
 		//Push it into the list
-		m_ObjectList.insert(std::hash_map<int, Sprite*>::value_type(
+		m_ObjectList.insert(std::unordered_map<int, Sprite*>::value_type(
 			new_sprite->GetID(), new_sprite));
 
 		scenePtr->AddSprite(new_sprite);

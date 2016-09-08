@@ -26,7 +26,7 @@ enum Projt { PERSPECTIVE, ORTHOGONAL };
 class Effect;
 class RigidBody;
 
-typedef std::hash_map<EffectType, Effect*> EffectMap;
+typedef std::unordered_map<EffectType, Effect*> EffectMap;
 
 //! Sprite class
 class Sprite : public Object

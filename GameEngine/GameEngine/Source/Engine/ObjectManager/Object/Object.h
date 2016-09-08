@@ -15,7 +15,7 @@ All codes are written by Jaykop Jeong...
 #ifndef _OBJECT_H_
 #define _OBJECT_H_
 
-#include <hash_map>
+#include <unordered_map>
 #include "../../Utilities/Math/MathUtils.h"
 
 enum ObjectType{ TEXT, SPRITE, PARTICLE, LIGHT, DARKNESS };
@@ -23,7 +23,7 @@ enum ObjectType{ TEXT, SPRITE, PARTICLE, LIGHT, DARKNESS };
 class GameLogic;
 class ObjectManager;
 
-typedef std::hash_map<int, GameLogic*> LogicMap;
+typedef std::unordered_map<int, GameLogic*> LogicMap;
 
 //! Basic Object class
 class Object {

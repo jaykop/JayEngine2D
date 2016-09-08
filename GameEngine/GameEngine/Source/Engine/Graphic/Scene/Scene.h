@@ -16,7 +16,7 @@ All codes are written by Jaykop Jeong...
 #define _SCENE_H_
 
 #include <vector>
-#include <hash_map>
+#include <unordered_map>
 #include "../Texture/Texture.h"
 
 class Text;
@@ -27,7 +27,7 @@ class Particle;
 class ObjectManager;
 class GameStateManager;
 
-typedef std::hash_map<int, Sprite*> ObjectList;
+typedef std::unordered_map<int, Sprite*> ObjectList;
 typedef std::vector<Sprite*> DrawList;
 
 //! Scene class
