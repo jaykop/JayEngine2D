@@ -1,12 +1,13 @@
-# Windows image file caches
-Thumbs.db
-ehthumbs.db
-
-# Folder config file
-Desktop.ini
-
-# Recycle Bin used on file shares
-$RECYCLE.BIN/
+*.db
+*.suo
+*.user
+*.pdb
+*.orig
+*.tlog
+*.exe
+*.pdb
+*.obj
+*.log
 
 # Windows Installer files
 *.cab
@@ -16,58 +17,5 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
-
-# =========================
-# Operating System Files
-# =========================
-
-# OSX
-# =========================
-
-.DS_Store
-.AppleDouble
-.LSOverride
-
-# Thumbnails
-._*
-
-# Files that might appear in the root of a volume
-.DocumentRevisions-V100
-.fseventsd
-.Spotlight-V100
-.TemporaryItems
-.Trashes
-.VolumeIcon.icns
-
-# Directories potentially created on remote AFP share
-.AppleDB
-.AppleDesktop
-Network Trash Folder
-Temporary Items
-.apdisk
-*.suo
-*.suo
-*.suo
-GameEngine/Debug/GameEngine.exe
-GameEngine/Debug/GameEngine.pdb
-GameEngine/GameEngine.v12.suo
-GameEngine/GameEngine.opensdf
-GameEngine/GameEngine.v12.suo
-GameEngine/GameEngine/Debug/GameEngine.log
-*.tlog
-*.obj
-GameEngine/GameEngine/Debug/vc120.pdb
 *.idb
-GameEngine/GameEngine.sdf
 *.ilk
-*.suo
-GameEngine/GameEngine.v12.suo
-*.suo
-GameEngine/GameEngine.v12.suo
-*.suo
-GameEngine/GameEngine.v12.suo
-*.log
-GameEngine/GameEngine/Debug/GameEngine.Build.CppClean.log
-*.pdb
-*.exe
-*.res
